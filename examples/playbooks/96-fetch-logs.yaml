@@ -5,25 +5,25 @@
 #
 
 - name: Fetch PostgreSQL database logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.fetch_logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.fetch_logs
 
 - name: Fetch Fabric CA server logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.fetch_logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.fetch_logs
 
-- name: Fetch Hyperledger Fabric-X Orderer logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.fetch_logs
+- name: Fetch LFDT Chaguar Orderer logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.fetch_logs
 
-- name: Fetch Hyperledger Fabric-X Committer logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.fetch_logs
+- name: Fetch LFDT Chaguar Committer logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.fetch_logs
 
-- name: Fetch Hyperledger Fabric-X Block Explorer logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.fetch_logs
+- name: Fetch LFDT Chaguar Block Explorer logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.fetch_logs
 
-- name: Fetch Hyperledger Fabric-X EVM logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.fetch_logs
+- name: Fetch LFDT Chaguar EVM logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.fetch_logs
 
-- name: Fetch Hyperledger Fabric-X Loadgen logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.fetch_logs
+- name: Fetch LFDT Chaguar Loadgen logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.fetch_logs
 
 - name: Fetch Monitoring logs
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.fetch_logs
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.fetch_logs

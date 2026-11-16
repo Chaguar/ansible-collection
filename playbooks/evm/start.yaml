@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Start the Fabric-X EVM gateway
-  hosts: "{{ target_hosts | default('fabric_x_evm') }}:&fabric_x_evm"
+- name: Start the Chaguar EVM gateway
+  hosts: "{{ target_hosts | default('chaguar_evm') }}:&chaguar_evm"
   tasks:
-    - name: Start the Fabric-X EVM gateway
+    - name: Start the Chaguar EVM gateway
       vars:
         committer_hosts: >-
           {{
             (
-              groups['fabric_x_committers']
+              groups['chaguar_committers']
               | default([])
               | map('extract', hostvars)
               | selectattr('organization', 'defined')
@@ -21,11 +21,11 @@
               | map(attribute='inventory_hostname')
               | list
             )
-            or groups['fabric_x_committers'] | default([])
+            or groups['chaguar_committers'] | default([])
           }}
         orderer_router_hosts: >-
           {{
-            groups['fabric_x_orderers']
+            groups['chaguar_orderers']
             | default([])
             | map('extract', hostvars)
             | selectattr('orderer_component_type', 'defined')
@@ -34,7 +34,7 @@
             | list
           }}
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.evm
+        name: hyperledger.chaguar.evm
         tasks_from: start
       when:
         - evm_port is defined

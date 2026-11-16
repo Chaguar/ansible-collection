@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Endorse the Fabric-X ConfigUpdate
+- name: Endorse the Chaguar ConfigUpdate
   vars:
     container_name: "{{ fxadmin_container_name }}-tx-endorse"
     container_image: "{{ fxadmin_image }}"
@@ -21,5 +21,5 @@
     container_run_as_host_user: true
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

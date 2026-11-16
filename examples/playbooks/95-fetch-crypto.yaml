@@ -5,25 +5,25 @@
 #
 
 - name: Fetch PostgreSQL crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.fetch_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.fetch_crypto
 
 - name: Fetch Fabric CA server crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.fetch_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.fetch_crypto
 
-- name: Fetch Hyperledger Fabric-X Orderer crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.fetch_crypto
+- name: Fetch LFDT Chaguar Orderer crypto material
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.fetch_crypto
 
-- name: Fetch Hyperledger Fabric-X Committer crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.fetch_crypto
+- name: Fetch LFDT Chaguar Committer crypto material
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.fetch_crypto
 
-- name: Fetch Hyperledger Fabric-X Block Explorer crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.fetch_crypto
+- name: Fetch LFDT Chaguar Block Explorer crypto material
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.fetch_crypto
 
-- name: Fetch Hyperledger Fabric-X EVM crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.fetch_crypto
+- name: Fetch LFDT Chaguar EVM crypto material
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.fetch_crypto
 
-- name: Fetch Hyperledger Fabric-X Loadgen crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.fetch_crypto
+- name: Fetch LFDT Chaguar Loadgen crypto material
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.fetch_crypto
 
 - name: Fetch Monitoring crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.fetch_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.fetch_crypto

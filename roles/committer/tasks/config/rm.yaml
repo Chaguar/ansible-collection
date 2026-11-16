@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove the Fabric-X Committer config directory
+- name: Remove the Chaguar Committer config directory
   ansible.builtin.file:
     path: "{{ committer_remote_config_dir }}"
     state: absent
 
-- name: Remove Fabric-X Committer k8s ConfigMap
+- name: Remove Chaguar Committer k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/config/rm
   when: committer_use_k8s or committer_use_openshift

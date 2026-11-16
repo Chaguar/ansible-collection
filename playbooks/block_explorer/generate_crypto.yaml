@@ -4,21 +4,21 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Generate the Fabric-X Block Explorer crypto material
-  hosts: "{{ target_hosts | default('fabric_x_block_explorer') }}:&fabric_x_block_explorer"
+- name: Generate the Chaguar Block Explorer crypto material
+  hosts: "{{ target_hosts | default('chaguar_block_explorer') }}:&chaguar_block_explorer"
   tasks:
     # =========================
     # Block Explorer server
     # =========================
-    - name: Setup the Fabric-X Block Explorer server crypto material
+    - name: Setup the Chaguar Block Explorer server crypto material
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.block_explorer
+        name: hyperledger.chaguar.block_explorer
         tasks_from: crypto/setup
       when:
         - block_explorer_port is defined
-    - name: Fetch the Fabric-X Block Explorer server certificates
+    - name: Fetch the Chaguar Block Explorer server certificates
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.block_explorer
+        name: hyperledger.chaguar.block_explorer
         tasks_from: crypto/fetch
       when:
         - block_explorer_port is defined

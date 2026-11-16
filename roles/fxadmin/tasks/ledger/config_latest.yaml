@@ -20,21 +20,21 @@
     dest: "{{ fxadmin_output_dir }}/current_block.pb"
     mode: preserve
 
-- name: Fetch the latest Fabric-X channel configuration block with the fxadmin binary
+- name: Fetch the latest Chaguar channel configuration block with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/ledger/config_latest
   when:
     - fxadmin_use_bin
 
-- name: Fetch the latest Fabric-X channel configuration block with the fxadmin container
+- name: Fetch the latest Chaguar channel configuration block with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/ledger/config_latest
   when:
     - not fxadmin_use_bin
 
-- name: Fetch the latest Fabric-X channel configuration block back to the control node
+- name: Fetch the latest Chaguar channel configuration block back to the control node
   ansible.builtin.fetch:
     src: "{{ fxadmin_output }}"
     dest: "{{ fxadmin_output_fetch_dest }}"

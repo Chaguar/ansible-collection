@@ -7,9 +7,9 @@
 # =========================
 # Current state
 # =========================
-- name: List existing Fabric-X namespaces
+- name: List existing Chaguar namespaces
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/list
 
 # =========================

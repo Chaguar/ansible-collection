@@ -1,6 +1,6 @@
 # fxadmin Playbooks
 
-The `fxadmin` playbooks drive live Fabric-X channel reconfigurations: fetch the current channel configuration, patch it, collect endorsements from the organization admins, and submit the resulting transaction. `fxadmin` signs with the identity declared in the host's `organization.user`, reusing the MSP already produced by the crypto setup of that host.
+The `fxadmin` playbooks drive live Chaguar channel reconfigurations: fetch the current channel configuration, patch it, collect endorsements from the organization admins, and submit the resulting transaction. `fxadmin` signs with the identity declared in the host's `organization.user`, reusing the MSP already produced by the crypto setup of that host.
 
 ## Supported reconfiguration flows
 
@@ -35,7 +35,7 @@ All playbooks act on the **admin hosts**: the hosts whose `organization.user` ha
 [`binaries.yaml`](./binaries.yaml) prepares the `fxadmin` CLI on the control node and on every admin host.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxadmin.binaries
+ansible-playbook hyperledger.chaguar.fxadmin.binaries
 ```
 
 Properties:
@@ -49,7 +49,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders the `fxadmin` admin configuration (MSP identity and TLS/mTLS material) on every admin host.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxadmin.configs
+ansible-playbook hyperledger.chaguar.fxadmin.configs
 ```
 
 Properties:
@@ -75,5 +75,5 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes the `fxadmin` binary and configuration from every admin host.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxadmin.wipe
+ansible-playbook hyperledger.chaguar.fxadmin.wipe
 ```

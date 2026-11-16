@@ -33,7 +33,7 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start
 
 - name: Fetch endorsed transaction

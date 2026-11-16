@@ -7,12 +7,12 @@
 - name: Set Grafana dashboard path to copy
   # set as fact before calling the method allows to evaluate `role_path` in the right role
   ansible.builtin.set_fact:
-    orderer_grafana_dashboard_path: "{{ role_path }}/files/FabricX-Orderer_Grafana_Dashboard.json"
+    orderer_grafana_dashboard_path: "{{ role_path }}/files/Chaguar-Orderer_Grafana_Dashboard.json"
 
-- name: Transfer the Fabric-X Orderer Grafana Dashboard
+- name: Transfer the Chaguar Orderer Grafana Dashboard
   vars:
-    grafana_dashboard_file: "FabricX-Orderer_Grafana_Dashboard.json"
+    grafana_dashboard_file: "Chaguar-Orderer_Grafana_Dashboard.json"
     grafana_dashboard_path: "{{ orderer_grafana_dashboard_path }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: config/copy_dashboard

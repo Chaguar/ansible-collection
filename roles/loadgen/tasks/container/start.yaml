@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Start the Fabric-X Loadgen container
+- name: Start the Chaguar Loadgen container
   vars:
     container_name: "{{ loadgen_container_name }}"
     container_image: "{{ loadgen_image }}"
@@ -20,5 +20,5 @@
     container_run_as_host_user: true
     container_wait_port: "{{ loadgen_metrics_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

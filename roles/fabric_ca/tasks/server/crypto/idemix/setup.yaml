@@ -50,7 +50,7 @@
         idemixgen_output_dir: "{{ fabric_ca_server_idemixgen_output_dir }}"
         idemixgen_curve_id: "FP256BN_AMCL"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.idemixgen
+        name: hyperledger.chaguar.idemixgen
         tasks_from: ca-keygen
     - name: Ensure Fabric CA msp/keystore directory exists
       ansible.builtin.file:

@@ -6,15 +6,15 @@
 
 - name: Teardown Semaphore UI
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: teardown
 
 - name: Remove the Semaphore UI binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: bin/rm
 
 - name: Remove the Semaphore UI configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: config/rm

@@ -13,7 +13,7 @@
       - "{{ elasticsearch_http_port }}"
       - "{{ elasticsearch_transport_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when: not (elasticsearch_use_k8s or elasticsearch_use_openshift)
 
@@ -22,7 +22,7 @@
 # =======================
 - name: Check that the node ports are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/ping
   when: elasticsearch_use_k8s
 
@@ -31,6 +31,6 @@
 # =======================
 - name: Check that the OpenShift routes and Kubernetes services are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: openshift/ping
   when: elasticsearch_use_openshift

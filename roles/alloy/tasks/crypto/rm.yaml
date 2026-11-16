@@ -13,6 +13,6 @@
 
 - name: Delete Alloy k8s Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/crypto/rm
   when: alloy_use_k8s or alloy_use_openshift

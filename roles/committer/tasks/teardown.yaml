@@ -4,11 +4,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Teardown Fabric-X Committer components
+- name: Teardown Chaguar Committer components
   when:
     - committer_component_type is defined
   block:
-    - name: Teardown Fabric-X Committer components
+    - name: Teardown Chaguar Committer components
       vars:
         committer_teardown_tasks:
           container: container/rm
@@ -16,11 +16,11 @@
           k8s: k8s/rm
           openshift: openshift/rm
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: "{{ committer_teardown_tasks[committer_deployment_mode] }}"
-    - name: Remove Fabric-X Committer sidecar data
+    - name: Remove Chaguar Committer sidecar data
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: data/rm
       when:
         - committer_component_type == 'sidecar'

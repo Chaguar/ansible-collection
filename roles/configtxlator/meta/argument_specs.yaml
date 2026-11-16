@@ -17,12 +17,12 @@ argument_specs:
         required: true
         description:
           - Directory used as the C(configtxlator) binary destination or lookup path.
-          - "Example: C(/opt/fabricx/bin)."
+          - "Example: C(/opt/chaguar/bin)."
       config_build_dir: &config_build_dir
         type: path
         description:
           - Base build directory for C(configtxlator_artifacts_dir).
-          - "Example: C(/opt/fabricx/build)."
+          - "Example: C(/opt/chaguar/build)."
       configtxlator_registry_endpoint: &configtxlator_registry_endpoint
         type: str
         default: "{{ lookup('env', 'CONFIGTXLATOR_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
@@ -135,7 +135,7 @@ argument_specs:
   bin/build:
     short_description: Build the configtxlator binary on the control node
     description:
-      - Build the C(configtxlator) binary from the Fabric-X source tree on the control node.
+      - Build the C(configtxlator) binary from the Chaguar source tree on the control node.
       - The compiled executable is written to C(cli_bin_dir) and reused by binary entry points.
     options:
       cli_bin_dir: *cli_bin_dir

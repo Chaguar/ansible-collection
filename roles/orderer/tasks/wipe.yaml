@@ -4,23 +4,23 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Teardown Fabric-X Orderer nodes
+- name: Teardown Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: teardown
 
-- name: Remove Fabric-X Orderer binary
+- name: Remove Chaguar Orderer binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/rm
   when: orderer_use_bin
 
-- name: Remove Fabric-X Orderer crypto files
+- name: Remove Chaguar Orderer crypto files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/rm
 
-- name: Remove Fabric-X Orderer configuration files
+- name: Remove Chaguar Orderer configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/rm

@@ -1,6 +1,6 @@
-# hyperledger.fabricx.elasticsearch
+# hyperledger.chaguar.elasticsearch
 
-> Deploys and manages ElasticSearch in container or Kubernetes mode for Fabric-X log storage.
+> Deploys and manages ElasticSearch in container or Kubernetes mode for Chaguar log storage.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -42,7 +42,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.elasticsearch
+ansible-doc -t role hyperledger.chaguar.elasticsearch
 ```
 
 ## Tasks
@@ -63,7 +63,7 @@ Starts ElasticSearch using the selected deployment mode. Container mode is the d
     # Runs ElasticSearch as a container when set to `true`.
     elasticsearch_use_container: "{{ (not elasticsearch_use_k8s) and (not elasticsearch_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: start
 ```
 
@@ -76,7 +76,7 @@ Stops the ElasticSearch container instance without removing its data volume or c
 ```yaml
 - name: Stop the ElasticSearch container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: stop
 ```
 
@@ -96,7 +96,7 @@ Removes ElasticSearch runtime resources for the selected deployment mode. Also r
     # Runs ElasticSearch as a container when set to `true`.
     elasticsearch_use_container: "{{ (not elasticsearch_use_k8s) and (not elasticsearch_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: teardown
 ```
 
@@ -109,7 +109,7 @@ Removes ElasticSearch runtime resources, TLS materials, and configuration files.
 ```yaml
 - name: Wipe ElasticSearch data and configuration
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: wipe
 ```
 
@@ -129,7 +129,7 @@ Collects ElasticSearch logs from the selected deployment mode. Delegates to the 
     # Runs ElasticSearch as a container when set to `true`.
     elasticsearch_use_container: "{{ (not elasticsearch_use_k8s) and (not elasticsearch_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: fetch_logs
 ```
 
@@ -151,7 +151,7 @@ Probes the ElasticSearch HTTP and transport ports in container mode. Delegates t
     # ElasticSearch transport port used by the container and Kubernetes Service.
     elasticsearch_transport_port: 9300
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: ping
 ```
 
@@ -177,11 +177,11 @@ Creates the required data volume, prepares the configuration path, and starts th
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
     # Remote directory used for ElasticSearch persistent data.
     elasticsearch_remote_data_dir: "{{ remote_data_dir }}"
     # Shared remote data directory consumed by `elasticsearch_remote_data_dir`. Required when relying on the default of that option.
-    remote_data_dir: "/opt/fabricx/elasticsearch/data"
+    remote_data_dir: "/opt/chaguar/elasticsearch/data"
     # Base configuration directory path inside the ElasticSearch container.
     elasticsearch_container_config_dir: /usr/share/elasticsearch
     # Data directory path inside the ElasticSearch container.
@@ -197,7 +197,7 @@ Creates the required data volume, prepares the configuration path, and starts th
     # Filename of the ElasticSearch TLS certificate under the TLS directory.
     elasticsearch_tls_cert_file: server.crt
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: container/start
 ```
 
@@ -213,7 +213,7 @@ Stops the ElasticSearch container instance while preserving the container data d
     # Container name for the ElasticSearch instance.
     elasticsearch_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: container/stop
 ```
 
@@ -229,7 +229,7 @@ Removes the ElasticSearch container instance. Container volumes are handled sepa
     # Container name for the ElasticSearch instance.
     elasticsearch_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: container/rm
 ```
 
@@ -245,7 +245,7 @@ Collects logs from the ElasticSearch container instance and stores them on the c
     # Container name for the ElasticSearch instance.
     elasticsearch_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: container/fetch_logs
 ```
 
@@ -261,9 +261,9 @@ Deletes the remote ElasticSearch configuration directory from the target host. T
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: config/rm
 ```
 
@@ -285,13 +285,13 @@ Removes the ElasticSearch persistent data directory in container deployments. De
     # Remote directory used for ElasticSearch persistent data.
     elasticsearch_remote_data_dir: "{{ remote_data_dir }}"
     # Shared remote data directory consumed by `elasticsearch_remote_data_dir`. Required when relying on the default of that option.
-    remote_data_dir: "/opt/fabricx/elasticsearch/data"
+    remote_data_dir: "/opt/chaguar/elasticsearch/data"
     # Base Kubernetes resource name used for ElasticSearch objects, including the StatefulSet, Services, and Secret.
     elasticsearch_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for ElasticSearch resources.
-    k8s_namespace: "fabricx-elasticsearch"
+    k8s_namespace: "chaguar-elasticsearch"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: data/rm
 ```
 
@@ -311,7 +311,7 @@ Generates TLS materials when TLS is enabled. Uploads the generated materials to 
     # Selects the OpenShift deployment branch.
     elasticsearch_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: crypto/setup
 ```
 
@@ -329,11 +329,11 @@ Fetches the ElasticSearch CA certificate and server certificate from the remote 
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
     # Control-node directory where fetched ElasticSearch artifacts such as TLS certificates and log bundles are written.
-    fetched_artifacts_dir: "/tmp/fabricx/elasticsearch-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/elasticsearch-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: crypto/fetch
 ```
 
@@ -349,7 +349,7 @@ Deletes local ElasticSearch TLS files from the remote host. Removes the Kubernet
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
     # Filename of the ElasticSearch TLS private key under the TLS directory.
     elasticsearch_tls_private_key_file: server.key
     # Runs ElasticSearch on Kubernetes when set to `true`.
@@ -357,7 +357,7 @@ Deletes local ElasticSearch TLS files from the remote host. Removes the Kubernet
     # Selects the OpenShift deployment branch.
     elasticsearch_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: crypto/rm
 ```
 
@@ -373,7 +373,7 @@ Generates a self-signed TLS certificate and private key for ElasticSearch on the
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
     # Filename of the ElasticSearch TLS private key under the TLS directory.
     elasticsearch_tls_private_key_file: server.key
     # Filename of the ElasticSearch TLS certificate under the TLS directory.
@@ -382,11 +382,11 @@ Generates a self-signed TLS certificate and private key for ElasticSearch on the
     organization:
       domain: "observability.example.com"
       common_name: "elasticsearch-0.observability.example.com"
-      organization_name: "Hyperledger Fabric-X"
+      organization_name: "LFDT Chaguar"
     # Specifies the OpenShift Route host.
     elasticsearch_openshift_http_route: "elasticsearch-http.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -404,7 +404,7 @@ Ensures the Kubernetes namespace exists and applies the ElasticSearch headless S
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to ElasticSearch resources.
     elasticsearch_k8s_part_of: monitoring
     # Kubernetes namespace used for ElasticSearch resources.
-    k8s_namespace: "fabricx-elasticsearch"
+    k8s_namespace: "chaguar-elasticsearch"
     # Timeout in seconds while waiting for the ElasticSearch StatefulSet rollout to complete.
     elasticsearch_k8s_wait_timeout: 120
     # Kubernetes pod `fsGroup` applied so mounted TLS files are readable by the ElasticSearch process.
@@ -470,7 +470,7 @@ Ensures the Kubernetes namespace exists and applies the ElasticSearch headless S
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/start
 ```
 
@@ -496,7 +496,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # ElasticSearch transport port used by the container and Kubernetes Service.
     elasticsearch_transport_port: 9300
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/ping
 ```
 
@@ -512,7 +512,7 @@ Deletes the ElasticSearch StatefulSet and Services from Kubernetes. The persiste
     # Base Kubernetes resource name used for ElasticSearch objects, including the StatefulSet, Services, and Secret.
     elasticsearch_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for ElasticSearch resources.
-    k8s_namespace: "fabricx-elasticsearch"
+    k8s_namespace: "chaguar-elasticsearch"
     # Kubernetes NodePort value used by the external HTTP Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
     elasticsearch_k8s_http_node_port: 30920
     # Set to `true` to create a LoadBalancer Service entry that exposes the HTTP port externally. When undefined or `false`, the HTTP port is not included in the LoadBalancer Service.
@@ -522,7 +522,7 @@ Deletes the ElasticSearch StatefulSet and Services from Kubernetes. The persiste
     # Set to `true` to create a LoadBalancer Service entry that exposes the transport port externally. When undefined or `false`, the transport port is not included in the LoadBalancer Service.
     elasticsearch_k8s_loadbalancer_expose_transport_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/rm
 ```
 
@@ -538,7 +538,7 @@ Collects logs from the ElasticSearch pod in Kubernetes and writes them to the co
     # Base Kubernetes resource name used for ElasticSearch objects, including the StatefulSet, Services, and Secret.
     elasticsearch_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/fetch_logs
 ```
 
@@ -554,9 +554,9 @@ Deletes the Kubernetes Secret that stores ElasticSearch TLS materials. This entr
     # Base Kubernetes resource name used for ElasticSearch objects, including the StatefulSet, Services, and Secret.
     elasticsearch_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for ElasticSearch resources.
-    k8s_namespace: "fabricx-elasticsearch"
+    k8s_namespace: "chaguar-elasticsearch"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/crypto/rm
 ```
 
@@ -574,19 +574,19 @@ Applies the Kubernetes Secret that stores ElasticSearch TLS materials. Ensures t
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to ElasticSearch resources.
     elasticsearch_k8s_part_of: monitoring
     # Kubernetes namespace used for ElasticSearch resources.
-    k8s_namespace: "fabricx-elasticsearch"
+    k8s_namespace: "chaguar-elasticsearch"
     # Enables TLS material handling and HTTPS configuration for ElasticSearch.
     elasticsearch_use_tls: false
     # Remote directory used for ElasticSearch configuration and TLS files.
     elasticsearch_remote_config_dir: "{{ remote_config_dir }}"
     # Shared remote configuration directory consumed by `elasticsearch_remote_config_dir`. Required when relying on the default of that option.
-    remote_config_dir: "/opt/fabricx/elasticsearch/config"
+    remote_config_dir: "/opt/chaguar/elasticsearch/config"
     # Filename of the ElasticSearch TLS private key under the TLS directory.
     elasticsearch_tls_private_key_file: server.key
     # Filename of the ElasticSearch TLS certificate under the TLS directory.
     elasticsearch_tls_cert_file: server.crt
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -608,7 +608,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     elasticsearch_openshift_http_route: "elasticsearch-http.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: openshift/start
 ```
 
@@ -626,7 +626,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     elasticsearch_openshift_http_route: "elasticsearch-http.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: openshift/ping
 ```
 
@@ -644,6 +644,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     elasticsearch_openshift_http_route: "elasticsearch-http.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.elasticsearch
+    name: hyperledger.chaguar.elasticsearch
     tasks_from: openshift/rm
 ```

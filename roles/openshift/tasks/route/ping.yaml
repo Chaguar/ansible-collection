@@ -10,5 +10,5 @@
     utils_ports_to_ping:
       - "{{ 443 if openshift_route_use_tls else 80 }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping

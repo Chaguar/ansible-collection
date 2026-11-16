@@ -1,7 +1,7 @@
 {% set evm_namespace = organization.namespaces | first %}
 # ---------------------------------------------------------------------------
 # Network configuration
-# Identifies the Fabric-X channel, application namespace, and Ethereum-style
+# Identifies the Chaguar channel, application namespace, and Ethereum-style
 # chain ID served by this gateway.
 # ---------------------------------------------------------------------------
 network:
@@ -9,9 +9,9 @@ network:
   protocol: {{ evm_protocol }}
   # Fabric channel.
   channel: {{ channel_id }}
-  # Fabric-X application namespace for EVM state, created with fxconfig.
+  # Chaguar application namespace for EVM state, created with fxconfig.
   namespace: {{ evm_namespace.id }}
-  # MVCC version of the application namespace on fabric-x: "0" until the
+  # MVCC version of the application namespace on chaguar: "0" until the
   # namespace is first updated, then incremented by one on each update.
   ns-version: "{{ evm_ns_version }}"
   # Ethereum-style chain ID served by the gateway.

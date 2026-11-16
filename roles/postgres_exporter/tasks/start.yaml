@@ -6,18 +6,18 @@
 
 - name: Start Postgres Exporter Sidecar container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres_exporter
+    name: hyperledger.chaguar.postgres_exporter
     tasks_from: container/start
   when: postgres_exporter_use_container
 
 - name: Start Postgres Exporter on Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres_exporter
+    name: hyperledger.chaguar.postgres_exporter
     tasks_from: k8s/start
   when: postgres_exporter_use_k8s
 
 - name: Start Postgres Exporter on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres_exporter
+    name: hyperledger.chaguar.postgres_exporter
     tasks_from: openshift/start
   when: postgres_exporter_use_openshift

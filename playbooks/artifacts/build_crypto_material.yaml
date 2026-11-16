@@ -7,7 +7,7 @@
 - name: Build crypto material
   hosts: localhost
   tasks:
-    - name: Fail when a Hyperledger Fabric-X organization role is invalid
+    - name: Fail when a LFDT Chaguar organization role is invalid
       ansible.builtin.fail:
         msg: >-
           Host {{ current_host }} has an invalid organization.role
@@ -27,7 +27,7 @@
         loop_var: current_host
         label: "{{ current_host }}"
 
-    - name: Define the Hyperledger Fabric-X organizations
+    - name: Define the LFDT Chaguar organizations
       vars:
         org_domain: "{{ hostvars[node].organization.domain }}"
         org_name: "{{ hostvars[node].organization.name }}"
@@ -59,7 +59,7 @@
         loop_var: node
         label: "{{ node }}"
 
-    - name: Add users to the Hyperledger Fabric-X organizations
+    - name: Add users to the LFDT Chaguar organizations
       vars:
         org_domain: "{{ hostvars[current_host].organization.domain }}"
         org_name: "{{ hostvars[current_host].organization.name }}"
@@ -89,7 +89,7 @@
         loop_var: current_host
         label: "{{ current_host }}"
 
-    - name: Add the single user to the Hyperledger Fabric-X organizations
+    - name: Add the single user to the LFDT Chaguar organizations
       vars:
         org_domain: "{{ hostvars[current_host].organization.domain }}"
         org_name: "{{ hostvars[current_host].organization.name }}"
@@ -121,13 +121,13 @@
 
     - name: Generate crypto-config.yaml
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cryptogen
+        name: hyperledger.chaguar.cryptogen
         tasks_from: config/build
       when:
         - cryptogen_orgs_by_domain is defined
-    - name: Install cryptogen as binary for Fabric-X
+    - name: Install cryptogen as binary for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cryptogen
+        name: hyperledger.chaguar.cryptogen
         tasks_from: bin/install
       when:
         - cryptogen_orgs_by_domain is defined
@@ -135,13 +135,13 @@
         - cryptogen_use_bin
     - name: Generate the crypto material with cryptogen
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cryptogen
+        name: hyperledger.chaguar.cryptogen
         tasks_from: start
       when:
         - cryptogen_orgs_by_domain is defined
     - name: Fetch the orgs certificates generated with cryptogen
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cryptogen
+        name: hyperledger.chaguar.cryptogen
         tasks_from: fetch
       when:
         - cryptogen_orgs_by_domain is defined

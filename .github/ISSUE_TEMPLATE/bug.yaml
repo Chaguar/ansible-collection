@@ -5,7 +5,7 @@
 #
 
 name: Bug report
-description: Report a bug for `hyperledger.fabricx` Ansible collection
+description: Report a bug for `hyperledger.chaguar` Ansible collection
 title: "[BUG] Title"
 labels: ["bug"]
 body:
@@ -17,7 +17,7 @@ body:
         List exact steps triggering the bug, including inventory and playbook snippets if possible.
 
         **Tip**: Include relevant playbook YAML for faster debugging.
-      placeholder: Command `make start` fails with inventory `fabric-x.yaml` when running the playbook...
+      placeholder: Command `make start` fails with inventory `chaguar.yaml` when running the playbook...
     validations:
       required: true
   - type: input
@@ -27,8 +27,8 @@ body:
       description: |
         **Tip**: `ansible --version`
 
-        **Tip**: `ansible-galaxy collection list | grep "hyperledger.fabricx"`
-      placeholder: ansible [core 2.20.0], hyperledger.fabricx 0.5.11
+        **Tip**: `ansible-galaxy collection list | grep "hyperledger.chaguar"`
+      placeholder: ansible [core 2.20.0], hyperledger.chaguar 0.5.11
     validations:
       required: true
   - type: input

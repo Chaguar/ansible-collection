@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Delete Fabric-X Committer ConfigMap
+- name: Delete Chaguar Committer ConfigMap
   kubernetes.core.k8s:
     state: absent
     api_version: v1

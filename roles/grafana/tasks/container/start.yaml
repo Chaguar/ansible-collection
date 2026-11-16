@@ -45,5 +45,5 @@
     container_run_as_host_user: true
     container_wait_port: "{{ grafana_web_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

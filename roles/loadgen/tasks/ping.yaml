@@ -12,7 +12,7 @@
     utils_ports_to_ping:
       - "{{ loadgen_metrics_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when: not (loadgen_use_k8s or loadgen_use_openshift)
 
@@ -21,7 +21,7 @@
 # =======================
 - name: Check that the node ports are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: k8s/ping
   when: loadgen_use_k8s
 
@@ -30,6 +30,6 @@
 # =======================
 - name: Check that the OpenShift routes and Kubernetes services are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: openshift/ping
   when: loadgen_use_openshift

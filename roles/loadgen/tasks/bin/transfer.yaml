@@ -4,9 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Transfer Fabric-X Loadgen binary
+- name: Transfer Chaguar Loadgen binary
   vars:
     bin_name: "{{ loadgen_bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: transfer

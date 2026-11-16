@@ -18,6 +18,6 @@
 
 - name: Transfer Loki k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/config/transfer
   when: loki_use_k8s or loki_use_openshift

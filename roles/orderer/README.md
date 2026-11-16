@@ -1,6 +1,6 @@
-# hyperledger.fabricx.orderer
+# hyperledger.chaguar.orderer
 
-> Manages Fabric-X Orderer consenter, batcher, assembler, and router components across binary, container, and Kubernetes deployments.
+> Manages Chaguar Orderer consenter, batcher, assembler, and router components across binary, container, and Kubernetes deployments.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -63,7 +63,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.orderer
+ansible-doc -t role hyperledger.chaguar.orderer
 ```
 
 ## Tasks
@@ -88,7 +88,7 @@ Dispatches `consensus`, `batcher`, `assembler`, or `router` startup to the selec
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: start
 ```
 
@@ -112,7 +112,7 @@ Dispatches component shutdown to the active binary, container, or Kubernetes lif
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: stop
 ```
 
@@ -136,7 +136,7 @@ Dispatches component teardown to the selected deployment backend. Removes runtim
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: teardown
 ```
 
@@ -152,7 +152,7 @@ Runs lifecycle teardown, removes generated orderer configuration and MSP/TLS mat
     # Selects the binary deployment branch.
     orderer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: wipe
 ```
 
@@ -174,7 +174,7 @@ Delegates log collection to the Kubernetes pod selector, container name, or bina
     # Selects the binary deployment branch.
     orderer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: fetch_logs
 ```
 
@@ -194,7 +194,7 @@ Checks the configured orderer gRPC listener for binary and container deployments
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: ping
 ```
 
@@ -210,7 +210,7 @@ Compute the address used to reach an orderer operations metrics endpoint from ou
     # Inventory host whose orderer metrics endpoint should be resolved.
     orderer_host: "orderer-router-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: effective_address
 ```
 
@@ -223,7 +223,7 @@ Fetches Prometheus metrics from the configured orderer operations endpoint. Dele
 ```yaml
 - name: Retrieve orderer Prometheus metrics
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: get_metrics
 ```
 
@@ -247,7 +247,7 @@ Builds the orderer binary through the shared bin role using the configured Git r
     # Go package path that builds the orderer binary.
     orderer_source_code_package: cmd/arma
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/build
 ```
 
@@ -273,7 +273,7 @@ Installs the configured released orderer binary through the shared bin role. Use
     # Git ref or release tag used by the bin build and install branches.
     orderer_git_commit: v1.0.8
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/install
 ```
 
@@ -289,7 +289,7 @@ Copies the built or downloaded orderer binary through the shared bin role. Prepa
     # Binary name used by the bin branches.
     orderer_bin_name: arma
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/transfer
 ```
 
@@ -305,7 +305,7 @@ Deletes the installed orderer binary through the shared bin role. Does not remov
     # Binary name used by the bin branches.
     orderer_bin_name: arma
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/rm
 ```
 
@@ -323,9 +323,9 @@ Ensures the binary-mode data directory exists and starts `orderer_bin_name` with
     # Orderer component to manage; use `consensus` for the consenter process.
     orderer_component_type: "consensus"
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Shared base directory for persisted runtime data.
-    remote_data_dir: "/var/hyperledger/fabric-x/data/orderer/router-1"
+    remote_data_dir: "/var/lfdt/chaguar/data/orderer/router-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Remote directory where orderer data is stored.
@@ -335,7 +335,7 @@ Ensures the binary-mode data directory exists and starts `orderer_bin_name` with
     # gRPC port exposed by the orderer.
     orderer_rpc_port: 7050
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/start
 ```
 
@@ -348,7 +348,7 @@ Stops the orderer binary process through the shared bin role. Leaves the binary,
 ```yaml
 - name: Stop the orderer binary process
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/stop
 ```
 
@@ -361,7 +361,7 @@ Collects logs for the binary-mode orderer process through the shared bin role. U
 ```yaml
 - name: Fetch logs for the orderer binary process
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/fetch_logs
 ```
 
@@ -374,7 +374,7 @@ Stops the binary-mode orderer process and removes its persisted data directory. 
 ```yaml
 - name: Remove the orderer binary runtime state
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/teardown
 ```
 
@@ -400,9 +400,9 @@ Ensures the host data directory exists and starts the orderer container with the
     # Image tag used for the orderer container.
     orderer_image_tag: 1.0.8
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Shared base directory for persisted runtime data.
-    remote_data_dir: "/var/hyperledger/fabric-x/data/orderer/router-1"
+    remote_data_dir: "/var/lfdt/chaguar/data/orderer/router-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Remote directory where orderer data is stored.
@@ -428,7 +428,7 @@ Ensures the host data directory exists and starts the orderer container with the
     # Enables client mutual TLS for the orderer operations endpoint.
     orderer_operations_use_mtls: "{{ orderer_use_mtls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: container/start
 ```
 
@@ -444,7 +444,7 @@ Stops the named orderer container through the shared container role. Leaves the 
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: container/stop
 ```
 
@@ -460,7 +460,7 @@ Deletes the named orderer container through the shared container role. Does not 
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: container/rm
 ```
 
@@ -476,7 +476,7 @@ Collects logs for the configured orderer container. Covers consenter, batcher, a
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: container/fetch_logs
 ```
 
@@ -489,7 +489,7 @@ Deletes the orderer container and removes its persisted data directory. Keeps ge
 ```yaml
 - name: Remove the orderer container runtime state
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: container/teardown
 ```
 
@@ -505,15 +505,15 @@ Deletes the orderer data directory for binary and container deployments. In Kube
     # Remote directory where orderer data is stored.
     orderer_remote_data_dir: "{{ remote_data_dir }}"
     # Shared base directory for persisted runtime data.
-    remote_data_dir: "/var/hyperledger/fabric-x/data/orderer/router-1"
+    remote_data_dir: "/var/lfdt/chaguar/data/orderer/router-1"
     # Selects the Kubernetes deployment branch.
     orderer_use_k8s: false
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: data/rm
 ```
 
@@ -529,9 +529,9 @@ Renders the component-specific orderer config for `consensus`, `batcher`, `assem
     # Orderer component to manage; use `consensus` for the consenter process.
     orderer_component_type: "consensus"
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Shared base directory for persisted runtime data.
-    remote_data_dir: "/var/hyperledger/fabric-x/data/orderer/router-1"
+    remote_data_dir: "/var/lfdt/chaguar/data/orderer/router-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Remote directory where orderer data is stored.
@@ -547,9 +547,9 @@ Renders the component-specific orderer config for `consensus`, `batcher`, `assem
     # Rendered orderer configuration filename.
     orderer_config_file: node_config.yaml
     # Control-node directory containing configtxgen artifacts.
-    configtxgen_artifacts_dir: "/tmp/fabric-x/artifacts/configtxgen"
+    configtxgen_artifacts_dir: "/tmp/chaguar/artifacts/configtxgen"
     # Channel identifier used to derive the genesis block filename.
-    channel_id: "fabricx-channel"
+    channel_id: "chaguar-channel"
     # Genesis block filename copied into the config directory.
     orderer_genesis_block_file: "{{ channel_id }}_block.pb"
     # Selects the binary deployment branch.
@@ -681,7 +681,7 @@ Renders the component-specific orderer config for `consensus`, `batcher`, `assem
     # Channel size for assembler batch request messages.
     orderer_assembler_batch_requests_channel_size: 1000
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/transfer
 ```
 
@@ -695,9 +695,9 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
 - name: Transfer mTLS CA certificates for orderer clients and orgs
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Control-node directory containing fetched crypto artifacts.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/fetched"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Client identifiers whose mTLS CA certificates are mounted or transferred. Trusts fetched `tls/ca.crt` files under those artifact directories.
@@ -711,7 +711,7 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
       - name: "Org2"
         domain: "org2.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/mtls/transfer
 ```
 
@@ -725,9 +725,9 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
 - name: Transfer Operations mTLS CA certificates for orderer clients and orgs
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Control-node directory containing fetched crypto artifacts.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/fetched"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Client identifiers whose TLS CA certificates are trusted by the operations endpoint. Trusts fetched `tls/ca.crt` files under those artifact directories.
@@ -738,7 +738,7 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
       - name: "Org1"
         domain: "org1.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/mtls/operations/transfer
 ```
 
@@ -752,7 +752,7 @@ Deletes the orderer configuration directory, including rendered config, genesis 
 - name: Remove orderer configuration
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Selects the Kubernetes deployment branch.
@@ -760,7 +760,7 @@ Deletes the orderer configuration directory, including rendered config, genesis 
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/rm
 ```
 
@@ -768,12 +768,12 @@ Deletes the orderer configuration directory, including rendered config, genesis 
 
 > Copy the orderer Grafana dashboard
 
-Publishes the bundled Fabric-X Orderer Grafana dashboard through the grafana role. The dashboard consumes Prometheus scrape targets produced for consenter, batcher, assembler, and router metrics endpoints.
+Publishes the bundled Chaguar Orderer Grafana dashboard through the grafana role. The dashboard consumes Prometheus scrape targets produced for consenter, batcher, assembler, and router metrics endpoints.
 
 ```yaml
 - name: Copy the orderer Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -800,7 +800,7 @@ Provisions orderer MSP and TLS material through cryptogen or Fabric CA based on 
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/setup
 ```
 
@@ -814,9 +814,9 @@ Copies cryptogen-generated MSP and TLS artifacts for the orderer identity into t
 - name: Transfer cryptogen-generated orderer crypto material
   vars:
     # Control-node directory containing cryptogen-generated crypto artifacts.
-    cryptogen_artifacts_dir: "/tmp/fabric-x/artifacts/cryptogen"
+    cryptogen_artifacts_dir: "/tmp/chaguar/artifacts/cryptogen"
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Organization metadata shared by the orderer crypto and config branches.
     organization:
       name: "OrdererOrg1"
@@ -831,7 +831,7 @@ Copies cryptogen-generated MSP and TLS artifacts for the orderer identity into t
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -845,11 +845,11 @@ Copies the Fabric CA TLS certificate when needed and enrolls both MSP and TLS id
 - name: Enroll the orderer with Fabric CA
   vars:
     # Control-node directory containing fetched crypto artifacts.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/fetched"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Organization metadata shared by the orderer crypto and config branches.
     organization:
       name: "OrdererOrg1"
@@ -872,7 +872,7 @@ Copies the Fabric CA TLS certificate when needed and enrolls both MSP and TLS id
     # Enables TLS for the orderer operations endpoint.
     orderer_operations_use_tls: "{{ orderer_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -886,9 +886,9 @@ Fetches the orderer sign certificate, TLS server certificate, and TLS CA certifi
 - name: Fetch orderer certificates to the control node
   vars:
     # Control-node directory containing fetched crypto artifacts.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/fetched"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Organization metadata shared by the orderer crypto and config branches.
     organization:
       name: "OrdererOrg1"
@@ -903,7 +903,7 @@ Fetches the orderer sign certificate, TLS server certificate, and TLS CA certifi
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/fetch
 ```
 
@@ -917,7 +917,7 @@ Deletes the orderer MSP and TLS directories from the config path, and the users 
 - name: Remove orderer crypto material
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Selects the Kubernetes deployment branch.
@@ -934,7 +934,7 @@ Deletes the orderer MSP and TLS directories from the config path, and the users 
         name: "orderer-router-1"
         secret: "orderer-router-1PWD"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/rm
 ```
 
@@ -954,7 +954,7 @@ Creates the orderer Kubernetes Service, StatefulSet, and optional NodePort and L
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to orderer resources.
-    orderer_k8s_part_of: "fabric-x-orderer-{{ organization.name }}"
+    orderer_k8s_part_of: "chaguar-orderer-{{ organization.name }}"
     # Seconds to wait for the orderer StatefulSet rollout.
     orderer_k8s_wait_timeout: 120
     # gRPC port exposed by the orderer.
@@ -1010,7 +1010,7 @@ Creates the orderer Kubernetes Service, StatefulSet, and optional NodePort and L
         name: "orderer-router-1"
         secret: "orderer-router-1PWD"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
     # PVC storage request used by the orderer StatefulSet.
     k8s_storage_size: "20Gi"
     # Optional storage class used by the StatefulSet PVC.
@@ -1046,7 +1046,7 @@ Creates the orderer Kubernetes Service, StatefulSet, and optional NodePort and L
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/start
 ```
 
@@ -1072,7 +1072,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Operations endpoint port exposed by the orderer. This endpoint serves operational APIs and Prometheus metrics.
     orderer_operations_port: 7060
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/ping
 ```
 
@@ -1088,7 +1088,7 @@ Deletes the orderer StatefulSet and Services from the configured namespace. Leav
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
     # Kubernetes NodePort value used by the external RPC Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
     orderer_k8s_rpc_node_port: 31050
     # Set to `true` to create a LoadBalancer Service entry that exposes the RPC port externally. When undefined or `false`, the RPC port is not included in the LoadBalancer Service.
@@ -1098,7 +1098,7 @@ Deletes the orderer StatefulSet and Services from the configured namespace. Leav
     # Set to `true` to create a LoadBalancer Service entry that exposes the operations/metrics port externally. When undefined or `false`, the operations/metrics port is not included in the LoadBalancer Service.
     orderer_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/rm
 ```
 
@@ -1111,7 +1111,7 @@ Deletes the Kubernetes workload and removes persisted orderer data. Keeps genera
 ```yaml
 - name: Remove the orderer Kubernetes workload and data
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/teardown
 ```
 
@@ -1127,7 +1127,7 @@ Collects logs from pods selected by the orderer Kubernetes app label. Works for 
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/fetch_logs
 ```
 
@@ -1141,13 +1141,13 @@ Slurps the generated genesis block and renders the orderer ConfigMap. Includes t
 - name: Create the orderer Kubernetes ConfigMap
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to orderer resources.
-    orderer_k8s_part_of: "fabric-x-orderer-{{ organization.name }}"
+    orderer_k8s_part_of: "chaguar-orderer-{{ organization.name }}"
     # Orderer component to manage; use `consensus` for the consenter process.
     orderer_component_type: "consensus"
     # Rendered orderer configuration filename.
@@ -1183,9 +1183,9 @@ Slurps the generated genesis block and renders the orderer ConfigMap. Includes t
         name: "orderer-router-1"
         secret: "orderer-router-1PWD"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/config/transfer
 ```
 
@@ -1201,9 +1201,9 @@ Deletes the ConfigMap that holds orderer configuration, genesis material, and op
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/config/rm
 ```
 
@@ -1217,7 +1217,7 @@ Resolves orderer MSP and TLS file locations and renders the Kubernetes Secret. T
 - name: Create the orderer Kubernetes Secret
   vars:
     # Shared base directory for generated configuration.
-    remote_config_dir: "/var/hyperledger/fabric-x/config/orderer/assembler-1"
+    remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
     # Organization metadata shared by the orderer crypto and config branches.
@@ -1234,13 +1234,13 @@ Resolves orderer MSP and TLS file locations and renders the Kubernetes Secret. T
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to orderer resources.
-    orderer_k8s_part_of: "fabric-x-orderer-{{ organization.name }}"
+    orderer_k8s_part_of: "chaguar-orderer-{{ organization.name }}"
     # Orderer component to manage; use `consensus` for the consenter process.
     orderer_component_type: "consensus"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1256,9 +1256,9 @@ Deletes the Secret that stores orderer MSP and TLS material. Does not remove the
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace used for orderer resources.
-    k8s_namespace: "fabricx-orderer"
+    k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/crypto/rm
 ```
 
@@ -1278,9 +1278,9 @@ Groups orderer hosts by component type and exposes Prometheus scrape service def
       - "orderer-assembler-1"
       - "orderer-router-1"
     # Control-node directory containing fetched crypto artifacts.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/fetched"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -1296,7 +1296,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to orderer resources.
-    orderer_k8s_part_of: "fabric-x-orderer-{{ organization.name }}"
+    orderer_k8s_part_of: "chaguar-orderer-{{ organization.name }}"
     # Orderer component to manage; use `consensus` for the consenter process.
     orderer_component_type: "consensus"
     # Enables server-side TLS in the rendered config.
@@ -1317,7 +1317,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: openshift/start
 ```
 
@@ -1339,7 +1339,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: openshift/ping
 ```
 
@@ -1359,7 +1359,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: openshift/rm
 ```
 
@@ -1372,6 +1372,6 @@ Removes OpenShift and Kubernetes resources, then deletes orderer data artifacts.
 ```yaml
 - name: Teardown the OpenShift deployment
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: openshift/teardown
 ```

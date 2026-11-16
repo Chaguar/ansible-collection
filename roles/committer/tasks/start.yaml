@@ -4,9 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Start Fabric-X Committer components
+- name: Start Chaguar Committer components
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: "{{ committer_deployment_mode }}/start"
   when:
     - committer_component_type is defined

@@ -18,7 +18,7 @@ argument_specs:
         type: path
         description:
           - "Base directory for remote role state on the target host."
-          - "Example: C(/tmp/fabricx)."
+          - "Example: C(/tmp/chaguar)."
       fabric_ca_client_state_file: &fabric_ca_client_state_file
         type: path
         default: "{{ remote_node_dir }}/fabric-ca-enroll-state.yaml"
@@ -115,18 +115,18 @@ argument_specs:
         type: path
         description:
           - "Provides the shared remote configuration root used by this role."
-          - "Example: C(/var/hyperledger/fabricx/fabric-ca/ca-org1/config)."
+          - "Example: C(/var/lfdt/chaguar/fabric-ca/ca-org1/config)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - "Provides the shared local artifacts root used by this role."
-          - "Example: C(/tmp/fabricx/fetched-artifacts)."
+          - "Example: C(/tmp/chaguar/fetched-artifacts)."
       k8s_namespace: &k8s_namespace
         type: str
         description:
           - "Provides the Kubernetes namespace from the shared inventory."
-          - "Example: C(fabricx)."
+          - "Example: C(chaguar)."
       k8s_image_pull_secret: &k8s_image_pull_secret
         type: str
         description:
@@ -357,7 +357,7 @@ argument_specs:
         required: true
         description:
           - "Sets the MSP directory used by Fabric CA client flows."
-          - "Example: C(/tmp/fabricx/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp)."
+          - "Example: C(/tmp/chaguar/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp)."
       fabric_ca_cryptogenize_msp_private_key_file:
         &fabric_ca_cryptogenize_msp_private_key_file
         type: str
@@ -429,7 +429,7 @@ argument_specs:
         type: path
         description:
           - "Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled."
-          - "Example: C(/tmp/fabricx/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem)."
+          - "Example: C(/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem)."
       fabric_ca_server_use_openshift: &fabric_ca_server_use_openshift
         type: bool
         default: false

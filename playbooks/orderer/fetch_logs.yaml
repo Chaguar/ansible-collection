@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the logs from Fabric-X Orderer
-  hosts: "{{ target_hosts | default('fabric_x_orderers') }}:&fabric_x_orderers"
+- name: Fetch the logs from Chaguar Orderer
+  hosts: "{{ target_hosts | default('chaguar_orderers') }}:&chaguar_orderers"
   tasks:
-    - name: Fetch the logs from the Fabric-X Orderer components
+    - name: Fetch the logs from the Chaguar Orderer components
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.orderer
+        name: hyperledger.chaguar.orderer
         tasks_from: fetch_logs

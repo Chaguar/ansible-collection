@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Transfer Fabric-X Loadgen config files
+- name: Transfer Chaguar Loadgen config files
   hosts: "{{ target_hosts | default('load_generators') }}:&load_generators"
   tasks:
-    - name: Transfer Fabric-X Loadgen config files
+    - name: Transfer Chaguar Loadgen config files
       vars:
         reference_committer_hosts: >-
           {{
             (
-              groups['fabric_x_committers']
+              groups['chaguar_committers']
               | default([])
               | map('extract', hostvars)
               | selectattr('organization', 'defined')
@@ -21,13 +21,13 @@
               | map(attribute='inventory_hostname')
               | list
             )
-            or groups['fabric_x_committers'] | default([])
+            or groups['chaguar_committers'] | default([])
           }}
-        orderer_hosts: "{{ groups['fabric_x_orderers'] | default([]) }}"
+        orderer_hosts: "{{ groups['chaguar_orderers'] | default([]) }}"
       block:
-        - name: Transfer Fabric-X Loadgen config files
+        - name: Transfer Chaguar Loadgen config files
           vars:
             committer_hosts: "{{ reference_committer_hosts }}"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.loadgen
+            name: hyperledger.chaguar.loadgen
             tasks_from: config/transfer

@@ -6,5 +6,5 @@
 
 - name: Fetch the logs from the Fabric CA binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: fetch_logs

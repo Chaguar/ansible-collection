@@ -12,13 +12,13 @@
     # =========================
     - name: Wipe Fabric CA servers
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: server/wipe
       when:
         - fabric_ca_port is defined
     - name: Wipe Fabric CA client binaries
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/bin/rm
       when:
         - fabric_ca_port is defined

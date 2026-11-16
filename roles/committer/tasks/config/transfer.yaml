@@ -4,37 +4,37 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Generate Hyperledger Fabric-X Committer validators config files
+- name: Generate LFDT Chaguar Committer validators config files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: validator/config/transfer
   when:
     - committer_component_type == 'validator'
 
-- name: Generate Hyperledger Fabric-X Committer verifiers config files
+- name: Generate LFDT Chaguar Committer verifiers config files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: verifier/config/transfer
   when:
     - committer_component_type == 'verifier'
 
-- name: Generate Hyperledger Fabric-X Committer coordinator config files
+- name: Generate LFDT Chaguar Committer coordinator config files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: coordinator/config/transfer
   when:
     - committer_component_type == 'coordinator'
 
-- name: Generate Hyperledger Fabric-X Committer sidecar config files
+- name: Generate LFDT Chaguar Committer sidecar config files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: sidecar/config/transfer
   when:
     - committer_component_type == 'sidecar'
 
-- name: Generate Hyperledger Fabric-X QueryService config files
+- name: Generate LFDT Chaguar QueryService config files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: query_service/config/transfer
   when:
     - committer_component_type == 'query-service'

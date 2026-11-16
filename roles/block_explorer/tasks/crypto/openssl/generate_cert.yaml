@@ -18,5 +18,5 @@
     openssl_cert_path: "{{ block_explorer_remote_config_dir }}/tls/{{ block_explorer_tls_cert_file }}"
     openssl_san_hosts: "{{ block_explorer_tls_san_hosts | unique }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_signed_cert

@@ -13,13 +13,13 @@ argument_specs:
         type: path
         description:
           - Sets the shared remote config root used by Grafana.
-          - "Example: C(/var/hyperledger/fabricx/grafana)."
+          - "Example: C(/var/lfdt/chaguar/grafana)."
           - Required when using it for C(grafana_remote_config_dir).
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:
           - Sets the shared fetched-artifacts root used by Grafana.
-          - "Example: C(/tmp/fabricx-artifacts)."
+          - "Example: C(/tmp/chaguar-artifacts)."
           - Required when relying on it to derive paths for fetched TLS artifacts.
       prometheus_host: &prometheus_host
         type: str
@@ -32,13 +32,13 @@ argument_specs:
         type: dict
         description:
           - Sets the optional organization mapping used for TLS certificate generation.
-          - "Example: C({'name': 'Grafana', 'domain': 'grafana.fabricx.example', 'common_name': 'grafana.fabricx.example'})."
+          - "Example: C({'name': 'Grafana', 'domain': 'grafana.chaguar.example', 'common_name': 'grafana.chaguar.example'})."
           - When set, C(organization.domain) is used as the OpenSSL organization name.
       k8s_namespace: &k8s_namespace
         type: str
         description:
           - Sets the Kubernetes namespace used for Grafana resources.
-          - "Example: C(fabricx-observability)."
+          - "Example: C(chaguar-observability)."
       k8s_image_pull_secret: &k8s_image_pull_secret
         type: str
         description:
@@ -148,7 +148,7 @@ argument_specs:
         required: true
         description:
           - Sets the local path to the Grafana dashboard JSON file.
-          - "Example: C(/opt/fabricx/grafana/dashboards/main.json)."
+          - "Example: C(/opt/chaguar/grafana/dashboards/main.json)."
       grafana_use_tls: &grafana_use_tls
         type: bool
         default: false

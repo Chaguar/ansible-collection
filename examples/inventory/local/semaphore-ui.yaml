@@ -5,7 +5,7 @@
 #
 
 # This inventory deploys a standalone Semaphore UI instance on the local control node.
-# Unlike the other sample inventories under `local/`, this is not a Fabric-X network
+# Unlike the other sample inventories under `local/`, this is not a Chaguar network
 # sample: Semaphore UI is a general automation controller for this collection's
 # playbooks and inventories, deployed independently through the `semaphore_ui` role
 # and its companion playbooks (see playbooks/semaphore_ui/).

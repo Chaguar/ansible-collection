@@ -21,10 +21,10 @@
     container_run_as_host_user: true
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start
 
-- name: Print retrieved Fabric-X namespaces
+- name: Print retrieved Chaguar namespaces
   ansible.builtin.debug:
     msg: "{{ container_output.stdout_lines }}"
   when:

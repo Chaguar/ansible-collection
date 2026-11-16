@@ -6,7 +6,7 @@
 
 - name: Start Yugabyte master workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/master/start
 
 - name: Apply Yugabyte master webserver OpenShift Route
@@ -20,6 +20,6 @@
       app.kubernetes.io/name: "{{ yugabyte_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ yugabyte_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: yugabyte_openshift_master_webserver_route is defined

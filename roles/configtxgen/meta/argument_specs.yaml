@@ -78,7 +78,7 @@ argument_specs:
         type: path
         description:
           - Base build directory for C(configtxgen_artifacts_dir).
-          - "Example: C(/opt/fabricx/build/configtxgen)."
+          - "Example: C(/opt/chaguar/build/configtxgen)."
       configtxgen_artifacts_dir: &configtxgen_artifacts_dir
         type: path
         default: "{{ config_build_dir }}/configtxgen-artifacts"
@@ -120,7 +120,7 @@ argument_specs:
         type: str
         description:
           - Channel identifier for C(configtxgen_channel_id).
-          - "Example: C(fabricx-main-channel)."
+          - "Example: C(chaguar-main-channel)."
       configtxgen_channel_id: &configtxgen_channel_id
         type: str
         default: "{{ channel_id }}"
@@ -151,19 +151,19 @@ argument_specs:
         required: true
         description:
           - Directory containing fetched crypto artifacts used by the binary path and container mounts.
-          - "Example: C(/opt/fabricx/artifacts/crypto)."
+          - "Example: C(/opt/chaguar/artifacts/crypto)."
       armageddon_artifacts_dir: &armageddon_artifacts_dir
         type: path
         required: true
         description:
           - Directory containing armageddon artifacts used by the binary path and container mounts.
-          - "Example: C(/opt/fabricx/artifacts/armageddon)."
+          - "Example: C(/opt/chaguar/artifacts/armageddon)."
       cli_bin_dir: &cli_bin_dir
         type: path
         required: true
         description:
           - Directory used as the `configtxgen` binary destination or lookup path.
-          - "Example: C(/opt/fabricx/bin)."
+          - "Example: C(/opt/chaguar/bin)."
       configtxgen_orderer_org_policies_readers_type:
         &configtxgen_orderer_org_policies_readers_type
         type: str
@@ -479,7 +479,7 @@ argument_specs:
   config/build:
     short_description: Render the configtxgen configuration file
     description:
-      - Generate `configtx.yaml` for Fabric-X genesis block creation.
+      - Generate `configtx.yaml` for Chaguar genesis block creation.
       - Render the config template from the selected crypto and armageddon artifact roots, then place it under C(configtxgen_artifacts_dir).
       - The template switches between the binary and container artifact paths based on C(configtxgen_use_bin).
     options:
@@ -567,7 +567,7 @@ argument_specs:
   bin/build:
     short_description: Build the configtxgen binary on the control node
     description:
-      - Build the `configtxgen` binary from the Fabric-X source tree on the control node.
+      - Build the `configtxgen` binary from the Chaguar source tree on the control node.
       - The compiled executable is written to C(cli_bin_dir) and reused by the binary start entry point.
     options:
       configtxgen_git_hub_url: *configtxgen_git_hub_url
@@ -595,7 +595,7 @@ argument_specs:
     short_description: Generate a genesis block with the configtxgen binary
     description:
       - Run the local `configtxgen` binary to generate the channel genesis block.
-      - The output block is written beneath C(configtxgen_artifacts_dir) as C(configtxgen_genesis_block_file); with the bundled example channel, that becomes C(fabricx-main-channel_block.pb).
+      - The output block is written beneath C(configtxgen_artifacts_dir) as C(configtxgen_genesis_block_file); with the bundled example channel, that becomes C(chaguar-main-channel_block.pb).
     options:
       channel_id: *channel_id
       config_build_dir: *config_build_dir

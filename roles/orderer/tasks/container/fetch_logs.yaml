@@ -4,9 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the logs from the Fabric-X Orderer container
+- name: Fetch the logs from the Chaguar Orderer container
   vars:
     container_name: "{{ orderer_container_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: fetch_logs

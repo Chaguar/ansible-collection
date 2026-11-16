@@ -1,6 +1,6 @@
 # 3. Run Your First Network
 
-Three commands and you have a Fabric-X network. This lesson runs them, then explains what each one actually produced — because understanding the difference between `setup`, `start`, and `init` is what makes everything afterwards make sense.
+Three commands and you have a Chaguar network. This lesson runs them, then explains what each one actually produced — because understanding the difference between `setup`, `start`, and `init` is what makes everything afterwards make sense.
 
 > [!NOTE]
 > Estimated time: 30 minutes, most of it waiting for images to pull and binaries to build. Builds on [2. Prepare Your Control Node](./02-prepare-your-control-node.md).
@@ -34,18 +34,18 @@ Three commands and you have a Fabric-X network. This lesson runs them, then expl
 
 ## What You Are About to Deploy
 
-This lesson uses [`examples/inventory/local/fabric-x.yaml`](../../examples/inventory/local/fabric-x.yaml) — the most representative single-machine deployment. Everything runs as containers on your own machine.
+This lesson uses [`examples/inventory/local/chaguar.yaml`](../../examples/inventory/local/chaguar.yaml) — the most representative single-machine deployment. Everything runs as containers on your own machine.
 
 Which inventory is loaded by default comes from the `inventory =` line in [`examples/ansible.cfg`](../../examples/ansible.cfg), and it changes over time as the samples evolve. So do not assume — check, and set it explicitly:
 
 ```shell
 grep '^inventory' examples/ansible.cfg
-export ANSIBLE_INVENTORY=examples/inventory/local/fabric-x.yaml
+export ANSIBLE_INVENTORY=examples/inventory/local/chaguar.yaml
 ```
 
 `ANSIBLE_INVENTORY` overrides the config file without editing it. Getting into the habit of setting it explicitly is worth it: from [lesson 8](./08-change-the-topology.md) onwards you will switch inventories constantly, and "which inventory am I actually running?" is the most common source of confusion with this collection.
 
-![The default local Fabric-X inventory](../../examples/images/fabric-x.drawio.png)
+![The default local Chaguar inventory](../../examples/images/chaguar.drawio.png)
 
 Concretely, that is:
 
@@ -104,7 +104,7 @@ Prepares the CLI tools the control node needs: the Fabric CA client, `cryptogen`
 Two steps that produce the network's cryptographic foundation:
 
 1. **`make generate-crypto`** — creates the container network, builds the shared crypto material, then starts the Fabric CA servers, enrols their admins, and **registers and enrols an identity for every component** in the inventory. Each orderer, committer service, and load generator gets its own certificate from its organisation's CA.
-2. **`make genesis-block`** — builds the Fabric-X genesis block, which encodes the channel configuration: which organisations exist, which orderer groups and shards there are, and the consensus parameters.
+2. **`make genesis-block`** — builds the Chaguar genesis block, which encodes the channel configuration: which organisations exist, which orderer groups and shards there are, and the consensus parameters.
 
 > [!NOTE]
 > Notice that the Fabric CA servers are started _during setup_, not during `start`. They have to be running to issue certificates. This is why `make setup` takes the longest of the three commands the first time you run it.
@@ -165,7 +165,7 @@ This runs the `fxconfig.create_namespaces` playbook, which:
 In the default inventory the load generator declares one namespace, `0`, with a `threshold` policy. That is the namespace its transactions will target.
 
 > [!WARNING]
-> `make init` must run _after_ `make start`. Namespace transactions have to be endorsed and submitted through live Fabric-X endpoints, so running it too early fails by design.
+> `make init` must run _after_ `make start`. Namespace transactions have to be endorsed and submitted through live Chaguar endpoints, so running it too early fails by design.
 
 `make init` is **idempotent**. Run it twice and the second run reports no changes, because it compares each declared policy against a fingerprint recorded from the previous run. Change a namespace's `policy` in the inventory and re-run it, and it submits an update instead.
 
@@ -194,7 +194,7 @@ This scrapes the metrics endpoints of the components that expose them and prints
 > [!TIP]
 > Add `ASSERT_METRICS=true` to turn `get-metrics` into a hard assertion that fails when a component looks unhealthy: `make get-metrics ASSERT_METRICS=true`. That is the form to use in scripts.
 
-If both succeed, you have a working Fabric-X network processing transactions. [Lesson 4](./04-observe-the-network.md) is about actually watching it.
+If both succeed, you have a working Chaguar network processing transactions. [Lesson 4](./04-observe-the-network.md) is about actually watching it.
 
 ## Where Everything Landed
 
@@ -222,7 +222,7 @@ cat out/local-deployment/committer-coordinator/config/*.yaml
 ```
 
 > [!TIP]
-> `out/` is gitignored, and you can move it entirely by setting `OUT_DIR`, for example `export OUT_DIR=/tmp/fabricx-out`.
+> `out/` is gitignored, and you can move it entirely by setting `OUT_DIR`, for example `export OUT_DIR=/tmp/chaguar-out`.
 
 ## Stopping and Tearing Down
 
@@ -258,16 +258,16 @@ There is a third level, covered in [lesson 6](./06-target-hosts-and-lifecycle.md
 > [!TIP]
 > `make ping` checked every host in the inventory, which is a lot of output. Restrict it to just the committer services, and read the result carefully.
 >
-> Then answer: how many hosts did it check, and why is one of them not a Fabric-X service at all?
+> Then answer: how many hosts did it check, and why is one of them not a Chaguar service at all?
 
 <details markdown="1">
 <summary>Solution</summary>
 
 ```shell
-make fabric_x_committers ping
+make chaguar_committers ping
 ```
 
-`fabric_x_committers` is one of the predefined host groups, so it can be chained in front of any lifecycle target. It checks **six** hosts:
+`chaguar_committers` is one of the predefined host groups, so it can be chained in front of any lifecycle target. It checks **six** hosts:
 
 | Host                      | Port | Why                                             |
 | ------------------------- | ---- | ----------------------------------------------- |
@@ -278,7 +278,7 @@ make fabric_x_committers ping
 | `committer-query-service` | 5140 | query service RPC                               |
 | `committer-db`            | 5150 | **PostgreSQL** — the committer's state database |
 
-`committer-db` is the odd one out: it is a database, not a Fabric-X service. It sits in the committer group because it belongs to that committer deployment, and the validator and query service reference it through `postgres_db_host: committer-db`. Grouping the database with the services that use it is what lets `make fabric_x_committers teardown` clean up the whole committer, storage included.
+`committer-db` is the odd one out: it is a database, not a Chaguar service. It sits in the committer group because it belongs to that committer deployment, and the validator and query service reference it through `postgres_db_host: committer-db`. Grouping the database with the services that use it is what lets `make chaguar_committers teardown` clean up the whole committer, storage included.
 
 You will meet the rest of the predefined groups in [lesson 6](./06-target-hosts-and-lifecycle.md).
 

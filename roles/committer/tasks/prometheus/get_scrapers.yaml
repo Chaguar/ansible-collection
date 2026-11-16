@@ -6,11 +6,11 @@
 
 - name: Check if committer_hosts required variable is set
   ansible.builtin.fail:
-    msg: "The variable 'committer_hosts' must be defined to use this role. It must contain the list of hosts devoted for the Fabric-X Committer components."
+    msg: "The variable 'committer_hosts' must be defined to use this role. It must contain the list of hosts devoted for the Chaguar Committer components."
   when:
     - committer_hosts is not defined
 
-- name: Set Prometheus scrape services for Fabric-X Committer
+- name: Set Prometheus scrape services for Chaguar Committer
   vars:
     committer_hosts_with_vars: >-
       {{

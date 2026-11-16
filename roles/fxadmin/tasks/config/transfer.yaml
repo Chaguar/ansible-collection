@@ -43,7 +43,7 @@
 # =========================
 - name: Setup mTLS material for fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: config/mtls/transfer
   when:
     - fxadmin_use_mtls

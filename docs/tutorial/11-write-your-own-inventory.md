@@ -1,6 +1,6 @@
 # 11. Write Your Own Inventory
 
-The capstone. You have read the sample inventories, changed one, and switched families. Now build one from nothing: a minimal Fabric-X network of your own design, in your own directory, that the collection deploys with the same three commands as everything else.
+The capstone. You have read the sample inventories, changed one, and switched families. Now build one from nothing: a minimal Chaguar network of your own design, in your own directory, that the collection deploys with the same three commands as everything else.
 
 > [!NOTE]
 > Estimated time: 60 minutes. Builds on everything from [5. Read the Inventory](./05-read-the-inventory.md) onwards.
@@ -27,7 +27,7 @@ The capstone. You have read the sample inventories, changed one, and switched fa
 
 - Where a custom inventory should live, and why not in `examples/`.
 - The non-obvious file that every inventory bundle needs and no documentation page spells out.
-- How to build a minimal but complete Fabric-X topology from scratch.
+- How to build a minimal but complete Chaguar topology from scratch.
 - How to validate an inventory before deploying it.
 
 ## Keep Your Inventory Out of `examples/`
@@ -43,7 +43,7 @@ mkdir -p my-network/group_vars/all
 ```
 
 > [!TIP]
-> The repository has an agent skill, `.agents/skills/creating-fabricx-inventories`, that walks a compatible AI assistant through this same process interactively — including auditing credentials into an Ansible Vault file, which this lesson does not cover. Worth knowing about once you move past a learning exercise.
+> The repository has an agent skill, `.agents/skills/creating-chaguar-inventories`, that walks a compatible AI assistant through this same process interactively — including auditing credentials into an Ansible Vault file, which this lesson does not cover. Worth knowing about once you move past a learning exercise.
 
 ## The Bundle Layout
 
@@ -51,7 +51,7 @@ Here is the layout, and one file in it is the thing people get wrong:
 
 ```text
 my-network/
-├── fabric-x-minimal.yaml          # the inventory
+├── chaguar-minimal.yaml          # the inventory
 └── group_vars/
     └── all/
         ├── env.yaml               # connection model and target paths
@@ -144,11 +144,11 @@ cp examples/inventory/vars.yaml my-network/group_vars/all/vars.yaml
 Leave the contents alone. In particular, **do not change `channel_id`**.
 
 > [!WARNING]
-> `channel_id: arma` looks like a name you get to pick. It is not. The channel name is currently hardcoded in the Fabric-X orderer — `config/generate/config_block_gen.go` and `common/tools/armageddon/cryptogen.go` both use the literal `"arma"`, and `node/ledger/assembler_ledger.go` carries the comment _"this will change when we'll support configurable channel name"_.
+> `channel_id: arma` looks like a name you get to pick. It is not. The channel name is currently hardcoded in the Chaguar orderer — `config/generate/config_block_gen.go` and `common/tools/armageddon/cryptogen.go` both use the literal `"arma"`, and `node/ledger/assembler_ledger.go` carries the comment _"this will change when we'll support configurable channel name"_.
 >
 > So the variable exists, and the generated artifacts will faithfully use whatever you set — but the orderer will be looking for `arma`, and the deployment will not work. Keep it as it is until configurable channel names land upstream.
 
-This is worth pausing on, because it generalises: an inventory variable existing does not mean every value of it is supported. The authoritative answer for any given variable is the role's `meta/argument_specs.yaml`, and — for anything that reaches a Fabric-X binary — the component's own source.
+This is worth pausing on, because it generalises: an inventory variable existing does not mean every value of it is supported. The authoritative answer for any given variable is the role's `meta/argument_specs.yaml`, and — for anything that reaches a Chaguar binary — the component's own source.
 
 ## Step 3: Organizations
 
@@ -184,7 +184,7 @@ Note the anchors. `&OrdererOrg1` and `&Org1` are defined once here and merged in
 One orderer group with the four required services. An ordering service needs all four component types; you cannot omit one.
 
 > [!WARNING]
-> **One orderer group is a teaching topology, not a viable one.** Fabric-X ordering is Byzantine-fault-tolerant, and the orderer derives its fault tolerance from the number of parties as `f = (n - 1) / 3`. With one party, `f = 0` — the network tolerates **no** faulty or unavailable orderer at all, and a single consenter going down stops ordering entirely.
+> **One orderer group is a teaching topology, not a viable one.** Chaguar ordering is Byzantine-fault-tolerant, and the orderer derives its fault tolerance from the number of parties as `f = (n - 1) / 3`. With one party, `f = 0` — the network tolerates **no** faulty or unavailable orderer at all, and a single consenter going down stops ordering entirely.
 >
 > The minimum for real BFT is **4 orderer organisations** (`n = 4`, `f = 1`), which is exactly why every shipped sample uses four. Use one group here to keep the bundle small enough to read in one sitting, then scale to four before the inventory means anything — it is the first item in [Where to Go From Here](#where-to-go-from-here) for that reason.
 >
@@ -193,16 +193,16 @@ One orderer group with the four required services. An ordering service needs all
 ```yaml
     network:
       children:
-        fabric_x:
+        chaguar:
           children:
-            fabric_x_orderers:
+            chaguar_orderers:
               vars:
                 orderer_use_tls: true
                 orderer_use_mtls: true
                 orderer_operations_mtls_clients:
                   - prometheus
               children:
-                fabric_x_orderer_1:
+                chaguar_orderer_1:
                   vars:
                     organization:
                       <<: *OrdererOrg1
@@ -235,9 +235,9 @@ Compare against the sample and notice what is _missing_: no `fabric_ca_host`, an
 The committer needs all five services plus a database. None of them is optional: no coordinator means no work distribution, no sidecar means no block intake.
 
 ```yaml
-            fabric_x_committers:
+            chaguar_committers:
               children:
-                fabric_x_committer:
+                chaguar_committer:
                   vars:
                     committer_use_tls: true
                     committer_use_mtls: true
@@ -284,7 +284,7 @@ The committer needs all five services plus a database. None of them is optional:
 
 ## Step 6: The Load Generator
 
-Finally, something to produce traffic — and, importantly, the host that declares the Fabric-X namespace.
+Finally, something to produce traffic — and, importantly, the host that declares the Chaguar namespace.
 
 ```yaml
     load_generators:
@@ -312,7 +312,7 @@ There is no `monitoring` group at all in this bundle. That is a deliberate choic
 
 ## The Complete Inventory
 
-Assembled, `my-network/fabric-x-minimal.yaml` is the six steps in order:
+Assembled, `my-network/chaguar-minimal.yaml` is the six steps in order:
 
 ```text
 all:
@@ -320,14 +320,14 @@ all:
   children:
     network:
       children:
-        fabric_x:
+        chaguar:
           children:
-            fabric_x_orderers:      # step 4
+            chaguar_orderers:      # step 4
               children:
-                fabric_x_orderer_1:
-            fabric_x_committers:    # step 5
+                chaguar_orderer_1:
+            chaguar_committers:    # step 5
               children:
-                fabric_x_committer:
+                chaguar_committer:
     load_generators:          # step 6
 ```
 
@@ -340,7 +340,7 @@ Be clear-eyed about what that buys and costs. Eleven hosts is small enough to ho
 Validate before you deploy. Ansible will tell you about structural mistakes for free:
 
 ```shell
-export ANSIBLE_INVENTORY=my-network/fabric-x-minimal.yaml
+export ANSIBLE_INVENTORY=my-network/chaguar-minimal.yaml
 
 # does it parse, and is the group tree what you intended?
 .venv/bin/ansible-inventory --graph
@@ -381,17 +381,17 @@ make ping
 
 Your minimal network is a baseline. Now apply the discipline from [lesson 8](./08-change-the-topology.md) and change one dimension at a time:
 
-| Next change                                | What to add                                                                                                                  | Fresh ledger? |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| **Actual fault tolerance — do this first** | Orderer organisations 2, 3, and 4, each with its own `fabric_x_orderer_N` group of four services, to reach `n = 4` / `f = 1` | yes           |
-| Real identity management                   | A `fabric_cas` group, `fabric_ca_host` per organisation, and enrollment blocks                                               | yes           |
-| Observability                              | A `monitoring` group — and now those `prometheus` mTLS client lines start doing work                                         | no            |
-| Block browsing                             | A `fabric_x_block_explorer` group, plus `block-explorer` in `committer_mtls_clients`                                         | no            |
-| An Ethereum endpoint                       | A `fabric_x_evm` host in `Org1`, with a `user:` entry and its own namespace                                                  | no            |
-| More ordering throughput                   | A second batcher shard per group                                                                                             | yes           |
-| More committing throughput                 | More verifiers and validators                                                                                                | no            |
-| Horizontal-scale storage                   | Swap `committer-db` for a `committer_dbs` YugabyteDB cluster                                                                 | yes           |
-| Real machines                              | Change `env.yaml` to `ansible_connection: ssh` and set `ansible_host` per service                                            | yes           |
+| Next change                                | What to add                                                                                                                 | Fresh ledger? |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| **Actual fault tolerance — do this first** | Orderer organisations 2, 3, and 4, each with its own `chaguar_orderer_N` group of four services, to reach `n = 4` / `f = 1` | yes           |
+| Real identity management                   | A `fabric_cas` group, `fabric_ca_host` per organisation, and enrollment blocks                                              | yes           |
+| Observability                              | A `monitoring` group — and now those `prometheus` mTLS client lines start doing work                                        | no            |
+| Block browsing                             | A `chaguar_block_explorer` group, plus `block-explorer` in `committer_mtls_clients`                                         | no            |
+| An Ethereum endpoint                       | A `chaguar_evm` host in `Org1`, with a `user:` entry and its own namespace                                                  | no            |
+| More ordering throughput                   | A second batcher shard per group                                                                                            | yes           |
+| More committing throughput                 | More verifiers and validators                                                                                               | no            |
+| Horizontal-scale storage                   | Swap `committer-db` for a `committer_dbs` YugabyteDB cluster                                                                | yes           |
+| Real machines                              | Change `env.yaml` to `ansible_connection: ssh` and set `ansible_host` per service                                           | yes           |
 
 The first row is not optional for anything you intend to rely on. Everything below it is a genuine choice; a one-party ordering service is not.
 
@@ -412,10 +412,10 @@ Each one is a small, reviewable diff against a topology you already know works. 
 
 Steps 1 to 3 are the lesson. The one that requires thought is step 4.
 
-The Block Explorer needs **two hosts**, in a `fabric_x_block_explorer` group under `fabric_x`:
+The Block Explorer needs **two hosts**, in a `chaguar_block_explorer` group under `chaguar`:
 
 ```yaml
-fabric_x_block_explorer:
+chaguar_block_explorer:
   hosts:
     block-explorer-db:
       postgres_user: block_explorer_user
@@ -435,7 +435,7 @@ Its own database, separate from the committer's — the Explorer indexes blocks 
 And the **one line elsewhere** is in the committer's group variables:
 
 ```yaml
-fabric_x_committer:
+chaguar_committer:
   vars:
     committer_mtls_clients:
       - block-explorer # <-- add this
@@ -450,9 +450,9 @@ Applying it:
 ```shell
 make targets
 make setup
-make fabric_x_committers restart        # the sidecar must reload its trust bundle
-make fabric_x_block_explorer start
-make fabric_x_block_explorer ping
+make chaguar_committers restart        # the sidecar must reload its trust bundle
+make chaguar_block_explorer start
+make chaguar_block_explorer ping
 ```
 
 Then open <http://localhost:18000> and look at the blocks your own inventory produced.

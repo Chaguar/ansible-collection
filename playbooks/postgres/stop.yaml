@@ -9,7 +9,7 @@
   tasks:
     - name: Stop PostgreSQL database
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.postgres
+        name: hyperledger.chaguar.postgres
         tasks_from: stop
       when:
         - postgres_port is defined

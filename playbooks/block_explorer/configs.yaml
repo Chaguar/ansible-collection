@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Transfer the Fabric-X Block Explorer config files
-  hosts: "{{ target_hosts | default('fabric_x_block_explorer') }}:&fabric_x_block_explorer"
+- name: Transfer the Chaguar Block Explorer config files
+  hosts: "{{ target_hosts | default('chaguar_block_explorer') }}:&chaguar_block_explorer"
   tasks:
-    - name: Transfer the Fabric-X Block Explorer server config files
+    - name: Transfer the Chaguar Block Explorer server config files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.block_explorer
+        name: hyperledger.chaguar.block_explorer
         tasks_from: config/transfer
       when:
         - block_explorer_port is defined

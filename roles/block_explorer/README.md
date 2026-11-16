@@ -1,6 +1,6 @@
-# hyperledger.fabricx.block_explorer
+# hyperledger.chaguar.block_explorer
 
-> Deploys and manages the Fabric-X Block Explorer server and UI across container and Kubernetes modes, including committer sidecar streaming, PostgreSQL connectivity, TLS/mTLS, and log collection workflows.
+> Deploys and manages the Chaguar Block Explorer server and UI across container and Kubernetes modes, including committer sidecar streaming, PostgreSQL connectivity, TLS/mTLS, and log collection workflows.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -46,7 +46,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.block_explorer
+ansible-doc -t role hyperledger.chaguar.block_explorer
 ```
 
 ## Tasks
@@ -67,7 +67,7 @@ Start the combined Block Explorer server and UI runtime selected by the deployme
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: start
 ```
 
@@ -87,7 +87,7 @@ Stop the active Block Explorer container without removing configuration, crypto 
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: stop
 ```
 
@@ -107,7 +107,7 @@ Remove runtime resources for the selected Block Explorer deployment mode. Delete
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: teardown
 ```
 
@@ -120,7 +120,7 @@ Remove Block Explorer runtime resources, generated configuration, and crypto mat
 ```yaml
 - name: Remove all Block Explorer server data
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: wipe
 ```
 
@@ -140,7 +140,7 @@ Collect Block Explorer server logs for the selected deployment mode.
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: fetch_logs
 ```
 
@@ -162,7 +162,7 @@ Verify that the Block Explorer REST endpoint and UI are reachable. Uses direct h
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: ping
 ```
 
@@ -186,7 +186,7 @@ Start the combined Block Explorer server and UI as a local container with the re
     # Image tag used by the Block Explorer container.
     block_explorer_image_tag: 0.1.2
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Config mount path inside a container or pod.
@@ -198,7 +198,7 @@ Start the combined Block Explorer server and UI as a local container with the re
     # Web port exposed by the Block Explorer UI.
     block_explorer_ui_port: 18000
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: container/start
 ```
 
@@ -214,7 +214,7 @@ Stop the local Block Explorer container. Preserves the container definition, mou
     # Container name used by the runtime.
     block_explorer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: container/stop
 ```
 
@@ -230,7 +230,7 @@ Remove the local Block Explorer container runtime resources. Leaves host-side ge
     # Container name used by the runtime.
     block_explorer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: container/rm
 ```
 
@@ -246,7 +246,7 @@ Collect logs from a containerized Block Explorer runtime.
     # Container name used by the runtime.
     block_explorer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: container/fetch_logs
 ```
 
@@ -260,7 +260,7 @@ Render the Block Explorer configuration file with the resolved PostgreSQL and co
 - name: Render and transfer the Block Explorer configuration
   vars:
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Config mount path inside a container or pod.
@@ -296,9 +296,9 @@ Render the Block Explorer configuration file with the resolved PostgreSQL and co
     # Names the inventory host that provides the PostgreSQL database used by Block Explorer.
     postgres_db_host: "block-explorer-db"
     # Local artifacts directory used for fetched TLS material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: config/transfer
 ```
 
@@ -314,13 +314,13 @@ Remove host-side rendered Block Explorer configuration. Also removes the Kuberne
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Use Kubernetes resources.
     block_explorer_use_k8s: false
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: config/rm
 ```
 
@@ -348,7 +348,7 @@ Generates or transfers a client certificate for the committer sidecar mTLS conne
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/setup
 ```
 
@@ -374,13 +374,13 @@ Generates the Block Explorer client TLS key pair and certificate using OpenSSL f
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Filename of the self-signed client TLS private key used for mTLS to the committer sidecar.
     block_explorer_tls_private_key_file: client.key
     # Filename of the self-signed client TLS certificate used for mTLS to the committer sidecar.
     block_explorer_tls_cert_file: client.crt
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -402,17 +402,17 @@ Transfers the client TLS key, certificate, and CA certificate generated by `cryp
         name: "block-explorer"
         secret: "block-explorerPWD"
     # Local cryptogen output directory. Required when `organization.role` is `peer` without `organization.fabric_ca_host`.
-    cryptogen_artifacts_dir: "/tmp/fabricx-crypto"
+    cryptogen_artifacts_dir: "/tmp/chaguar-crypto"
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Filename of the self-signed client TLS private key used for mTLS to the committer sidecar.
     block_explorer_tls_private_key_file: client.key
     # Filename of the self-signed client TLS certificate used for mTLS to the committer sidecar.
     block_explorer_tls_cert_file: client.crt
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -436,17 +436,17 @@ Enrolls the Block Explorer peer identity through Fabric CA to generate client TL
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Filename of the self-signed client TLS private key used for mTLS to the committer sidecar.
     block_explorer_tls_private_key_file: client.key
     # Filename of the self-signed client TLS certificate used for mTLS to the committer sidecar.
     block_explorer_tls_cert_file: client.crt
     # Local artifacts directory used for fetched TLS material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -464,11 +464,11 @@ Fetches the Block Explorer self-signed client CA certificate so the committer si
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Local artifacts directory used for fetched TLS material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/fetch
 ```
 
@@ -484,13 +484,13 @@ Remove Block Explorer TLS artifacts from the host config directory. Also removes
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Use Kubernetes resources.
     block_explorer_use_k8s: false
     # Selects the OpenShift deployment branch.
     block_explorer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: crypto/rm
 ```
 
@@ -520,13 +520,13 @@ Create or update Kubernetes resources for the combined Block Explorer server and
     # Pod FSGroup used for mounted config and secrets.
     block_explorer_k8s_fs_group: 10001
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Block Explorer resources.
     block_explorer_k8s_part_of: block-explorer
     # Optional image pull secret used by the Block Explorer Deployment.
-    k8s_image_pull_secret: "fabricx-registry-pull"
+    k8s_image_pull_secret: "chaguar-registry-pull"
     # REST API port exposed by the Block Explorer server.
     block_explorer_port: 18080
     # Kubernetes NodePort value used by the external Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -572,7 +572,7 @@ Create or update Kubernetes resources for the combined Block Explorer server and
     # Sets the Block Explorer liveness probe failure threshold.
     k8s_liveness_probe_failure_threshold: 5
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/start
 ```
 
@@ -598,7 +598,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the UI web port externally. When undefined or `false`, the UI web port is not included in the LoadBalancer Service.
     block_explorer_ui_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/ping
 ```
 
@@ -612,7 +612,7 @@ Remove the Kubernetes Deployment and Services created for the combined Block Exp
 - name: Remove Kubernetes resources
   vars:
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes NodePort value used by the external Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -624,7 +624,7 @@ Remove the Kubernetes Deployment and Services created for the combined Block Exp
     # Set to `true` to create a LoadBalancer Service entry that exposes the UI web port externally. When undefined or `false`, the UI web port is not included in the LoadBalancer Service.
     block_explorer_ui_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/rm
 ```
 
@@ -640,7 +640,7 @@ Collect logs from the Kubernetes pod running the Block Explorer server.
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/fetch_logs
 ```
 
@@ -654,7 +654,7 @@ Publish the rendered Block Explorer configuration and trusted CA bundles as a Ku
 - name: Publish the Kubernetes ConfigMap
   vars:
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Block Explorer resources.
@@ -662,7 +662,7 @@ Publish the rendered Block Explorer configuration and trusted CA bundles as a Ku
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Rendered Block Explorer config filename.
     block_explorer_config_file: config.yaml
     # Names the inventory host that provides the committer sidecar Block Explorer streams from.
@@ -670,7 +670,7 @@ Publish the rendered Block Explorer configuration and trusted CA bundles as a Ku
     # Names the inventory host that provides the PostgreSQL database used by Block Explorer.
     postgres_db_host: "block-explorer-db"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/config/transfer
 ```
 
@@ -684,11 +684,11 @@ Remove the Kubernetes ConfigMap created for the Block Explorer configuration.
 - name: Remove the Kubernetes ConfigMap
   vars:
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/config/rm
 ```
 
@@ -706,19 +706,19 @@ Publish the Block Explorer self-signed client TLS material as a Kubernetes Secre
     # Remote config directory used by Block Explorer.
     block_explorer_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `block_explorer_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/block-explorer/config"
+    remote_config_dir: "/var/lfdt/chaguar/block-explorer/config"
     # Filename of the self-signed client TLS private key used for mTLS to the committer sidecar.
     block_explorer_tls_private_key_file: client.key
     # Filename of the self-signed client TLS certificate used for mTLS to the committer sidecar.
     block_explorer_tls_cert_file: client.crt
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Block Explorer resources.
     block_explorer_k8s_part_of: block-explorer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -732,11 +732,11 @@ Remove the Kubernetes Secret created for the Block Explorer client TLS material.
 - name: Remove the Kubernetes Secret
   vars:
     # Kubernetes namespace used for Block Explorer resources.
-    k8s_namespace: "fabricx-block-explorer"
+    k8s_namespace: "chaguar-block-explorer"
     # Kubernetes resource name used for the Deployment, Service, ConfigMap, optional Secret, and optional NodePort Service.
     block_explorer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: k8s/crypto/rm
 ```
 
@@ -758,7 +758,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for the REST an
     # Specifies the OpenShift Route host for the UI web port.
     block_explorer_ui_openshift_route: "block-explorer-ui.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: openshift/start
 ```
 
@@ -776,7 +776,7 @@ Checks the configured OpenShift Routes and reuses the Kubernetes service ping fl
     # Specifies the OpenShift Route host for the UI web port.
     block_explorer_ui_openshift_route: "block-explorer-ui.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: openshift/ping
 ```
 
@@ -796,6 +796,6 @@ Reuses the Kubernetes workload flow and removes the OpenShift Routes for the RES
     # Specifies the OpenShift Route host for the UI web port.
     block_explorer_ui_openshift_route: "block-explorer-ui.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: openshift/rm
 ```

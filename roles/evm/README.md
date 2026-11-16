@@ -1,6 +1,6 @@
-# hyperledger.fabricx.evm
+# hyperledger.chaguar.evm
 
-> Deploys and manages the Fabric-X EVM gateway and embedded endorser across container and Kubernetes modes, including orderer and committer sidecar connectivity, TLS/mTLS, persistent state, and log collection workflows.
+> Deploys and manages the Chaguar EVM gateway and embedded endorser across container and Kubernetes modes, including orderer and committer sidecar connectivity, TLS/mTLS, persistent state, and log collection workflows.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -48,19 +48,19 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.evm
+ansible-doc -t role hyperledger.chaguar.evm
 ```
 
 ## Tasks
 
 ### start
 
-> Start the Fabric-X EVM gateway
+> Start the Chaguar EVM gateway
 
 Start the EVM gateway and embedded endorser runtime selected by the deployment mode flags. Container mode is the default, and Kubernetes mode applies Services, a PersistentVolumeClaim, and a StatefulSet. The runtime consumes the rendered configuration and crypto material prepared by the config and crypto entry points.
 
 ```yaml
-- name: Start the Fabric-X EVM gateway
+- name: Start the Chaguar EVM gateway
   vars:
     # Run the container runtime.
     evm_use_container: "{{ (not evm_use_k8s) and (not evm_use_openshift) }}"
@@ -69,18 +69,18 @@ Start the EVM gateway and embedded endorser runtime selected by the deployment m
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: start
 ```
 
 ### stop
 
-> Stop the Fabric-X EVM gateway
+> Stop the Chaguar EVM gateway
 
 Stop the active EVM container without removing configuration, crypto material, logs, or Kubernetes resources.
 
 ```yaml
-- name: Stop the Fabric-X EVM gateway
+- name: Stop the Chaguar EVM gateway
   vars:
     # Run the container runtime.
     evm_use_container: "{{ (not evm_use_k8s) and (not evm_use_openshift) }}"
@@ -89,7 +89,7 @@ Stop the active EVM container without removing configuration, crypto material, l
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: stop
 ```
 
@@ -109,7 +109,7 @@ Remove runtime resources and persisted state for the selected EVM deployment mod
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: teardown
 ```
 
@@ -122,7 +122,7 @@ Remove EVM runtime resources, generated configuration, crypto material, and pers
 ```yaml
 - name: Remove all EVM data
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: wipe
 ```
 
@@ -144,11 +144,11 @@ Remove the EVM data directory holding the gateway and embedded endorser SQLite s
     # Remote data directory used by EVM for the gateway and embedded endorser SQLite state.
     evm_remote_data_dir: "{{ remote_data_dir }}"
     # Base remote data directory that feeds `evm_remote_data_dir`.
-    remote_data_dir: "/var/hyperledger/fabricx/evm/data"
+    remote_data_dir: "/var/lfdt/chaguar/evm/data"
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: data/rm
 ```
 
@@ -168,7 +168,7 @@ Collect EVM gateway logs for the selected deployment mode.
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: fetch_logs
 ```
 
@@ -184,7 +184,7 @@ Compute the address used to reach an EVM gateway's JSON-RPC endpoint from outsid
     # Inventory host whose EVM effective address should be resolved.
     evm_host: "evm-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: effective_address
 ```
 
@@ -192,7 +192,7 @@ Compute the address used to reach an EVM gateway's JSON-RPC endpoint from outsid
 
 > Check the JSON-RPC endpoint
 
-Verify that the EVM gateway's JSON-RPC endpoint is reachable and answering for the configured chain. Checks the TCP port, then asserts `eth_chainId` matches `evm_chain_id` and that `eth_blockNumber` succeeds. Because the gateway only opens its listener once its embedded endorser has synchronized with the committer sidecar, a successful `eth_chainId` reply also proves Fabric-X connectivity. Uses direct host access for container deployments and delegates to the Kubernetes ping task when `evm_use_k8s` is enabled.
+Verify that the EVM gateway's JSON-RPC endpoint is reachable and answering for the configured chain. Checks the TCP port, then asserts `eth_chainId` matches `evm_chain_id` and that `eth_blockNumber` succeeds. Because the gateway only opens its listener once its embedded endorser has synchronized with the committer sidecar, a successful `eth_chainId` reply also proves Chaguar connectivity. Uses direct host access for container deployments and delegates to the Kubernetes ping task when `evm_use_k8s` is enabled.
 
 ```yaml
 - name: Check the JSON-RPC endpoint
@@ -204,7 +204,7 @@ Verify that the EVM gateway's JSON-RPC endpoint is reachable and answering for t
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: ping
 ```
 
@@ -220,7 +220,7 @@ Internal helper included with `evm_ping_base_url` set by the caller. Asserts `et
     # Ethereum-style chain ID served by the gateway.
     evm_chain_id: 4011
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: rpc_check
 ```
 
@@ -244,7 +244,7 @@ Start the EVM gateway as a local container with the rendered config directory mo
     # Image tag used by the EVM container.
     evm_image_tag: 0.2.2
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Config mount path inside a container or pod.
@@ -252,7 +252,7 @@ Start the EVM gateway as a local container with the rendered config directory mo
     # Rendered EVM gateway configuration filename.
     evm_config_file: gateway.yaml
     # Base remote data directory that feeds `evm_remote_data_dir`.
-    remote_data_dir: "/var/hyperledger/fabricx/evm/data"
+    remote_data_dir: "/var/lfdt/chaguar/evm/data"
     # Remote data directory used by EVM for the gateway and embedded endorser SQLite state.
     evm_remote_data_dir: "{{ remote_data_dir }}"
     # Data mount path inside a container or pod for the gateway and embedded endorser SQLite state.
@@ -260,7 +260,7 @@ Start the EVM gateway as a local container with the rendered config directory mo
     # Ethereum JSON-RPC (HTTP and WebSocket) port exposed by the gateway.
     evm_port: 8545
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: container/start
 ```
 
@@ -276,7 +276,7 @@ Stop the local EVM container. Preserves the container definition, mounted config
     # Container name used by the runtime.
     evm_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: container/stop
 ```
 
@@ -292,7 +292,7 @@ Remove the local EVM container runtime resources. Leaves host-side generated con
     # Container name used by the runtime.
     evm_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: container/rm
 ```
 
@@ -308,7 +308,7 @@ Collect logs from a containerized EVM runtime.
     # Container name used by the runtime.
     evm_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: container/fetch_logs
 ```
 
@@ -316,13 +316,13 @@ Collect logs from a containerized EVM runtime.
 
 > Render and transfer the EVM gateway configuration
 
-Render the EVM gateway configuration with the resolved orderer and committer sidecar connection details. Transfers the committer sidecar and each orderer router's TLS CA certificates when their respective TLS modes are enabled. For Kubernetes deployments, also publishes the rendered config and trusted CA bundles as a ConfigMap. Fails when `organization.namespaces` does not declare exactly one namespace, since the gateway can only serve a single Fabric-X application namespace.
+Render the EVM gateway configuration with the resolved orderer and committer sidecar connection details. Transfers the committer sidecar and each orderer router's TLS CA certificates when their respective TLS modes are enabled. For Kubernetes deployments, also publishes the rendered config and trusted CA bundles as a ConfigMap. Fails when `organization.namespaces` does not declare exactly one namespace, since the gateway can only serve a single Chaguar application namespace.
 
 ```yaml
 - name: Render and transfer the EVM gateway configuration
   vars:
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Config mount path inside a container or pod.
@@ -339,12 +339,12 @@ Render the EVM gateway configuration with the resolved orderer and committer sid
     evm_port: 8545
     # Ethereum-style chain ID served by the gateway.
     evm_chain_id: 4011
-    # Fabric-X namespace version, starting at `0` and incremented on each namespace update; a mismatch makes the committer reject every transaction.
+    # Chaguar namespace version, starting at `0` and incremented on each namespace update; a mismatch makes the committer reject every transaction.
     evm_ns_version: 0
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Specifies the OpenShift Route host for the JSON-RPC port.
-    evm_openshift_route: "fabric-x-evm.apps.example.com"
+    evm_openshift_route: "chaguar-evm.apps.example.com"
     # Network protocol the gateway speaks to the committer and orderers, `fabric-x` or `fabric`.
     evm_protocol: fabric-x
     # Log level specification passed to `logging.spec`.
@@ -366,11 +366,11 @@ Render the EVM gateway configuration with the resolved orderer and committer sid
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
@@ -380,16 +380,16 @@ Render the EVM gateway configuration with the resolved orderer and committer sid
     committer_hosts:
       - "committer-sidecar"
       - "committer-validator"
-    # Names the inventory hosts that provide the Fabric-X Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
+    # Names the inventory hosts that provide the Chaguar Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
     orderer_router_hosts:
       - "orderer-router-1"
       - "orderer-router-2"
       - "orderer-router-3"
       - "orderer-router-4"
     # Local artifacts directory used for fetched crypto material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: config/transfer
 ```
 
@@ -405,13 +405,13 @@ Remove host-side rendered EVM configuration. Also removes the Kubernetes ConfigM
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Use Kubernetes resources.
     evm_use_k8s: false
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: config/rm
 ```
 
@@ -431,11 +431,11 @@ Enrolls the peer identity backing the gateway, each declared user identity, and 
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
@@ -444,7 +444,7 @@ Enrolls the peer identity backing the gateway, each declared user identity, and 
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/setup
 ```
 
@@ -464,26 +464,26 @@ Transfers the peer MSP, the user MSP, and (when `evm_use_tls` is `true`) TLS key
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
     # Local cryptogen output directory. Required when `organization.fabric_ca_host` is undefined.
-    cryptogen_artifacts_dir: "/tmp/fabricx-crypto"
+    cryptogen_artifacts_dir: "/tmp/chaguar-crypto"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Name of the enrolled peer identity backing the gateway.
     evm_crypto_name: "{{ organization.peer.name | default(inventory_hostname) }}"
     # Enroll a shared client TLS key pair for EVM, used when any connected orderer or the committer sidecar requires mTLS. Set this to `true` whenever any orderer router (from `orderer_hosts`) or the committer sidecar (derived from `committer_hosts`) has `orderer_use_mtls` or `committer_use_mtls` enabled; the TLS mode used on each individual connection is still derived from that host's own flags.
     evm_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -503,18 +503,18 @@ Enrolls the peer identity, each user identity, and (when `evm_use_tls` is `true`
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Name of the enrolled peer identity backing the gateway.
     evm_crypto_name: "{{ organization.peer.name | default(inventory_hostname) }}"
     # Enroll a shared client TLS key pair for EVM, used when any connected orderer or the committer sidecar requires mTLS. Set this to `true` whenever any orderer router (from `orderer_hosts`) or the committer sidecar (derived from `committer_hosts`) has `orderer_use_mtls` or `committer_use_mtls` enabled; the TLS mode used on each individual connection is still derived from that host's own flags.
@@ -522,9 +522,9 @@ Enrolls the peer identity, each user identity, and (when `evm_use_tls` is `true`
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Local artifacts directory used for fetched crypto material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -532,7 +532,7 @@ Enrolls the peer identity, each user identity, and (when `evm_use_tls` is `true`
 
 > Fetch EVM identity certificates
 
-Fetches the EVM user sign certificate so `fxconfig` can build namespace endorsement policies that reference it. Also fetches the client TLS CA certificate when `evm_use_tls` is `true`, so other Fabric-X components can be configured to trust EVM as an mTLS client.
+Fetches the EVM user sign certificate so `fxconfig` can build namespace endorsement policies that reference it. Also fetches the client TLS CA certificate when `evm_use_tls` is `true`, so other Chaguar components can be configured to trust EVM as an mTLS client.
 
 ```yaml
 - name: Fetch EVM identity certificates
@@ -544,24 +544,24 @@ Fetches the EVM user sign certificate so `fxconfig` can build namespace endorsem
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Local artifacts directory used for fetched crypto material.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
     # Enroll a shared client TLS key pair for EVM, used when any connected orderer or the committer sidecar requires mTLS. Set this to `true` whenever any orderer router (from `orderer_hosts`) or the committer sidecar (derived from `committer_hosts`) has `orderer_use_mtls` or `committer_use_mtls` enabled; the TLS mode used on each individual connection is still derived from that host's own flags.
     evm_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/fetch
 ```
 
@@ -577,13 +577,13 @@ Remove EVM MSP and TLS artifacts from the host config directory. Also removes th
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Use Kubernetes resources.
     evm_use_k8s: false
     # Selects the OpenShift deployment branch.
     evm_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/rm
 ```
 
@@ -615,13 +615,13 @@ Create or update Kubernetes resources for the EVM gateway. Ensures the namespace
     # Pod FSGroup used for mounted config, secrets, and data.
     evm_k8s_fs_group: 10001
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to EVM resources.
     evm_k8s_part_of: evm
     # Optional image pull secret used by the EVM StatefulSet.
-    k8s_image_pull_secret: "fabricx-registry-pull"
+    k8s_image_pull_secret: "chaguar-registry-pull"
     # Ethereum JSON-RPC (HTTP and WebSocket) port exposed by the gateway.
     evm_port: 8545
     # Kubernetes NodePort value used by the external Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -635,11 +635,11 @@ Create or update Kubernetes resources for the EVM gateway. Ensures the namespace
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
@@ -651,7 +651,7 @@ Create or update Kubernetes resources for the EVM gateway. Ensures the namespace
     committer_hosts:
       - "committer-sidecar"
       - "committer-validator"
-    # Names the inventory hosts that provide the Fabric-X Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
+    # Names the inventory hosts that provide the Chaguar Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
     orderer_router_hosts:
       - "orderer-router-1"
       - "orderer-router-2"
@@ -686,7 +686,7 @@ Create or update Kubernetes resources for the EVM gateway. Ensures the namespace
     # Sets the EVM liveness probe failure threshold.
     k8s_liveness_probe_failure_threshold: 5
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/start
 ```
 
@@ -706,7 +706,7 @@ Probes the configured NodePort value and LoadBalancer-exposed service port for e
     # Set to `true` to create a LoadBalancer Service entry that exposes the JSON-RPC port externally. When undefined or `false`, the JSON-RPC port is not included in the LoadBalancer Service.
     evm_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/ping
 ```
 
@@ -720,7 +720,7 @@ Remove the Kubernetes StatefulSet and Services created for the EVM gateway. Does
 - name: Remove Kubernetes resources
   vars:
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes NodePort value used by the external Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -728,7 +728,7 @@ Remove the Kubernetes StatefulSet and Services created for the EVM gateway. Does
     # Set to `true` to create a LoadBalancer Service entry that exposes the JSON-RPC port externally. When undefined or `false`, the JSON-RPC port is not included in the LoadBalancer Service.
     evm_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/rm
 ```
 
@@ -744,7 +744,7 @@ Collect logs from the Kubernetes pod running the EVM gateway.
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/fetch_logs
 ```
 
@@ -758,7 +758,7 @@ Publish the rendered EVM configuration and trusted CA bundles as a Kubernetes Co
 - name: Publish the Kubernetes ConfigMap
   vars:
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to EVM resources.
@@ -766,19 +766,19 @@ Publish the rendered EVM configuration and trusted CA bundles as a Kubernetes Co
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Rendered EVM gateway configuration filename.
     evm_config_file: gateway.yaml
     # Committer sidecar host derived from `committer_hosts` by `config/transfer` or `k8s/start`; consumed directly by `k8s/config/transfer`, which is always included from within their scope.
     sidecar_host: "committer-sidecar"
-    # Names the inventory hosts that provide the Fabric-X Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
+    # Names the inventory hosts that provide the Chaguar Orderer routers the gateway submits transactions to. One orderer endpoint is rendered per entry, across every organization.
     orderer_router_hosts:
       - "orderer-router-1"
       - "orderer-router-2"
       - "orderer-router-3"
       - "orderer-router-4"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/config/transfer
 ```
 
@@ -792,11 +792,11 @@ Remove the Kubernetes ConfigMap created for the EVM configuration.
 - name: Remove the Kubernetes ConfigMap
   vars:
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/config/rm
 ```
 
@@ -816,30 +816,30 @@ Publish the EVM peer MSP, user MSPs, and (when `evm_use_tls` is `true`) client T
       role: "peer"
       fabric_ca_host: "fca-org1"
       peer:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       user:
-        name: "fabric-x-evm"
-        secret: "fabric-x-evmPWD"
+        name: "chaguar-evm"
+        secret: "chaguar-evmPWD"
       namespaces:
         - id: "basic"
           policy: "threshold"
     # Remote config directory used by EVM.
     evm_remote_config_dir: "{{ remote_config_dir }}"
     # Base remote config directory that feeds `evm_remote_config_dir`.
-    remote_config_dir: "/var/hyperledger/fabricx/evm/config"
+    remote_config_dir: "/var/lfdt/chaguar/evm/config"
     # Name of the enrolled peer identity backing the gateway.
     evm_crypto_name: "{{ organization.peer.name | default(inventory_hostname) }}"
     # Enroll a shared client TLS key pair for EVM, used when any connected orderer or the committer sidecar requires mTLS. Set this to `true` whenever any orderer router (from `orderer_hosts`) or the committer sidecar (derived from `committer_hosts`) has `orderer_use_mtls` or `committer_use_mtls` enabled; the TLS mode used on each individual connection is still derived from that host's own flags.
     evm_use_tls: false
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to EVM resources.
     evm_k8s_part_of: evm
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -853,11 +853,11 @@ Remove the Kubernetes Secret created for the EVM identities.
 - name: Remove the Kubernetes Secret
   vars:
     # Kubernetes namespace used for EVM resources.
-    k8s_namespace: "fabricx-evm"
+    k8s_namespace: "chaguar-evm"
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/crypto/rm
 ```
 
@@ -875,9 +875,9 @@ Reuses the Kubernetes workload flow and manages an OpenShift Route for the JSON-
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to EVM resources.
     evm_k8s_part_of: evm
     # Specifies the OpenShift Route host for the JSON-RPC port.
-    evm_openshift_route: "fabric-x-evm.apps.example.com"
+    evm_openshift_route: "chaguar-evm.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: openshift/start
 ```
 
@@ -891,9 +891,9 @@ Checks the configured OpenShift Route and reuses the Kubernetes service ping flo
 - name: Check the OpenShift deployment
   vars:
     # Specifies the OpenShift Route host for the JSON-RPC port.
-    evm_openshift_route: "fabric-x-evm.apps.example.com"
+    evm_openshift_route: "chaguar-evm.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: openshift/ping
 ```
 
@@ -909,8 +909,8 @@ Reuses the Kubernetes workload flow and removes the OpenShift Route for the JSON
     # Kubernetes resource name used for the StatefulSet, Service, ConfigMap, Secret, optional NodePort Service, and PersistentVolumeClaim.
     evm_k8s_resource_name: "{{ inventory_hostname }}"
     # Specifies the OpenShift Route host for the JSON-RPC port.
-    evm_openshift_route: "fabric-x-evm.apps.example.com"
+    evm_openshift_route: "chaguar-evm.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: openshift/rm
 ```

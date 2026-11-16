@@ -6,7 +6,7 @@
 
 - name: Start Jaeger workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/start
 
 - name: Apply Jaeger ui OpenShift Route
@@ -21,7 +21,7 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_ui_route is defined
 
@@ -37,7 +37,7 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_admin_route is defined
 
@@ -53,7 +53,7 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_http_server_route is defined
 
@@ -69,7 +69,7 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_http_collector_route is defined
 
@@ -85,7 +85,7 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_grpc_server_route is defined
 
@@ -101,6 +101,6 @@
       app.kubernetes.io/component: "jaeger"
       app.kubernetes.io/part-of: "{{ jaeger_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: jaeger_openshift_collector_route is defined

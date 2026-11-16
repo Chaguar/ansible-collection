@@ -12,7 +12,7 @@
 
 # We gather facts in order to get the IP addresses of the
 # nodes and generate TLS certificates which contain such IPs.
-- name: Gather Hyperledger Fabric-X node facts
+- name: Gather LFDT Chaguar node facts
   ansible.builtin.setup:
   delegate_to: "{{ current_node.name }}"
   delegate_facts: true

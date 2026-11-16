@@ -6,7 +6,7 @@
 
 - name: Find which container client is installed on the machine
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: get_container_client
 
 - name: Check if the container client is installed
@@ -23,7 +23,7 @@
 
 - name: Install podman client on Linux
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/install
   when:
     - ansible_facts.system == 'Linux'
@@ -32,7 +32,7 @@
 
 - name: Install docker client on Linux
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/install
   when:
     - ansible_facts.system == 'Linux'

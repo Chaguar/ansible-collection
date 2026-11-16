@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Start Fabric-X Orderer nodes
+- name: Start Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: "{{ orderer_deployment_mode }}/start"
   when: orderer_component_type is defined

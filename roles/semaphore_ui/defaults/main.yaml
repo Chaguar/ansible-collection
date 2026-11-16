@@ -33,95 +33,95 @@ semaphore_ui_project_seed_file: project.json
 # Defaults to the repository's own C(examples/ansible.cfg), the very file the Makefile itself exports as C(ANSIBLE_CONFIG). Point this at any other file, inside or outside C(project_dir), to run Semaphore UI tasks under a different Ansible configuration.
 semaphore_ui_ansible_config_path: '{{ project_dir }}/examples/ansible.cfg'
 # Name of the Semaphore UI project seeded on C(config/transfer).
-semaphore_ui_project_name: Fabric-X
+semaphore_ui_project_name: Chaguar
 # Name of the Semaphore UI repository seeded on C(config/transfer).
-semaphore_ui_repository_name: Fabric-X collection
+semaphore_ui_repository_name: Chaguar collection
 # Name of the empty Semaphore UI environment seeded on C(config/transfer) and attached to every seeded task template.
 semaphore_ui_environment_name: Default
 # Sets C(skip_galaxy_install) on every seeded task template.
 # Must stay C(true): Semaphore UI otherwise runs C(ansible-galaxy) against this repository's own C(requirements.yml) before each task, adding unnecessary network calls and non-determinism to every run.
 semaphore_ui_skip_galaxy_install: true
-# Inventories seeded as Semaphore UI C(file) inventories, one per Fabric-X network sample under C(examples/inventory). Each item needs C(name) and C(path) (relative to C(project_dir)).
+# Inventories seeded as Semaphore UI C(file) inventories, one per Chaguar network sample under C(examples/inventory). Each item needs C(name) and C(path) (relative to C(project_dir)).
 # Not discovered automatically; kept in sync by hand with C(examples/inventory). Add, rename, or remove an entry here when a sample inventory is added, renamed, or removed there.
 semaphore_ui_inventories:
-  - name: Fabric-X - local
-    path: examples/inventory/local/fabric-x.yaml
-  - name: Fabric-X - local (cryptogen)
-    path: examples/inventory/local/fabric-x-cryptogen.yaml
-  - name: Fabric-X - local (yugabyte)
-    path: examples/inventory/local/fabric-x-yugabyte.yaml
-  - name: Fabric-X - local (bin)
-    path: examples/inventory/local/fabric-x-bin.yaml
-  - name: Fabric-X - local (no mtls)
-    path: examples/inventory/local/fabric-x-no-mtls.yaml
-  - name: Fabric-X - local (no tls)
-    path: examples/inventory/local/fabric-x-no-tls.yaml
-  - name: Fabric-X - k8s
-    path: examples/inventory/k8s/fabric-x.yaml
-  - name: Fabric-X - k8s (yugabyte)
-    path: examples/inventory/k8s/fabric-x-yugabyte.yaml
-  - name: Fabric-X - k8s (cryptogen)
-    path: examples/inventory/k8s/fabric-x-cryptogen.yaml
-  - name: Fabric-X - k8s (no mtls)
-    path: examples/inventory/k8s/fabric-x-no-mtls.yaml
-  - name: Fabric-X - k8s (no tls)
-    path: examples/inventory/k8s/fabric-x-no-tls.yaml
-  - name: Fabric-X - openshift
-    path: examples/inventory/openshift/fabric-x.yaml
-  - name: Fabric-X - openshift (cryptogen)
-    path: examples/inventory/openshift/fabric-x-cryptogen.yaml
-  - name: Fabric-X - distributed
-    path: examples/inventory/distributed/fabric-x.yaml
+  - name: Chaguar - local
+    path: examples/inventory/local/chaguar.yaml
+  - name: Chaguar - local (cryptogen)
+    path: examples/inventory/local/chaguar-cryptogen.yaml
+  - name: Chaguar - local (yugabyte)
+    path: examples/inventory/local/chaguar-yugabyte.yaml
+  - name: Chaguar - local (bin)
+    path: examples/inventory/local/chaguar-bin.yaml
+  - name: Chaguar - local (no mtls)
+    path: examples/inventory/local/chaguar-no-mtls.yaml
+  - name: Chaguar - local (no tls)
+    path: examples/inventory/local/chaguar-no-tls.yaml
+  - name: Chaguar - k8s
+    path: examples/inventory/k8s/chaguar.yaml
+  - name: Chaguar - k8s (yugabyte)
+    path: examples/inventory/k8s/chaguar-yugabyte.yaml
+  - name: Chaguar - k8s (cryptogen)
+    path: examples/inventory/k8s/chaguar-cryptogen.yaml
+  - name: Chaguar - k8s (no mtls)
+    path: examples/inventory/k8s/chaguar-no-mtls.yaml
+  - name: Chaguar - k8s (no tls)
+    path: examples/inventory/k8s/chaguar-no-tls.yaml
+  - name: Chaguar - openshift
+    path: examples/inventory/openshift/chaguar.yaml
+  - name: Chaguar - openshift (cryptogen)
+    path: examples/inventory/openshift/chaguar-cryptogen.yaml
+  - name: Chaguar - distributed
+    path: examples/inventory/distributed/chaguar.yaml
 # Task templates seeded for the numbered example playbooks under C(examples/playbooks/). Each item needs C(name) and C(playbook), and an optional C(inventory) name. Omitted entirely from the seed if not set — there is no fallback to any other C(semaphore_ui_inventories) entry.
 # Not discovered automatically; kept in sync by hand with C(examples/playbooks). Add, rename, or remove an entry here when a numbered playbook is added, renamed, or removed there.
-# An optional C(limit) sets this template's default Ansible C(--limit), rendered as-is. Set to C(["all:!semaphore_ui"]) on the C(teardown)/C(wipe)/C(hard-wipe) entries by default, so they never tear Semaphore UI down along with a Fabric-X network sharing its inventory. An operator can still override it per run through the Limit field.
+# An optional C(limit) sets this template's default Ansible C(--limit), rendered as-is. Set to C(["all:!semaphore_ui"]) on the C(teardown)/C(wipe)/C(hard-wipe) entries by default, so they never tear Semaphore UI down along with a Chaguar network sharing its inventory. An operator can still override it per run through the Limit field.
 # An optional C(survey_vars) list adds extra Semaphore UI survey variables to this template only, on top of C(target_hosts) and any project-wide C(semaphore_ui_extra_survey_vars). Each item follows Semaphore UI's own survey variable schema, same as C(semaphore_ui_extra_survey_vars).
 semaphore_ui_job_templates:
-  - name: 010 - Fabric-X - Binaries
+  - name: 010 - Chaguar - Binaries
     playbook: examples/playbooks/10-binaries.yaml
-    inventory: Fabric-X - local
-  - name: 020 - Fabric-X - Generate Crypto
+    inventory: Chaguar - local
+  - name: 020 - Chaguar - Generate Crypto
     playbook: examples/playbooks/20-generate-crypto.yaml
-    inventory: Fabric-X - local
-  - name: 021 - Fabric-X - Build Genesis Block
+    inventory: Chaguar - local
+  - name: 021 - Chaguar - Build Genesis Block
     playbook: examples/playbooks/21-build-genesis-block.yaml
-    inventory: Fabric-X - local
-  - name: 030 - Fabric-X - Configs
+    inventory: Chaguar - local
+  - name: 030 - Chaguar - Configs
     playbook: examples/playbooks/30-configs.yaml
-    inventory: Fabric-X - local
-  - name: 040 - Fabric-X - Start
+    inventory: Chaguar - local
+  - name: 040 - Chaguar - Start
     playbook: examples/playbooks/40-start.yaml
-    inventory: Fabric-X - local
-  - name: 041 - Fabric-X - Init
+    inventory: Chaguar - local
+  - name: 041 - Chaguar - Init
     playbook: examples/playbooks/41-init.yaml
-    inventory: Fabric-X - local
-  - name: 050 - Fabric-X - Stop
+    inventory: Chaguar - local
+  - name: 050 - Chaguar - Stop
     playbook: examples/playbooks/50-stop.yaml
-    inventory: Fabric-X - local
-  - name: 060 - Fabric-X - Teardown
+    inventory: Chaguar - local
+  - name: 060 - Chaguar - Teardown
     playbook: examples/playbooks/60-teardown.yaml
-    inventory: Fabric-X - local
+    inventory: Chaguar - local
     limit:
       - "all:!semaphore_ui"
-  - name: 070 - Fabric-X - Ping
+  - name: 070 - Chaguar - Ping
     playbook: examples/playbooks/70-ping.yaml
-    inventory: Fabric-X - local
-  - name: 093 - Fabric-X - Get Metrics
+    inventory: Chaguar - local
+  - name: 093 - Chaguar - Get Metrics
     playbook: examples/playbooks/93-get-metrics.yaml
-    inventory: Fabric-X - local
-  - name: 095 - Fabric-X - Fetch Crypto
+    inventory: Chaguar - local
+  - name: 095 - Chaguar - Fetch Crypto
     playbook: examples/playbooks/95-fetch-crypto.yaml
-    inventory: Fabric-X - local
-  - name: 096 - Fabric-X - Fetch Logs
+    inventory: Chaguar - local
+  - name: 096 - Chaguar - Fetch Logs
     playbook: examples/playbooks/96-fetch-logs.yaml
-    inventory: Fabric-X - local
-  - name: 100 - Fabric-X - Wipe
+    inventory: Chaguar - local
+  - name: 100 - Chaguar - Wipe
     playbook: examples/playbooks/100-wipe.yaml
-    inventory: Fabric-X - local
+    inventory: Chaguar - local
     limit:
       - "all:!semaphore_ui"
-  - name: 110 - Fabric-X - Hard Wipe
+  - name: 110 - Chaguar - Hard Wipe
     playbook: examples/playbooks/110-hard-wipe.yaml
-    inventory: Fabric-X - local
+    inventory: Chaguar - local
     limit:
       - "all:!semaphore_ui"

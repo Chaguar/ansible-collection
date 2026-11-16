@@ -6,15 +6,15 @@
 
 - name: Teardown EVM
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: teardown
 
 - name: Remove EVM crypto files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: crypto/rm
 
 - name: Remove EVM configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: config/rm

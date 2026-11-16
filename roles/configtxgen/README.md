@@ -1,6 +1,6 @@
-# hyperledger.fabricx.configtxgen
+# hyperledger.chaguar.configtxgen
 
-> Generates Fabric-X `configtx.yaml` and genesis block artifacts with `configtxgen` through binary or container entry points.
+> Generates Chaguar `configtx.yaml` and genesis block artifacts with `configtxgen` through binary or container entry points.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.configtxgen
+ansible-doc -t role hyperledger.chaguar.configtxgen
 ```
 
 ## Tasks
@@ -33,13 +33,13 @@ ansible-doc -t role hyperledger.fabricx.configtxgen
 
 > Render the configtxgen configuration file
 
-Generate `configtx.yaml` for Fabric-X genesis block creation. Render the config template from the selected crypto and armageddon artifact roots, then place it under `configtxgen_artifacts_dir`. The template switches between the binary and container artifact paths based on `configtxgen_use_bin`.
+Generate `configtx.yaml` for Chaguar genesis block creation. Render the config template from the selected crypto and armageddon artifact roots, then place it under `configtxgen_artifacts_dir`. The template switches between the binary and container artifact paths based on `configtxgen_use_bin`.
 
 ```yaml
 - name: Render the configtxgen configuration file
   vars:
     # Base build directory for `configtxgen_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/configtxgen"
+    config_build_dir: "/opt/chaguar/build/configtxgen"
     # Directory used for the generated config file and genesis block artifacts.
     configtxgen_artifacts_dir: "{{ config_build_dir }}/configtxgen-artifacts"
     # Dispatch selector for the public start entry point and the config template branch selection. When false, the container path is used.
@@ -57,9 +57,9 @@ Generate `configtx.yaml` for Fabric-X genesis block creation. Render the config 
     # Config profile passed to `configtxgen`.
     configtxgen_profile_id: OrgsChannel
     # Directory containing fetched crypto artifacts used by the binary path and container mounts.
-    fetched_artifacts_dir: "/opt/fabricx/artifacts/crypto"
+    fetched_artifacts_dir: "/opt/chaguar/artifacts/crypto"
     # Directory containing armageddon artifacts used by the binary path and container mounts.
-    armageddon_artifacts_dir: "/opt/fabricx/artifacts/armageddon"
+    armageddon_artifacts_dir: "/opt/chaguar/artifacts/armageddon"
     # Policy type for the orderer organization Readers policy.
     configtxgen_orderer_org_policies_readers_type: Signature
     # Rule for the orderer organization Readers policy. `{msp_id}` is replaced with the organization's own MSP id.
@@ -161,7 +161,7 @@ Generate `configtx.yaml` for Fabric-X genesis block creation. Render the config 
     # Rule for the Channel Admins policy.
     configtxgen_channel_policies_admins_rule: MAJORITY Admins
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: config/build
 ```
 
@@ -175,7 +175,7 @@ Fingerprint the rendered `configtx.yaml`, the Armageddon shared-config binary, a
 - name: Detect whether configtxgen needs to run
   vars:
     # Base build directory for `configtxgen_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/configtxgen"
+    config_build_dir: "/opt/chaguar/build/configtxgen"
     # Directory used for the generated config file and genesis block artifacts.
     configtxgen_artifacts_dir: "{{ config_build_dir }}/configtxgen-artifacts"
     # Generated configuration file name written by `config/build` and mounted by `container/start`.
@@ -189,13 +189,13 @@ Fingerprint the rendered `configtx.yaml`, the Armageddon shared-config binary, a
     # Channel identifier passed to `configtxgen` and used in the output block filename.
     configtxgen_channel_id: "{{ channel_id }}"
     # Channel identifier for `configtxgen_channel_id`.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Directory containing armageddon artifacts used by the binary path and container mounts.
-    armageddon_artifacts_dir: "/opt/fabricx/artifacts/armageddon"
+    armageddon_artifacts_dir: "/opt/chaguar/artifacts/armageddon"
     # Directory containing fetched crypto artifacts used by the binary path and container mounts.
-    fetched_artifacts_dir: "/opt/fabricx/artifacts/crypto"
+    fetched_artifacts_dir: "/opt/chaguar/artifacts/crypto"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: inspect
 ```
 
@@ -203,7 +203,7 @@ Fingerprint the rendered `configtx.yaml`, the Armageddon shared-config binary, a
 
 > Build the configtxgen binary on the control node
 
-Build the `configtxgen` binary from the Fabric-X source tree on the control node. The compiled executable is written to `cli_bin_dir` and reused by the binary start entry point.
+Build the `configtxgen` binary from the Chaguar source tree on the control node. The compiled executable is written to `cli_bin_dir` and reused by the binary start entry point.
 
 ```yaml
 - name: Build the configtxgen binary on the control node
@@ -219,9 +219,9 @@ Build the `configtxgen` binary from the Fabric-X source tree on the control node
     # Executable name used by the binary and container entry points.
     configtxgen_bin_name: configtxgen
     # Directory used as the `configtxgen` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: bin/build
 ```
 
@@ -247,9 +247,9 @@ Install the `configtxgen` Go package through the shared `bin` role. The installe
     # Executable name used by the binary and container entry points.
     configtxgen_bin_name: configtxgen
     # Directory used as the `configtxgen` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: bin/install
 ```
 
@@ -257,17 +257,17 @@ Install the `configtxgen` Go package through the shared `bin` role. The installe
 
 > Generate a genesis block with the configtxgen binary
 
-Run the local `configtxgen` binary to generate the channel genesis block. The output block is written beneath `configtxgen_artifacts_dir` as `configtxgen_genesis_block_file`; with the bundled example channel, that becomes `fabricx-main-channel_block.pb`.
+Run the local `configtxgen` binary to generate the channel genesis block. The output block is written beneath `configtxgen_artifacts_dir` as `configtxgen_genesis_block_file`; with the bundled example channel, that becomes `chaguar-main-channel_block.pb`.
 
 ```yaml
 - name: Generate a genesis block with the configtxgen binary
   vars:
     # Channel identifier for `configtxgen_channel_id`.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Base build directory for `configtxgen_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/configtxgen"
+    config_build_dir: "/opt/chaguar/build/configtxgen"
     # Directory used as the `configtxgen` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Executable name used by the binary and container entry points.
     configtxgen_bin_name: configtxgen
     # Channel identifier passed to `configtxgen` and used in the output block filename.
@@ -279,7 +279,7 @@ Run the local `configtxgen` binary to generate the channel genesis block. The ou
     # Genesis block filename written by `configtxgen`, used to detect whether it already exists.
     configtxgen_genesis_block_file: "{{ configtxgen_channel_id }}_block.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: bin/start
 ```
 
@@ -293,9 +293,9 @@ Run `configtxgen` in a container to generate the channel genesis block. The cont
 - name: Generate a genesis block with the configtxgen container
   vars:
     # Channel identifier for `configtxgen_channel_id`.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Base build directory for `configtxgen_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/configtxgen"
+    config_build_dir: "/opt/chaguar/build/configtxgen"
     # Directory used for the generated config file and genesis block artifacts.
     configtxgen_artifacts_dir: "{{ config_build_dir }}/configtxgen-artifacts"
     # Container name used by the container entry point.
@@ -327,11 +327,11 @@ Run `configtxgen` in a container to generate the channel genesis block. The cont
     # Container mount path for fetched crypto artifacts.
     configtxgen_container_crypto_artifacts_dir: /tmp/crypto-artifacts
     # Directory containing armageddon artifacts used by the binary path and container mounts.
-    armageddon_artifacts_dir: "/opt/fabricx/artifacts/armageddon"
+    armageddon_artifacts_dir: "/opt/chaguar/artifacts/armageddon"
     # Directory containing fetched crypto artifacts used by the binary path and container mounts.
-    fetched_artifacts_dir: "/opt/fabricx/artifacts/crypto"
+    fetched_artifacts_dir: "/opt/chaguar/artifacts/crypto"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: container/start
 ```
 
@@ -347,12 +347,12 @@ Inspect the existing genesis block, then select the binary or container executio
     # Dispatch selector for the public start entry point and the config template branch selection. When false, the container path is used.
     configtxgen_use_bin: false
     # Base build directory for `configtxgen_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/configtxgen"
+    config_build_dir: "/opt/chaguar/build/configtxgen"
     # Directory used for the generated config file and genesis block artifacts.
     configtxgen_artifacts_dir: "{{ config_build_dir }}/configtxgen-artifacts"
     # Filename that tracks a fingerprint of the rendered config, the Armageddon shared-config binary, and the crypto inputs, used to detect changes since the last run.
     configtxgen_state_file: configtxgen-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxgen
+    name: hyperledger.chaguar.configtxgen
     tasks_from: start
 ```

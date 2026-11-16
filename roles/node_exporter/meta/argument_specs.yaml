@@ -13,13 +13,13 @@ argument_specs:
         type: path
         description:
           - Sets the base remote deployment directory used by C(node_exporter_remote_config_dir).
-          - "Example: C(/opt/fabricx/node-exporter)."
+          - "Example: C(/opt/chaguar/node-exporter)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - Sets the local directory used to store fetched TLS artifacts.
-          - "Example: C(/tmp/fabricx-artifacts/node-exporter)."
+          - "Example: C(/tmp/chaguar-artifacts/node-exporter)."
       organization: &organization
         type: dict
         description:

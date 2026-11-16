@@ -6,12 +6,12 @@
 
 - name: Stop Fabric CA server container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: server/container/stop
   when: fabric_ca_server_use_container
 
 - name: Stop Fabric CA server binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: server/bin/stop
   when: fabric_ca_server_use_bin

@@ -12,6 +12,6 @@
 
 - name: Delete Prometheus data PVC
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/data/rm
   when: prometheus_use_k8s or prometheus_use_openshift

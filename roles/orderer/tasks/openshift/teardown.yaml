@@ -6,10 +6,10 @@
 
 - name: Teardown Orderer OpenShift resources
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: openshift/rm
 
-- name: Remove Fabric-X Orderer data
+- name: Remove Chaguar Orderer data
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: data/rm

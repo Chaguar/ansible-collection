@@ -9,7 +9,7 @@
     openshift_route_host: "{{ yugabyte_openshift_master_webserver_route }}"
     openshift_route_use_tls: "{{ yugabyte_webserver_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/ping
   when:
     - yugabyte_component_type == 'master'
@@ -20,7 +20,7 @@
     openshift_route_host: "{{ yugabyte_openshift_tablet_webserver_route }}"
     openshift_route_use_tls: "{{ yugabyte_webserver_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -31,7 +31,7 @@
     openshift_route_host: "{{ yugabyte_openshift_tablet_pgsql_web_route }}"
     openshift_route_use_tls: "{{ yugabyte_webserver_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -42,7 +42,7 @@
     openshift_route_host: "{{ yugabyte_openshift_tablet_cql_web_route }}"
     openshift_route_use_tls: "{{ yugabyte_webserver_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -50,5 +50,5 @@
 
 - name: Check that the Yugabyte Kubernetes services are reachable
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/ping

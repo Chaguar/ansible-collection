@@ -12,7 +12,7 @@
     # =========================
     - name: Teardown Jaeger
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.jaeger
+        name: hyperledger.chaguar.jaeger
         tasks_from: teardown
       when:
         - jaeger_collector_port is defined
@@ -21,7 +21,7 @@
     # =========================
     - name: Teardown ElasticSearch
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.elasticsearch
+        name: hyperledger.chaguar.elasticsearch
         tasks_from: teardown
       when:
         - elasticsearch_http_port is defined
@@ -30,7 +30,7 @@
     # =========================
     - name: Teardown Grafana
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.grafana
+        name: hyperledger.chaguar.grafana
         tasks_from: teardown
       when:
         - grafana_web_port is defined
@@ -39,7 +39,7 @@
     # =========================
     - name: Teardown Alloy
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.alloy
+        name: hyperledger.chaguar.alloy
         tasks_from: teardown
       when:
         - alloy_port is defined
@@ -48,7 +48,7 @@
     # =========================
     - name: Teardown Loki
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loki
+        name: hyperledger.chaguar.loki
         tasks_from: teardown
       when:
         - loki_port is defined
@@ -57,7 +57,7 @@
     # =========================
     - name: Teardown Prometheus
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.prometheus
+        name: hyperledger.chaguar.prometheus
         tasks_from: teardown
       when:
         - prometheus_port is defined
@@ -66,7 +66,7 @@
     # =========================
     - name: Teardown Postgres Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.postgres_exporter
+        name: hyperledger.chaguar.postgres_exporter
         tasks_from: teardown
       when:
         - postgres_exporter_port is defined
@@ -75,7 +75,7 @@
     # =========================
     - name: Teardown Node Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.node_exporter
+        name: hyperledger.chaguar.node_exporter
         tasks_from: teardown
       when:
         - node_exporter_port is defined
@@ -84,7 +84,7 @@
     # =========================
     - name: Teardown cAdvisor nodes
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cadvisor
+        name: hyperledger.chaguar.cadvisor
         tasks_from: teardown
       when:
         - cadvisor_port is defined

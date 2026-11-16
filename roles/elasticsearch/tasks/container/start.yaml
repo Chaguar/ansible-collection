@@ -24,7 +24,7 @@
     container_volume_gid: "0"
     container_volume_type: directory
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: volume/create
 
 - name: Configure ElasticSearch TLS container settings
@@ -46,7 +46,7 @@
         container_volume_gid: "0"
         container_volume_type: file
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.container
+        name: hyperledger.chaguar.container
         tasks_from: volume/create
     - name: Define the ElasticSearch volume for TLS
       vars:
@@ -85,5 +85,5 @@
     container_wait_until_running: true
     container_wait_port: "{{ elasticsearch_http_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

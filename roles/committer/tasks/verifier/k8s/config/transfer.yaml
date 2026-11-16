@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Committer verifier
+- name: Ensure Kubernetes namespace exists for Chaguar Committer verifier
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply ConfigMap
 # =========================
-- name: Apply Fabric-X Committer verifier ConfigMap
+- name: Apply Chaguar Committer verifier ConfigMap
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"

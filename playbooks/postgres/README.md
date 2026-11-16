@@ -32,7 +32,7 @@ flowchart LR
 [`generate_crypto.yaml`](./generate_crypto.yaml) generates TLS crypto material for every PostgreSQL database in the inventory: cryptogen transfer or Fabric CA enrollment depending on inventory configuration. The Fabric CA databases generate their own crypto directly (see [`fabric_ca_server.generate_crypto`](../fabric_ca_server/README.md)) so it can run before a Fabric CA server exists to enroll against; running this playbook too is harmless, since it is a no-op for hosts whose crypto already exists.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.generate_crypto --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.generate_crypto --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -45,7 +45,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) transfers PostgreSQL configuration files (mTLS `pg_hba.conf` rules, Kubernetes ConfigMaps) for every database in the inventory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.configs --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.configs --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -58,7 +58,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts every PostgreSQL database in the inventory in a single pass, ahead of the components that depend on them. Run it before starting the committer or the Block Explorer.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.start --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.start --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -71,7 +71,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops every PostgreSQL database in the inventory. Run it after stopping the components that depend on them.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.stop --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.stop --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -84,7 +84,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) removes runtime state for every PostgreSQL database in the inventory. Run it after tearing down the components that depend on them and before removing container networks.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.teardown --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.teardown --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -97,7 +97,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes all PostgreSQL artifacts, including generated configuration and crypto, from every database host in the inventory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.wipe --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.wipe --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -110,7 +110,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks that every PostgreSQL database port in the inventory is reachable. Run it before pinging the components that depend on them.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.ping --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.ping --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -123,7 +123,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches every PostgreSQL database's crypto material into the configured artifacts directory for inspection, reuse, or debugging.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.fetch_crypto --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.fetch_crypto --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -136,7 +136,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches every PostgreSQL database's logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.postgres.fetch_logs --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.postgres.fetch_logs --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:

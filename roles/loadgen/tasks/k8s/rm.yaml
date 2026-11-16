@@ -4,21 +4,21 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Loadgen Deployment
+- name: Remove Chaguar Loadgen Deployment
   kubernetes.core.k8s:
     state: absent
     kind: Deployment
     name: "{{ loadgen_k8s_resource_name }}"
     namespace: "{{ k8s_namespace | default('default') }}"
 
-- name: Remove Fabric-X Loadgen Service
+- name: Remove Chaguar Loadgen Service
   kubernetes.core.k8s:
     state: absent
     kind: Service
     name: "{{ loadgen_k8s_resource_name }}"
     namespace: "{{ k8s_namespace | default('default') }}"
 
-- name: Remove Fabric-X Loadgen NodePort Service
+- name: Remove Chaguar Loadgen NodePort Service
   kubernetes.core.k8s:
     state: absent
     kind: Service
@@ -28,7 +28,7 @@
     - loadgen_k8s_metrics_node_port is defined or
       loadgen_k8s_rpc_node_port is defined
 
-- name: Delete Fabric-X Loadgen LoadBalancer Service
+- name: Delete Chaguar Loadgen LoadBalancer Service
   kubernetes.core.k8s:
     state: absent
     api_version: v1

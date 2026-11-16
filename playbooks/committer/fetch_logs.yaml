@@ -4,24 +4,24 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the Fabric-X Committer logs
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Fetch the Chaguar Committer logs
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
     # Yugabyte
     # =========================
-    - name: Fetch the Fabric-X Committer Yugabyte DB container logs
+    - name: Fetch the Chaguar Committer Yugabyte DB container logs
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: fetch_logs
       when:
         - yugabyte_component_type is defined
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Fetch the Fabric-X Committer logs
+    - name: Fetch the Chaguar Committer logs
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: fetch_logs
       when:
         - committer_component_type is defined

@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Committer
+- name: Ensure Kubernetes namespace exists for Chaguar Committer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply Secret
 # =========================
-- name: Apply Fabric-X Committer Secret
+- name: Apply Chaguar Committer Secret
   vars:
     committer_k8s_tls_server_key_path: "{{ committer_remote_config_dir }}/tls/server.key"
     committer_k8s_tls_server_crt_path: "{{ committer_remote_config_dir }}/tls/server.crt"

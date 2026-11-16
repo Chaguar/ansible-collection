@@ -13,6 +13,6 @@
 
 - name: Delete Grafana Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: k8s/crypto/rm
   when: grafana_use_k8s or grafana_use_openshift

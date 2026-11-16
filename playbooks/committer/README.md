@@ -1,6 +1,6 @@
 # Committer Playbooks
 
-The `committer` playbooks operate Fabric-X committer services and their storage backend. A committer deployment can use PostgreSQL or YugabyteDB depending on the inventory.
+The `committer` playbooks operate Chaguar committer services and their storage backend. A committer deployment can use PostgreSQL or YugabyteDB depending on the inventory.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -41,12 +41,12 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares committer executables for binary-mode deployments. It handles control-node install/build work, then ensures targeted validator, verifier, coordinator, sidecar, and query-service hosts receive or build the binary they need.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.binaries --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.binaries --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `localhost` for control-node build/install decisions, then `fabric_x_committers` by default for remote binary setup.
+- Target hosts: `localhost` for control-node build/install decisions, then `chaguar_committers` by default for remote binary setup.
 - Binary activation: only hosts with `committer_use_bin: true` run the remote binary setup step.
 - Build location: set `bin_build_on_control_node: true` with `committer_build_bin: true` to build on the control node and transfer the result to remote hosts. In that case, `go` must be installed on the control node. If `committer_build_bin: true` is set without `bin_build_on_control_node`, the build happens on each remote binary host and `go` is needed there.
 
@@ -55,38 +55,38 @@ Properties:
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares TLS/MSP material for committer services according to each host's `committer_component_type`.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.generate_crypto --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.generate_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 
 ## configs.yaml
 
 [`configs.yaml`](./configs.yaml) renders committer service configuration from the selected inventory. It discovers validators, verifiers, the coordinator, and orderer assemblers so the sidecar/coordinator path can connect to the right services.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.configs --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.configs --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
-- Nuance: reads `groups['fabric_x_orderers']` to discover assembler endpoints needed by the committer sidecar/coordinator path.
+- Target hosts: `chaguar_committers` by default.
+- Nuance: reads `groups['chaguar_orderers']` to discover assembler endpoints needed by the committer sidecar/coordinator path.
 
 ## start.yaml
 
 [`start.yaml`](./start.yaml) starts validators, verifiers, the coordinator, sidecar, and query service according to each host's `committer_component_type`. Before any component starts, it runs `committer init-db` once on a single validator reference host to initialize the state database schema.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.start --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.start --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
-- Nuance: run this after `hyperledger.fabricx.postgres.start` (or `yugabyte.start`).
+- Target hosts: `chaguar_committers` by default.
+- Nuance: run this after `hyperledger.chaguar.postgres.start` (or `yugabyte.start`).
 - Nuance: the reference validator host is deterministically the alphabetically-first name in `committer_validators`.
 
 ## stop.yaml
@@ -94,60 +94,60 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops committer services, leaving generated files and runtime data in place so the same committer deployment can be started again.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.stop --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.stop --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 
 ## teardown.yaml
 
 [`teardown.yaml`](./teardown.yaml) tears down committer service runtime state. Use it when you want to remove the running deployment state rather than simply pause services.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.teardown --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.teardown --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 
 ## wipe.yaml
 
 [`wipe.yaml`](./wipe.yaml) removes committer artifacts from targeted hosts, including generated configuration, crypto, and role-managed files that should not remain after a full cleanup.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.wipe --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.wipe --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 
 ## ping.yaml
 
 [`ping.yaml`](./ping.yaml) checks committer endpoints declared by targeted hosts. It is the quickest post-start validation for sidecar/query access.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.ping --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.ping --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 
 ## get_metrics.yaml
 
 [`get_metrics.yaml`](./get_metrics.yaml) queries committer metrics endpoints on targeted hosts and returns the collected metrics through Ansible output.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.get_metrics --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.get_metrics --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 - Nuance: intended for ad hoc metrics inspection; Prometheus is the normal continuous metrics collector in sample inventories.
 
 ## fetch_crypto.yaml
@@ -155,12 +155,12 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches committer and Yugabyte DB crypto material into the configured artifacts directory for inspection, reuse, or debugging.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.fetch_crypto --extra-vars '{"target_hosts": "fabric_x_committers"}'
+ansible-playbook hyperledger.chaguar.committer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default.
+- Target hosts: `chaguar_committers` by default.
 - Nuance: fetches committer and Yugabyte DB crypto for inspection, reuse, or debugging.
 
 ## fetch_logs.yaml
@@ -168,10 +168,10 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches committer service and Yugabyte DB logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.committer.fetch_logs --extra-vars '{"target_hosts": "committer-validator"}'
+ansible-playbook hyperledger.chaguar.committer.fetch_logs --extra-vars '{"target_hosts": "committer-validator"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_committers` by default; the example narrows collection to `committer-validator`.
+- Target hosts: `chaguar_committers` by default; the example narrows collection to `committer-validator`.
 - Nuance: intended for troubleshooting committer service and database failures from the control node.

@@ -4,14 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Stop Fabric-X Loadgen container
+- name: Stop Chaguar Loadgen container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: container/stop
   when: loadgen_use_container
 
-- name: Stop Fabric-X Loadgen binary
+- name: Stop Chaguar Loadgen binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: bin/stop
   when: loadgen_use_bin

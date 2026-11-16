@@ -14,16 +14,16 @@
     state: directory
     mode: "0o755"
 
-- name: Decode the Fabric-X channel configuration block with the fxadmin binary
+- name: Decode the Chaguar channel configuration block with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/decode
   when:
     - fxadmin_use_bin
 
-- name: Decode the Fabric-X channel configuration block with the fxadmin container
+- name: Decode the Chaguar channel configuration block with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/decode
   when:
     - not fxadmin_use_bin

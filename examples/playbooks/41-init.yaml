@@ -4,5 +4,5 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Create namespaces on Fabric-X Committer
-  ansible.builtin.import_playbook: hyperledger.fabricx.fxconfig.create_namespaces
+- name: Create namespaces on Chaguar Committer
+  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.create_namespaces

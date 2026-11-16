@@ -6,5 +6,5 @@
 
 - name: Start Postgres DB workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres
+    name: hyperledger.chaguar.postgres
     tasks_from: k8s/start

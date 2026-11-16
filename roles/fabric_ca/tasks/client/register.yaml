@@ -13,14 +13,14 @@
 
 - name: Register identities with Fabric CA client container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/container/register
   when:
     - not fabric_ca_client_use_bin
 
 - name: Register identities with Fabric CA client binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/bin/register
   when:
     - fabric_ca_client_use_bin

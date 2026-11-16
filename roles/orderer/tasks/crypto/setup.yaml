@@ -7,9 +7,9 @@
 # =========================
 # With cryptogen
 # =========================
-- name: Transfer the Hyperledger Fabric-X Orderer crypto material generated with cryptogen
+- name: Transfer the LFDT Chaguar Orderer crypto material generated with cryptogen
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/cryptogen/transfer
   when:
     - organization.fabric_ca_host is undefined
@@ -17,9 +17,9 @@
 # =========================
 # With Fabric-CA
 # =========================
-- name: Enroll the Hyperledger Fabric-X Orderer with Fabric-CA to generate the crypto material
+- name: Enroll the LFDT Chaguar Orderer with Fabric-CA to generate the crypto material
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: crypto/fabric_ca/enroll
   when:
     - organization.fabric_ca_host is defined
@@ -27,8 +27,8 @@
 # =========================
 # Kubernetes
 # =========================
-- name: Apply Fabric-X Orderer K8s crypto Secret
+- name: Apply Chaguar Orderer K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/crypto/transfer
   when: orderer_use_k8s or orderer_use_openshift

@@ -46,7 +46,7 @@
         bin_build_on_control_node: true
         bin_hosts: "{{ fxadmin_bin_hosts | difference(fxadmin_build_hosts) }}"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: bin/install
       when:
         - bin_hosts | length > 0
@@ -58,7 +58,7 @@
         bin_build_on_control_node: true
         bin_hosts: "{{ fxadmin_build_hosts }}"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: bin/build
       when:
         - bin_hosts | length > 0
@@ -75,7 +75,7 @@
             bin_build_on_control_node: true
             bin_dir: "{{ cli_bin_dir }}"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fxadmin
+            name: hyperledger.chaguar.fxadmin
             tasks_from: bin/build
           when:
             - fxadmin_build_bin is defined
@@ -85,7 +85,7 @@
             bin_build_on_control_node: true
             bin_dir: "{{ cli_bin_dir }}"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fxadmin
+            name: hyperledger.chaguar.fxadmin
             tasks_from: bin/install
           when:
             - fxadmin_build_bin is undefined or not fxadmin_build_bin
@@ -106,7 +106,7 @@
             else ('build' if (fxadmin_build_bin is defined and fxadmin_build_bin) else 'install')
           }}
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: "bin/{{ bin_operation }}"
       when:
         - fxadmin_use_bin is defined

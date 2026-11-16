@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Ping the Fabric-X Committer
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Ping the Chaguar Committer
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Ping the Fabric-X Committer
+    - name: Ping the Chaguar Committer
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: ping
       when:
         - committer_component_type is defined

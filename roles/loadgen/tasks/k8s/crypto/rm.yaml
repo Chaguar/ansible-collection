@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Loadgen Secret
+- name: Remove Chaguar Loadgen Secret
   kubernetes.core.k8s:
     state: absent
     kind: Secret

@@ -6,7 +6,7 @@
 ---
 galaxy_info:
   author: IBM
-  description: Fetches and decodes the Fabric-X channel configuration, patches it, and drives the fxadmin endorse/merge/prepare/submit flow for live network reconfigurations.
+  description: Fetches and decodes the Chaguar channel configuration, patches it, and drives the fxadmin endorse/merge/prepare/submit flow for live network reconfigurations.
   license: Apache-2.0
   min_ansible_version: "2.17.0"
   platforms:

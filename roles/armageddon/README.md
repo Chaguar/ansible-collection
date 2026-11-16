@@ -1,6 +1,6 @@
-# hyperledger.fabricx.armageddon
+# hyperledger.chaguar.armageddon
 
-> Automates the `armageddon` CLI for Fabric-X shared orderer configuration generation. The role renders `shared_config.yaml` from the orderer inventory and then runs Armageddon in binary or container mode to produce `shared_config.binpb`. It consumes the crypto artifacts prepared by the crypto roles and the artifact directory selected for the chosen run mode.
+> Automates the `armageddon` CLI for Chaguar shared orderer configuration generation. The role renders `shared_config.yaml` from the orderer inventory and then runs Armageddon in binary or container mode to produce `shared_config.binpb`. It consumes the crypto artifacts prepared by the crypto roles and the artifact directory selected for the chosen run mode.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.armageddon
+ansible-doc -t role hyperledger.chaguar.armageddon
 ```
 
 ## Tasks
@@ -33,12 +33,12 @@ ansible-doc -t role hyperledger.fabricx.armageddon
 
 > Render the shared Armageddon config
 
-Render `shared_config.yaml` for the Fabric-X orderer topology. This entry point prepares the config consumed by both the binary and container shared-config flows. When `armageddon_use_bin` is true, the template reads `fetched_artifacts_dir`; otherwise it uses `armageddon_container_crypto_artifacts_dir`.
+Render `shared_config.yaml` for the Chaguar orderer topology. This entry point prepares the config consumed by both the binary and container shared-config flows. When `armageddon_use_bin` is true, the template reads `fetched_artifacts_dir`; otherwise it uses `armageddon_container_crypto_artifacts_dir`.
 
 ```yaml
 - name: Render the shared Armageddon config
   vars:
-    # Inventory hosts that form the Fabric-X orderer topology. Each host must expose `orderer_group`, `orderer_component_type`, `organization`, `ansible_host`, and `orderer_rpc_port`.
+    # Inventory hosts that form the Chaguar orderer topology. Each host must expose `orderer_group`, `orderer_component_type`, `organization`, `ansible_host`, and `orderer_rpc_port`.
     armageddon_orderer_hosts:
       - "orderer1"
       - "orderer2"
@@ -46,17 +46,17 @@ Render `shared_config.yaml` for the Fabric-X orderer topology. This entry point 
     # Run Armageddon as a local binary instead of a container.
     armageddon_use_bin: false
     # Base directory for `armageddon_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/armageddon"
+    config_build_dir: "/opt/chaguar/build/armageddon"
     # Directory for rendered Armageddon config and generated protobuf output.
     armageddon_artifacts_dir: "{{ config_build_dir }}/armageddon-artifacts"
     # Host directory with fetched crypto artifacts. The binary flow reads this directory directly and the container flow mounts it read-only.
-    fetched_artifacts_dir: "/opt/fabricx/fetched-artifacts"
+    fetched_artifacts_dir: "/opt/chaguar/fetched-artifacts"
     # Container directory for mounted crypto artifacts.
     armageddon_container_crypto_artifacts_dir: /tmp/crypto
     # Shared-config filename.
     armageddon_shared_config_file: shared_config.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: config/build
 ```
 
@@ -70,7 +70,7 @@ Fingerprint the rendered `shared_config.yaml` together with every fetched crypto
 - name: Detect whether Armageddon needs to run
   vars:
     # Base directory for `armageddon_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/armageddon"
+    config_build_dir: "/opt/chaguar/build/armageddon"
     # Directory for rendered Armageddon config and generated protobuf output.
     armageddon_artifacts_dir: "{{ config_build_dir }}/armageddon-artifacts"
     # Shared-config filename.
@@ -80,9 +80,9 @@ Fingerprint the rendered `shared_config.yaml` together with every fetched crypto
     # Filename that tracks a fingerprint of the rendered shared config and the orderer crypto inputs, used to detect changes since the last run.
     armageddon_state_file: armageddon-state.yaml
     # Host directory with fetched crypto artifacts. The binary flow reads this directory directly and the container flow mounts it read-only.
-    fetched_artifacts_dir: "/opt/fabricx/fetched-artifacts"
+    fetched_artifacts_dir: "/opt/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: inspect
 ```
 
@@ -98,13 +98,13 @@ Inspect the existing shared-config output, then dispatch generation to the binar
     # Run Armageddon as a local binary instead of a container.
     armageddon_use_bin: false
     # Base directory for `armageddon_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/armageddon"
+    config_build_dir: "/opt/chaguar/build/armageddon"
     # Directory for rendered Armageddon config and generated protobuf output.
     armageddon_artifacts_dir: "{{ config_build_dir }}/armageddon-artifacts"
     # Filename that tracks a fingerprint of the rendered shared config and the orderer crypto inputs, used to detect changes since the last run.
     armageddon_state_file: armageddon-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: create_shared_config
 ```
 
@@ -132,7 +132,7 @@ Install the Armageddon CLI through the shared binary helper for binary-mode depl
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: bin/install
 ```
 
@@ -158,7 +158,7 @@ Build the Armageddon CLI from source through the shared Go helper for binary-mod
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: bin/build
 ```
 
@@ -174,7 +174,7 @@ Run the installed Armageddon binary to generate `shared_config.binpb`. This bina
     # Armageddon executable name.
     armageddon_bin_name: armageddon
     # Base directory for `armageddon_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/armageddon"
+    config_build_dir: "/opt/chaguar/build/armageddon"
     # Directory for rendered Armageddon config and generated protobuf output.
     armageddon_artifacts_dir: "{{ config_build_dir }}/armageddon-artifacts"
     # Shared-config filename.
@@ -182,7 +182,7 @@ Run the installed Armageddon binary to generate `shared_config.binpb`. This bina
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: bin/create_shared_config
 ```
 
@@ -212,14 +212,14 @@ Run the Armageddon container to generate `shared_config.binpb` for container-mod
     # Container directory for generated protobuf output.
     armageddon_container_output_dir: /tmp/out
     # Base directory for `armageddon_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build/armageddon"
+    config_build_dir: "/opt/chaguar/build/armageddon"
     # Directory for rendered Armageddon config and generated protobuf output.
     armageddon_artifacts_dir: "{{ config_build_dir }}/armageddon-artifacts"
     # Container directory for mounted crypto artifacts.
     armageddon_container_crypto_artifacts_dir: /tmp/crypto
     # Host directory with fetched crypto artifacts. The binary flow reads this directory directly and the container flow mounts it read-only.
-    fetched_artifacts_dir: "/opt/fabricx/fetched-artifacts"
+    fetched_artifacts_dir: "/opt/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.armageddon
+    name: hyperledger.chaguar.armageddon
     tasks_from: container/create_shared_config
 ```

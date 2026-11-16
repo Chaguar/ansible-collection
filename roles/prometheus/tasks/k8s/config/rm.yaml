@@ -16,7 +16,7 @@
   vars:
     k8s_rbac_resource_name: "{{ prometheus_k8s_resource_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: rbac/rm
   when:
     - prometheus_k8s_service_account is defined

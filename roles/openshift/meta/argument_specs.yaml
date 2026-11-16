@@ -15,7 +15,7 @@ argument_specs:
         type: str
         description:
           - Specifies the namespace targeted by the OpenShift resource.
-          - "Example: C(fabric-x)."
+          - "Example: C(chaguar)."
       openshift_route_name: &openshift_route_name
         type: str
         required: true

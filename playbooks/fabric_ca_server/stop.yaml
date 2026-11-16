@@ -12,7 +12,7 @@
     # =========================
     - name: Stop Fabric CA servers
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: server/stop
       when:
         - fabric_ca_port is defined

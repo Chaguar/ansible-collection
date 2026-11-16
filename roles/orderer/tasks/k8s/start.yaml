@@ -7,22 +7,22 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Orderer
+- name: Ensure Kubernetes namespace exists for Chaguar Orderer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply Resources
 # =========================
-- name: Apply Fabric-X Orderer Service
+- name: Apply Chaguar Orderer Service
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"
     template:
       path: k8s/service.yaml.j2
 
-- name: Apply Fabric-X Orderer NodePort Service
+- name: Apply Chaguar Orderer NodePort Service
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"
@@ -32,7 +32,7 @@
     - orderer_k8s_rpc_node_port is defined or
       orderer_k8s_metrics_node_port is defined
 
-- name: Apply Fabric-X Orderer LoadBalancer Service
+- name: Apply Chaguar Orderer LoadBalancer Service
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"
@@ -42,7 +42,7 @@
     - orderer_k8s_loadbalancer_expose_rpc_port or
       orderer_k8s_loadbalancer_expose_metrics_port
 
-- name: Apply Fabric-X Orderer StatefulSet
+- name: Apply Chaguar Orderer StatefulSet
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"

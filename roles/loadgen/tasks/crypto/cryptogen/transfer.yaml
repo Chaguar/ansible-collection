@@ -7,7 +7,7 @@
 # =========================
 # Peer MSP
 # =========================
-- name: Ensure Hyperledger Fabric-X Loadgen config directory exists
+- name: Ensure LFDT Chaguar Loadgen config directory exists
   ansible.builtin.file:
     path: "{{ loadgen_remote_config_dir }}"
     state: directory
@@ -29,7 +29,7 @@
   when:
     - organization.user is defined
 
-- name: Transfer the Fabric-X Loadgen user crypto material
+- name: Transfer the Chaguar Loadgen user crypto material
   ansible.posix.synchronize:
     src: "{{ cryptogen_artifacts_dir }}/crypto/organizations/{{ organization.domain }}/users/{{ organization.user.name }}@{{ organization.domain }}"
     dest: "{{ loadgen_remote_config_dir }}/users"

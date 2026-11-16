@@ -6,7 +6,7 @@
 
 - name: Start Loadgen workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: k8s/start
 
 - name: Apply Loadgen metrics OpenShift Route
@@ -21,7 +21,7 @@
       app.kubernetes.io/component: "loadgen"
       app.kubernetes.io/part-of: "{{ loadgen_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: loadgen_openshift_metrics_route is defined
 
@@ -37,6 +37,6 @@
       app.kubernetes.io/component: "loadgen"
       app.kubernetes.io/part-of: "{{ loadgen_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: loadgen_openshift_rpc_route is defined

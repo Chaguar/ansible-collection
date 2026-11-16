@@ -7,7 +7,7 @@
 galaxy_info:
   author: IBM
   description: >-
-    Automates the `armageddon` CLI for Fabric-X shared orderer configuration generation.
+    Automates the `armageddon` CLI for Chaguar shared orderer configuration generation.
     The role renders `shared_config.yaml` from the orderer inventory and then runs Armageddon in binary or container mode to produce `shared_config.binpb`.
     It consumes the crypto artifacts prepared by the crypto roles and the artifact directory selected for the chosen run mode.
   license: Apache-2.0

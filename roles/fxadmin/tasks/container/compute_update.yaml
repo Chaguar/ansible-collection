@@ -6,7 +6,7 @@
 
 # The inputs are mounted read-only from where they already are, so nothing is
 # copied. The binary variant reads them in place.
-- name: Compute the Fabric-X ConfigUpdate between the current and modified configuration
+- name: Compute the Chaguar ConfigUpdate between the current and modified configuration
   vars:
     container_name: "{{ fxadmin_container_name }}-compute-update"
     container_image: "{{ fxadmin_image }}"
@@ -25,5 +25,5 @@
     container_run_as_host_user: true
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

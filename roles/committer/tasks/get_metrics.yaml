@@ -16,10 +16,10 @@
   vars:
     committer_host: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: effective_address
 
-- name: Get Fabric-X Committer metrics
+- name: Get Chaguar Committer metrics
   vars:
     committer_metrics_client_cert: "{{ committer_remote_config_dir }}/tls/server.crt"
     committer_metrics_client_key: "{{ committer_remote_config_dir }}/tls/server.key"
@@ -32,7 +32,7 @@
     client_key: "{{ committer_metrics_client_key if committer_monitoring_use_mtls else omit }}"
   register: committer_metrics
 
-- name: Print Fabric-X Committer metrics
+- name: Print Chaguar Committer metrics
   ansible.builtin.debug:
     msg: "{{ committer_metrics.content }}"
   when:

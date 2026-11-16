@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Ensure the data directory for Fabric-X Orderer exists
+- name: Ensure the data directory for Chaguar Orderer exists
   ansible.builtin.file:
     path: "{{ orderer_remote_data_dir }}"
     state: directory
     mode: "0o755"
 
-- name: Start Fabric-X Orderer binary
+- name: Start Chaguar Orderer binary
   vars:
     bin_command: >-
       {{ orderer_bin_name }} {{ orderer_component_type }}
@@ -18,5 +18,5 @@
     bin_wait_until_running: true
     bin_wait_port: "{{ orderer_rpc_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start

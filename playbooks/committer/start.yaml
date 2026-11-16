@@ -4,18 +4,18 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Start Hyperledger Fabric-X Committer
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Start LFDT Chaguar Committer
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Start Hyperledger Fabric-X Committer services
+    - name: Start LFDT Chaguar Committer services
       vars:
         reference_committer_hosts: >-
           {{
             (
-              groups['fabric_x_committers']
+              groups['chaguar_committers']
               | map('extract', hostvars)
               | selectattr('organization', 'defined')
               | selectattr('organization.domain', 'defined')
@@ -23,11 +23,11 @@
               | map(attribute='inventory_hostname')
               | list
             )
-            or groups['fabric_x_committers']
+            or groups['chaguar_committers']
           }}
         orderer_assemblers: >-
           {{
-            groups['fabric_x_orderers']
+            groups['chaguar_orderers']
             | default([])
             | map('extract', hostvars)
             | selectattr('orderer_component_type', '==', 'assembler')
@@ -68,12 +68,12 @@
       block:
         - name: Initialize the committer database
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.committer
+            name: hyperledger.chaguar.committer
             tasks_from: init_db
           when:
             - inventory_hostname == committer_validators[0]
 
-        - name: Start Hyperledger Fabric-X Committer services
+        - name: Start LFDT Chaguar Committer services
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.committer
+            name: hyperledger.chaguar.committer
             tasks_from: start

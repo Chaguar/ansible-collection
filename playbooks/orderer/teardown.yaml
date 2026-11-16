@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Teardown Fabric-X Orderer
-  hosts: "{{ target_hosts | default('fabric_x_orderers') }}:&fabric_x_orderers"
+- name: Teardown Chaguar Orderer
+  hosts: "{{ target_hosts | default('chaguar_orderers') }}:&chaguar_orderers"
   tasks:
-    - name: Teardown Fabric-X Orderer components
+    - name: Teardown Chaguar Orderer components
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.orderer
+        name: hyperledger.chaguar.orderer
         tasks_from: teardown

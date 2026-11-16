@@ -4,13 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Loadgen binary configuration files
+- name: Remove Chaguar Loadgen binary configuration files
   ansible.builtin.file:
     path: "{{ loadgen_remote_config_dir }}"
     state: absent
 
-- name: Remove Fabric-X Loadgen Kubernetes ConfigMap
+- name: Remove Chaguar Loadgen Kubernetes ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: k8s/config/rm
   when: loadgen_use_k8s or loadgen_use_openshift

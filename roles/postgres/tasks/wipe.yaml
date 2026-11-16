@@ -6,15 +6,15 @@
 
 - name: Teardown Postgres DB
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres
+    name: hyperledger.chaguar.postgres
     tasks_from: teardown
 
 - name: Clean Postgres crypto material
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres
+    name: hyperledger.chaguar.postgres
     tasks_from: crypto/rm
 
 - name: Clean Postgres configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres
+    name: hyperledger.chaguar.postgres
     tasks_from: config/rm

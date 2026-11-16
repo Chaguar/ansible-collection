@@ -1,6 +1,6 @@
-# Hyperledger Fabric-X Ansible Playbooks
+# LFDT Chaguar Ansible Playbooks
 
-This directory contains the reusable playbooks that the `hyperledger.fabricx` collection provides. They compose the collection roles into standard Fabric-X lifecycle operations and are the building blocks for any Ansible project that deploys a Fabric-X network.
+This directory contains the reusable playbooks that the `hyperledger.chaguar` collection provides. They compose the collection roles into standard Chaguar lifecycle operations and are the building blocks for any Ansible project that deploys a Chaguar network.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -18,7 +18,7 @@ This directory contains the reusable playbooks that the `hyperledger.fabricx` co
 Each playbook can be run by its fully-qualified collection name:
 
 ```shell
-ansible-playbook hyperledger.fabricx.orderer.start
+ansible-playbook hyperledger.chaguar.orderer.start
 ```
 
 The top-level playbooks prepare shared host resources around the component-specific lifecycle. The normal setup flow runs prerequisites first, logs in to registries when private images are used, creates container networks for container-mode inventories, and then runs the namespaced playbooks for artifacts, configuration, services, and cleanup.
@@ -34,10 +34,10 @@ flowchart LR
 
 ## install_prerequisites.yaml
 
-[`install_prerequisites.yaml`](./install_prerequisites.yaml) prepares the machines that will run Fabric-X services. It first selects one representative inventory host per physical machine, then installs the shared operating-system and runtime prerequisites used by the rest of the collection: container engine support, tmux, OpenSSL, Git, Go, rsync, and chrony.
+[`install_prerequisites.yaml`](./install_prerequisites.yaml) prepares the machines that will run Chaguar services. It first selects one representative inventory host per physical machine, then installs the shared operating-system and runtime prerequisites used by the rest of the collection: container engine support, tmux, OpenSSL, Git, Go, rsync, and chrony.
 
 ```shell
-ansible-playbook hyperledger.fabricx.install_prerequisites --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.install_prerequisites --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`log_in_container_registry.yaml`](./log_in_container_registry.yaml) authenticates the deployment against a private container registry. It logs the container engine in once per physical machine, then creates Kubernetes image pull secrets once per selected Kubernetes namespace when Kubernetes hosts are present.
 
 ```shell
-ansible-playbook hyperledger.fabricx.log_in_container_registry --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -65,7 +65,7 @@ Properties:
 [`create_container_networks.yaml`](./create_container_networks.yaml) creates the container networks declared by the selected inventory hosts. It deduplicates work by building one execution target per `(ansible_host, container_network)` pair, so each required network is created once on each machine that needs it.
 
 ```shell
-ansible-playbook hyperledger.fabricx.create_container_networks --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.create_container_networks --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -79,7 +79,7 @@ Properties:
 [`remove_container_networks.yaml`](./remove_container_networks.yaml) removes the container networks that were created for the selected inventory hosts. It uses the same `(ansible_host, container_network)` deduplication as the create playbook, which makes cleanup operate once per machine and network.
 
 ```shell
-ansible-playbook hyperledger.fabricx.remove_container_networks --extra-vars '{"target_hosts": "all"}'
+ansible-playbook hyperledger.chaguar.remove_container_networks --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -93,7 +93,7 @@ Properties:
 [`generate_target_hosts.yaml`](./generate_target_hosts.yaml) regenerates the Makefile helper targets for the selected inventory. It reads `groups['all']` and writes `target_hosts.mk` under `project_dir`, giving the top-level `Makefile` one target per inventory host that maps to `TARGET_HOSTS`.
 
 ```shell
-ansible-playbook hyperledger.fabricx.generate_target_hosts
+ansible-playbook hyperledger.chaguar.generate_target_hosts
 ```
 
 Properties:
@@ -107,7 +107,7 @@ Properties:
 [`openshift/config_hosts.yaml`](./openshift/config_hosts.yaml) configures local hosts entries for OpenShift Route hosts declared in the current inventory. It maps each route host to the control node's default IPv4 address, which is useful for local OpenShift deployments when route DNS resolves to `127.0.0.1` but containerized clients need a non-loopback address.
 
 ```shell
-ansible-playbook hyperledger.fabricx.openshift.config_hosts --ask-become-pass
+ansible-playbook hyperledger.chaguar.openshift.config_hosts --ask-become-pass
 ```
 
 Properties:
@@ -127,11 +127,11 @@ Namespaced playbooks are collections of playbooks tailored for a specific group 
 | [fabric_ca_server](./fabric_ca_server/README.md) | Operates Fabric CA servers: start, enroll admins, register identities, stop, teardown, and wipe.                                                                      |
 | [fabric_ca_client](./fabric_ca_client/README.md) | Prepares the Fabric CA client binary used by enrollment and registration tasks.                                                                                       |
 | [postgres](./postgres/README.md)                 | Operates every PostgreSQL database in the inventory in one pass: crypto, configs, start, stop, teardown, wipe, ping. Serves Fabric CA, committer, and Block Explorer. |
-| [orderer](./orderer/README.md)                   | Operates Fabric-X orderer components (routers, batchers, consenters, assemblers) targeting the `fabric_x_orderers` group.                                             |
-| [committer](./committer/README.md)               | Operates Fabric-X committer services targeting the `fabric_x_committers` group, backed by PostgreSQL or YugabyteDB.                                                   |
-| [block_explorer](./block_explorer/README.md)     | Operates the Block Explorer server and UI, backed by PostgreSQL, targeting the `fabric_x_block_explorer` group.                                                       |
-| [evm](./evm/README.md)                           | Operates the Fabric-X EVM gateway and its embedded endorser, targeting the `fabric_x_evm` group.                                                                      |
-| [fxconfig](./fxconfig/README.md)                 | Builds, endorses, and submits Fabric-X configuration transactions including namespace creation. Run after `start` during initialization.                              |
+| [orderer](./orderer/README.md)                   | Operates Chaguar orderer components (routers, batchers, consenters, assemblers) targeting the `chaguar_orderers` group.                                               |
+| [committer](./committer/README.md)               | Operates Chaguar committer services targeting the `chaguar_committers` group, backed by PostgreSQL or YugabyteDB.                                                     |
+| [block_explorer](./block_explorer/README.md)     | Operates the Block Explorer server and UI, backed by PostgreSQL, targeting the `chaguar_block_explorer` group.                                                        |
+| [evm](./evm/README.md)                           | Operates the Chaguar EVM gateway and its embedded endorser, targeting the `chaguar_evm` group.                                                                        |
+| [fxconfig](./fxconfig/README.md)                 | Builds, endorses, and submits Chaguar configuration transactions including namespace creation. Run after `start` during initialization.                               |
 | [loadgen](./loadgen/README.md)                   | Operates load generators: start, stop, reconfigure submission rate at runtime, collect metrics and logs.                                                              |
 | [monitoring](./monitoring/README.md)             | Operates observability components: Prometheus, Grafana, Loki, Alloy, node exporter, PostgreSQL exporter, Elasticsearch, and Jaeger.                                   |
 | [semaphore_ui](./semaphore_ui/README.md)         | Operates Semaphore UI (Ansible automation controller) as a binary on its own control node: binaries, generate_crypto, configs, start, stop, teardown, wipe.           |

@@ -21,12 +21,12 @@ argument_specs:
         type: path
         description:
           - "Provides the base local artifact directory for fetched logs."
-          - "Example: C(/tmp/fabricx/fetched-logs)."
+          - "Example: C(/tmp/chaguar/fetched-logs)."
       remote_node_dir: &remote_node_dir
         type: path
         description:
           - "Provides the base remote artifact directory for collected logs."
-          - "Example: C(/var/hyperledger/fabricx/orderer-assembler-1)."
+          - "Example: C(/var/lfdt/chaguar/orderer-assembler-1)."
       container_client: &container_client
         type: str
         default: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
@@ -43,7 +43,7 @@ argument_specs:
         type: str
         description:
           - "Names the container managed by the role."
-          - "Example: C(fabricx-orderer-assembler-1)."
+          - "Example: C(chaguar-orderer-assembler-1)."
       container_image: &container_image
         type: str
         required: true
@@ -59,7 +59,7 @@ argument_specs:
         type: raw
         description:
           - "Supplies the command passed to the container runtime."
-          - "Example: C(orderer --config /etc/fabricx/orderer.yaml)."
+          - "Example: C(orderer --config /etc/chaguar/orderer.yaml)."
       container_hostname: &container_hostname
         type: str
         default: "{{ container_name | default(inventory_hostname) }}"
@@ -104,7 +104,7 @@ argument_specs:
         type: str
         description:
           - "Names the bridge network attached to the container when bridge mode is selected."
-          - "Example: C(fabricx-net)."
+          - "Example: C(chaguar-net)."
       container_ports: &container_ports
         type: list
         elements: raw
@@ -126,7 +126,7 @@ argument_specs:
         elements: raw
         description:
           - "Mounts host paths or named volumes into the container."
-          - "Example: C(['/opt/fabricx/orderer/config:/etc/fabricx:ro'])."
+          - "Example: C(['/opt/chaguar/orderer/config:/etc/chaguar:ro'])."
       container_ulimits: &container_ulimits
         type: list
         elements: raw
@@ -269,7 +269,7 @@ argument_specs:
         required: true
         description:
           - "Names the file system path used for a container volume."
-          - "Example: C(/var/hyperledger/fabricx/orderer/data)."
+          - "Example: C(/var/lfdt/chaguar/orderer/data)."
       container_volume_mode: &container_volume_mode
         type: str
         required: true

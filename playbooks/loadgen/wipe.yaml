@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Wipe Fabric-X Loadgen
+- name: Wipe Chaguar Loadgen
   hosts: "{{ target_hosts | default('load_generators') }}:&load_generators"
   tasks:
-    - name: Wipe Fabric-X Loadgen
+    - name: Wipe Chaguar Loadgen
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: wipe

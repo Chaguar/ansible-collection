@@ -17,7 +17,7 @@
       - "{{ jaeger_grpc_server_port }}"
       - "{{ jaeger_collector_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when: not (jaeger_use_k8s or jaeger_use_openshift)
 
@@ -26,7 +26,7 @@
 # =======================
 - name: Check that the node ports are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/ping
   when: jaeger_use_k8s
 
@@ -35,6 +35,6 @@
 # =======================
 - name: Check that the OpenShift routes and Kubernetes services are open
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: openshift/ping
   when: jaeger_use_openshift

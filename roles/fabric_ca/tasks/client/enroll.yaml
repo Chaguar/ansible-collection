@@ -14,7 +14,7 @@
 # fabric_ca_client_must_enroll and fabric_ca_client_must_reenroll.
 - name: Inspect the existing Fabric CA enrollment
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/inspect
 
 # =========================
@@ -26,13 +26,13 @@
   block:
     - name: Enroll identity with Fabric CA client container
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/container/enroll
       when:
         - not fabric_ca_client_use_bin
     - name: Enroll all identities with Fabric CA client binary
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/bin/enroll
       when:
         - fabric_ca_client_use_bin
@@ -49,13 +49,13 @@
   block:
     - name: Reenroll identity with Fabric CA client container
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/container/reenroll
       when:
         - not fabric_ca_client_use_bin
     - name: Reenroll identity with Fabric CA client binary
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/bin/reenroll
       when:
         - fabric_ca_client_use_bin
@@ -86,12 +86,12 @@
 
     - name: Build the TLS CA certificate chain
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/intermediate_ca/build_ca_chain
 
     - name: Build the TLS server certificate chain
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: client/intermediate_ca/build_server_chain
       when:
         - fabric_ca_chain_tls_server_certs

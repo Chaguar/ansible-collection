@@ -1,4 +1,4 @@
-# hyperledger.fabricx.openssl
+# hyperledger.chaguar.openssl
 
 > Generates keys, CSRs, self-signed certificates, and CA-signed certificates with the `openssl` CLI.
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.openssl
+ansible-doc -t role hyperledger.chaguar.openssl
 ```
 
 ## Tasks
@@ -38,7 +38,7 @@ Install the `openssl` package on the target host by delegating to the package ro
 ```yaml
 - name: Install the OpenSSL CLI
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: install
 ```
 
@@ -52,15 +52,15 @@ Generate a private key and the matching public key on the target host. The priva
 - name: Generate an asymmetric key pair
   vars:
     # Path to the private key file to create.
-    openssl_private_key_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.key"
+    openssl_private_key_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.key"
     # Path to the public key file to create.
-    openssl_public_key_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.pub"
+    openssl_public_key_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.pub"
     # OpenSSL algorithm passed to `openssl genpkey`.
     openssl_key_alg: RSA
     # Optional key-generation option passed with `-pkeyopt`.
     openssl_key_opt: "rsa_keygen_bits:4096"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_keypair
 ```
 
@@ -74,13 +74,13 @@ Fingerprint the inputs behind one OpenSSL-generated artifact (a rendered config,
 - name: Detect whether an OpenSSL artifact needs to be (re)generated
   vars:
     # Base directory for remote role state and temporary OpenSSL config files.
-    remote_node_dir: "/tmp/fabricx/openssl"
+    remote_node_dir: "/tmp/chaguar/openssl"
     # Directory for the temporary OpenSSL config file.
     openssl_remote_config_dir: "{{ remote_node_dir }}/openssl"
     # Path to the file that tracks a fingerprint of the inputs behind each generated artifact, keyed by output path, used to detect changes since the last run.
     openssl_state_file: "{{ openssl_remote_config_dir }}/openssl-state.yaml"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: inspect
 ```
 
@@ -94,13 +94,13 @@ Generate a private key and a self-signed X.509 certificate, regenerating them on
 - name: Generate a self-signed certificate
   vars:
     # Base directory for remote role state and temporary OpenSSL config files.
-    remote_node_dir: "/tmp/fabricx/openssl"
+    remote_node_dir: "/tmp/chaguar/openssl"
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Path to the private key file to create.
-    openssl_private_key_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.key"
+    openssl_private_key_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.key"
     # Path to the certificate file to create.
-    openssl_cert_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.crt"
+    openssl_cert_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.crt"
     # Directory for the temporary OpenSSL config file.
     openssl_remote_config_dir: "{{ remote_node_dir }}/openssl"
     # Filename for the rendered OpenSSL config beneath `openssl_remote_config_dir`. Override this when a role calls more than one `openssl` entry point against the same `openssl_remote_config_dir` (for example a self-signed CA followed by a CSR), so each rendered config is distinguishable from the other.
@@ -169,7 +169,7 @@ Generate a private key and a self-signed X.509 certificate, regenerating them on
     # Final SAN list assembled from DNS and IP SAN entries.
     openssl_san_entries: "{{ openssl_san_dns_entries + openssl_san_ip_entries }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_self_signed_cert
 ```
 
@@ -183,11 +183,11 @@ Generate a private key and an X.509 certificate, regenerating them only when the
 - name: Generate a certificate signed by a configured root CA or self-signed
   vars:
     # Base directory for remote role state and temporary OpenSSL config files.
-    remote_node_dir: "/tmp/fabricx/openssl"
+    remote_node_dir: "/tmp/chaguar/openssl"
     # Directory for the temporary OpenSSL config file.
     openssl_remote_config_dir: "{{ remote_node_dir }}/openssl"
     # Path to the certificate file to create.
-    openssl_cert_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.crt"
+    openssl_cert_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.crt"
     # Filename used to publish the trust anchor for the generated certificate. Holds the generated self-signed certificate when no root CA is configured, or the configured root CA certificate when one signs the generated certificate.
     openssl_ca_cert_file: ca.crt
     # Path to a root CA certificate used to sign the generated certificate instead of self-signing it. Defaults to `OPENSSL_ROOT_CA_CERT_PATH` when set in the Ansible process environment. Must be set together with `openssl_root_ca_private_key_path`. Both are read on the host running this task, so a distributed deployment would need the root CA present on every remote node.
@@ -199,7 +199,7 @@ Generate a private key and an X.509 certificate, regenerating them only when the
     # Path to the intermediate extension file applied while signing against `openssl_root_ca_cert_path`.
     openssl_ca_signed_ext_path: "{{ openssl_remote_config_dir }}/{{ openssl_config_file }}.ext"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_signed_cert
 ```
 
@@ -213,13 +213,13 @@ Generate a private key and certificate signing request using a rendered OpenSSL 
 - name: Generate a certificate signing request
   vars:
     # Base directory for remote role state and temporary OpenSSL config files.
-    remote_node_dir: "/tmp/fabricx/openssl"
+    remote_node_dir: "/tmp/chaguar/openssl"
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Path to the private key file to create.
-    openssl_private_key_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.key"
+    openssl_private_key_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.key"
     # Path to the CSR file to create.
-    openssl_csr_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.csr"
+    openssl_csr_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.csr"
     # Directory for the temporary OpenSSL config file.
     openssl_remote_config_dir: "{{ remote_node_dir }}/openssl"
     # Filename for the rendered OpenSSL config beneath `openssl_remote_config_dir`. Override this when a role calls more than one `openssl` entry point against the same `openssl_remote_config_dir` (for example a self-signed CA followed by a CSR), so each rendered config is distinguishable from the other.
@@ -229,7 +229,7 @@ Generate a private key and certificate signing request using a rendered OpenSSL 
     # Mode applied to directories created for the generated key, CSR, and certificate. Override this when the destination directory is also managed by the caller with a different mode (for example a keystore directory a role keeps at `0750`), so the two do not fight over it every run.
     openssl_dir_mode: 0755
     # Optional extension file path passed to `openssl x509 -extfile`.
-    openssl_ext_file_path: "/var/hyperledger/fabricx/openssl/server.ext"
+    openssl_ext_file_path: "/var/lfdt/chaguar/openssl/server.ext"
     # Key type passed to `openssl req -newkey`.
     openssl_key_type: "rsa:4096"
     # Optional key-generation option passed with `-pkeyopt`.
@@ -288,7 +288,7 @@ Generate a private key and certificate signing request using a rendered OpenSSL 
     # Final SAN list assembled from DNS and IP SAN entries.
     openssl_san_entries: "{{ openssl_san_dns_entries + openssl_san_ip_entries }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_csr
 ```
 
@@ -302,7 +302,7 @@ Generate a certificate from an existing CSR using the provided CA certificate an
 - name: Sign a certificate from a CSR
   vars:
     # Base directory for remote role state and temporary OpenSSL config files.
-    remote_node_dir: "/tmp/fabricx/openssl"
+    remote_node_dir: "/tmp/chaguar/openssl"
     # Directory for the temporary OpenSSL config file.
     openssl_remote_config_dir: "{{ remote_node_dir }}/openssl"
     # Path to the file that tracks a fingerprint of the inputs behind each generated artifact, keyed by output path, used to detect changes since the last run.
@@ -310,18 +310,18 @@ Generate a certificate from an existing CSR using the provided CA certificate an
     # Mode applied to directories created for the generated key, CSR, and certificate. Override this when the destination directory is also managed by the caller with a different mode (for example a keystore directory a role keeps at `0750`), so the two do not fight over it every run.
     openssl_dir_mode: 0755
     # Path to the CA private key used to sign the certificate. Store this value in Ansible Vault.
-    openssl_ca_private_key_path: "/var/hyperledger/fabricx/crypto/org1.example.com/ca/ca.key"
+    openssl_ca_private_key_path: "/var/lfdt/chaguar/crypto/org1.example.com/ca/ca.key"
     # Path to the CA certificate used to sign the certificate.
-    openssl_ca_cert_path: "/var/hyperledger/fabricx/crypto/org1.example.com/ca/ca.crt"
+    openssl_ca_cert_path: "/var/lfdt/chaguar/crypto/org1.example.com/ca/ca.crt"
     # Path to the CSR file to create.
-    openssl_csr_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.csr"
+    openssl_csr_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.csr"
     # Path to the certificate file to create.
-    openssl_cert_path: "/var/hyperledger/fabricx/crypto/org1.example.com/tls/server.crt"
+    openssl_cert_path: "/var/lfdt/chaguar/crypto/org1.example.com/tls/server.crt"
     # Number of days the generated certificate remains valid.
     openssl_cert_duration: 365
     # Optional extension file path passed to `openssl x509 -extfile`.
-    openssl_ext_file_path: "/var/hyperledger/fabricx/openssl/server.ext"
+    openssl_ext_file_path: "/var/lfdt/chaguar/openssl/server.ext"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_cert
 ```

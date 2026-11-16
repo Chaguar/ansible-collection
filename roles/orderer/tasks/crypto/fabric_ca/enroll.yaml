@@ -20,7 +20,7 @@
         dest: "{{ orderer_remote_config_dir }}/tlscacerts"
         mode: "preserve"
 
-- name: Generate Hyperledger Fabric-X Orderer MSP crypto material
+- name: Generate LFDT Chaguar Orderer MSP crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -37,7 +37,7 @@
       name: "{{ organization.orderer.name }}"
       secret: "{{ organization.orderer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll
   when:
     - organization.fabric_ca_host is defined
@@ -47,7 +47,7 @@
 # =========================
 # The organization user declared on this host (e.g. the admin identity used by fxadmin)
 # is enrolled next to the node identity, so any tool running here can sign with it.
-- name: Generate Hyperledger Fabric-X Orderer MSP user crypto material
+- name: Generate LFDT Chaguar Orderer MSP user crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -64,7 +64,7 @@
       name: "{{ organization.user.name }}"
       secret: "{{ organization.user.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll
   when:
     - organization.fabric_ca_host is defined
@@ -91,7 +91,7 @@
     - orderer_openshift_metrics_route is defined
     - orderer_operations_use_tls
 
-- name: Generate Hyperledger Fabric-X Orderer TLS crypto material
+- name: Generate LFDT Chaguar Orderer TLS crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -104,5 +104,5 @@
       name: "{{ organization.orderer.name }}"
       secret: "{{ organization.orderer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll

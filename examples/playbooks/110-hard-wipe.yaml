@@ -9,7 +9,7 @@
   tasks:
     - name: Set the group "machines"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.utils
+        name: hyperledger.chaguar.utils
         tasks_from: select_one_host_per_machine
 
 - name: Run command on the machines

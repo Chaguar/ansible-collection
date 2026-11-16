@@ -13,7 +13,7 @@ argument_specs:
         type: path
         description:
           - Base remote config directory that feeds C(loadgen_remote_config_dir).
-          - "Example: C(/var/hyperledger/fabricx/loadgen/lg-1/config)."
+          - "Example: C(/var/lfdt/chaguar/loadgen/lg-1/config)."
       loadgen_remote_config_dir: &loadgen_remote_config_dir
         type: path
         default: "{{ remote_config_dir }}"
@@ -400,19 +400,19 @@ argument_specs:
         required: true
         description:
           - Channel identifier rendered into generated transactions.
-          - "Example: C(fabricx-channel)."
+          - "Example: C(chaguar-channel)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - Local artifacts directory used for fetched TLS and MSP files.
-          - "Example: C(/tmp/fabricx-artifacts)."
+          - "Example: C(/tmp/chaguar-artifacts)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         required: true
         description:
           - Local cryptogen output directory.
-          - "Example: C(/tmp/fabricx-crypto)."
+          - "Example: C(/tmp/chaguar-crypto)."
       configtxgen_artifacts_dir: &configtxgen_artifacts_dir
         type: path
         required: true
@@ -441,7 +441,7 @@ argument_specs:
         type: str
         description:
           - Kubernetes namespace used for loadgen resources.
-          - "Example: C(fabricx-loadgen)."
+          - "Example: C(chaguar-loadgen)."
       k8s_resources: &k8s_resources
         type: dict
         description:
@@ -454,7 +454,7 @@ argument_specs:
           - Kubernetes resource name used for the Deployment, Service, Secret, and optional NodePort Service.
       loadgen_k8s_part_of: &loadgen_k8s_part_of
         type: str
-        default: "fabric-x-loadgen-{{ organization.name }}"
+        default: "chaguar-loadgen-{{ organization.name }}"
         description:
           - Value for the Kubernetes C(app.kubernetes.io/part-of) label applied to Loadgen resources.
       loadgen_k8s_wait_timeout: &loadgen_k8s_wait_timeout
@@ -497,7 +497,7 @@ argument_specs:
         type: str
         description:
           - Optional image pull secret used by Kubernetes workloads.
-          - "Example: C(fabricx-registry-pull)."
+          - "Example: C(chaguar-registry-pull)."
       loadgen_mtls_clients: &loadgen_mtls_clients
         type: list
         elements: str
@@ -802,7 +802,7 @@ argument_specs:
   bin/build:
     short_description: Build the load generator binary
     description:
-      - Build the C(loadgen) binary from the configured Fabric-X source repository.
+      - Build the C(loadgen) binary from the configured Chaguar source repository.
       - Uses the shared binary helper role and the configured Git host, repository, revision, and Go package path.
     options:
       loadgen_bin_name: *loadgen_bin_name

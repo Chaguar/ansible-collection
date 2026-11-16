@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Transfer Fabric-X Orderer configs
-  hosts: "{{ target_hosts | default('fabric_x_orderers') }}:&fabric_x_orderers"
+- name: Transfer Chaguar Orderer configs
+  hosts: "{{ target_hosts | default('chaguar_orderers') }}:&chaguar_orderers"
   tasks:
-    - name: Transfer the Fabric-X Orderer configuration files
+    - name: Transfer the Chaguar Orderer configuration files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.orderer
+        name: hyperledger.chaguar.orderer
         tasks_from: config/transfer

@@ -13,12 +13,12 @@ argument_specs:
         type: path
         description:
           - Base remote config directory that feeds C(block_explorer_remote_config_dir).
-          - "Example: C(/var/hyperledger/fabricx/block-explorer/config)."
+          - "Example: C(/var/lfdt/chaguar/block-explorer/config)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:
           - Local artifacts directory used for fetched TLS material.
-          - "Example: C(/tmp/fabricx-artifacts)."
+          - "Example: C(/tmp/chaguar-artifacts)."
       actual_host: &actual_host
         type: str
         description:
@@ -37,7 +37,7 @@ argument_specs:
         description:
           - Local cryptogen output directory.
           - Required when C(organization.role) is C(peer) without C(organization.fabric_ca_host).
-          - "Example: C(/tmp/fabricx-crypto)."
+          - "Example: C(/tmp/chaguar-crypto)."
       sidecar_host: &sidecar_host
         type: str
         required: true
@@ -54,12 +54,12 @@ argument_specs:
         type: str
         description:
           - Kubernetes namespace used for Block Explorer resources.
-          - "Example: C(fabricx-block-explorer)."
+          - "Example: C(chaguar-block-explorer)."
       k8s_image_pull_secret: &k8s_image_pull_secret
         type: str
         description:
           - Optional image pull secret used by the Block Explorer Deployment.
-          - "Example: C(fabricx-registry-pull)."
+          - "Example: C(chaguar-registry-pull)."
       k8s_resources: &k8s_resources
         type: dict
         description:

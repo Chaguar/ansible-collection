@@ -9,7 +9,7 @@
 # setup of the component running on the host already produced its MSP under
 # remote_config_dir/users, and the node's own TLS identity is reused for mTLS.
 #
-# TLS settings describe the Fabric-X network fxadmin connects to, so they are read
+# TLS settings describe the Chaguar network fxadmin connects to, so they are read
 # from the orderers rather than from the host being configured.
 - name: Render fxadmin configuration on each admin host
   hosts: "{{ target_hosts | default('all') }}"
@@ -19,10 +19,10 @@
     - name: Render fxadmin configuration for this organization's identity
       vars:
         fxadmin_msp_config_path: "{{ remote_config_dir }}/users/{{ organization.user.name }}@{{ organization.domain }}/msp"
-        fxadmin_use_tls: "{{ hostvars[groups['fabric_x_orderers'] | first].orderer_use_tls | default(false) }}"
-        fxadmin_use_mtls: "{{ hostvars[groups['fabric_x_orderers'] | first].orderer_use_mtls | default(false) }}"
+        fxadmin_use_tls: "{{ hostvars[groups['chaguar_orderers'] | first].orderer_use_tls | default(false) }}"
+        fxadmin_use_mtls: "{{ hostvars[groups['chaguar_orderers'] | first].orderer_use_mtls | default(false) }}"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: config/transfer
       when:
         - organization is defined

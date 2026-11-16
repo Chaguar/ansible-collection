@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Set Prometheus scrape services for Fabric-X Loadgen
+- name: Set Prometheus scrape services for Chaguar Loadgen
   vars:
     loadgen_ref_host: "{{ loadgen_hosts | first }}"
     loadgen_scrape_service:

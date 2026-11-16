@@ -7,7 +7,7 @@
 # Included with `evm_ping_base_url` set by the caller. The gateway only opens
 # its JSON-RPC listener once its embedded endorser has synchronized with the
 # committer sidecar (see gateway/app/app.go WaitUntilSynced upstream), so a
-# successful eth_chainId reply already proves Fabric-X connectivity; the
+# successful eth_chainId reply already proves Chaguar connectivity; the
 # retries below cover the time that initial sync takes.
 - name: Check the EVM JSON-RPC chain ID at {{ evm_ping_base_url }}
   ansible.builtin.uri:

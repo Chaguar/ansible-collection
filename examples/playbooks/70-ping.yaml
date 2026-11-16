@@ -5,28 +5,28 @@
 #
 
 - name: Ping PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.ping
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.ping
 
 - name: Ping YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.ping
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.ping
 
 - name: Ping Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.ping
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.ping
 
-- name: Ping Fabric-X Orderer
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.ping
+- name: Ping Chaguar Orderer
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.ping
 
-- name: Ping Fabric-X Committer
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.ping
+- name: Ping Chaguar Committer
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.ping
 
-- name: Ping Fabric-X Block Explorer
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.ping
+- name: Ping Chaguar Block Explorer
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.ping
 
-- name: Ping Fabric-X EVM
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.ping
+- name: Ping Chaguar EVM
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.ping
 
-- name: Ping Fabric-X Loadgen
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.ping
+- name: Ping Chaguar Loadgen
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.ping
 
 - name: Ping Monitoring
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.ping
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.ping

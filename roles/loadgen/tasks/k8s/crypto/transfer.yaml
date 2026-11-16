@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Loadgen
+- name: Ensure Kubernetes namespace exists for Chaguar Loadgen
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply Secret
 # =========================
-- name: Apply Fabric-X Loadgen Secret
+- name: Apply Chaguar Loadgen Secret
   vars:
     loadgen_k8s_msp_cacert_path: "{{ loadgen_remote_config_dir }}/msp/cacerts/ca.{{ organization.domain }}-cert.pem"
     loadgen_k8s_msp_keystore_path: "{{ loadgen_remote_config_dir }}/msp/keystore/priv_sk"

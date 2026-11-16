@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Delete Fabric-X Orderer Secret
+- name: Delete Chaguar Orderer Secret
   kubernetes.core.k8s:
     state: absent
     api_version: v1

@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Collect the Fabric-X Committer metrics
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Collect the Chaguar Committer metrics
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
-    - name: Collect Fabric-X Committer components metrics
+    - name: Collect Chaguar Committer components metrics
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: get_metrics
       when:
         - committer_metrics_port is defined

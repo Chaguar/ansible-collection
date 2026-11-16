@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Set the Fabric-X Loadgen limit rate
+- name: Set the Chaguar Loadgen limit rate
   hosts: "{{ target_hosts | default('load_generators') }}:&load_generators"
   tasks:
-    - name: Set the Fabric-X Loadgen TPS limit rate
+    - name: Set the Chaguar Loadgen TPS limit rate
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: limit_rate

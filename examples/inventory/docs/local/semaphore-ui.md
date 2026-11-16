@@ -2,7 +2,7 @@
 
 [`semaphore-ui.yaml`](../../local/semaphore-ui.yaml) deploys a standalone Semaphore UI instance on the local control node.
 
-Unlike the other sample inventories under [`local/`](../../local/), this is not a Fabric-X network sample. Semaphore UI is a general automation controller for this collection's playbooks and inventories, deployed independently through the [`semaphore_ui`](../../../../roles/semaphore_ui/README.md) role and its [companion playbooks](../../../../playbooks/semaphore_ui/README.md).
+Unlike the other sample inventories under [`local/`](../../local/), this is not a Chaguar network sample. Semaphore UI is a general automation controller for this collection's playbooks and inventories, deployed independently through the [`semaphore_ui`](../../../../roles/semaphore_ui/README.md) role and its [companion playbooks](../../../../playbooks/semaphore_ui/README.md).
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -27,7 +27,7 @@ A single logical host, `semaphore`, represents the Semaphore UI deployment:
 Run the lifecycle playbooks directly against this inventory, for example:
 
 ```shell
-ansible-playbook -i examples/inventory/local/semaphore-ui.yaml hyperledger.fabricx.semaphore_ui.start
+ansible-playbook -i examples/inventory/local/semaphore-ui.yaml hyperledger.chaguar.semaphore_ui.start
 ```
 
 See the [playbooks/semaphore_ui README](../../../../playbooks/semaphore_ui/README.md) for the full lifecycle (binaries, generate_crypto, configs, start, stop, teardown, wipe) and how to access the deployed instance.

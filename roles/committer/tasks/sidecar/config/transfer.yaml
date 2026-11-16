@@ -7,19 +7,19 @@
 # =========================
 # Config
 # =========================
-- name: Check that the Hyperledger Fabric-X Orderer Assemblers have been defined
+- name: Check that the LFDT Chaguar Orderer Assemblers have been defined
   ansible.builtin.fail:
-    msg: "No Hyperledger Fabric-X Orderer Assembler has been defined. Set it via 'orderer_assemblers'."
+    msg: "No LFDT Chaguar Orderer Assembler has been defined. Set it via 'orderer_assemblers'."
   when:
     - orderer_assemblers is not defined
 
-- name: Ensure Hyperledger Fabric-X Committer coordinator config directory exists
+- name: Ensure LFDT Chaguar Committer coordinator config directory exists
   ansible.builtin.file:
     path: "{{ committer_remote_config_dir }}"
     state: directory
     mode: "0o755"
 
-- name: Generate Hyperledger Fabric-X Committer Sidecar config
+- name: Generate LFDT Chaguar Committer Sidecar config
   vars:
     orderer_assembler_ref_host: >-
       {{
@@ -34,7 +34,7 @@
 # =========================
 # Genesis config block
 # =========================
-- name: Copy genesis config block for Fabric-X Committer sidecar
+- name: Copy genesis config block for Chaguar Committer sidecar
   ansible.builtin.copy:
     src: "{{ configtxgen_artifacts_dir }}/{{ channel_id }}_block.pb"
     dest: "{{ committer_remote_config_dir }}/{{ committer_sidecar_config_block_file }}"
@@ -64,14 +64,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/transfer
   when:
     - committer_use_mtls
 
 - name: Transfer Monitoring mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
   when:
     - committer_monitoring_use_mtls
@@ -79,8 +79,8 @@
 # =========================
 # Kubernetes
 # =========================
-- name: Generate Hyperledger Fabric-X Committer sidecar k8s config
+- name: Generate LFDT Chaguar Committer sidecar k8s config
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: sidecar/k8s/config/transfer
   when: committer_use_k8s or committer_use_openshift

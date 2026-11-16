@@ -15,7 +15,7 @@ argument_specs:
         type: dict
         description:
           - Optional certificate organization data forwarded to OpenSSL.
-          - "Example: C({'domain': 'observability.example.com', 'common_name': 'prometheus.observability.svc.cluster.local', 'organization_name': 'Hyperledger Fabric-X'})."
+          - "Example: C({'domain': 'observability.example.com', 'common_name': 'prometheus.observability.svc.cluster.local', 'organization_name': 'LFDT Chaguar'})."
       remote_config_dir: &remote_config_dir
         type: path
         description:

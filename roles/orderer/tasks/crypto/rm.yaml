@@ -4,25 +4,25 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Orderer MSP directory
+- name: Remove Chaguar Orderer MSP directory
   ansible.builtin.file:
     path: "{{ orderer_remote_config_dir }}/msp"
     state: absent
 
-- name: Remove Fabric-X Orderer users directory
+- name: Remove Chaguar Orderer users directory
   ansible.builtin.file:
     path: "{{ orderer_remote_config_dir }}/users"
     state: absent
   when:
     - organization.user is defined
 
-- name: Remove Fabric-X Orderer TLS directory
+- name: Remove Chaguar Orderer TLS directory
   ansible.builtin.file:
     path: "{{ orderer_remote_config_dir }}/tls"
     state: absent
 
-- name: Delete Fabric-X Orderer K8s crypto Secret
+- name: Delete Chaguar Orderer K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/crypto/rm
   when: orderer_use_k8s or orderer_use_openshift

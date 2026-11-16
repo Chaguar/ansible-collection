@@ -9,16 +9,16 @@
   tasks:
     - name: Create the configuration file for armageddon
       vars:
-        armageddon_orderer_hosts: "{{ groups['fabric_x_orderers'] }}"
+        armageddon_orderer_hosts: "{{ groups['chaguar_orderers'] }}"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.armageddon
+        name: hyperledger.chaguar.armageddon
         tasks_from: config/build
-      when: "'fabric_x_orderers' in groups"
+      when: "'chaguar_orderers' in groups"
     - name: Generate shared_config.binpb
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.armageddon
+        name: hyperledger.chaguar.armageddon
         tasks_from: create_shared_config
-      when: "'fabric_x_orderers' in groups"
+      when: "'chaguar_orderers' in groups"
     - name: Group orderers by organization
       vars:
         org_domain: "{{ hostvars[orderer].organization.domain }}"
@@ -43,7 +43,7 @@
           }}
       loop: >-
         {{
-          groups['fabric_x_orderers']
+          groups['chaguar_orderers']
           | default([])
           | map('extract', hostvars)
           | selectattr('organization', 'defined')
@@ -86,18 +86,18 @@
         }}
       loop_control:
         loop_var: peer
-    - name: Build Fabricx-compatible configuration file for configtxgen
+    - name: Build Chaguar-compatible configuration file for configtxgen
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.configtxgen
+        name: hyperledger.chaguar.configtxgen
         tasks_from: config/build
-    - name: Install configtxgen as binary for Fabric-X
+    - name: Install configtxgen as binary for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.configtxgen
+        name: hyperledger.chaguar.configtxgen
         tasks_from: bin/install
       when:
         - configtxgen_use_bin is defined
         - configtxgen_use_bin
-    - name: Generate the genesis block for Fabric-X
+    - name: Generate the genesis block for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.configtxgen
+        name: hyperledger.chaguar.configtxgen
         tasks_from: start

@@ -9,5 +9,5 @@
     container_name: "{{ node_exporter_container_name }}"
     container_image: "{{ node_exporter_image }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: stop

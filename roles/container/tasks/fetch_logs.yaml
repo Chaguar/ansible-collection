@@ -6,7 +6,7 @@
 
 - name: Find the container client to use
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: get_container_client
   when:
     - container_client == ''

@@ -1,4 +1,4 @@
-# hyperledger.fabricx.cadvisor
+# hyperledger.chaguar.cadvisor
 
 > Runs cAdvisor in container mode to collect per-container CPU, memory, network, and filesystem metrics from Docker or Podman.
 
@@ -29,7 +29,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.cadvisor
+ansible-doc -t role hyperledger.chaguar.cadvisor
 ```
 
 ## Tasks
@@ -46,7 +46,7 @@ Starts the local `cadvisor_container_name` container and publishes `cadvisor_por
     # Enables the container backend. cAdvisor currently only supports container mode.
     cadvisor_use_container: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: start
 ```
 
@@ -62,7 +62,7 @@ Stops the container-backed cAdvisor workload for the host.
     # Enables the container backend. cAdvisor currently only supports container mode.
     cadvisor_use_container: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: stop
 ```
 
@@ -78,7 +78,7 @@ Removes the local cAdvisor runtime container.
     # Enables the container backend. cAdvisor currently only supports container mode.
     cadvisor_use_container: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: teardown
 ```
 
@@ -91,7 +91,7 @@ Removes the cAdvisor runtime container for the host. Use this to fully reset the
 ```yaml
 - name: Remove cAdvisor runtime resources
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: wipe
 ```
 
@@ -107,7 +107,7 @@ Collects logs from the cAdvisor container for this host.
     # Enables the container backend. cAdvisor currently only supports container mode.
     cadvisor_use_container: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: fetch_logs
 ```
 
@@ -125,7 +125,7 @@ Verifies that the cAdvisor HTTP port is reachable on the current host.
     # Enables the container backend. cAdvisor currently only supports container mode.
     cadvisor_use_container: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: ping
 ```
 
@@ -138,7 +138,7 @@ Copies the bundled cAdvisor Insights dashboard into Grafana by delegating to the
 ```yaml
 - name: Transfer the Grafana dashboard for cAdvisor
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -168,7 +168,7 @@ Starts the cAdvisor container with the configured image, port, and host mounts. 
     # Comma-separated list of cAdvisor metric groups to disable (`--disable_metrics`). The default disables expensive collectors the bundled Grafana dashboard does not use, keeping `cpu`, `memory`, `network`, and `diskIO` enabled. Set to an empty string to keep cAdvisor's built-in defaults.
     cadvisor_disable_metrics: advtcp,cpu_topology,cpuset,disk,hugetlb,memory_numa,percpu,perf_event,process,referenced_memory,resctrl,sched,tcp,udp,cpuLoad
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: container/start
 ```
 
@@ -192,7 +192,7 @@ Stops the cAdvisor container by delegating to the shared container role. Uses th
     # Sets the full cAdvisor image reference.
     cadvisor_image: "{{ cadvisor_registry_endpoint }}/{{ cadvisor_image_name }}:{{ cadvisor_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: container/stop
 ```
 
@@ -216,7 +216,7 @@ Removes the cAdvisor container by delegating to the shared container role.
     # Sets the full cAdvisor image reference.
     cadvisor_image: "{{ cadvisor_registry_endpoint }}/{{ cadvisor_image_name }}:{{ cadvisor_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: container/rm
 ```
 
@@ -232,7 +232,7 @@ Collects logs from the cAdvisor container by delegating to the shared container 
     # Sets the container name used for the cAdvisor runtime.
     cadvisor_container_name: cadvisor
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: container/fetch_logs
 ```
 
@@ -252,6 +252,6 @@ Builds the `cadvisor_prometheus_scrape_services` fact for the cAdvisor hosts lis
     # Sets the interval at which cAdvisor refreshes its internal container metrics.
     cadvisor_housekeeping_interval: 15s
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: prometheus/get_scrapers
 ```

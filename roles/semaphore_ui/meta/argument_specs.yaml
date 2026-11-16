@@ -13,27 +13,27 @@ argument_specs:
         type: path
         description:
           - "Base directory on the managed host under which the Semaphore UI binary is installed."
-          - "Example: C(/var/lib/fabricx)."
+          - "Example: C(/var/lib/chaguar)."
       remote_config_dir: &remote_config_dir
         type: path
         description:
           - "Base directory on the managed host for C(semaphore_ui_remote_config_dir)."
-          - "Example: C(/var/lib/fabricx/config)."
+          - "Example: C(/var/lib/chaguar/config)."
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - "Base directory on the managed host for C(semaphore_ui_remote_data_dir)."
-          - "Example: C(/var/lib/fabricx/data)."
+          - "Example: C(/var/lib/chaguar/data)."
       project_dir: &project_dir
         type: path
         description:
           - "Project root directory on the managed host. Seeded as the Semaphore UI repository's absolute path, since it is a C(local) repository that Semaphore UI runs in place rather than cloning, so generated artifacts (for example C(out/control-node)) persist across runs."
-          - "Example: C(/path/to/hyperledger/fabricx)."
+          - "Example: C(/path/to/lfdt/chaguar)."
       out_dir: &out_dir
         type: path
         description:
           - "Root output directory for generated material, as resolved by C(examples/inventory/vars.yaml). Exported to every Semaphore UI task as C(ANSIBLE_CACHE_PLUGIN_CONNECTION), mirroring the Makefile's own C(ANSIBLE_CACHE_PLUGIN_CONNECTION) export."
-          - "Example: C(/path/to/hyperledger/fabricx/out)."
+          - "Example: C(/path/to/lfdt/chaguar/out)."
       actual_host: &actual_host
         type: str
         required: true
@@ -130,12 +130,12 @@ argument_specs:
           - "Example: C(/etc/ansible/ansible.cfg)."
       semaphore_ui_project_name: &semaphore_ui_project_name
         type: str
-        default: "Fabric-X"
+        default: "Chaguar"
         description:
           - "Name of the Semaphore UI project seeded on C(config/transfer)."
       semaphore_ui_repository_name: &semaphore_ui_repository_name
         type: str
-        default: "Fabric-X collection"
+        default: "Chaguar collection"
         description:
           - "Name of the Semaphore UI repository seeded on C(config/transfer)."
       semaphore_ui_environment_name: &semaphore_ui_environment_name
@@ -153,93 +153,93 @@ argument_specs:
         type: list
         elements: dict
         default:
-          - name: "Fabric-X - local"
-            path: "examples/inventory/local/fabric-x.yaml"
-          - name: "Fabric-X - local (cryptogen)"
-            path: "examples/inventory/local/fabric-x-cryptogen.yaml"
-          - name: "Fabric-X - local (yugabyte)"
-            path: "examples/inventory/local/fabric-x-yugabyte.yaml"
-          - name: "Fabric-X - local (bin)"
-            path: "examples/inventory/local/fabric-x-bin.yaml"
-          - name: "Fabric-X - local (no mtls)"
-            path: "examples/inventory/local/fabric-x-no-mtls.yaml"
-          - name: "Fabric-X - local (no tls)"
-            path: "examples/inventory/local/fabric-x-no-tls.yaml"
-          - name: "Fabric-X - k8s"
-            path: "examples/inventory/k8s/fabric-x.yaml"
-          - name: "Fabric-X - k8s (yugabyte)"
-            path: "examples/inventory/k8s/fabric-x-yugabyte.yaml"
-          - name: "Fabric-X - k8s (cryptogen)"
-            path: "examples/inventory/k8s/fabric-x-cryptogen.yaml"
-          - name: "Fabric-X - k8s (no mtls)"
-            path: "examples/inventory/k8s/fabric-x-no-mtls.yaml"
-          - name: "Fabric-X - k8s (no tls)"
-            path: "examples/inventory/k8s/fabric-x-no-tls.yaml"
-          - name: "Fabric-X - openshift"
-            path: "examples/inventory/openshift/fabric-x.yaml"
-          - name: "Fabric-X - openshift (cryptogen)"
-            path: "examples/inventory/openshift/fabric-x-cryptogen.yaml"
-          - name: "Fabric-X - distributed"
-            path: "examples/inventory/distributed/fabric-x.yaml"
+          - name: "Chaguar - local"
+            path: "examples/inventory/local/chaguar.yaml"
+          - name: "Chaguar - local (cryptogen)"
+            path: "examples/inventory/local/chaguar-cryptogen.yaml"
+          - name: "Chaguar - local (yugabyte)"
+            path: "examples/inventory/local/chaguar-yugabyte.yaml"
+          - name: "Chaguar - local (bin)"
+            path: "examples/inventory/local/chaguar-bin.yaml"
+          - name: "Chaguar - local (no mtls)"
+            path: "examples/inventory/local/chaguar-no-mtls.yaml"
+          - name: "Chaguar - local (no tls)"
+            path: "examples/inventory/local/chaguar-no-tls.yaml"
+          - name: "Chaguar - k8s"
+            path: "examples/inventory/k8s/chaguar.yaml"
+          - name: "Chaguar - k8s (yugabyte)"
+            path: "examples/inventory/k8s/chaguar-yugabyte.yaml"
+          - name: "Chaguar - k8s (cryptogen)"
+            path: "examples/inventory/k8s/chaguar-cryptogen.yaml"
+          - name: "Chaguar - k8s (no mtls)"
+            path: "examples/inventory/k8s/chaguar-no-mtls.yaml"
+          - name: "Chaguar - k8s (no tls)"
+            path: "examples/inventory/k8s/chaguar-no-tls.yaml"
+          - name: "Chaguar - openshift"
+            path: "examples/inventory/openshift/chaguar.yaml"
+          - name: "Chaguar - openshift (cryptogen)"
+            path: "examples/inventory/openshift/chaguar-cryptogen.yaml"
+          - name: "Chaguar - distributed"
+            path: "examples/inventory/distributed/chaguar.yaml"
         description:
-          - "Inventories seeded as Semaphore UI C(file) inventories, one per Fabric-X network sample under C(examples/inventory). Each item needs C(name) and C(path) (relative to C(project_dir))."
+          - "Inventories seeded as Semaphore UI C(file) inventories, one per Chaguar network sample under C(examples/inventory). Each item needs C(name) and C(path) (relative to C(project_dir))."
           - "Not discovered automatically; kept in sync by hand with C(examples/inventory). Add, rename, or remove an entry here when a sample inventory is added, renamed, or removed there."
       semaphore_ui_job_templates: &semaphore_ui_job_templates
         type: list
         elements: dict
         default:
-          - name: "010 - Fabric-X - Binaries"
+          - name: "010 - Chaguar - Binaries"
             playbook: "examples/playbooks/10-binaries.yaml"
-            inventory: "Fabric-X - local"
-          - name: "020 - Fabric-X - Generate Crypto"
+            inventory: "Chaguar - local"
+          - name: "020 - Chaguar - Generate Crypto"
             playbook: "examples/playbooks/20-generate-crypto.yaml"
-            inventory: "Fabric-X - local"
-          - name: "021 - Fabric-X - Build Genesis Block"
+            inventory: "Chaguar - local"
+          - name: "021 - Chaguar - Build Genesis Block"
             playbook: "examples/playbooks/21-build-genesis-block.yaml"
-            inventory: "Fabric-X - local"
-          - name: "030 - Fabric-X - Configs"
+            inventory: "Chaguar - local"
+          - name: "030 - Chaguar - Configs"
             playbook: "examples/playbooks/30-configs.yaml"
-            inventory: "Fabric-X - local"
-          - name: "040 - Fabric-X - Start"
+            inventory: "Chaguar - local"
+          - name: "040 - Chaguar - Start"
             playbook: "examples/playbooks/40-start.yaml"
-            inventory: "Fabric-X - local"
-          - name: "041 - Fabric-X - Init"
+            inventory: "Chaguar - local"
+          - name: "041 - Chaguar - Init"
             playbook: "examples/playbooks/41-init.yaml"
-            inventory: "Fabric-X - local"
-          - name: "050 - Fabric-X - Stop"
+            inventory: "Chaguar - local"
+          - name: "050 - Chaguar - Stop"
             playbook: "examples/playbooks/50-stop.yaml"
-            inventory: "Fabric-X - local"
-          - name: "060 - Fabric-X - Teardown"
+            inventory: "Chaguar - local"
+          - name: "060 - Chaguar - Teardown"
             playbook: "examples/playbooks/60-teardown.yaml"
-            inventory: "Fabric-X - local"
+            inventory: "Chaguar - local"
             limit:
               - "all:!semaphore_ui"
-          - name: "070 - Fabric-X - Ping"
+          - name: "070 - Chaguar - Ping"
             playbook: "examples/playbooks/70-ping.yaml"
-            inventory: "Fabric-X - local"
-          - name: "093 - Fabric-X - Get Metrics"
+            inventory: "Chaguar - local"
+          - name: "093 - Chaguar - Get Metrics"
             playbook: "examples/playbooks/93-get-metrics.yaml"
-            inventory: "Fabric-X - local"
-          - name: "095 - Fabric-X - Fetch Crypto"
+            inventory: "Chaguar - local"
+          - name: "095 - Chaguar - Fetch Crypto"
             playbook: "examples/playbooks/95-fetch-crypto.yaml"
-            inventory: "Fabric-X - local"
-          - name: "096 - Fabric-X - Fetch Logs"
+            inventory: "Chaguar - local"
+          - name: "096 - Chaguar - Fetch Logs"
             playbook: "examples/playbooks/96-fetch-logs.yaml"
-            inventory: "Fabric-X - local"
-          - name: "100 - Fabric-X - Wipe"
+            inventory: "Chaguar - local"
+          - name: "100 - Chaguar - Wipe"
             playbook: "examples/playbooks/100-wipe.yaml"
-            inventory: "Fabric-X - local"
+            inventory: "Chaguar - local"
             limit:
               - "all:!semaphore_ui"
-          - name: "110 - Fabric-X - Hard Wipe"
+          - name: "110 - Chaguar - Hard Wipe"
             playbook: "examples/playbooks/110-hard-wipe.yaml"
-            inventory: "Fabric-X - local"
+            inventory: "Chaguar - local"
             limit:
               - "all:!semaphore_ui"
         description:
           - "Task templates seeded for the numbered example playbooks under C(examples/playbooks/). Each item needs C(name) and C(playbook), and an optional C(inventory) name. Omitted entirely from the seed if not set — there is no fallback to any other C(semaphore_ui_inventories) entry."
           - "Not discovered automatically; kept in sync by hand with C(examples/playbooks). Add, rename, or remove an entry here when a numbered playbook is added, renamed, or removed there."
-          - 'An optional C(limit) sets this template''s default Ansible C(--limit), rendered as-is. Set to C(["all:!semaphore_ui"]) on the C(teardown)/C(wipe)/C(hard-wipe) entries by default, so they never tear Semaphore UI down along with a Fabric-X network sharing its inventory. An operator can still override it per run through the Limit field.'
+          - 'An optional C(limit) sets this template''s default Ansible C(--limit), rendered as-is. Set to C(["all:!semaphore_ui"]) on the C(teardown)/C(wipe)/C(hard-wipe) entries by default, so they never tear Semaphore UI down along with a Chaguar network sharing its inventory. An operator can still override it per run through the Limit field.'
           - "An optional C(survey_vars) list adds extra Semaphore UI survey variables to this template only, on top of C(target_hosts) and any project-wide C(semaphore_ui_extra_survey_vars). Each item follows Semaphore UI's own survey variable schema, same as C(semaphore_ui_extra_survey_vars)."
       semaphore_ui_extra_survey_vars: &semaphore_ui_extra_survey_vars
         type: list
@@ -387,7 +387,7 @@ argument_specs:
   db/setup:
     short_description: Migrate and seed the Semaphore UI database if it is missing
     description:
-      - "Checks whether the Semaphore UI SQLite database file exists and, only if it does not, ensures the data directory exists, runs database migrations, then ensures the admin user and the Fabric-X project exist. A repeated run against a live instance is a no-op."
+      - "Checks whether the Semaphore UI SQLite database file exists and, only if it does not, ensures the data directory exists, runs database migrations, then ensures the admin user and the Chaguar project exist. A repeated run against a live instance is a no-op."
       - "Run this only against a stopped server: the CLI commands used here write directly to the SQLite database, so running them while the server is live risks contending for the same file."
       - "Idempotent, but not a reconciler. The admin user is only created if it does not already exist, and the project import is a safe no-op if a project with the same name already exists — but it will not update an existing project when C(semaphore_ui_inventories)/C(semaphore_ui_job_templates) change."
     options:

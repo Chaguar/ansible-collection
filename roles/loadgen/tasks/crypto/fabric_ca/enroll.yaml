@@ -23,7 +23,7 @@
 # =========================
 # Peer MSP
 # =========================
-- name: Generate Hyperledger Fabric-X Loadgen MSP peer crypto material
+- name: Generate LFDT Chaguar Loadgen MSP peer crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -36,13 +36,13 @@
       name: "{{ organization.peer.name | default(inventory_hostname) }}"
       secret: "{{ organization.peer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll
 
 # =========================
 # User MSP
 # =========================
-- name: Generate Hyperledger Fabric-X Load generator MSP user crypto material
+- name: Generate LFDT Chaguar Load generator MSP user crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -59,7 +59,7 @@
       name: "{{ organization.user.name }}"
       secret: "{{ organization.user.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll
   when:
     - organization.user is defined
@@ -83,7 +83,7 @@
   when:
     - loadgen_openshift_rpc_route is defined
 
-- name: Generate Hyperledger Fabric-X Loadgen TLS crypto material
+- name: Generate LFDT Chaguar Loadgen TLS crypto material
   vars:
     fabric_ca_host: "{{ organization.fabric_ca_host }}"
     fabric_ca_use_tls: "{{ hostvars[organization.fabric_ca_host].fabric_ca_use_tls | default(false) }}"
@@ -96,7 +96,7 @@
       name: "{{ organization.peer.name | default(inventory_hostname) }}"
       secret: "{{ organization.peer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll
   when:
     - loadgen_use_tls or loadgen_monitoring_use_tls

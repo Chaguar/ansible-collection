@@ -4,18 +4,18 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Generate the Fabric-X Committer config files
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Generate the Chaguar Committer config files
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Generate the config files for the Fabric-X Committer
+    - name: Generate the config files for the Chaguar Committer
       vars:
         reference_committer_hosts: >-
           {{
             (
-              groups['fabric_x_committers']
+              groups['chaguar_committers']
               | map('extract', hostvars)
               | selectattr('organization', 'defined')
               | selectattr('organization.domain', 'defined')
@@ -23,11 +23,11 @@
               | map(attribute='inventory_hostname')
               | list
             )
-            or groups['fabric_x_committers']
+            or groups['chaguar_committers']
           }}
         orderer_assemblers: >-
           {{
-            groups['fabric_x_orderers']
+            groups['chaguar_orderers']
             | default([])
             | map('extract', hostvars)
             | selectattr('orderer_component_type', '==', 'assembler')
@@ -37,7 +37,7 @@
       when:
         - committer_component_type is defined
       block:
-        - name: Generate the config files for the Fabric-X Committer
+        - name: Generate the config files for the Chaguar Committer
           vars:
             committer_verifiers: >-
               {{
@@ -68,5 +68,5 @@
                 | first
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.committer
+            name: hyperledger.chaguar.committer
             tasks_from: config/transfer

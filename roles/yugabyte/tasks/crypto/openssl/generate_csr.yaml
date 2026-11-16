@@ -86,7 +86,7 @@
     openssl_ext_file_path: "{{ yugabyte_remote_config_dir }}/tls/tls.ext"
     openssl_san_entries: "{{ yugabyte_openssl_san_entries }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: generate_csr
   when:
     - yugabyte_use_tls

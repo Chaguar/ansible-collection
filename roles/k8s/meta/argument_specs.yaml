@@ -15,7 +15,7 @@ argument_specs:
         type: str
         description:
           - Specifies the Kubernetes namespace targeted by the task.
-          - "Example: C(fabric-x)."
+          - "Example: C(chaguar)."
       k8s_create_namespace: &k8s_create_namespace
         type: bool
         default: true
@@ -53,7 +53,7 @@ argument_specs:
         required: true
         description:
           - Specifies the Kubernetes label selectors used to select pods for log collection.
-          - "Example: C(['app=fabric-x-orderer', 'component=assembler'])."
+          - "Example: C(['app=chaguar-orderer', 'component=assembler'])."
       k8s_pod_container: &k8s_pod_container
         type: str
         description:
@@ -64,7 +64,7 @@ argument_specs:
         type: path
         description:
           - Shared managed-host root directory for the remote log path.
-          - "Example: C(/var/tmp/fabricx)."
+          - "Example: C(/var/tmp/chaguar)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:

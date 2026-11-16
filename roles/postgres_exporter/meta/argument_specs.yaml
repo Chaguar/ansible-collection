@@ -13,7 +13,7 @@ argument_specs:
         type: path
         description:
           - "Provides the shared remote configuration directory used by Postgres Exporter."
-          - "Example: C(/opt/fabricx/postgres-exporter/config)."
+          - "Example: C(/opt/chaguar/postgres-exporter/config)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true

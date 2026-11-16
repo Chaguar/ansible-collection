@@ -6,14 +6,14 @@
 
 - name: Generate the Alloy TLS crypto material with OpenSSL
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/openssl/generate_cert
   when:
     - alloy_use_tls
 
 - name: Apply Alloy K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/crypto/transfer
   when:
     - alloy_use_k8s or alloy_use_openshift

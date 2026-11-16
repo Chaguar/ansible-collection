@@ -6,7 +6,7 @@
 
 - name: Remove the fxconfig binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/rm
   when:
     - fxconfig_use_bin

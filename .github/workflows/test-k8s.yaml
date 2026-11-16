@@ -21,12 +21,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - inventory: "fabric-x"
-          - inventory: "fabric-x-cryptogen"
-          - inventory: "fabric-x-no-mtls"
-          - inventory: "fabric-x-no-tls"
-          - inventory: "fabric-x-yugabyte"
-          - inventory: "fabric-x-evm"
+          - inventory: "chaguar"
+          - inventory: "chaguar-cryptogen"
+          - inventory: "chaguar-no-mtls"
+          - inventory: "chaguar-no-tls"
+          - inventory: "chaguar-yugabyte"
+          - inventory: "chaguar-evm"
       fail-fast: false
 
     steps:
