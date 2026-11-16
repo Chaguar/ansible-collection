@@ -29,7 +29,7 @@
         openssl_basic_constraints: "critical, CA:true"
         openssl_key_usage: "critical, keyCertSign, cRLSign"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.openssl
+        name: hyperledger.chaguar.openssl
         tasks_from: generate_self_signed_cert
       loop: >-
         {{
@@ -50,13 +50,13 @@
   tasks:
     - name: Generate CSR for TLS cert
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: crypto/openssl/generate_csr
       when:
         - yugabyte_component_type is defined
     - name: Fetch CSR for TLS cert on control node
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: crypto/openssl/fetch_csr
       when:
         - yugabyte_component_type is defined
@@ -73,7 +73,7 @@
         openssl_cert_path: "{{ fetched_artifacts_dir }}/{{ current_yugabyte_node }}/tls/node.{{ hostvars[current_yugabyte_node].ansible_host }}.pem"
         openssl_ext_file_path: "{{ fetched_artifacts_dir }}/{{ current_yugabyte_node }}/tls/tls.ext"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.openssl
+        name: hyperledger.chaguar.openssl
         tasks_from: generate_cert
       loop: >-
         {{
@@ -94,7 +94,7 @@
   tasks:
     - name: Transfer generated certs to nodes
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: crypto/openssl/transfer_cert
       when:
         - yugabyte_component_type is defined

@@ -14,13 +14,13 @@ argument_specs:
         required: true
         description:
           - "Sets the shared directory used by the binary execution path."
-          - "Example: C(/opt/hyperledger/fabricx/bin)."
+          - "Example: C(/opt/lfdt/chaguar/bin)."
       config_build_dir: &config_build_dir
         type: path
         description:
           - "Sets the shared build root used by C(idemixgen_output_dir)."
           - "Required when using C(idemixgen_output_dir)."
-          - "Example: C(/opt/hyperledger/fabricx/build)."
+          - "Example: C(/opt/lfdt/chaguar/build)."
       idemixgen_bin_name: &idemixgen_bin_name
         type: str
         default: "idemixgen"
@@ -36,7 +36,7 @@ argument_specs:
         required: true
         description:
           - "Sets the directory containing the CA material consumed by C(signerconfig)."
-          - "Example: C(/opt/hyperledger/fabricx/build/idemixgen-artifacts/ca)."
+          - "Example: C(/opt/lfdt/chaguar/build/idemixgen-artifacts/ca)."
       idemixgen_container_name: &idemixgen_container_name
         type: str
         default: "idemixgen-{{ inventory_hostname }}"

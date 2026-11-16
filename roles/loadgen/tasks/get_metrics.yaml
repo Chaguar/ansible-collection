@@ -8,10 +8,10 @@
   vars:
     loadgen_host: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loadgen
+    name: hyperledger.chaguar.loadgen
     tasks_from: effective_address
 
-- name: Get Fabric-X Loadgen metrics
+- name: Get Chaguar Loadgen metrics
   ansible.builtin.uri:
     url: "{{ loadgen_effective_metrics_address }}/metrics"
     validate_certs: false
@@ -19,13 +19,13 @@
     return_content: true
   register: loadgen_metrics
 
-- name: Print Fabric-X Loadgen metrics
+- name: Print Chaguar Loadgen metrics
   ansible.builtin.debug:
     msg: "{{ loadgen_metrics.content }}"
   when:
     - not loadgen_assert_metrics
 
-- name: Set the committed transaction count from Fabric-X Loadgen metrics
+- name: Set the committed transaction count from Chaguar Loadgen metrics
   ansible.builtin.set_fact:
     loadgen_tx_committed: >-
       {{
@@ -38,7 +38,7 @@
   when:
     - loadgen_assert_metrics
 
-- name: Set the aborted transaction count from Fabric-X Loadgen metrics
+- name: Set the aborted transaction count from Chaguar Loadgen metrics
   ansible.builtin.set_fact:
     loadgen_tx_aborted: >-
       {{
@@ -51,7 +51,7 @@
   when:
     - loadgen_assert_metrics
 
-- name: Assert the Fabric-X Loadgen committed transaction metric
+- name: Assert the Chaguar Loadgen committed transaction metric
   ansible.builtin.debug:
     msg:
       - "Transactions committed (>0): {{ loadgen_tx_committed }}"

@@ -1,6 +1,6 @@
-# hyperledger.fabricx.cryptogen
+# hyperledger.chaguar.cryptogen
 
-> Renders cryptogen configuration, generates Fabric-X crypto material, and fetches MSP artifacts for organizations that can own both orderer and peer nodes.
+> Renders cryptogen configuration, generates Chaguar crypto material, and fetches MSP artifacts for organizations that can own both orderer and peer nodes.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -25,24 +25,24 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.cryptogen
+ansible-doc -t role hyperledger.chaguar.cryptogen
 ```
 
 ## Tasks
 
 ### start
 
-> Extend or generate the Fabric-X crypto material
+> Extend or generate the Chaguar crypto material
 
 Inspect the existing crypto material, then run cryptogen only for the components that are missing or changed, extending the material already on disk instead of regenerating it. This dispatcher selects either the `bin/start` or `container/start` entry point so the role can render configuration and generate crypto material in the requested execution mode. Delete `cryptogen_output_dir` to rebuild the whole network from scratch.
 
 ```yaml
-- name: Extend or generate the Fabric-X crypto material
+- name: Extend or generate the Chaguar crypto material
   vars:
     # Selects binary mode when true; otherwise container mode is used.
     cryptogen_use_bin: false
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the directory where cryptogen writes generated crypto material.
@@ -50,7 +50,7 @@ Inspect the existing crypto material, then run cryptogen only for the components
     # Sets the filename that tracks a fingerprint of every generated component, used to detect components missing or changed since the last run.
     cryptogen_state_file: cryptogen-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: start
 ```
 
@@ -64,7 +64,7 @@ Read back the rendered `crypto-config.yaml` and the persisted state file, then d
 - name: Detect missing or changed cryptogen components
   vars:
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the directory where cryptogen writes generated crypto material.
@@ -74,7 +74,7 @@ Read back the rendered `crypto-config.yaml` and the persisted state file, then d
     # Sets the filename that tracks a fingerprint of every generated component, used to detect components missing or changed since the last run.
     cryptogen_state_file: cryptogen-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: inspect
 ```
 
@@ -88,17 +88,17 @@ Copy generated MSP directories for every organization into the fetched artifacts
 - name: Fetch generated MSP directories
   vars:
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the destination directory for fetched MSP folders.
-    fetched_artifacts_dir: "/opt/hyperledger/fabricx/build/fetched-artifacts"
+    fetched_artifacts_dir: "/opt/lfdt/chaguar/build/fetched-artifacts"
     # Sets the directory where cryptogen writes generated crypto material.
     cryptogen_output_dir: "{{ cryptogen_artifacts_dir }}/crypto"
     # Maps organization domains to their organization definitions, each node carrying its own organizational unit (orderer or peer). Users default to client identities; setting `type: admin` generates an administrator identity.
     cryptogen_orgs_by_domain: {}
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: fetch
 ```
 
@@ -106,13 +106,13 @@ Copy generated MSP directories for every organization into the fetched artifacts
 
 > Build the cryptogen configuration file
 
-Render `crypto-config.yaml` for the cryptogen CLI. This entry point gathers host IPv4 facts for every referenced node before templating `{{ cryptogen_artifacts_dir }}/{{ cryptogen_config_file }}`. The rendered file captures the Fabric-X organization layout, as a single `GenericOrgs` list, that cryptogen uses to generate orderer and peer MSP and TLS material.
+Render `crypto-config.yaml` for the cryptogen CLI. This entry point gathers host IPv4 facts for every referenced node before templating `{{ cryptogen_artifacts_dir }}/{{ cryptogen_config_file }}`. The rendered file captures the Chaguar organization layout, as a single `GenericOrgs` list, that cryptogen uses to generate orderer and peer MSP and TLS material.
 
 ```yaml
 - name: Build the cryptogen configuration file
   vars:
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the cryptogen configuration filename.
@@ -120,7 +120,7 @@ Render `crypto-config.yaml` for the cryptogen CLI. This entry point gathers host
     # Maps organization domains to their organization definitions, each node carrying its own organizational unit (orderer or peer). Users default to client identities; setting `type: admin` generates an administrator identity.
     cryptogen_orgs_by_domain: {}
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: config/build
 ```
 
@@ -128,13 +128,13 @@ Render `crypto-config.yaml` for the cryptogen CLI. This entry point gathers host
 
 > Generate crypto material with a container
 
-Clean the output directory and run the cryptogen CLI in a container. The container mounts the rendered configuration from `{{ cryptogen_artifacts_dir }}` and writes generated material to `{{ cryptogen_output_dir }}`. This entry point delegates container startup to `hyperledger.fabricx.container`.
+Clean the output directory and run the cryptogen CLI in a container. The container mounts the rendered configuration from `{{ cryptogen_artifacts_dir }}` and writes generated material to `{{ cryptogen_output_dir }}`. This entry point delegates container startup to `hyperledger.chaguar.container`.
 
 ```yaml
 - name: Generate crypto material with a container
   vars:
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the directory where cryptogen writes generated crypto material.
@@ -158,7 +158,7 @@ Clean the output directory and run the cryptogen CLI in a container. The contain
     # Sets the cryptogen configuration filename.
     cryptogen_config_file: crypto-config.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: container/start
 ```
 
@@ -166,13 +166,13 @@ Clean the output directory and run the cryptogen CLI in a container. The contain
 
 > Install the cryptogen binary
 
-Install the cryptogen binary through `hyperledger.fabricx.bin`. This entry point is intended for binary-mode deployments that execute cryptogen on the target host.
+Install the cryptogen binary through `hyperledger.chaguar.bin`. This entry point is intended for binary-mode deployments that execute cryptogen on the target host.
 
 ```yaml
 - name: Install the cryptogen binary
   vars:
     # Sets the directory that receives the cryptogen binary.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Sets the cryptogen executable name.
     cryptogen_bin_name: cryptogen
     # Sets the Git host used for the cryptogen source repository.
@@ -186,7 +186,7 @@ Install the cryptogen binary through `hyperledger.fabricx.bin`. This entry point
     # Sets the Go package path used to install cryptogen.
     cryptogen_bin_package: "{{ cryptogen_git_hub_url }}/{{ cryptogen_git_repo }}/{{ cryptogen_source_code_package }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: bin/install
 ```
 
@@ -194,13 +194,13 @@ Install the cryptogen binary through `hyperledger.fabricx.bin`. This entry point
 
 > Build the cryptogen binary from source
 
-Build the cryptogen binary from the configured source repository through `hyperledger.fabricx.bin`. This entry point builds on the control node and writes the binary into `cli_bin_dir` for later reuse by the binary start path.
+Build the cryptogen binary from the configured source repository through `hyperledger.chaguar.bin`. This entry point builds on the control node and writes the binary into `cli_bin_dir` for later reuse by the binary start path.
 
 ```yaml
 - name: Build the cryptogen binary from source
   vars:
     # Sets the directory that receives the cryptogen binary.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Sets the cryptogen executable name.
     cryptogen_bin_name: cryptogen
     # Sets the Git host used for the cryptogen source repository.
@@ -212,7 +212,7 @@ Build the cryptogen binary from the configured source repository through `hyperl
     # Sets the Go package path that contains the cryptogen source.
     cryptogen_source_code_package: tools/cryptogen
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: bin/build
 ```
 
@@ -220,15 +220,15 @@ Build the cryptogen binary from the configured source repository through `hyperl
 
 > Generate crypto material with the binary
 
-Clean the output directory and run the cryptogen binary on the target host. The binary consumes the rendered configuration from `{{ cryptogen_artifacts_dir }}` and writes generated material to `{{ cryptogen_output_dir }}`. This entry point delegates command execution to `hyperledger.fabricx.bin`.
+Clean the output directory and run the cryptogen binary on the target host. The binary consumes the rendered configuration from `{{ cryptogen_artifacts_dir }}` and writes generated material to `{{ cryptogen_output_dir }}`. This entry point delegates command execution to `hyperledger.chaguar.bin`.
 
 ```yaml
 - name: Generate crypto material with the binary
   vars:
     # Sets the directory that receives the cryptogen binary.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Sets the base directory for generated configuration artifacts.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Sets the directory that stores cryptogen inputs and generated files.
     cryptogen_artifacts_dir: "{{ config_build_dir }}/cryptogen-artifacts"
     # Sets the directory where cryptogen writes generated crypto material.
@@ -238,6 +238,6 @@ Clean the output directory and run the cryptogen binary on the target host. The 
     # Sets the cryptogen configuration filename.
     cryptogen_config_file: crypto-config.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: bin/start
 ```

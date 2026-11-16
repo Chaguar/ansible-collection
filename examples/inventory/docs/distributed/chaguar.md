@@ -1,0 +1,66 @@
+# distributed/chaguar.yaml
+
+[`chaguar.yaml`](../../distributed/chaguar.yaml) is a multi-machine SSH inventory for performance-oriented Chaguar evaluation.
+
+This inventory is not ready to run as-is. Replace the `host_machine_*` placeholders with real machines and confirm SSH access before using it.
+
+## Table of Contents <!-- omit in toc -->
+
+- [Network Diagram](#network-diagram)
+- [Inventory Details](#inventory-details)
+
+## Network Diagram
+
+The diagram below summarizes this inventory's Chaguar services and how they fit together.
+
+![distributed Chaguar inventory](../../../images/chaguar-distributed.drawio.png)
+
+## Inventory Details
+
+Ansible reaches the target machines over SSH. The Chaguar services, YugabyteDB, load generators, and monitoring components run as containers on remote hosts.
+
+The environment file [`distributed/group_vars/all/env.yaml`](../../distributed/group_vars/all/env.yaml) defines the remote connection defaults, placeholder machines, and deployment directories.
+
+This inventory describes a larger container-based Chaguar deployment:
+
+- No Fabric CA services. Crypto material is generated on the control node with `cryptogen`.
+- 4 orderer groups. Each group has 1 router, 1 consenter, 1 assembler, and 2 batchers.
+- 7 validators, 7 verifiers, 1 coordinator, 1 sidecar, and 1 query service.
+- 3 YugabyteDB masters and 7 YugabyteDB tablets.
+- 1 Block Explorer server and UI with its own PostgreSQL storage, co-located on the monitoring machine and streaming blocks from the committer sidecar.
+- 2 load generators.
+- Monitoring with 16 node exporters, 16 cAdvisors, Prometheus, Grafana, Loki, and Alloy.
+
+```mermaid
+flowchart TD
+  all --> network
+  network --> chaguar
+  all --> load_generators
+  all --> monitoring
+  monitoring --> prometheus
+  monitoring --> grafana
+  monitoring --> loki
+  monitoring --> alloy
+  monitoring --> node_exporter
+  monitoring --> cadvisor
+  grafana --> prometheus
+  grafana --> loki
+  alloy --> loki
+  prometheus --> node_exporter
+  prometheus --> cadvisor
+  chaguar --> chaguar_orderers
+  chaguar --> chaguar_committers
+  chaguar --> chaguar_block_explorer
+  chaguar_committers --> chaguar_committer
+  chaguar_orderers --> chaguar_orderer_1
+  chaguar_orderers --> chaguar_orderer_2
+  chaguar_orderers --> chaguar_orderer_3
+  chaguar_orderers --> chaguar_orderer_4
+  chaguar_committer --> committer_dbs
+  committer_dbs --> yb_masters
+  committer_dbs --> yb_tablets
+```
+
+This is a performance-oriented reference topology, not a small development sample. It scales validators, verifiers, batchers, load generators, and YugabyteDB tablets across 16 remote machine placeholders.
+
+Fabric CA is intentionally omitted so large performance runs do not spend time starting CA services or enrolling identities. TLS and mTLS still use centrally generated `cryptogen` material.

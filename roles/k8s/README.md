@@ -1,4 +1,4 @@
-# hyperledger.fabricx.k8s
+# hyperledger.chaguar.k8s
 
 > Provides Kubernetes helper tasks for namespaces, image pull secrets, and pod log retrieval.
 
@@ -23,7 +23,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.k8s
+ansible-doc -t role hyperledger.chaguar.k8s
 ```
 
 ## Tasks
@@ -38,11 +38,11 @@ Creates or updates the named Kubernetes namespace resource in the target cluster
 - name: Ensure a Kubernetes namespace exists
   vars:
     # Specifies the Kubernetes namespace targeted by the task.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Controls whether the namespace creation task applies the namespace resource. When `false`, the namespace creation task is skipped.
     k8s_create_namespace: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 ```
 
@@ -56,7 +56,7 @@ Creates or updates a `kubernetes.io/dockerconfigjson` Secret named by `k8s_image
 - name: Create a Kubernetes image pull secret
   vars:
     # Specifies the Kubernetes namespace targeted by the task.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Specifies the Kubernetes Secret name used for image pulls.
     k8s_image_pull_secret: "regcred"
     # Specifies the container registry host recorded in the generated Docker config.
@@ -66,7 +66,7 @@ Creates or updates a `kubernetes.io/dockerconfigjson` Secret named by `k8s_image
     # Specifies the registry password or token stored in the generated image pull secret. Store this value in an Ansible Vault.
     k8s_container_registry_password: "my_private_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: registry/create_pull_secret
 ```
 
@@ -80,15 +80,15 @@ Collects pod logs from the target namespace for pods matched by `k8s_pod_label_s
 - name: Fetch Kubernetes pod logs
   vars:
     # Specifies the Kubernetes namespace targeted by the task.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Specifies the Kubernetes label selectors used to select pods for log collection.
     k8s_pod_label_selectors:
-      - "app=fabric-x-orderer"
+      - "app=chaguar-orderer"
       - "component=assembler"
     # Optionally specifies the container name to query from multi-container pods. When omitted, Kubernetes uses the default container.
     k8s_pod_container: "orderer"
     # Shared managed-host root directory for the remote log path.
-    remote_node_dir: "/var/tmp/fabricx"
+    remote_node_dir: "/var/tmp/chaguar"
     # Shared control-node artifact root for the fetched log directory.
     fetched_artifacts_dir: "artifacts"
     # Specifies the directory on the managed host where pod logs are written before transfer.
@@ -100,7 +100,7 @@ Collects pod logs from the target namespace for pods matched by `k8s_pod_label_s
     # Specifies the filename used for the fetched log artifact on the control node.
     k8s_fetched_logs_file: logs.txt
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: fetch_logs
 ```
 
@@ -113,7 +113,7 @@ Discovers unique `k8s_namespace` values from inventory host variables. Sets `k8s
 ```yaml
 - name: Build Kubernetes namespace targets
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: get_namespaces
 ```
 
@@ -127,7 +127,7 @@ Creates or updates a ServiceAccount, ClusterRole, and ClusterRoleBinding for Kub
 - name: Apply RBAC resources for Kubernetes service discovery
   vars:
     # Specifies the Kubernetes namespace targeted by the task.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Base name used for RBAC resources (ServiceAccount, ClusterRole, ClusterRoleBinding).
     k8s_rbac_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to RBAC resources. Must be set by the consumer role.
@@ -148,7 +148,7 @@ Creates or updates a ServiceAccount, ClusterRole, and ClusterRoleBinding for Kub
       - "list"
       - "watch"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: rbac/apply
 ```
 
@@ -162,10 +162,10 @@ Deletes the ClusterRoleBinding, ClusterRole, and ServiceAccount previously creat
 - name: Remove RBAC resources for Kubernetes service discovery
   vars:
     # Specifies the Kubernetes namespace targeted by the task.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Base name used for RBAC resources (ServiceAccount, ClusterRole, ClusterRoleBinding).
     k8s_rbac_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: rbac/rm
 ```

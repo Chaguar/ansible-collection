@@ -1,14 +1,14 @@
-# AGENTS.md — AI Agent Guide for `hyperledger.fabricx`
+# AGENTS.md — AI Agent Guide for `hyperledger.chaguar`
 
-`hyperledger.fabricx` is an Ansible collection that automates deployment and lifecycle management of **Hyperledger Fabric-X** networks.
-Namespace/name: `hyperledger.fabricx`. Authoritative version and deps: [`galaxy.yml`](galaxy.yml).
+`hyperledger.chaguar` is an Ansible collection that automates deployment and lifecycle management of **LFDT Chaguar** networks.
+Namespace/name: `hyperledger.chaguar`. Authoritative version and deps: [`galaxy.yml`](galaxy.yml).
 
 ## Project-local Agent Skills
 
 [`.agents/skills/`](.agents/skills/) is the source of truth for project-local Agent Skills. Compatible agents discover their metadata from this trusted repository checkout and load the applicable `SKILL.md` on demand:
 
-- `creating-fabricx-inventories`: load when creating, adapting, or reviewing a custom operator-owned Fabric-X inventory.
-- `validating-fabricx-changes`: load when checking, validating, reviewing, or preparing repository changes.
+- `creating-chaguar-inventories`: load when creating, adapting, or reviewing a custom operator-owned Chaguar inventory.
+- `validating-chaguar-changes`: load when checking, validating, reviewing, or preparing repository changes.
 - `opening-component-update-issues`: load when a new upstream component tag or version is released and a Component Update issue must be drafted or opened.
 
 ---
@@ -59,7 +59,7 @@ Roles that manage multiple sub-components (e.g. `orderer`: consenter/batcher/ass
 
 ```yaml
 ansible.builtin.include_role:
-  name: hyperledger.fabricx.<role>
+  name: hyperledger.chaguar.<role>
   tasks_from: <sub_component>/start # e.g. coordinator/start, assembler/bin/install
 ```
 
@@ -101,36 +101,36 @@ These connections are not visible from within a single role:
 
 ## Role reference
 
-| Role                | Component managed                                                         |
-| ------------------- | ------------------------------------------------------------------------- |
-| `armageddon`        | Genesis block builder (armageddon CLI)                                    |
-| `bin`               | Generic binary build/install helpers                                      |
-| `block_explorer`    | Fabric-X Block Explorer server + Next.js UI (streams blocks from sidecar) |
-| `cadvisor`          | cAdvisor container metrics exporter                                       |
-| `committer`         | Fabric-X Committer (validator/verifier/coordinator/sidecar/query-service) |
-| `configtxgen`       | configtxgen CLI wrapper                                                   |
-| `container`         | Generic container helpers (start/stop/rm)                                 |
-| `cryptogen`         | Crypto material generation                                                |
-| `elasticsearch`     | Elasticsearch log backend                                                 |
-| `fabric_ca`         | Fabric CA server and client                                               |
-| `fxconfig`          | fxconfig configuration tool                                               |
-| `git`               | Git clone helper                                                          |
-| `go`                | Go binary build, install, and platform-mapping helpers                    |
-| `grafana`           | Grafana dashboard                                                         |
-| `idemixgen`         | idemixgen CLI wrapper                                                     |
-| `jaeger`            | Jaeger tracing backend                                                    |
-| `k8s`               | Shared Kubernetes helper (used by roles that deploy to k8s)               |
-| `loadgen`           | Load generator                                                            |
-| `node_exporter`     | Prometheus Node Exporter                                                  |
-| `openssl`           | OpenSSL certificate helpers                                               |
-| `orderer`           | Fabric-X Orderer (consenter/batcher/assembler/router)                     |
-| `package`           | OS package installation (apt / brew)                                      |
-| `postgres`          | PostgreSQL database                                                       |
-| `postgres_exporter` | Prometheus Postgres Exporter                                              |
-| `prometheus`        | Prometheus monitoring                                                     |
-| `tmux`              | tmux session helpers                                                      |
-| `utils`             | Miscellaneous utility tasks                                               |
-| `yugabyte`          | YugabyteDB                                                                |
+| Role                | Component managed                                                        |
+| ------------------- | ------------------------------------------------------------------------ |
+| `armageddon`        | Genesis block builder (armageddon CLI)                                   |
+| `bin`               | Generic binary build/install helpers                                     |
+| `block_explorer`    | Chaguar Block Explorer server + Next.js UI (streams blocks from sidecar) |
+| `cadvisor`          | cAdvisor container metrics exporter                                      |
+| `committer`         | Chaguar Committer (validator/verifier/coordinator/sidecar/query-service) |
+| `configtxgen`       | configtxgen CLI wrapper                                                  |
+| `container`         | Generic container helpers (start/stop/rm)                                |
+| `cryptogen`         | Crypto material generation                                               |
+| `elasticsearch`     | Elasticsearch log backend                                                |
+| `fabric_ca`         | Fabric CA server and client                                              |
+| `fxconfig`          | fxconfig configuration tool                                              |
+| `git`               | Git clone helper                                                         |
+| `go`                | Go binary build, install, and platform-mapping helpers                   |
+| `grafana`           | Grafana dashboard                                                        |
+| `idemixgen`         | idemixgen CLI wrapper                                                    |
+| `jaeger`            | Jaeger tracing backend                                                   |
+| `k8s`               | Shared Kubernetes helper (used by roles that deploy to k8s)              |
+| `loadgen`           | Load generator                                                           |
+| `node_exporter`     | Prometheus Node Exporter                                                 |
+| `openssl`           | OpenSSL certificate helpers                                              |
+| `orderer`           | Chaguar Orderer (consenter/batcher/assembler/router)                     |
+| `package`           | OS package installation (apt / brew)                                     |
+| `postgres`          | PostgreSQL database                                                      |
+| `postgres_exporter` | Prometheus Postgres Exporter                                             |
+| `prometheus`        | Prometheus monitoring                                                    |
+| `tmux`              | tmux session helpers                                                     |
+| `utils`             | Miscellaneous utility tasks                                              |
+| `yugabyte`          | YugabyteDB                                                               |
 
 ---
 
@@ -178,7 +178,7 @@ Agents must use the Makefile targets for repository checks. Do not rewrite or by
 
 ## Adding a new inventory
 
-When a new inventory is added under [`examples/inventory/`](examples/inventory/), write a corresponding doc under [`examples/inventory/docs/`](examples/inventory/docs/) following the structure of existing docs (e.g. [`examples/inventory/docs/local/fabric-x.md`](examples/inventory/docs/local/fabric-x.md)). Then register the new doc in [`mkdocs.yml`](mkdocs.yml) under the `nav.Inventories` section, in the appropriate deployment-type group.
+When a new inventory is added under [`examples/inventory/`](examples/inventory/), write a corresponding doc under [`examples/inventory/docs/`](examples/inventory/docs/) following the structure of existing docs (e.g. [`examples/inventory/docs/local/chaguar.md`](examples/inventory/docs/local/chaguar.md)). Then register the new doc in [`mkdocs.yml`](mkdocs.yml) under the `nav.Inventories` section, in the appropriate deployment-type group.
 
 ## Adding or modifying a tutorial lesson
 

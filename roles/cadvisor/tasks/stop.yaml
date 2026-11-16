@@ -6,6 +6,6 @@
 
 - name: Stop cAdvisor container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cadvisor
+    name: hyperledger.chaguar.cadvisor
     tasks_from: container/stop
   when: cadvisor_use_container

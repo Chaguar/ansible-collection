@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the logs from the Fabric-X Loadgen
+- name: Fetch the logs from the Chaguar Loadgen
   hosts: "{{ target_hosts | default('load_generators') }}:&load_generators"
   tasks:
-    - name: Fetch the logs from the Fabric-X Loadgen
+    - name: Fetch the logs from the Chaguar Loadgen
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: fetch_logs

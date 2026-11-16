@@ -7,7 +7,7 @@
 # =========================
 # MSP certs
 # =========================
-- name: Fetch Hyperledger Fabric-X loadgen user sign certificate
+- name: Fetch LFDT Chaguar loadgen user sign certificate
   ansible.builtin.fetch:
     src: "{{ loadgen_remote_config_dir }}/users/{{ organization.user.name }}@{{ organization.domain }}/msp/signcerts/{{ organization.user.name }}@{{ organization.domain }}-cert.pem"
     dest: "{{ fetched_artifacts_dir }}/crypto/organizations/{{ organization.domain }}/users/{{ organization.user.name }}@{{ organization.domain }}/msp/signcerts/{{ organization.user.name }}@{{ organization.domain }}-cert.pem"
@@ -15,7 +15,7 @@
   when:
     - organization.user is defined
 
-- name: Fetch Hyperledger Fabric-X Loadgen user sign certificate into organization knowncerts
+- name: Fetch LFDT Chaguar Loadgen user sign certificate into organization knowncerts
   ansible.builtin.fetch:
     src: "{{ loadgen_remote_config_dir }}/users/{{ organization.user.name }}@{{ organization.domain }}/msp/signcerts/{{ organization.user.name }}@{{ organization.domain }}-cert.pem"
     dest: "{{ fetched_artifacts_dir }}/crypto/organizations/{{ organization.domain }}/msp/knowncerts/{{ organization.user.name }}@{{ organization.domain }}-cert.pem"
@@ -27,16 +27,16 @@
 # =========================
 # TLS certs
 # =========================
-- name: Fetch Hyperledger Fabric-X Loadgen TLS certificates
+- name: Fetch LFDT Chaguar Loadgen TLS certificates
   when:
     - loadgen_use_tls or loadgen_monitoring_use_tls
   block:
-    - name: Fetch Hyperledger Fabric-X Loadgen TLS CA certificate
+    - name: Fetch LFDT Chaguar Loadgen TLS CA certificate
       ansible.builtin.fetch:
         src: "{{ loadgen_remote_config_dir }}/tls/ca.crt"
         dest: "{{ fetched_artifacts_dir }}/{{ inventory_hostname }}/tls/ca.crt"
         flat: true
-    - name: Fetch Hyperledger Fabric-X Loadgen TLS certificate
+    - name: Fetch LFDT Chaguar Loadgen TLS certificate
       ansible.builtin.fetch:
         src: "{{ loadgen_remote_config_dir }}/tls/server.crt"
         dest: "{{ fetched_artifacts_dir }}/{{ inventory_hostname }}/tls/server.crt"

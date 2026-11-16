@@ -6,12 +6,12 @@
 
 - name: Remove Yugabyte master Kubernetes resources
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/master/rm
   when: yugabyte_component_type == 'master'
 
 - name: Remove Yugabyte tablet server Kubernetes resources
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/tablet/rm
   when: yugabyte_component_type == 'tablet'

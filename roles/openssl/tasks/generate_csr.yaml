@@ -39,7 +39,7 @@
       - "{{ openssl_key_opt | default('') }}"
       - "{{ openssl_cert_duration }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openssl
+    name: hyperledger.chaguar.openssl
     tasks_from: inspect
 
 # =========================

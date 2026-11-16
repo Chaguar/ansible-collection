@@ -24,7 +24,7 @@
       ansible.builtin.set_fact:
         committer_container_volumes: "{{ committer_container_volumes + [committer_sidecar_data_volume] }}"
 
-- name: Start the Fabric-X Committer container
+- name: Start the Chaguar Committer container
   vars:
     committer_subcommands:
       validator: vc
@@ -53,5 +53,5 @@
     container_wait_port: "{{ committer_rpc_port }}"
     container_wait_timeout: 120
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Ping Fabric-X Loadgen
+- name: Ping Chaguar Loadgen
   hosts: "{{ target_hosts | default('load_generators') }}:&load_generators"
   tasks:
-    - name: Ping the Fabric-X Load generators
+    - name: Ping the Chaguar Load generators
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: ping

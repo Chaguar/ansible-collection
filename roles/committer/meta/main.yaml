@@ -7,7 +7,7 @@
 galaxy_info:
   author: IBM
   description: >-
-    Runs Fabric-X Committer components across host-binary, container, and Kubernetes deployments.
+    Runs Chaguar Committer components across host-binary, container, and Kubernetes deployments.
     The role renders component configuration, manages TLS/mTLS artifacts, and starts or removes
     validators, verifiers, coordinators, sidecars, and query-services.
   license: Apache-2.0

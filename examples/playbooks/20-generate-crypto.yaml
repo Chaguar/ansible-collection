@@ -8,39 +8,39 @@
 # Create container networks
 ######################################
 - name: Create container networks
-  ansible.builtin.import_playbook: hyperledger.fabricx.create_container_networks
+  ansible.builtin.import_playbook: hyperledger.chaguar.create_container_networks
 
 ######################################
 # Crypto material with cryptogen
 ######################################
 - name: Generate crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.artifacts.build_crypto_material
+  ansible.builtin.import_playbook: hyperledger.chaguar.artifacts.build_crypto_material
 
 ######################################
 # Crypto material with Fabric CA
 ######################################
 - name: Setup Fabric CA crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.generate_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.generate_crypto
   when:
     - "'fabric_cas' in groups"
 
 - name: Transfer Fabric CA server configuration files
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.configs
   when:
     - "'fabric_cas' in groups"
 
 - name: Start Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.start
   when:
     - "'fabric_cas' in groups"
 
 - name: Init Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.init
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.init
   when:
     - "'fabric_cas' in groups"
 
 - name: Gather and register identities
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.register_identities
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.register_identities
   when:
     - "'fabric_cas' in groups"
 
@@ -48,31 +48,31 @@
 # Crypto material for databases
 ######################################
 - name: Generate PostgreSQL crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.generate_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.generate_crypto
 
 - name: Generate YugabyteDB crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.generate_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.generate_crypto
 
-- name: Generate Hyperledger Fabric-X Orderers crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.generate_crypto
+- name: Generate LFDT Chaguar Orderers crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.generate_crypto
 
-- name: Generate Hyperledger Fabric-X Committers crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.generate_crypto
+- name: Generate LFDT Chaguar Committers crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.generate_crypto
 
-- name: Generate Hyperledger Fabric-X Block Explorer crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.generate_crypto
+- name: Generate LFDT Chaguar Block Explorer crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.generate_crypto
 
-- name: Generate Hyperledger Fabric-X EVM crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.generate_crypto
+- name: Generate LFDT Chaguar EVM crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.generate_crypto
 
-- name: Generate Hyperledger Fabric-X Load generators crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.generate_crypto
+- name: Generate LFDT Chaguar Load generators crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.generate_crypto
 
 - name: Generate Monitoring tools crypto
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.generate_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.generate_crypto
 
 ######################################
 # Semaphore UI TLS crypto
 ######################################
 - name: Generate Semaphore UI TLS crypto material
-  ansible.builtin.import_playbook: hyperledger.fabricx.semaphore_ui.generate_crypto
+  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.generate_crypto

@@ -10,8 +10,8 @@
 
 # Appends $(1) to TARGET_HOSTS if a group/host target already ran in this
 # invocation, otherwise initializes TARGET_HOSTS to just $(1). This lets
-# group/host targets be chained (e.g. make fabric_x_orderers
-# fabric_x_committers start) so their hosts are unioned via the Ansible
+# group/host targets be chained (e.g. make chaguar_orderers
+# chaguar_committers start) so their hosts are unioned via the Ansible
 # ":" pattern operator instead of the last target overwriting the others.
 define add_target_hosts
 $(eval TARGET_HOSTS := $(if $(_target_hosts_chained),$(TARGET_HOSTS):$(1),$(1)))$(eval _target_hosts_chained := 1)
@@ -37,30 +37,30 @@ fabric_ca_dbs:
 fabric_ca_servers:
 	@$(call add_target_hosts,fabric_ca_servers):
 
-# Target the fabric_x components for the command being run (e.g. make fabric_x start).
-.PHONY: fabric_x
-fabric_x:
-	@$(call add_target_hosts,fabric_x):
+# Target the chaguar components for the command being run (e.g. make chaguar start).
+.PHONY: chaguar
+chaguar:
+	@$(call add_target_hosts,chaguar):
 
-# Target the Fabric-X Orderer components for the command being run (e.g. make fabric_x_orderers start).
-.PHONY: fabric_x_orderers
-fabric_x_orderers:
-	@$(call add_target_hosts,fabric_x_orderers):
+# Target the Chaguar Orderer components for the command being run (e.g. make chaguar_orderers start).
+.PHONY: chaguar_orderers
+chaguar_orderers:
+	@$(call add_target_hosts,chaguar_orderers):
 
-# Target the Fabric-X Committer components for the command being run (e.g. make fabric_x_committers start).
-.PHONY: fabric_x_committers
-fabric_x_committers:
-	@$(call add_target_hosts,fabric_x_committers):
+# Target the Chaguar Committer components for the command being run (e.g. make chaguar_committers start).
+.PHONY: chaguar_committers
+chaguar_committers:
+	@$(call add_target_hosts,chaguar_committers):
 
-# Target the Fabric-X Block Explorer components for the command being run (e.g. make fabric_x_block_explorer start).
-.PHONY: fabric_x_block_explorer
-fabric_x_block_explorer:
-	@$(call add_target_hosts,fabric_x_block_explorer):
+# Target the Chaguar Block Explorer components for the command being run (e.g. make chaguar_block_explorer start).
+.PHONY: chaguar_block_explorer
+chaguar_block_explorer:
+	@$(call add_target_hosts,chaguar_block_explorer):
 
-# Target the Fabric-X EVM components for the command being run (e.g. make fabric_x_evm start).
-.PHONY: fabric_x_evm
-fabric_x_evm:
-	@$(call add_target_hosts,fabric_x_evm):
+# Target the Chaguar EVM components for the command being run (e.g. make chaguar_evm start).
+.PHONY: chaguar_evm
+chaguar_evm:
+	@$(call add_target_hosts,chaguar_evm):
 
 # Target the load_generators for the command being run (e.g. make load_generators start).
 .PHONY: load_generators

@@ -1,6 +1,6 @@
 # Block Explorer Playbooks
 
-The `block_explorer` playbooks operate the Fabric-X Block Explorer: the PostgreSQL storage backend and the combined server/UI container that streams blocks from the committer sidecar and serves the Next.js UI.
+The `block_explorer` playbooks operate the Chaguar Block Explorer: the PostgreSQL storage backend and the combined server/UI container that streams blocks from the committer sidecar and serves the Next.js UI.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -38,12 +38,12 @@ flowchart LR
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares, when the committer sidecar requires mTLS, a self-signed client certificate for the Block Explorer server.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.generate_crypto --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.generate_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 - Nuance: the client certificate is generated only when the host named by `sidecar_host` has `committer_use_mtls: true`; there is no local TLS toggle for this.
 
 ## configs.yaml
@@ -51,25 +51,25 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders the Block Explorer server configuration from the `sidecar_host` and `postgres_db_host` connection details declared in inventory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.configs --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.configs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
-- Nuance: `sidecar_host` must name the committer sidecar host directly; it is not derived from `fabric_x_committers`.
+- Target hosts: `chaguar_block_explorer` by default.
+- Nuance: `sidecar_host` must name the committer sidecar host directly; it is not derived from `chaguar_committers`.
 
 ## start.yaml
 
 [`start.yaml`](./start.yaml) starts the combined Block Explorer server and UI.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.start --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.start --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 - Nuance: opt-in per host through `block_explorer_port`.
 
 ## stop.yaml
@@ -77,70 +77,70 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops the combined Block Explorer server and UI, leaving generated files and runtime data in place.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.stop --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.stop --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 
 ## teardown.yaml
 
 [`teardown.yaml`](./teardown.yaml) removes the combined Block Explorer server/UI runtime resources while leaving configuration and crypto material intact.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.teardown --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.teardown --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 
 ## wipe.yaml
 
 [`wipe.yaml`](./wipe.yaml) removes the combined Block Explorer server/UI artifacts from targeted hosts, including generated configuration and crypto material.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.wipe --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.wipe --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 
 ## ping.yaml
 
 [`ping.yaml`](./ping.yaml) checks the combined Block Explorer server/UI endpoints declared by targeted hosts.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.ping --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.ping --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 
 ## fetch_crypto.yaml
 
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches Block Explorer server crypto material into the configured artifacts directory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.fetch_crypto --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 
 ## fetch_logs.yaml
 
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches combined Block Explorer server/UI logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.fabricx.block_explorer.fetch_logs --extra-vars '{"target_hosts": "fabric_x_block_explorer"}'
+ansible-playbook hyperledger.chaguar.block_explorer.fetch_logs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
 
-- Target hosts: `fabric_x_block_explorer` by default.
+- Target hosts: `chaguar_block_explorer` by default.
 - Nuance: intended for troubleshooting Block Explorer and database failures from the control node.

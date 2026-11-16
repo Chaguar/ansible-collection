@@ -6,7 +6,7 @@
 
 # jq edits nested fields and list items in place, which Jinja cannot do without
 # rebuilding whole lists. The caller's values reach the filter as $args.
-- name: Apply the jq filter to the decoded Fabric-X channel configuration
+- name: Apply the jq filter to the decoded Chaguar channel configuration
   ansible.builtin.command:
     argv:
       - jq
@@ -24,7 +24,7 @@
     state: directory
     mode: "0o755"
 
-- name: Write the patched Fabric-X channel configuration
+- name: Write the patched Chaguar channel configuration
   ansible.builtin.copy:
     content: "{{ fxadmin_patched_config.stdout }}\n"
     dest: "{{ fxadmin_modified_config_json }}"

@@ -44,5 +44,5 @@
     container_wait_port: "{{ prometheus_port }}"
     container_run_as_host_user: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

@@ -9,7 +9,7 @@
   tasks:
     - name: Generate the Semaphore UI TLS crypto material
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.semaphore_ui
+        name: hyperledger.chaguar.semaphore_ui
         tasks_from: crypto/setup
       when:
         - semaphore_ui_port is defined

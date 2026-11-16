@@ -1,4 +1,4 @@
-# hyperledger.fabricx.prometheus
+# hyperledger.chaguar.prometheus
 
 > Deploys and manages Prometheus metrics collectors in container or Kubernetes mode.
 
@@ -47,7 +47,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.prometheus
+ansible-doc -t role hyperledger.chaguar.prometheus
 ```
 
 ## Tasks
@@ -68,7 +68,7 @@ Validates network reachability to the active Prometheus listener on the target h
     # Enables the Kubernetes deployment path when set to `true`.
     prometheus_use_k8s: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: ping
 ```
 
@@ -88,7 +88,7 @@ Starts Prometheus as either a container or Kubernetes workload based on the depl
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: start
 ```
 
@@ -134,7 +134,7 @@ Renders the remote configuration, creates the data directory, and starts Prometh
     # Enables HTTPS and TLS-aware health checks when set to `true`.
     prometheus_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: container/start
 ```
 
@@ -212,7 +212,7 @@ Ensures the namespace exists, renders and transfers Prometheus configuration, an
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/start
 ```
 
@@ -232,7 +232,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the HTTP port externally. When undefined or `false`, the HTTP port is not included in the LoadBalancer Service.
     prometheus_k8s_loadbalancer_expose_http_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/ping
 ```
 
@@ -252,7 +252,7 @@ Stops Prometheus when the container deployment path is enabled.
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: stop
 ```
 
@@ -268,7 +268,7 @@ Stops the running Prometheus container through the shared container role.
     # Container name used for the Prometheus workload.
     prometheus_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: container/stop
 ```
 
@@ -288,7 +288,7 @@ Removes the active Prometheus container or Kubernetes workload and then deletes 
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: teardown
 ```
 
@@ -304,7 +304,7 @@ Removes the Prometheus container through the shared container role.
     # Container name used for the Prometheus workload.
     prometheus_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: container/rm
 ```
 
@@ -326,7 +326,7 @@ Deletes the Prometheus StatefulSet and both Services from Kubernetes.
     # Set to `true` to create a LoadBalancer Service entry that exposes the HTTP port externally. When undefined or `false`, the HTTP port is not included in the LoadBalancer Service.
     prometheus_k8s_loadbalancer_expose_http_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/rm
 ```
 
@@ -350,7 +350,7 @@ Deletes Prometheus data from the active deployment mode.
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: data/rm
 ```
 
@@ -368,7 +368,7 @@ Deletes the PersistentVolumeClaim created for the Prometheus StatefulSet.
     # Base Kubernetes resource name used for the Prometheus StatefulSet and Services.
     prometheus_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/data/rm
 ```
 
@@ -381,7 +381,7 @@ Tears down Prometheus and removes its data, TLS material, and generated configur
 ```yaml
 - name: Remove all Prometheus data and configuration
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: wipe
 ```
 
@@ -401,7 +401,7 @@ Generates TLS assets for Prometheus and applies the Kubernetes Secret when Kuber
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: crypto/setup
 ```
 
@@ -418,7 +418,7 @@ Delegates certificate creation to the shared OpenSSL role using Prometheus-speci
     organization:
       domain: "observability.example.com"
       common_name: "prometheus.observability.svc.cluster.local"
-      organization_name: "Hyperledger Fabric-X"
+      organization_name: "LFDT Chaguar"
     # Remote configuration directory consumed by `prometheus_remote_config_dir`.
     remote_config_dir: "/var/lib/prometheus/config"
     # Remote directory where Prometheus configuration files are written.
@@ -430,7 +430,7 @@ Delegates certificate creation to the shared OpenSSL role using Prometheus-speci
     # Specifies the OpenShift Route host.
     prometheus_openshift_route: "prometheus.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -460,7 +460,7 @@ Creates or updates the Kubernetes Secret that stores the Prometheus TLS server k
     # Enables HTTPS and TLS-aware health checks when set to `true`.
     prometheus_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -482,7 +482,7 @@ Fetches the generated Prometheus TLS certificate material to the control node.
     # Enables HTTPS and TLS-aware health checks when set to `true`.
     prometheus_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: crypto/fetch
 ```
 
@@ -506,7 +506,7 @@ Deletes the Prometheus TLS directory and removes the Kubernetes Secret when Kube
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: crypto/rm
 ```
 
@@ -524,7 +524,7 @@ Deletes the Kubernetes Secret that stores the Prometheus TLS server keypair.
     # Base Kubernetes resource name used for the Prometheus StatefulSet and Services.
     prometheus_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/crypto/rm
 ```
 
@@ -581,7 +581,7 @@ Renders the main scrape configuration and supporting files on the remote host, i
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: config/transfer
 ```
 
@@ -632,7 +632,7 @@ Creates or updates the ConfigMap that carries the rendered Prometheus configurat
     # Enables HTTPS and TLS-aware health checks when set to `true`.
     prometheus_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/config/transfer
 ```
 
@@ -654,7 +654,7 @@ Deletes the remote Prometheus configuration directory and optionally removes the
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: config/rm
 ```
 
@@ -672,7 +672,7 @@ Deletes the Kubernetes ConfigMap that stores Prometheus configuration.
     # Base Kubernetes resource name used for the Prometheus StatefulSet and Services.
     prometheus_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/config/rm
 ```
 
@@ -692,7 +692,7 @@ Collects Prometheus logs from either the container deployment or the Kubernetes 
     # Selects the OpenShift deployment branch.
     prometheus_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: fetch_logs
 ```
 
@@ -708,7 +708,7 @@ Collects logs for the Prometheus container through the shared container role.
     # Container name used for the Prometheus workload.
     prometheus_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: container/fetch_logs
 ```
 
@@ -724,7 +724,7 @@ Collects logs for the Prometheus pod through the shared Kubernetes role.
     # Base Kubernetes resource name used for the Prometheus StatefulSet and Services.
     prometheus_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/fetch_logs
 ```
 
@@ -746,7 +746,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     prometheus_openshift_route: "prometheus.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: openshift/start
 ```
 
@@ -764,7 +764,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     prometheus_openshift_route: "prometheus.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: openshift/ping
 ```
 
@@ -782,7 +782,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     prometheus_openshift_route: "prometheus.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: openshift/rm
 ```
 
@@ -815,6 +815,6 @@ Sets the `prometheus_has_k8s_sd_scrapers` fact to `true` when at least one entry
               group: "workers"
               export_type: "node"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: detect_k8s_sd
 ```

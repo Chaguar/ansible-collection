@@ -20,13 +20,13 @@ argument_specs:
         required: true
         description:
           - Sets the shell command started inside the detached tmux session.
-          - "Example: C(./bin/orderer --label orderer-1 >> /var/log/fabricx/orderer-1.log 2>&1)."
+          - "Example: C(./bin/orderer --label orderer-1 >> /var/log/chaguar/orderer-1.log 2>&1)."
       tmux_chdir: &tmux_chdir
         type: path
         required: true
         description:
           - Sets the working directory used before running C(tmux_cmd_to_run) in the detached session.
-          - "Example: C(/opt/fabricx/orderer)."
+          - "Example: C(/opt/chaguar/orderer)."
 
   install:
     short_description: Install tmux on the target host

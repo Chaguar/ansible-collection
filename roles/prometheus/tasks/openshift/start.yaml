@@ -6,7 +6,7 @@
 
 - name: Start Prometheus workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.prometheus
+    name: hyperledger.chaguar.prometheus
     tasks_from: k8s/start
 
 - name: Apply Prometheus http OpenShift Route
@@ -20,6 +20,6 @@
       app.kubernetes.io/name: "{{ prometheus_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ prometheus_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: prometheus_openshift_route is defined

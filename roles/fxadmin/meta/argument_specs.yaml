@@ -13,7 +13,7 @@ argument_specs:
         type: str
         description:
           - "Defines the channel identifier used to derive the genesis block filename."
-          - "Example: C(fabricx-main-channel)."
+          - "Example: C(chaguar-main-channel)."
       cli_bin_dir: &cli_bin_dir
         type: path
         description:
@@ -22,7 +22,7 @@ argument_specs:
         type: path
         description:
           - "Defines the control-node directory where configtxgen writes the genesis block."
-          - "Example: C(/tmp/fabricx/config-build/configtxgen-artifacts)."
+          - "Example: C(/tmp/chaguar/config-build/configtxgen-artifacts)."
       fxadmin_bin_name: &fxadmin_bin_name
         type: str
         default: "fxadmin"
@@ -38,7 +38,7 @@ argument_specs:
         required: true
         description:
           - "Defines the local protobuf-encoded configuration block to decode into JSON."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/config.pb)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/config.pb)."
       fxadmin_config_file: &fxadmin_config_file
         type: str
         default: "admin.yaml"
@@ -49,13 +49,13 @@ argument_specs:
         required: true
         description:
           - "Defines the prepared transaction file to submit, on the host that submits it."
-          - "Example: C(/tmp/fabricx/orderer-consenter-1/config/fxadmin/config_tx.pb)."
+          - "Example: C(/tmp/chaguar/orderer-consenter-1/config/fxadmin/config_tx.pb)."
       fxadmin_config_update: &fxadmin_config_update
         type: path
         required: true
         description:
           - "Defines the local ConfigUpdate protobuf file to endorse."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb)."
       fxadmin_container_config_dir: &fxadmin_container_config_dir
         type: path
         default: "/config"
@@ -76,19 +76,19 @@ argument_specs:
         required: true
         description:
           - "Defines the local decoded current channel configuration JSON file."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/current_config.json)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/current_config.json)."
       fxadmin_endorsed_config_update: &fxadmin_endorsed_config_update
         type: path
         required: true
         description:
           - "Defines the local merged, endorsed ConfigUpdate envelope to prepare into a submittable transaction."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/merged.pb)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/merged.pb)."
       fxadmin_endorsements_dir: &fxadmin_endorsements_dir
         type: path
         required: true
         description:
           - "Defines the local directory that collects one endorsement file per required organization before merging."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/endorsements)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/endorsements)."
       fxadmin_follow_timeout: &fxadmin_follow_timeout
         type: str
         default: "60s"
@@ -103,12 +103,12 @@ argument_specs:
         type: str
         default: "github.com"
         description:
-          - "Defines the Git host used to resolve the Fabric-X source repository."
+          - "Defines the Git host used to resolve the Chaguar source repository."
       fxadmin_git_repo: &fxadmin_git_repo
         type: str
         default: "hyperledger/fabric-x"
         description:
-          - "Defines the Fabric-X source repository path."
+          - "Defines the Chaguar source repository path."
       fxadmin_image: &fxadmin_image
         type: str
         default: "{{ fxadmin_registry_endpoint }}/{{ fxadmin_image_name }}:{{ fxadmin_image_tag }}"
@@ -140,7 +140,7 @@ argument_specs:
         required: true
         description:
           - "Defines the latest channel configuration block on the host, as written by C(ledger/config_latest), that fxadmin uses for endpoint discovery."
-          - "Example: C(/tmp/fabricx/orderer-consenter-1/config/fxadmin/config.pb)."
+          - "Example: C(/tmp/chaguar/orderer-consenter-1/config/fxadmin/config.pb)."
       fxadmin_mtls_client_cert_path: &fxadmin_mtls_client_cert_path
         type: path
         default: "{{ remote_config_dir }}/tls/server.crt"
@@ -156,7 +156,7 @@ argument_specs:
         required: true
         description:
           - "Defines the local modified channel configuration JSON file produced by C(patch_config_value) and consumed by C(compute_update)."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/modified_config.json)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/modified_config.json)."
       fxadmin_msp_config_path: &fxadmin_msp_config_path
         type: path
         required: true
@@ -173,13 +173,13 @@ argument_specs:
         required: true
         description:
           - "Defines the output artifact path written by the current fxadmin command, local to the host the task runs on."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb)."
       fxadmin_output_fetch_dest: &fxadmin_output_fetch_dest
         type: path
         required: true
         description:
           - "Defines the control-node path that C(fxadmin_output) is fetched back to once the command completes on a remote host."
-          - "Example: C(/tmp/fabricx/config-build/fxadmin-artifacts/config_tx.pb)."
+          - "Example: C(/tmp/chaguar/config-build/fxadmin-artifacts/config_tx.pb)."
       fxadmin_registry_endpoint: &fxadmin_registry_endpoint
         type: str
         default: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
@@ -219,12 +219,12 @@ argument_specs:
         type: path
         description:
           - "Provides the base remote configuration directory used by the role."
-          - "Example: C(/opt/hyperledger/fabricx/config)."
+          - "Example: C(/opt/lfdt/chaguar/config)."
 
   bin/build:
     short_description: Build the fxadmin binary
     description:
-      - "Builds the fxadmin Go binary from the configured Fabric-X source package by delegating compilation to the shared bin role."
+      - "Builds the fxadmin Go binary from the configured Chaguar source package by delegating compilation to the shared bin role."
     options:
       fxadmin_bin_name: *fxadmin_bin_name
       fxadmin_git_commit: *fxadmin_git_commit
@@ -272,7 +272,7 @@ argument_specs:
   bin/install:
     short_description: Install the fxadmin binary
     description:
-      - "Installs the fxadmin Go package from the configured Fabric-X source package by delegating to the shared bin role."
+      - "Installs the fxadmin Go package from the configured Chaguar source package by delegating to the shared bin role."
     options:
       fxadmin_bin_name: *fxadmin_bin_name
       fxadmin_bin_package: *fxadmin_bin_package

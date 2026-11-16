@@ -13,23 +13,23 @@ argument_specs:
         type: path
         description:
           - Base remote config directory that feeds C(evm_remote_config_dir).
-          - "Example: C(/var/hyperledger/fabricx/evm/config)."
+          - "Example: C(/var/lfdt/chaguar/evm/config)."
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - Base remote data directory that feeds C(evm_remote_data_dir).
-          - "Example: C(/var/hyperledger/fabricx/evm/data)."
+          - "Example: C(/var/lfdt/chaguar/evm/data)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:
           - Local artifacts directory used for fetched crypto material.
-          - "Example: C(/tmp/fabricx-artifacts)."
+          - "Example: C(/tmp/chaguar-artifacts)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         description:
           - Local cryptogen output directory.
           - Required when C(organization.fabric_ca_host) is undefined.
-          - "Example: C(/tmp/fabricx-crypto)."
+          - "Example: C(/tmp/chaguar-crypto)."
       actual_host: &actual_host
         type: str
         description:
@@ -40,7 +40,7 @@ argument_specs:
         required: true
         description:
           - Sets the organization mapping used for the gateway's peer identity, the embedded endorser's signing identity, and client TLS.
-          - "Example: C({'name': 'Org1', 'domain': 'org1.example.com', 'role': 'peer', 'fabric_ca_host': 'fca-org1', 'peer': {'name': 'fabric-x-evm', 'secret': 'fabric-x-evmPWD'}, 'user': {'name': 'fabric-x-evm', 'secret': 'fabric-x-evmPWD'}, 'namespaces': [{'id': 'basic', 'policy': 'threshold'}]})."
+          - "Example: C({'name': 'Org1', 'domain': 'org1.example.com', 'role': 'peer', 'fabric_ca_host': 'fca-org1', 'peer': {'name': 'chaguar-evm', 'secret': 'chaguar-evmPWD'}, 'user': {'name': 'chaguar-evm', 'secret': 'chaguar-evmPWD'}, 'namespaces': [{'id': 'basic', 'policy': 'threshold'}]})."
       channel_id: &channel_id
         type: str
         required: true
@@ -60,7 +60,7 @@ argument_specs:
         elements: str
         required: true
         description:
-          - Names the inventory hosts that provide the Fabric-X Orderer routers the gateway submits transactions to.
+          - Names the inventory hosts that provide the Chaguar Orderer routers the gateway submits transactions to.
           - One orderer endpoint is rendered per entry, across every organization.
           - "Example: C(['orderer-router-1', 'orderer-router-2', 'orderer-router-3', 'orderer-router-4'])."
       sidecar_host: &sidecar_host
@@ -72,12 +72,12 @@ argument_specs:
         type: str
         description:
           - Kubernetes namespace used for EVM resources.
-          - "Example: C(fabricx-evm)."
+          - "Example: C(chaguar-evm)."
       k8s_image_pull_secret: &k8s_image_pull_secret
         type: str
         description:
           - Optional image pull secret used by the EVM StatefulSet.
-          - "Example: C(fabricx-registry-pull)."
+          - "Example: C(chaguar-registry-pull)."
       k8s_resources: &k8s_resources
         type: dict
         description:
@@ -222,7 +222,7 @@ argument_specs:
         type: str
         default: "0"
         description:
-          - Fabric-X namespace version, starting at C(0) and incremented on each namespace update; a mismatch makes the committer reject every transaction.
+          - Chaguar namespace version, starting at C(0) and incremented on each namespace update; a mismatch makes the committer reject every transaction.
       evm_protocol: &evm_protocol
         type: str
         default: fabric-x
@@ -305,10 +305,10 @@ argument_specs:
         type: str
         description:
           - Specifies the OpenShift Route host for the JSON-RPC port.
-          - "Example: C(fabric-x-evm.apps.example.com)."
+          - "Example: C(chaguar-evm.apps.example.com)."
 
   start:
-    short_description: Start the Fabric-X EVM gateway
+    short_description: Start the Chaguar EVM gateway
     description:
       - Start the EVM gateway and embedded endorser runtime selected by the deployment mode flags.
       - Container mode is the default, and Kubernetes mode applies Services, a PersistentVolumeClaim, and a StatefulSet.
@@ -319,7 +319,7 @@ argument_specs:
       evm_use_openshift: *evm_use_openshift
 
   stop:
-    short_description: Stop the Fabric-X EVM gateway
+    short_description: Stop the Chaguar EVM gateway
     description:
       - Stop the active EVM container without removing configuration, crypto material, logs, or Kubernetes resources.
     options:
@@ -383,7 +383,7 @@ argument_specs:
     description:
       - Verify that the EVM gateway's JSON-RPC endpoint is reachable and answering for the configured chain.
       - Checks the TCP port, then asserts C(eth_chainId) matches C(evm_chain_id) and that C(eth_blockNumber) succeeds.
-      - Because the gateway only opens its listener once its embedded endorser has synchronized with the committer sidecar, a successful C(eth_chainId) reply also proves Fabric-X connectivity.
+      - Because the gateway only opens its listener once its embedded endorser has synchronized with the committer sidecar, a successful C(eth_chainId) reply also proves Chaguar connectivity.
       - Uses direct host access for container deployments and delegates to the Kubernetes ping task when C(evm_use_k8s) is enabled.
     options:
       evm_port: *evm_port
@@ -447,7 +447,7 @@ argument_specs:
       - Render the EVM gateway configuration with the resolved orderer and committer sidecar connection details.
       - Transfers the committer sidecar and each orderer router's TLS CA certificates when their respective TLS modes are enabled.
       - For Kubernetes deployments, also publishes the rendered config and trusted CA bundles as a ConfigMap.
-      - Fails when C(organization.namespaces) does not declare exactly one namespace, since the gateway can only serve a single Fabric-X application namespace.
+      - Fails when C(organization.namespaces) does not declare exactly one namespace, since the gateway can only serve a single Chaguar application namespace.
     options:
       remote_config_dir: *remote_config_dir
       evm_remote_config_dir: *evm_remote_config_dir
@@ -526,7 +526,7 @@ argument_specs:
     short_description: Fetch EVM identity certificates
     description:
       - Fetches the EVM user sign certificate so C(fxconfig) can build namespace endorsement policies that reference it.
-      - Also fetches the client TLS CA certificate when C(evm_use_tls) is C(true), so other Fabric-X components can be configured to trust EVM as an mTLS client.
+      - Also fetches the client TLS CA certificate when C(evm_use_tls) is C(true), so other Chaguar components can be configured to trust EVM as an mTLS client.
     options:
       organization: *organization
       evm_remote_config_dir: *evm_remote_config_dir

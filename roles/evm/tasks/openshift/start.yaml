@@ -6,7 +6,7 @@
 
 - name: Start EVM workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/start
 
 - name: Apply EVM OpenShift Route
@@ -20,6 +20,6 @@
       app.kubernetes.io/component: evm
       app.kubernetes.io/part-of: "{{ evm_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: evm_openshift_route is defined

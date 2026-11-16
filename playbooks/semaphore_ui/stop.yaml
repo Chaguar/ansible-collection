@@ -9,7 +9,7 @@
   tasks:
     - name: Stop the Semaphore UI binary
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.semaphore_ui
+        name: hyperledger.chaguar.semaphore_ui
         tasks_from: stop
       when:
         - semaphore_ui_port is defined

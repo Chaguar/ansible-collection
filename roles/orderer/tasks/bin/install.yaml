@@ -8,5 +8,5 @@
   vars:
     go_package: "{{ orderer_bin_package }}@{{ orderer_git_commit }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: go/install

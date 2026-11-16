@@ -8,7 +8,7 @@
   vars:
     tmux_session_name: "{{ bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.tmux
+    name: hyperledger.chaguar.tmux
     tasks_from: stop
   when:
     - bin_run_with_tmux

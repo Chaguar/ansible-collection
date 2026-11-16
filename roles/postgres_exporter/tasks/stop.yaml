@@ -6,6 +6,6 @@
 
 - name: Stop Postgres Exporter Sidecar container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.postgres_exporter
+    name: hyperledger.chaguar.postgres_exporter
     tasks_from: container/stop
   when: postgres_exporter_use_container

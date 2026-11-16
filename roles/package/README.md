@@ -1,4 +1,4 @@
-# hyperledger.fabricx.package
+# hyperledger.chaguar.package
 
 > Shared package installer that dispatches to Linux package managers or Homebrew on macOS.
 
@@ -20,7 +20,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.package
+ansible-doc -t role hyperledger.chaguar.package
 ```
 
 ## Tasks
@@ -37,7 +37,7 @@ Shared entry point that dispatches to the Linux or macOS installer based on `ans
     # Names the executable or package to install on the target host. Set this to the package identifier used by the host package manager.
     package_name: "postgresql-client"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.package
+    name: hyperledger.chaguar.package
     tasks_from: install
 ```
 
@@ -55,7 +55,7 @@ Installs a package on Linux hosts after confirming the command is not already pr
     # Names the Linux service to enable and start after installation.
     package_service_name: "postgresql"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.package
+    name: hyperledger.chaguar.package
     tasks_from: install_on_linux
 ```
 
@@ -71,6 +71,6 @@ Installs a package on macOS hosts with Homebrew after confirming the command is 
     # Names the executable or package to install on the target host. Set this to the package identifier used by the host package manager.
     package_name: "postgresql-client"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.package
+    name: hyperledger.chaguar.package
     tasks_from: install_on_macos
 ```

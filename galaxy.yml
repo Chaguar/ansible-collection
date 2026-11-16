@@ -5,20 +5,20 @@
 #
 
 namespace: hyperledger
-name: fabricx
+name: chaguar
 version: "0.10.1"
-repository: https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection.git
+repository: https://github.com/Chaguar/ansible-collection.git
 readme: README.md
 authors:
   - Pasquale Convertini <pasquale.convertini@ibm.com>
 description: >
-  Collection of roles needed to run Fabric-X.
+  Collection of roles needed to run Chaguar.
 license:
   - Apache-2.0
 tags:
   - application
-  - hyperledger
-  - fabricx
+  - lfdt
+  - chaguar
 dependencies:
   ansible.posix: ">=1.6.2"
   community.general: ">=10.3.0"

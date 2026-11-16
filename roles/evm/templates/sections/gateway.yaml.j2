@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------
 # Gateway configuration
 # Ethereum JSON-RPC endpoint, signing identity, and connections to the
-# Fabric-X orderers used to submit transactions.
+# Chaguar orderers used to submit transactions.
 # ---------------------------------------------------------------------------
 gateway:
   # HTTP listen address. Serves Ethereum JSON-RPC and WebSocket on the same port.
@@ -20,7 +20,7 @@ gateway:
     - "{{ current_vhost }}"
 {% endfor %}
 
-  # One entry per Fabric-X Orderer router the gateway submits transactions to.
+  # One entry per Chaguar Orderer router the gateway submits transactions to.
   orderers:
 {% for current_orderer_router_host in orderer_router_hosts %}
     - endpoint:

@@ -1,4 +1,4 @@
-# hyperledger.fabricx.alloy
+# hyperledger.chaguar.alloy
 
 > Ansible role to deploy Grafana Alloy for log collection and forwarding to Loki.
 
@@ -40,7 +40,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.alloy
+ansible-doc -t role hyperledger.chaguar.alloy
 ```
 
 ## Tasks
@@ -61,7 +61,7 @@ Dispatches to container or Kubernetes deployment based on deployment mode flags.
     # Deploy Alloy on OpenShift.
     alloy_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: start
 ```
 
@@ -83,7 +83,7 @@ Stops the Grafana Alloy container without removing it.
     # Deploy Alloy on OpenShift.
     alloy_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: stop
 ```
 
@@ -103,7 +103,7 @@ Removes the Alloy container, Kubernetes/OpenShift workload, and data directory.
     # Deploy Alloy on OpenShift.
     alloy_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: teardown
 ```
 
@@ -116,7 +116,7 @@ Removes the Alloy configuration directory. Intended to be called explicitly, not
 ```yaml
 - name: Wipe Alloy configuration
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: wipe
 ```
 
@@ -124,7 +124,7 @@ Removes the Alloy configuration directory. Intended to be called explicitly, not
 
 > Start Alloy container
 
-Starts the Alloy container via hyperledger.fabricx.container, mounting config, data, and (when enabled) the Docker/Podman socket.
+Starts the Alloy container via hyperledger.chaguar.container, mounting config, data, and (when enabled) the Docker/Podman socket.
 
 ```yaml
 - name: Start Alloy container
@@ -162,7 +162,7 @@ Starts the Alloy container via hyperledger.fabricx.container, mounting config, d
     # Remote data directory consumed by `alloy_remote_data_dir`.
     remote_data_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: container/start
 ```
 
@@ -170,7 +170,7 @@ Starts the Alloy container via hyperledger.fabricx.container, mounting config, d
 
 > Remove Alloy container
 
-Removes the Alloy container via hyperledger.fabricx.container.
+Removes the Alloy container via hyperledger.chaguar.container.
 
 ```yaml
 - name: Remove Alloy container
@@ -178,7 +178,7 @@ Removes the Alloy container via hyperledger.fabricx.container.
     # Name of the Alloy container.
     alloy_container_name: alloy
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: container/rm
 ```
 
@@ -191,7 +191,7 @@ Discovers colocated binary service hosts and builds `alloy_bin_logs`, a mapping 
 ```yaml
 - name: Build Alloy binary log targets
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: get_bin_logs
 ```
 
@@ -215,7 +215,7 @@ Deletes Alloy data from the active deployment mode.
     # Remote data directory consumed by `alloy_remote_data_dir`.
     remote_data_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: data/rm
 ```
 
@@ -237,7 +237,7 @@ Deletes the Alloy configuration directory from the remote host and, in Kubernete
     # Remote configuration directory consumed by `alloy_remote_config_dir`.
     remote_config_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: config/rm
 ```
 
@@ -297,7 +297,7 @@ Creates RBAC, ConfigMap, headless Service, and StatefulSet (with a PVC via volum
     # Remote configuration directory consumed by `alloy_remote_config_dir`.
     remote_config_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/start
 ```
 
@@ -319,7 +319,7 @@ Deletes the Alloy StatefulSet, Service, ConfigMap, and RBAC resources from Kuber
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/rm
 ```
 
@@ -337,7 +337,7 @@ Deletes the PersistentVolumeClaim created for the Alloy StatefulSet.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/data/rm
 ```
 
@@ -363,7 +363,7 @@ Applies Alloy's cluster-scoped RBAC and ConfigMap on Kubernetes/OpenShift.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/config/transfer
 ```
 
@@ -381,7 +381,7 @@ Deletes Alloy's ConfigMap and cluster-scoped RBAC from Kubernetes/OpenShift.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/config/rm
 ```
 
@@ -403,7 +403,7 @@ Delegates to k8s/start against an OpenShift-authenticated client context. Option
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Alloy resources.
     alloy_k8s_part_of: monitoring
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: openshift/start
 ```
 
@@ -421,7 +421,7 @@ Deletes the Alloy OpenShift Route (if configured), then delegates to k8s/rm. Use
     # Base Kubernetes resource name for Alloy.
     alloy_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: openshift/rm
 ```
 
@@ -464,7 +464,7 @@ Renders and uploads the Alloy River configuration file to the remote host. Appli
     # Remote configuration directory consumed by `alloy_remote_config_dir`.
     remote_config_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: config/transfer
 ```
 
@@ -484,7 +484,7 @@ Generates TLS assets for Alloy and applies the Kubernetes Secret when Kubernetes
     # Deploy Alloy on OpenShift.
     alloy_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/setup
 ```
 
@@ -510,7 +510,7 @@ Delegates certificate creation to the shared OpenSSL role using Alloy-specific o
     # Hostname for the OpenShift Route exposing Alloy's HTTP endpoint. When omitted, no Route is created.
     alloy_openshift_route: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -540,7 +540,7 @@ Creates or updates the Kubernetes Secret that stores the Alloy TLS server keypai
     # Enable HTTPS for Alloy's HTTP endpoint and TLS-aware Kubernetes/OpenShift probes.
     alloy_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -564,7 +564,7 @@ Fetches the generated Alloy TLS certificate material to the control node.
     # Enable HTTPS for Alloy's HTTP endpoint and TLS-aware Kubernetes/OpenShift probes.
     alloy_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/fetch
 ```
 
@@ -588,7 +588,7 @@ Deletes the Alloy TLS directory and removes the Kubernetes Secret when Kubernete
     # Deploy Alloy on OpenShift.
     alloy_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/rm
 ```
 
@@ -606,6 +606,6 @@ Deletes the Kubernetes Secret that stores the Alloy TLS server keypair.
     # Base Kubernetes resource name for Alloy.
     alloy_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/crypto/rm
 ```

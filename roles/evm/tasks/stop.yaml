@@ -6,6 +6,6 @@
 
 - name: Stop EVM container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: container/stop
   when: evm_use_container

@@ -6,7 +6,7 @@
 
 - name: Ensure Kubernetes namespace exists for Alloy
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 - name: Apply Alloy Service
@@ -34,12 +34,12 @@
 
 - name: Transfer Alloy configuration (RBAC and ConfigMap)
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/config/transfer
 
 - name: Apply Alloy K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/crypto/transfer
   when: alloy_use_tls
 

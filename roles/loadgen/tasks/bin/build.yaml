@@ -15,5 +15,5 @@
     # Go vars
     go_source_code_package: "{{ loadgen_source_code_package }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: go/build

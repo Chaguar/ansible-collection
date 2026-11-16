@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the Fabric-X Block Explorer logs
-  hosts: "{{ target_hosts | default('fabric_x_block_explorer') }}:&fabric_x_block_explorer"
+- name: Fetch the Chaguar Block Explorer logs
+  hosts: "{{ target_hosts | default('chaguar_block_explorer') }}:&chaguar_block_explorer"
   tasks:
-    - name: Fetch the Fabric-X Block Explorer server and UI logs
+    - name: Fetch the Chaguar Block Explorer server and UI logs
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.block_explorer
+        name: hyperledger.chaguar.block_explorer
         tasks_from: fetch_logs
       when:
         - block_explorer_port is defined

@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Committer coordinator
+- name: Ensure Kubernetes namespace exists for Chaguar Committer coordinator
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply ConfigMap
 # =========================
-- name: Apply Fabric-X Committer coordinator ConfigMap
+- name: Apply Chaguar Committer coordinator ConfigMap
   vars:
     committer_validator_ref_host: "{{ committer_validators | first }}"
     committer_verifier_ref_host: "{{ committer_verifiers | first }}"

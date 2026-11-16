@@ -32,30 +32,30 @@ You can read an inventory. Now change one. This lesson covers the four dimension
 
 Look at the local inventory family again with fresh eyes:
 
-| Inventory                                                                              | Differs from `fabric-x.yaml` by |
-| -------------------------------------------------------------------------------------- | ------------------------------- |
-| [`fabric-x.yaml`](../../examples/inventory/docs/local/fabric-x.md)                     | — the baseline                  |
-| [`fabric-x-yugabyte.yaml`](../../examples/inventory/docs/local/fabric-x-yugabyte.md)   | the committer database          |
-| [`fabric-x-cryptogen.yaml`](../../examples/inventory/docs/local/fabric-x-cryptogen.md) | the crypto source               |
-| [`fabric-x-no-mtls.yaml`](../../examples/inventory/docs/local/fabric-x-no-mtls.md)     | mTLS off                        |
-| [`fabric-x-no-tls.yaml`](../../examples/inventory/docs/local/fabric-x-no-tls.md)       | TLS and mTLS off                |
-| [`fabric-x-bin.yaml`](../../examples/inventory/docs/local/fabric-x-bin.md)             | the runtime                     |
-| [`fabric-x-evm.yaml`](../../examples/inventory/docs/local/fabric-x-evm.md)             | one extra component             |
+| Inventory                                                                            | Differs from `chaguar.yaml` by |
+| ------------------------------------------------------------------------------------ | ------------------------------ |
+| [`chaguar.yaml`](../../examples/inventory/docs/local/chaguar.md)                     | — the baseline                 |
+| [`chaguar-yugabyte.yaml`](../../examples/inventory/docs/local/chaguar-yugabyte.md)   | the committer database         |
+| [`chaguar-cryptogen.yaml`](../../examples/inventory/docs/local/chaguar-cryptogen.md) | the crypto source              |
+| [`chaguar-no-mtls.yaml`](../../examples/inventory/docs/local/chaguar-no-mtls.md)     | mTLS off                       |
+| [`chaguar-no-tls.yaml`](../../examples/inventory/docs/local/chaguar-no-tls.md)       | TLS and mTLS off               |
+| [`chaguar-bin.yaml`](../../examples/inventory/docs/local/chaguar-bin.md)             | the runtime                    |
+| [`chaguar-evm.yaml`](../../examples/inventory/docs/local/chaguar-evm.md)             | one extra component            |
 
 Every one of them is the baseline plus **one** change. That is not tidiness for its own sake — it is the debugging strategy. When a deployment misbehaves, you want to be able to diff your inventory against a working one and see a small, comprehensible change.
 
 Do the same in your own work. Start from the closest sample, change one dimension, verify it works, and only then change the next.
 
 > [!TIP]
-> `diff` is a legitimate documentation tool here. `diff examples/inventory/local/fabric-x.yaml examples/inventory/local/fabric-x-yugabyte.yaml` teaches you exactly what switching the database involves, faster than any prose.
+> `diff` is a legitimate documentation tool here. `diff examples/inventory/local/chaguar.yaml examples/inventory/local/chaguar-yugabyte.yaml` teaches you exactly what switching the database involves, faster than any prose.
 
 ## Work on a Copy
 
 Do not edit the shipped samples. Copy one and point Ansible at your copy:
 
 ```shell
-cp examples/inventory/local/fabric-x.yaml examples/inventory/local/my-fabric-x.yaml
-export ANSIBLE_INVENTORY=examples/inventory/local/my-fabric-x.yaml
+cp examples/inventory/local/chaguar.yaml examples/inventory/local/my-chaguar.yaml
+export ANSIBLE_INVENTORY=examples/inventory/local/my-chaguar.yaml
 ```
 
 `ANSIBLE_INVENTORY` overrides the `inventory =` line in [`examples/ansible.cfg`](../../examples/ansible.cfg), so every `make` command now uses your copy. Confirm it took effect before you change anything:
@@ -77,7 +77,7 @@ make teardown
 
 Verifiers and validators are stateless and horizontally scalable. Adding one is genuinely just a new host with unique ports.
 
-In your copy, find the `fabric_x_committer` hosts block and add a second verifier next to the first:
+In your copy, find the `chaguar_committer` hosts block and add a second verifier next to the first:
 
 ```yaml
 committer-verifier:
@@ -92,7 +92,7 @@ committer-verifier-2:
 
 That is the whole change. Note what you did _not_ have to write:
 
-- No organisation block — it is inherited from the `fabric_x_committer` group variables, so the new host enrols with `Org1` against `fca-org1` automatically.
+- No organisation block — it is inherited from the `chaguar_committer` group variables, so the new host enrols with `Org1` against `fca-org1` automatically.
 - No TLS settings — also inherited.
 - No reference from the coordinator to the new verifier. The coordinator discovers verifiers from group membership at startup, which is why group structure is architectural rather than cosmetic.
 
@@ -111,7 +111,7 @@ committer-validator-2:
 Orderer batchers scale too, but they carry one extra rule: each batcher in an orderer group needs a unique **shard ID**.
 
 ```yaml
-fabric_x_orderer_1:
+chaguar_orderer_1:
   hosts:
     orderer-batcher-1:
       orderer_component_type: batcher
@@ -125,7 +125,7 @@ fabric_x_orderer_1:
       orderer_operations_port: 7064
 ```
 
-Adding batcher shards is the main scaling lever on the ordering side, and the [distributed sample](../../examples/inventory/docs/distributed/fabric-x.md) uses two batchers per orderer group for exactly this reason.
+Adding batcher shards is the main scaling lever on the ordering side, and the [distributed sample](../../examples/inventory/docs/distributed/chaguar.md) uses two batchers per orderer group for exactly this reason.
 
 > [!WARNING]
 > Batcher shard IDs and the orderer group layout are encoded in the **genesis block**. Changing them is not a restart — it needs `make artifacts` to rebuild the genesis block, and the network starts from a fresh ledger. This is unlike adding a verifier, which is a pure runtime change.
@@ -137,14 +137,14 @@ The committer stores world state, transaction status, and namespace policies in 
 Rather than editing, read the diff — this is the case where the sample teaches faster than prose:
 
 ```shell
-diff examples/inventory/local/fabric-x.yaml \
-     examples/inventory/local/fabric-x-yugabyte.yaml
+diff examples/inventory/local/chaguar.yaml \
+     examples/inventory/local/chaguar-yugabyte.yaml
 ```
 
 The structural difference is that the single `committer-db` PostgreSQL host is replaced by a `committer_dbs` child group holding a YugabyteDB cluster:
 
 ```yaml
-fabric_x_committer:
+chaguar_committer:
   children:
     committer_dbs:
       vars:
@@ -181,7 +181,7 @@ Three things to take from this:
 - A cluster is referenced by `yugabyte_cluster_ref_id` matching a `yugabyte_cluster_id`, not by hostname. A cluster is many hosts, so a single-host reference would not work.
 - The Fabric CA databases stay on PostgreSQL. Only the committer's state backend changed — one dimension.
 
-Scale it by adding more master and tablet hosts. The [distributed sample](../../examples/inventory/docs/distributed/fabric-x.md) runs 3 masters and 7 tablets.
+Scale it by adding more master and tablet hosts. The [distributed sample](../../examples/inventory/docs/distributed/chaguar.md) runs 3 masters and 7 tablets.
 
 ## Dimension 3: The Crypto Source
 
@@ -199,8 +199,8 @@ There are two ways to get certificates into the network, and the choice is about
 The trade is genuine. Fabric CA is the safer pattern because a private key never leaves the node that will use it. `cryptogen` is a test tool: it generates everything centrally, which is convenient for repeatable performance runs and ten containers lighter, but it is not a certificate lifecycle.
 
 ```shell
-diff examples/inventory/local/fabric-x.yaml \
-     examples/inventory/local/fabric-x-cryptogen.yaml
+diff examples/inventory/local/chaguar.yaml \
+     examples/inventory/local/chaguar-cryptogen.yaml
 ```
 
 You will see the whole `fabric_cas` group disappear along with every `fabric_ca_host` and enrollment secret, while the organisation `name` and `domain` stay — those are still needed to generate certificate material and channel configuration.
@@ -212,11 +212,11 @@ You will see the whole `fabric_cas` group disappear along with every `fabric_ca_
 
 Three postures ship as samples, and the ordering is deliberate:
 
-| Inventory               | TLS | mTLS | Use it for                                         |
-| ----------------------- | --- | ---- | -------------------------------------------------- |
-| `fabric-x.yaml`         | yes | yes  | the default; encrypted and client-authenticated    |
-| `fabric-x-no-mtls.yaml` | yes | no   | debugging certificate or interoperability problems |
-| `fabric-x-no-tls.yaml`  | no  | no   | debugging protocol or connectivity problems        |
+| Inventory              | TLS | mTLS | Use it for                                         |
+| ---------------------- | --- | ---- | -------------------------------------------------- |
+| `chaguar.yaml`         | yes | yes  | the default; encrypted and client-authenticated    |
+| `chaguar-no-mtls.yaml` | yes | no   | debugging certificate or interoperability problems |
+| `chaguar-no-tls.yaml`  | no  | no   | debugging protocol or connectivity problems        |
 
 The variables are per-role: `orderer_use_tls`, `orderer_use_mtls`, `committer_use_tls`, `committer_use_mtls`, and equivalents for `loadgen`, `postgres`, `fabric_ca`, `grafana`, `prometheus`, and the rest.
 
@@ -240,7 +240,7 @@ So when you change a security flag, check the orderer, committer, load generator
 
 Separate from the four dimensions above is _how_ each service runs. You met the mechanism in [lesson 5](./05-read-the-inventory.md): each role resolves a deployment mode from its `*_use_bin`, `*_use_k8s`, and `*_use_openshift` flags, defaulting to `container`.
 
-[`fabric-x-bin.yaml`](../../examples/inventory/docs/local/fabric-x-bin.md) flips the binary flag on the Fabric-X services and the CLI tools:
+[`chaguar-bin.yaml`](../../examples/inventory/docs/local/chaguar-bin.md) flips the binary flag on the Chaguar services and the CLI tools:
 
 ```yaml
 # all.vars — the control-node CLIs
@@ -252,28 +252,28 @@ fabric_ca_client_use_bin: true
 
 # per group
 fabric_ca_server_use_bin: true # in fabric_ca_servers
-orderer_use_bin: true # in fabric_x_orderers
-committer_use_bin: true # in fabric_x_committer
+orderer_use_bin: true # in chaguar_orderers
+committer_use_bin: true # in chaguar_committer
 loadgen_use_bin: true # in load_generators
 ```
 
 Binary-mode services are built with Go and managed through **`tmux`**, which makes them convenient to attach a debugger to or read directly. Two caveats:
 
-- Binary mode is supported by the **Fabric-X services only**. The PostgreSQL databases still run as containers, as do the Block Explorer and the whole monitoring stack. Check each role's `argument_specs.yaml` before assuming support.
+- Binary mode is supported by the **Chaguar services only**. The PostgreSQL databases still run as containers, as do the Block Explorer and the whole monitoring stack. Check each role's `argument_specs.yaml` before assuming support.
 - Building the binaries needs `go` on the machine doing the build. On macOS this is also the case where the `/etc/hosts` entry from [lesson 2](./02-prepare-your-control-node.md) matters, because host processes must resolve the same name the containers use.
 
 ## Applying an Inventory Change
 
 The sequence depends on what you changed, and this table is the one to keep:
 
-| You changed                                   | Sequence                                                         | Why                                                                 |
-| --------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------- |
-| A port, a log level, a tuning value           | `make configs` then `make restart`                               | Only rendered configuration changed                                 |
-| Added a stateless host (verifier, validator)  | `make targets`, `make setup`, `make fabric_x_committers restart` | The new host needs crypto and a config; consumers need re-rendering |
-| Batcher shards, orderer groups, organisations | `make teardown wipe`, `make setup`, `make start`, `make init`    | It is in the genesis block — fresh ledger required                  |
-| A security flag                               | `make teardown wipe`, `make setup`, `make start`, `make init`    | Certificates and every endpoint reference change                    |
-| The database backend                          | `make teardown wipe`, `make setup`, `make start`, `make init`    | Different backend, no state migration                               |
-| The runtime (container to binary)             | `make teardown wipe`, `make setup`, `make start`, `make init`    | Different artifacts entirely                                        |
+| You changed                                   | Sequence                                                        | Why                                                                 |
+| --------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- |
+| A port, a log level, a tuning value           | `make configs` then `make restart`                              | Only rendered configuration changed                                 |
+| Added a stateless host (verifier, validator)  | `make targets`, `make setup`, `make chaguar_committers restart` | The new host needs crypto and a config; consumers need re-rendering |
+| Batcher shards, orderer groups, organisations | `make teardown wipe`, `make setup`, `make start`, `make init`   | It is in the genesis block — fresh ledger required                  |
+| A security flag                               | `make teardown wipe`, `make setup`, `make start`, `make init`   | Certificates and every endpoint reference change                    |
+| The database backend                          | `make teardown wipe`, `make setup`, `make start`, `make init`   | Different backend, no state migration                               |
+| The runtime (container to binary)             | `make teardown wipe`, `make setup`, `make start`, `make init`   | Different artifacts entirely                                        |
 
 Always `make targets` after adding, removing, or renaming a host, so the per-host `Makefile` targets match reality.
 
@@ -288,7 +288,7 @@ Always `make targets` after adding, removing, or renaming a host, so the per-hos
 > 1. Copy the default local inventory and point `ANSIBLE_INVENTORY` at your copy.
 > 2. Add a **second verifier** with unique RPC and metrics ports.
 > 3. Bring the change into effect and confirm the new host is running.
-> 4. Confirm Prometheus is scraping it — and if it is not, work out from [lesson 5](./05-read-the-inventory.md) what you would have had to add if the verifier had been in a group of its own rather than inside `fabric_x_committer`.
+> 4. Confirm Prometheus is scraping it — and if it is not, work out from [lesson 5](./05-read-the-inventory.md) what you would have had to add if the verifier had been in a group of its own rather than inside `chaguar_committer`.
 >
 > Then, for extra credit: which of the four dimensions did you just change, and would this have needed a fresh ledger if you had added a batcher instead?
 
@@ -298,11 +298,11 @@ Always `make targets` after adding, removing, or renaming a host, so the per-hos
 Steps 1 and 2:
 
 ```shell
-cp examples/inventory/local/fabric-x.yaml examples/inventory/local/my-fabric-x.yaml
-export ANSIBLE_INVENTORY=examples/inventory/local/my-fabric-x.yaml
+cp examples/inventory/local/chaguar.yaml examples/inventory/local/my-chaguar.yaml
+export ANSIBLE_INVENTORY=examples/inventory/local/my-chaguar.yaml
 ```
 
-In the `fabric_x_committer` hosts block, next to `committer-verifier`:
+In the `chaguar_committer` hosts block, next to `committer-verifier`:
 
 ```yaml
 committer-verifier-2:
@@ -317,10 +317,10 @@ Step 3:
 
 ```shell
 make targets                              # regenerate per-host targets
-.venv/bin/ansible-inventory --graph fabric_x_committer   # confirm it is there
+.venv/bin/ansible-inventory --graph chaguar_committer   # confirm it is there
 make setup                                # enrol the new host, re-render every config
-make fabric_x_committers restart          # coordinator picks up the new verifier
-make fabric_x_committers ping
+make chaguar_committers restart          # coordinator picks up the new verifier
+make chaguar_committers ping
 ```
 
 The coordinator restart is the part people miss. It discovers verifiers from group membership **at startup**, so a coordinator that is already running knows nothing about your new host. Restarting the whole committer group is the simple way to be sure.
@@ -334,7 +334,7 @@ make monitoring restart
 
 Prometheus's scrape configuration is generated from the inventory, so it also needs re-rendering and a restart to learn about the new target. `make setup` re-rendered it; the restart applies it.
 
-If the new verifier had lived in a group of its own, it would not have inherited `committer_monitoring_mtls_clients: [prometheus]` from `fabric_x_committer`, and the target would show as `DOWN` — Prometheus scrapes Fabric-X components over mTLS, and a component that does not trust `prometheus` as a client refuses the connection. It would look like a broken service and actually be a missing inventory line.
+If the new verifier had lived in a group of its own, it would not have inherited `committer_monitoring_mtls_clients: [prometheus]` from `chaguar_committer`, and the target would show as `DOWN` — Prometheus scrapes Chaguar components over mTLS, and a component that does not trust `prometheus` as a client refuses the connection. It would look like a broken service and actually be a missing inventory line.
 
 Extra credit: you changed the **scale** dimension, and only that one. No fresh ledger was needed, because a verifier is stateless and is not described in the genesis block.
 

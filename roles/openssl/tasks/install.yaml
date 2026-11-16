@@ -8,5 +8,5 @@
   vars:
     package_name: openssl
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.package
+    name: hyperledger.chaguar.package
     tasks_from: install

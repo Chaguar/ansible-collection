@@ -9,10 +9,10 @@
   tasks:
     - name: Login to managed OpenShift cluster
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.openshift
+        name: hyperledger.chaguar.openshift
         tasks_from: cluster/login
     - name: Login to managed OpenShift cluster with service account
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.openshift
+        name: hyperledger.chaguar.openshift
         tasks_from: cluster/service_account_login
       when: openshift_cluster_service_account_name is defined

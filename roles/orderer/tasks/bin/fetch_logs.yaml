@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Fetch the logs from the Fabric-X Orderer binary
+- name: Fetch the logs from the Chaguar Orderer binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: fetch_logs

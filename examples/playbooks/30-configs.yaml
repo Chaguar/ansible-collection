@@ -5,37 +5,37 @@
 #
 
 - name: Transfer Fabric CAs configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.configs
 
 - name: Transfer PostgreSQL configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.configs
 
 - name: Transfer YugabyteDB configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.configs
 
-- name: Transfer Fabric-X Orderer configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.configs
+- name: Transfer Chaguar Orderer configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.configs
 
-- name: Transfer Fabric-X Committer configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.configs
+- name: Transfer Chaguar Committer configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.configs
 
-- name: Transfer Fabric-X Block Explorer configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.configs
+- name: Transfer Chaguar Block Explorer configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.configs
 
-- name: Transfer Fabric-X EVM configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.configs
+- name: Transfer Chaguar EVM configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.configs
 
 - name: Transfer fxconfig configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.fxconfig.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.configs
 
 - name: Transfer fxadmin configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.fxadmin.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.fxadmin.configs
 
 - name: Transfer Monitoring configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.configs
 
 - name: Transfer Loadgen configs
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.configs
 
 - name: Configure Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.fabricx.semaphore_ui.configs
+  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.configs

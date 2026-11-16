@@ -1,6 +1,6 @@
-# hyperledger.fabricx.yugabyte
+# hyperledger.chaguar.yugabyte
 
-> Deploys and manages YugabyteDB masters and tablet servers for Fabric-X in container or Kubernetes mode, including TLS, initialization config, logs, data cleanup, and Prometheus scraper metadata.
+> Deploys and manages YugabyteDB masters and tablet servers for Chaguar in container or Kubernetes mode, including TLS, initialization config, logs, data cleanup, and Prometheus scraper metadata.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -59,7 +59,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.yugabyte
+ansible-doc -t role hyperledger.chaguar.yugabyte
 ```
 
 ## Tasks
@@ -88,7 +88,7 @@ Builds master and tablet topology facts from `yugabyte_cluster`, derives the mas
     # Enables container mode for the YugabyteDB role.
     yugabyte_use_container: "{{ (not yugabyte_use_k8s) and (not yugabyte_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: start
 ```
 
@@ -108,7 +108,7 @@ Stops the YugabyteDB runtime for container deployments. Kubernetes mode is manag
     # Enables container mode for the YugabyteDB role.
     yugabyte_use_container: "{{ (not yugabyte_use_k8s) and (not yugabyte_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: stop
 ```
 
@@ -128,7 +128,7 @@ Removes the active YugabyteDB runtime in the selected deployment mode and then r
     # Enables container mode for the YugabyteDB role.
     yugabyte_use_container: "{{ (not yugabyte_use_k8s) and (not yugabyte_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: teardown
 ```
 
@@ -141,7 +141,7 @@ Runs teardown, removes persisted data, and deletes role-managed TLS and initiali
 ```yaml
 - name: Wipe YugabyteDB state
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: wipe
 ```
 
@@ -161,7 +161,7 @@ Collects YugabyteDB logs through the selected deployment mode. Container mode fe
     # Enables container mode for the YugabyteDB role.
     yugabyte_use_container: "{{ (not yugabyte_use_k8s) and (not yugabyte_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: fetch_logs
 ```
 
@@ -197,7 +197,7 @@ Selects the expected master or tablet service ports for the current host and del
     # Sets the tablet YCQL web UI port.
     yugabyte_tablet_cql_web_port: 12000
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: ping
 ```
 
@@ -261,7 +261,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Sets the tablet YCQL web UI port.
     yugabyte_tablet_cql_web_port: 12000
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/ping
 ```
 
@@ -289,7 +289,7 @@ Prepares TLS assets for YugabyteDB when TLS is enabled, using the configured cry
         secret: "yb-tserver-1PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/setup
 ```
 
@@ -303,15 +303,15 @@ Copies generated YugabyteDB node and CA certificates from the remote host to the
 - name: Fetch YugabyteDB TLS certificates
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Defines the control-node directory that stores fetched YugabyteDB artifacts. Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when `yugabyte_use_tls` or webserver TLS is enabled.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/yugabyte"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/fetch
 ```
 
@@ -325,7 +325,7 @@ Deletes the remote YugabyteDB TLS directory and, in Kubernetes mode, removes the
 - name: Remove YugabyteDB TLS artifacts
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
     # Enables Kubernetes mode for the YugabyteDB role.
@@ -337,9 +337,9 @@ Deletes the remote YugabyteDB TLS directory and, in Kubernetes mode, removes the
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/rm
 ```
 
@@ -353,7 +353,7 @@ Builds the YugabyteDB TLS SAN list from host addresses and organization metadata
 - name: Generate a YugabyteDB TLS CSR
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
     # Sets the remote configuration directory used by YugabyteDB tasks.
@@ -377,7 +377,7 @@ Builds the YugabyteDB TLS SAN list from host addresses and organization metadata
     # Specifies the OpenShift Route host.
     yugabyte_openshift_tablet_cql_web_route: "yugabyte-tablet-cql-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/openssl/generate_csr
 ```
 
@@ -391,15 +391,15 @@ Copies the YugabyteDB CSR and OpenSSL extension file from the remote TLS directo
 - name: Fetch a YugabyteDB TLS CSR
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Defines the control-node directory that stores fetched YugabyteDB artifacts. Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when `yugabyte_use_tls` or webserver TLS is enabled.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/yugabyte"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/openssl/fetch_csr
 ```
 
@@ -413,13 +413,13 @@ Copies the signed YugabyteDB node certificate and trusted organization TLS CA ce
 - name: Transfer a signed YugabyteDB TLS certificate
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Defines the control-node directory that stores fetched YugabyteDB artifacts. Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when `yugabyte_use_tls` or webserver TLS is enabled.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/yugabyte"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/yugabyte"
     # Provides the organization metadata consumed by the crypto entry points. The mapping is expected to expose `domain`, `role`, `peer.name`, `peer.secret`, and `fabric_ca_host` when relevant.
     organization:
       domain: "org1.example.com"
@@ -429,7 +429,7 @@ Copies the signed YugabyteDB node certificate and trusted organization TLS CA ce
         secret: "yb-tserver-1PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/openssl/transfer_cert
 ```
 
@@ -443,11 +443,11 @@ Transfers the YugabyteDB TLS key, certificate, and CA certificate generated by c
 - name: Copy cryptogen TLS material for YugabyteDB
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Defines the control-node directory that stores cryptogen-generated artifacts.
-    cryptogen_artifacts_dir: "/tmp/fabric-x/crypto-config"
+    cryptogen_artifacts_dir: "/tmp/chaguar/crypto-config"
     # Provides the organization metadata consumed by the crypto entry points. The mapping is expected to expose `domain`, `role`, `peer.name`, `peer.secret`, and `fabric_ca_host` when relevant.
     organization:
       domain: "org1.example.com"
@@ -457,7 +457,7 @@ Transfers the YugabyteDB TLS key, certificate, and CA certificate generated by c
         secret: "yb-tserver-1PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -471,11 +471,11 @@ Copies the Fabric CA TLS root when needed and delegates YugabyteDB TLS enrollmen
 - name: Enroll YugabyteDB TLS material with Fabric CA
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Defines the control-node directory that stores fetched YugabyteDB artifacts. Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when `yugabyte_use_tls` or webserver TLS is enabled.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/yugabyte"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/yugabyte"
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
     # Provides the organization metadata consumed by the crypto entry points. The mapping is expected to expose `domain`, `role`, `peer.name`, `peer.secret`, and `fabric_ca_host` when relevant.
@@ -497,7 +497,7 @@ Copies the Fabric CA TLS root when needed and delegates YugabyteDB TLS enrollmen
     # Specifies the OpenShift Route host.
     yugabyte_openshift_tablet_cql_web_route: "yugabyte-tablet-cql-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -511,15 +511,15 @@ Renders the YugabyteDB initialization SQL script that creates the configured dat
 - name: Transfer YugabyteDB initialization config
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Names the SQL initialization script used by tablet pods.
     yugabyte_init_script_file: 01-yb-init.sql
     # Sets the YugabyteDB database name created by the initialization SQL script.
-    yugabyte_db: "fabricx"
+    yugabyte_db: "chaguar"
     # Sets the YugabyteDB database user created by the initialization SQL script.
-    yugabyte_user: "fabricx_user"
+    yugabyte_user: "chaguar_user"
     # Sets the password for the YugabyteDB database user. Store this value in Ansible Vault.
     yugabyte_password: "my_yugabyte_password"
     # Enables Kubernetes mode for the YugabyteDB role.
@@ -527,7 +527,7 @@ Renders the YugabyteDB initialization SQL script that creates the configured dat
     # Selects the OpenShift deployment branch.
     yugabyte_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: config/transfer
 ```
 
@@ -541,7 +541,7 @@ Deletes the remote YugabyteDB configuration directory and, in Kubernetes mode, r
 - name: Remove YugabyteDB configuration
   vars:
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Enables Kubernetes mode for the YugabyteDB role.
@@ -551,9 +551,9 @@ Deletes the remote YugabyteDB configuration directory and, in Kubernetes mode, r
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: config/rm
 ```
 
@@ -566,7 +566,7 @@ Selects the built-in YugabyteDB dashboard JSON file and delegates the copy step 
 ```yaml
 - name: Transfer the YugabyteDB Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -582,7 +582,7 @@ Selects the master or tablet container startup path for the current host. The se
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/start
 ```
 
@@ -598,7 +598,7 @@ Stops the container associated with the current YugabyteDB host. This leaves hos
     # Names the YugabyteDB container associated with the current host.
     yugabyte_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/stop
 ```
 
@@ -614,7 +614,7 @@ Deletes the container associated with the current YugabyteDB host. This removes 
     # Names the YugabyteDB container associated with the current host.
     yugabyte_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/rm
 ```
 
@@ -630,7 +630,7 @@ Delegates log collection for the current YugabyteDB container. Collected logs co
     # Names the YugabyteDB container associated with the current host.
     yugabyte_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/fetch_logs
 ```
 
@@ -644,9 +644,9 @@ Creates the host data directory, assembles the `yb-master` command line, and sta
 - name: Start a YugabyteDB master container
   vars:
     # Sets the shared remote data directory consumed by YugabyteDB.
-    remote_data_dir: "/var/hyperledger/fabric-x/yugabyte/data"
+    remote_data_dir: "/var/lfdt/chaguar/yugabyte/data"
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote data directory used by YugabyteDB tasks.
     yugabyte_remote_data_dir: "{{ remote_data_dir }}"
     # Sets the in-container data directory used by YugabyteDB.
@@ -685,7 +685,7 @@ Creates the host data directory, assembles the `yb-master` command line, and sta
     # Enables HTTPS for the YugabyteDB webserver.
     yugabyte_webserver_use_tls: "{{ yugabyte_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/master/start
 ```
 
@@ -699,9 +699,9 @@ Creates the host data directory, assembles the `yb-tserver` command line, starts
 - name: Start a YugabyteDB tablet container
   vars:
     # Sets the shared remote data directory consumed by YugabyteDB.
-    remote_data_dir: "/var/hyperledger/fabric-x/yugabyte/data"
+    remote_data_dir: "/var/lfdt/chaguar/yugabyte/data"
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote data directory used by YugabyteDB tasks.
     yugabyte_remote_data_dir: "{{ remote_data_dir }}"
     # Sets the remote configuration directory used by YugabyteDB tasks.
@@ -750,7 +750,7 @@ Creates the host data directory, assembles the `yb-tserver` command line, starts
     # Enables HTTPS for the YugabyteDB webserver.
     yugabyte_webserver_use_tls: "{{ yugabyte_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/tablet/start
 ```
 
@@ -766,7 +766,7 @@ Selects the master or tablet Kubernetes startup path for the current host. The s
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/start
 ```
 
@@ -782,7 +782,7 @@ Selects the master or tablet Kubernetes removal path for the current host. The s
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/rm
 ```
 
@@ -798,7 +798,7 @@ Delegates pod log collection for the Kubernetes resource associated with the cur
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/fetch_logs
 ```
 
@@ -814,9 +814,9 @@ Creates the ConfigMap that exposes the initialization SQL script to tablet pods.
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Sets the remote configuration directory used by YugabyteDB tasks.
     yugabyte_remote_config_dir: "{{ remote_config_dir }}"
     # Names the SQL initialization script used by tablet pods.
@@ -826,7 +826,7 @@ Creates the ConfigMap that exposes the initialization SQL script to tablet pods.
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to YugabyteDB resources.
     yugabyte_k8s_part_of: yugabyte
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/config/transfer
 ```
 
@@ -840,7 +840,7 @@ Applies the master ClusterIP Service, optional NodePort and LoadBalancer Service
 - name: Start a YugabyteDB master StatefulSet
   vars:
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to YugabyteDB resources.
@@ -919,7 +919,7 @@ Applies the master ClusterIP Service, optional NodePort and LoadBalancer Service
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/master/start
 ```
 
@@ -933,7 +933,7 @@ Deletes the master StatefulSet and its Services for the current YugabyteDB maste
 - name: Remove a YugabyteDB master StatefulSet
   vars:
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes NodePort value used by the external master RPC Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -945,7 +945,7 @@ Deletes the master StatefulSet and its Services for the current YugabyteDB maste
     # Set to `true` to create a LoadBalancer Service entry that exposes the master webserver port externally. When undefined or `false`, the master webserver port is not included in the LoadBalancer Service.
     yugabyte_k8s_loadbalancer_expose_master_webserver_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/master/rm
 ```
 
@@ -959,7 +959,7 @@ Applies the tablet ClusterIP Service, optional NodePort and LoadBalancer Service
 - name: Start a YugabyteDB tablet StatefulSet
   vars:
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to YugabyteDB resources.
@@ -1064,7 +1064,7 @@ Applies the tablet ClusterIP Service, optional NodePort and LoadBalancer Service
     # Set to `true` to create a LoadBalancer Service entry that exposes the tablet YCQL web UI port externally. When undefined or `false`, the tablet YCQL web UI port is not included in the LoadBalancer Service.
     yugabyte_k8s_loadbalancer_expose_tablet_cql_web_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/tablet/start
 ```
 
@@ -1078,7 +1078,7 @@ Deletes the tablet StatefulSet and its Services for the current YugabyteDB table
 - name: Remove a YugabyteDB tablet StatefulSet
   vars:
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes NodePort value used by the external tablet YSQL Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -1106,7 +1106,7 @@ Deletes the tablet StatefulSet and its Services for the current YugabyteDB table
     # Set to `true` to create a LoadBalancer Service entry that exposes the tablet YCQL web UI port externally. When undefined or `false`, the tablet YCQL web UI port is not included in the LoadBalancer Service.
     yugabyte_k8s_loadbalancer_expose_tablet_cql_web_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/tablet/rm
 ```
 
@@ -1120,9 +1120,9 @@ Creates the Kubernetes Secret that exposes the YugabyteDB TLS key pair and CA ce
 - name: Create a YugabyteDB TLS Secret
   vars:
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
     # Sets the shared remote configuration directory consumed by YugabyteDB.
-    remote_config_dir: "/opt/hyperledger/fabric-x/yugabyte/config"
+    remote_config_dir: "/opt/lfdt/chaguar/yugabyte/config"
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to YugabyteDB resources.
@@ -1132,7 +1132,7 @@ Creates the Kubernetes Secret that exposes the YugabyteDB TLS key pair and CA ce
     # Enables TLS asset handling for YugabyteDB.
     yugabyte_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1146,7 +1146,7 @@ Deletes persisted YugabyteDB data for the selected deployment mode. Container mo
 - name: Remove YugabyteDB persisted data
   vars:
     # Sets the shared remote data directory consumed by YugabyteDB.
-    remote_data_dir: "/var/hyperledger/fabric-x/yugabyte/data"
+    remote_data_dir: "/var/lfdt/chaguar/yugabyte/data"
     # Enables container mode for the YugabyteDB role.
     yugabyte_use_container: "{{ (not yugabyte_use_k8s) and (not yugabyte_use_openshift) }}"
     # Enables Kubernetes mode for the YugabyteDB role.
@@ -1158,9 +1158,9 @@ Deletes persisted YugabyteDB data for the selected deployment mode. Container mo
     # Names the Kubernetes resources associated with the current host, including the derived NodePort Service when enabled.
     yugabyte_k8s_resource_name: "{{ inventory_hostname }}"
     # Sets the Kubernetes namespace used by YugabyteDB resources.
-    k8s_namespace: "fabricx-yugabyte"
+    k8s_namespace: "chaguar-yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: data/rm
 ```
 
@@ -1182,9 +1182,9 @@ Groups YugabyteDB hosts by cluster and assembles Prometheus scrape configuration
       - "yb-tserver-2"
       - "yb-tserver-3"
     # Defines the control-node directory that stores fetched YugabyteDB artifacts. Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when `yugabyte_use_tls` or webserver TLS is enabled.
-    fetched_artifacts_dir: "/tmp/fabric-x/artifacts/yugabyte"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts/yugabyte"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -1200,7 +1200,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/start
 ```
 
@@ -1216,7 +1216,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Selects whether the current host is handled as a YugabyteDB master or tablet node.
     yugabyte_component_type: "tablet"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/rm
 ```
 
@@ -1244,7 +1244,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     yugabyte_openshift_tablet_cql_web_route: "yugabyte-tablet-cql-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/ping
 ```
 
@@ -1268,7 +1268,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     yugabyte_openshift_master_webserver_route: "yugabyte-master-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/master/start
 ```
 
@@ -1286,7 +1286,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     yugabyte_openshift_master_webserver_route: "yugabyte-master-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/master/rm
 ```
 
@@ -1314,7 +1314,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     yugabyte_openshift_tablet_cql_web_route: "yugabyte-tablet-cql-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/tablet/start
 ```
 
@@ -1336,6 +1336,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     yugabyte_openshift_tablet_cql_web_route: "yugabyte-tablet-cql-web.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/tablet/rm
 ```

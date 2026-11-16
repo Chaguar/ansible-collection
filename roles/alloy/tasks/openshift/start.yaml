@@ -6,7 +6,7 @@
 
 - name: Start Alloy workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/start
 
 - name: Apply Alloy http OpenShift Route
@@ -20,6 +20,6 @@
       app.kubernetes.io/name: "{{ alloy_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ alloy_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: alloy_openshift_route is defined

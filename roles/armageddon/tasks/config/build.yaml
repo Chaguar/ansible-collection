@@ -10,7 +10,7 @@
     state: directory
     mode: "0o755"
 
-- name: Collect all the Fabric-X Orderer components information
+- name: Collect all the Chaguar Orderer components information
   vars:
     orderer_group_organization_domains: >-
       {{

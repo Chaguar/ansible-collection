@@ -9,7 +9,7 @@
   tasks:
     - name: Fetch PostgreSQL database certificates
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.postgres
+        name: hyperledger.chaguar.postgres
         tasks_from: crypto/fetch
       when:
         - postgres_port is defined

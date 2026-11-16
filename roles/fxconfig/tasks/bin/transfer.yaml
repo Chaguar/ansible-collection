@@ -8,5 +8,5 @@
   vars:
     bin_name: "{{ fxconfig_bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: transfer

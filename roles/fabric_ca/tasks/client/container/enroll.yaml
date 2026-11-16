@@ -12,7 +12,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 - name: Set volumes for Fabric-CA client
@@ -69,7 +69,7 @@
     container_run_as_host_user: true
     container_run_detach_mode: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start
 
 - name: Copy NodeOUs configuration file
@@ -82,7 +82,7 @@
 
 - name: Adjust crypto to be as idemixgen produced crypto
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/idemixgenize
   when:
     - fabric_ca_enrollment_type == 'idemix'

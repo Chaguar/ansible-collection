@@ -1,4 +1,4 @@
-# hyperledger.fabricx.openshift
+# hyperledger.chaguar.openshift
 
 > Provides OpenShift helper tasks for Route resources.
 
@@ -23,7 +23,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.openshift
+ansible-doc -t role hyperledger.chaguar.openshift
 ```
 
 ## Tasks
@@ -38,7 +38,7 @@ Creates or updates an OpenShift Route targeting a named Service port. Renders pa
 - name: Apply an OpenShift Route
   vars:
     # Specifies the namespace targeted by the OpenShift resource.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Specifies the OpenShift Route resource name.
     openshift_route_name: "orderer-router-1-rpc"
     # Specifies the external host assigned to the OpenShift Route.
@@ -54,7 +54,7 @@ Creates or updates an OpenShift Route targeting a named Service port. Renders pa
     # Specifies the TLS termination type to render on the OpenShift Route.
     openshift_route_tls_termination: passthrough
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
 ```
 
@@ -68,11 +68,11 @@ Deletes the named OpenShift Route from `k8s_namespace`.
 - name: Remove an OpenShift Route
   vars:
     # Specifies the namespace targeted by the OpenShift resource.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # Specifies the OpenShift Route resource name.
     openshift_route_name: "orderer-router-1-rpc"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/rm
 ```
 
@@ -90,7 +90,7 @@ Checks the external OpenShift Route host on port 80 or 443, depending on `opensh
     # Controls whether the Route uses passthrough TLS termination.
     openshift_route_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/ping
 ```
 
@@ -106,7 +106,7 @@ Discovers OpenShift Route hostnames from the current inventory and maps them to 
     # Path to the hosts file updated by the OpenShift Route helper.
     openshift_hosts_file_path: /etc/hosts
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/setup_hosts
 ```
 
@@ -124,7 +124,7 @@ Logs in to a managed OpenShift cluster using a personal user token.
     # Personal user token for interactive OpenShift login Can be set via OPENSHIFT_PERSONAL_TOKEN environment variable
     openshift_cluster_personal_token: "{{ lookup('env', 'OPENSHIFT_PERSONAL_TOKEN') | trim }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: cluster/login
 ```
 
@@ -138,7 +138,7 @@ Mints a service-account token and logs in to a managed OpenShift cluster. Select
 - name: Login to a managed OpenShift cluster with a service account
   vars:
     # Specifies the namespace targeted by the OpenShift resource.
-    k8s_namespace: "fabric-x"
+    k8s_namespace: "chaguar"
     # OpenShift cluster API server URL for login Required for managed OpenShift cluster login
     openshift_cluster_login_server: "https://api.cluster.example.com:6443"
     # OpenShift namespace/project to use
@@ -148,6 +148,6 @@ Mints a service-account token and logs in to a managed OpenShift cluster. Select
     # Duration for the service account token
     openshift_cluster_service_account_token_duration: 12h
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: cluster/service_account_login
 ```

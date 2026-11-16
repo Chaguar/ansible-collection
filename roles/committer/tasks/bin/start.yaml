@@ -12,7 +12,7 @@
   when:
     - committer_component_type == 'sidecar'
 
-- name: Start the Fabric-X Committer binary
+- name: Start the Chaguar Committer binary
   vars:
     committer_subcommands:
       validator: vc
@@ -27,5 +27,5 @@
     bin_wait_port: "{{ committer_rpc_port }}"
     bin_wait_timeout: "{{ 120 if committer_component_type in ['validator', 'query-service'] else 60 }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start

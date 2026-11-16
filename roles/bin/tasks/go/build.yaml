@@ -8,7 +8,7 @@
   vars:
     git_dir: "{{ bin_source_code_dir if bin_build_on_control_node else bin_remote_source_code_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.git
+    name: hyperledger.chaguar.git
     tasks_from: clone
 
 # We gather facts in order to get architecture and os running on the remote machine.
@@ -25,7 +25,7 @@
 
 - name: Build unique platform dictionary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: map_platform_to_host
 
 - name: Build {{ bin_name }} binary from go repository
@@ -38,7 +38,7 @@
     go_source_code_path: "{{ bin_source_code_dir }}/{{ git_repo_name }}"
     go_output_name: "{{ bin_dir }}/{{ bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.go
+    name: hyperledger.chaguar.go
     tasks_from: build
   loop: "{{ bin_platforms.keys() }}"
   loop_control:

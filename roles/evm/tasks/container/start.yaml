@@ -33,5 +33,5 @@
     container_wait_port: "{{ evm_port }}"
     container_wait_timeout: 120
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

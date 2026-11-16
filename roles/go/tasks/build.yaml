@@ -6,7 +6,7 @@
 
 - name: Map host platform to GOOS and GOARCH
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.go
+    name: hyperledger.chaguar.go
     tasks_from: map_platform
   when:
     - go_host_to_map is defined

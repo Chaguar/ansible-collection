@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Orderer
+- name: Ensure Kubernetes namespace exists for Chaguar Orderer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply Secret
 # =========================
-- name: Apply Fabric-X Orderer Secret
+- name: Apply Chaguar Orderer Secret
   vars:
     orderer_k8s_msp_cacert_path: "{{ orderer_remote_config_dir }}/msp/cacerts/ca.{{ organization.domain }}-cert.pem"
     orderer_k8s_msp_signcert_path: "{{ orderer_remote_config_dir }}/msp/signcerts/{{ orderer_crypto_name }}.{{ organization.domain }}-cert.pem"

@@ -9,9 +9,9 @@
   tasks:
     - name: Setup the crypto material for the load generators
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: crypto/setup
     - name: Fetch load generator certificates
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loadgen
+        name: hyperledger.chaguar.loadgen
         tasks_from: crypto/fetch

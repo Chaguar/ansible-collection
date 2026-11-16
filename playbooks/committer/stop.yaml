@@ -4,15 +4,15 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Stop the Fabric-X Committer
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Stop the Chaguar Committer
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Stop the Fabric-X Committer services
+    - name: Stop the Chaguar Committer services
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: stop
       when:
         - committer_component_type is defined

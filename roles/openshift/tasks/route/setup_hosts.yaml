@@ -45,7 +45,7 @@
   become: "{{ openshift_hosts_file_path == '/etc/hosts' }}"
   ansible.builtin.blockinfile:
     path: "{{ openshift_hosts_file_path }}"
-    marker: "# {mark} hyperledger.fabricx openshift routes"
+    marker: "# {mark} hyperledger.chaguar openshift routes"
     block: |-
       {% for openshift_route_host in openshift_hosts_route_hosts %}
       {{ ansible_facts.default_ipv4.address }} {{ openshift_route_host }}

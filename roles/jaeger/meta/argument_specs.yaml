@@ -49,7 +49,7 @@ argument_specs:
         description:
           - "Sets the shared remote configuration base directory."
           - "The directory can be on the control or remote host."
-          - "Example: C(/var/lib/fabricx/jaeger/config)."
+          - "Example: C(/var/lib/chaguar/jaeger/config)."
       jaeger_remote_config_dir: &jaeger_remote_config_dir
         type: path
         default: "{{ remote_config_dir }}"
@@ -66,7 +66,7 @@ argument_specs:
         description:
           - "Sets the local directory containing fetched artifacts used by Jaeger."
           - "It is used when copying the ElasticSearch CA certificate into Jaeger configuration."
-          - "Example: C(/tmp/fabricx-artifacts)."
+          - "Example: C(/tmp/chaguar-artifacts)."
       elasticsearch_host: &elasticsearch_host
         type: str
         required: true

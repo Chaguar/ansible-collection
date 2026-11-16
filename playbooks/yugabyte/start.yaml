@@ -20,7 +20,7 @@
             | list
           }}
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: start
       when:
         - yugabyte_component_type is defined

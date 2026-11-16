@@ -1,6 +1,6 @@
 # 9. Add the Extras
 
-Fabric-X is not only the orderer and the committer. This lesson covers the optional components that make a deployment usable: the EVM gateway that turns Fabric-X into an Ethereum JSON-RPC endpoint, the Block Explorer, the monitoring stack, and Semaphore UI. The EVM gateway gets most of the space, because it is the one that lets you point an unmodified Solidity tutorial at your own network.
+Chaguar is not only the orderer and the committer. This lesson covers the optional components that make a deployment usable: the EVM gateway that turns Chaguar into an Ethereum JSON-RPC endpoint, the Block Explorer, the monitoring stack, and Semaphore UI. The EVM gateway gets most of the space, because it is the one that lets you point an unmodified Solidity tutorial at your own network.
 
 > [!NOTE]
 > Estimated time: 30 minutes. Builds on [8. Change the Topology](./08-change-the-topology.md).
@@ -21,14 +21,14 @@ Fabric-X is not only the orderer and the committer. This lesson covers the optio
 ## What You Will Learn
 
 - What the EVM gateway is, and why it needs an endorser of its own.
-- How to bring up a Fabric-X network with an Ethereum JSON-RPC endpoint and submit a transaction to it.
+- How to bring up a Chaguar network with an Ethereum JSON-RPC endpoint and submit a transaction to it.
 - How a component declares the namespace it needs, and how that reaches the chain.
 - How the Block Explorer derives its security settings from another host.
 - Which observability component to add for which question.
 
 ## The EVM Gateway
 
-[`fabric-x-evm`](https://github.com/hyperledger/fabric-x-evm) is a gateway container that speaks **Ethereum JSON-RPC** on the outside and Fabric-X on the inside. It embeds an EVM and its own endorser, submits ordered transactions to the Fabric-X routers, and synchronizes committed state from the committer sidecar.
+[`evm`](https://github.com/Chaguar/evm) is a gateway container that speaks **Ethereum JSON-RPC** on the outside and Chaguar on the inside. It embeds an EVM and its own endorser, submits ordered transactions to the Chaguar routers, and synchronizes committed state from the committer sidecar.
 
 The practical consequence is unusual and worth stating plainly: any Solidity tutorial works unchanged against it, gas is free, and any signing key is accepted.
 
@@ -41,12 +41,12 @@ flowchart LR
   SC[Committer sidecar] -->|committed blocks| GW
 ```
 
-The gateway is a single inventory host. In [`local/fabric-x-evm.yaml`](../../examples/inventory/docs/local/fabric-x-evm.md) it is the whole addition to the baseline:
+The gateway is a single inventory host. In [`local/chaguar-evm.yaml`](../../examples/inventory/docs/local/chaguar-evm.md) it is the whole addition to the baseline:
 
 ```yaml
-fabric_x_evm:
+chaguar_evm:
   hosts:
-    fabric-x-evm:
+    chaguar-evm:
       evm_port: 8545
       evm_use_tls: true
       organization:
@@ -57,7 +57,7 @@ fabric_x_evm:
           name: "{{ inventory_hostname }}"
           secret: "{{ inventory_hostname }}PWD"
         user:
-          name: fabric-x-evm
+          name: chaguar-evm
           secret: "{{ inventory_hostname }}PWD"
         namespaces:
           - id: basic
@@ -74,15 +74,15 @@ Four things in that block are worth reading closely, because each one teaches so
 
 **It is enrolled in `Org1`.** That is not incidental — it is the trick that keeps this inventory a one-host change. `Org1` is already trusted by the committer and the orderers, so no extra mTLS trust configuration is needed. Put the gateway in a _new_ organisation and you would also have to add it to `committer_mtls_clients` and the orderer's `orderer_mtls_clients`/`orderer_mtls_orgs`. Reusing an already-trusted organisation is the cheapest way to add a client component.
 
-State is persisted: the gateway's block, transaction, and log index and the embedded endorser's ledger are written as SQLite files under the host's data directory, so a restart resumes where it left off instead of re-syncing from block `0`. `make fabric_x_evm wipe` is what removes that state.
+State is persisted: the gateway's block, transaction, and log index and the embedded endorser's ledger are written as SQLite files under the host's data directory, so a restart resumes where it left off instead of re-syncing from block `0`. `make chaguar_evm wipe` is what removes that state.
 
 ## Deploying It
 
-The EVM gateway is already wired into every lifecycle playbook — `40-start.yaml` imports `hyperledger.fabricx.evm.start`, which simply skips when the inventory has no `fabric_x_evm` hosts. So switching inventories is all it takes:
+The EVM gateway is already wired into every lifecycle playbook — `40-start.yaml` imports `hyperledger.chaguar.evm.start`, which simply skips when the inventory has no `chaguar_evm` hosts. So switching inventories is all it takes:
 
 ```shell
 make teardown                                            # tear down what you have
-export ANSIBLE_INVENTORY=examples/inventory/local/fabric-x-evm.yaml
+export ANSIBLE_INVENTORY=examples/inventory/local/chaguar-evm.yaml
 make targets                                             # refresh per-host targets
 make setup
 make start
@@ -92,7 +92,7 @@ make init                                                # creates the "basic" n
 Confirm the gateway host came up:
 
 ```shell
-make fabric_x_evm ping
+make chaguar_evm ping
 ```
 
 > [!NOTE]
@@ -110,7 +110,7 @@ curl -s -X POST -H 'Content-Type: application/json' \
 
 You should get back `{"jsonrpc":"2.0","id":1,"result":"0xfab"}`.
 
-A couple more calls worth trying, because they prove the gateway is genuinely tracking your Fabric-X ledger rather than pretending:
+A couple more calls worth trying, because they prove the gateway is genuinely tracking your Chaguar ledger rather than pretending:
 
 ```shell
 # current block height — should advance as the load generator submits
@@ -139,7 +139,7 @@ With [Hardhat](https://hardhat.org/tutorial), add a network to `hardhat.config.j
 
 ```javascript
 networks: {
-  fabricx: {
+  chaguar: {
     url: "http://localhost:8545",
     chainId: 4011,
   },
@@ -149,14 +149,14 @@ networks: {
 With [MetaMask](https://support.metamask.io/configure/networks/how-to-add-a-custom-network-rpc/), add a custom network with RPC URL `http://localhost:8545` and chain ID `4011`.
 
 > [!NOTE]
-> Gas is free and any signing key is accepted, so you do not need a funded account to deploy a contract. See [hyperledger/fabric-x-evm](https://github.com/hyperledger/fabric-x-evm#build-your-own-contracts) for the caveats — this is an EVM on top of Fabric-X, not an Ethereum client, and some semantics differ.
+> Gas is free and any signing key is accepted, so you do not need a funded account to deploy a contract. See [Chaguar/evm](https://github.com/Chaguar/evm#build-your-own-contracts) for the caveats — this is an EVM on top of Chaguar, not an Ethereum client, and some semantics differ.
 
 ## The Block Explorer
 
 You already used the Block Explorer in [lesson 4](./04-observe-the-network.md). Now look at how it is wired, because it is the clearest example in the whole repository of a component whose behaviour is defined by _another host's_ settings.
 
 ```yaml
-fabric_x_block_explorer:
+chaguar_block_explorer:
   hosts:
     block-explorer-db:
       postgres_user: block_explorer_user
@@ -190,7 +190,7 @@ The monitoring components are independent of each other, so you can deploy any s
 
 | Question                                  | Component                      | Inventory host          |
 | ----------------------------------------- | ------------------------------ | ----------------------- |
-| How is Fabric-X performing?               | Prometheus                     | `prometheus`            |
+| How is Chaguar performing?                | Prometheus                     | `prometheus`            |
 | Show me that on a chart                   | Grafana                        | `grafana`               |
 | What did the components log?              | Loki plus Alloy                | `loki`, `alloy`         |
 | Is the machine itself saturated?          | Node exporter                  | `node-exporter`         |
@@ -217,17 +217,17 @@ grafana:
 Deploy Grafana without Prometheus and you get a Grafana with a broken data source, not an error at deploy time. The same is true for `alloy` and `loki_host`.
 
 > [!TIP]
-> Monitoring is the cheapest group to drop when you are iterating and want a faster `make start`. `make network start` brings up the Fabric-X network without monitoring, the load generator, or anything else outside the `network` group.
+> Monitoring is the cheapest group to drop when you are iterating and want a faster `make start`. `make network start` brings up the Chaguar network without monitoring, the load generator, or anything else outside the `network` group.
 
 ## Semaphore UI
 
-[Semaphore UI](../../examples/inventory/docs/local/semaphore-ui.md) is the odd one out: it is not a Fabric-X component at all. It is a web-based Ansible automation controller that runs _this collection's_ playbooks for you, so a team can drive deployments from a UI instead of a terminal.
+[Semaphore UI](../../examples/inventory/docs/local/semaphore-ui.md) is the odd one out: it is not a Chaguar component at all. It is a web-based Ansible automation controller that runs _this collection's_ playbooks for you, so a team can drive deployments from a UI instead of a terminal.
 
 It lives in its own dedicated inventory, [`local/semaphore-ui.yaml`](../../examples/inventory/local/semaphore-ui.yaml), and that separation is deliberate: Semaphore UI should be able to drive many inventories, and it must never be a host that a network `teardown` or `wipe` could stop.
 
 ```shell
 .venv/bin/ansible-playbook -i examples/inventory/local/semaphore-ui.yaml \
-  hyperledger.fabricx.semaphore_ui.start
+  hyperledger.chaguar.semaphore_ui.start
 ```
 
 Because it is in its own inventory, the `Makefile` lifecycle verbs also drive it — but only when the loaded inventory defines a `semaphore_ui` group, which no network inventory does. See the [`semaphore_ui` playbooks](../../playbooks/semaphore_ui/README.md) for the full lifecycle.
@@ -235,9 +235,9 @@ Because it is in its own inventory, the `Makefile` lifecycle verbs also drive it
 ## Exercise
 
 > [!TIP]
-> Deploy the EVM inventory and prove the gateway is really connected to your Fabric-X network.
+> Deploy the EVM inventory and prove the gateway is really connected to your Chaguar network.
 >
-> 1. Switch to `local/fabric-x-evm.yaml` and bring the network up, including `make init`.
+> 1. Switch to `local/chaguar-evm.yaml` and bring the network up, including `make init`.
 > 2. Confirm the chain ID over JSON-RPC.
 > 3. Call `eth_blockNumber` twice, a few seconds apart, and explain why the number changed even though _you_ submitted nothing.
 > 4. Then, a design question with no command: you want to add a **second** EVM gateway owned by a new organisation, `Org2`. Which inventory lines would you have to add beyond the gateway host itself?
@@ -249,7 +249,7 @@ Steps 1 and 2:
 
 ```shell
 make teardown
-export ANSIBLE_INVENTORY=examples/inventory/local/fabric-x-evm.yaml
+export ANSIBLE_INVENTORY=examples/inventory/local/chaguar-evm.yaml
 make targets
 make setup
 make start
@@ -275,7 +275,7 @@ done
 
 The block number advances because the **load generator** is still running and submitting transactions into namespace `0`. Those transactions are ordered and committed exactly like any other, and the gateway synchronizes committed blocks from the committer sidecar — so it sees the whole ledger, not only the transactions that arrived through JSON-RPC.
 
-That is the important insight: the gateway is a _view onto_ your Fabric-X ledger, not a separate chain running alongside it. You can confirm the same blocks from the other side by opening the Block Explorer at <http://localhost:18000>.
+That is the important insight: the gateway is a _view onto_ your Chaguar ledger, not a separate chain running alongside it. You can confirm the same blocks from the other side by opening the Block Explorer at <http://localhost:18000>.
 
 Step 4 — a second gateway in a new organisation needs considerably more than one host:
 

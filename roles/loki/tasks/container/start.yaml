@@ -38,5 +38,5 @@
     container_wait_until_running: true
     container_wait_port: "{{ loki_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

@@ -8,5 +8,5 @@
   vars:
     container_name: "{{ elasticsearch_container_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: rm

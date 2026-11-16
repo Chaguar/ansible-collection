@@ -13,7 +13,7 @@
   vars:
     bin_host: "{{ ansible_host }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: get_bin_services
 
 - name: Build Alloy binary log facts

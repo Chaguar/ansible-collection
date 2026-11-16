@@ -1,6 +1,6 @@
 # fxconfig Playbooks
 
-The `fxconfig` playbooks prepare and submit Fabric-X configuration transactions, including namespace creation. `fxconfig` is a control-plane tool that uses generated artifacts, endorser information from the inventory, and runtime endpoints.
+The `fxconfig` playbooks prepare and submit Chaguar configuration transactions, including namespace creation. `fxconfig` is a control-plane tool that uses generated artifacts, endorser information from the inventory, and runtime endpoints.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -24,7 +24,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares the `fxconfig` CLI used for configuration transactions. It handles control-node install/build decisions first, then ensures remote hosts that declare `fxconfig_use_bin: true` have the binary available by transfer, local build, or install.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxconfig.binaries
+ansible-playbook hyperledger.chaguar.fxconfig.binaries
 ```
 
 Properties:
@@ -38,7 +38,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders and transfers `fxconfig` configuration for hosts that declare namespace and user data. It selects the endorser identity, discovers the orderer router, committer query service, and committer sidecar endpoints, and writes the local configuration that later namespace operations use.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxconfig.configs
+ansible-playbook hyperledger.chaguar.fxconfig.configs
 ```
 
 Properties:
@@ -48,10 +48,10 @@ Properties:
 
 ## create_namespaces.yaml
 
-[`create_namespaces.yaml`](./create_namespaces.yaml) first lists the namespaces already committed to the Fabric-X network together with their current on-chain version, then compares each declared namespace's policy against a fingerprint recorded from the last run to decide whether it needs to be created, updated, or left alone. It groups inventory definitions, creates or updates unsigned transactions on the control node, asks the relevant organizations to endorse them, merges the endorsements, submits the finalized transactions, and records the applied fingerprint.
+[`create_namespaces.yaml`](./create_namespaces.yaml) first lists the namespaces already committed to the Chaguar network together with their current on-chain version, then compares each declared namespace's policy against a fingerprint recorded from the last run to decide whether it needs to be created, updated, or left alone. It groups inventory definitions, creates or updates unsigned transactions on the control node, asks the relevant organizations to endorse them, merges the endorsements, submits the finalized transactions, and records the applied fingerprint.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxconfig.create_namespaces
+ansible-playbook hyperledger.chaguar.fxconfig.create_namespaces
 ```
 
 Properties:
@@ -62,14 +62,14 @@ Properties:
 - Known limitation: a namespace policy changed out-of-band (not through this playbook) is not detected, since reconciliation compares against the last fingerprint *this playbook* recorded, not the actual on-chain policy bytes.
 
 > [!WARNING]
-> Run this after the network is started and the required committer endpoints are reachable. Running it too early fails by design because namespace transactions must be endorsed and submitted through live Fabric-X endpoints.
+> Run this after the network is started and the required committer endpoints are reachable. Running it too early fails by design because namespace transactions must be endorsed and submitted through live Chaguar endpoints.
 
 ## wipe.yaml
 
 [`wipe.yaml`](./wipe.yaml) removes generated `fxconfig` files from targeted hosts so namespace/configuration artifacts can be rebuilt cleanly during another setup or debug cycle.
 
 ```shell
-ansible-playbook hyperledger.fabricx.fxconfig.wipe
+ansible-playbook hyperledger.chaguar.fxconfig.wipe
 ```
 
 Properties:

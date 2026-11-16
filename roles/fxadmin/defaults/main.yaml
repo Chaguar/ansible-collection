@@ -23,9 +23,9 @@ fxadmin_current_block: '{{ configtxgen_artifacts_dir }}/{{ channel_id }}_block.p
 fxadmin_follow_timeout: 60s
 # Selects the Git ref used by build and install workflows.
 fxadmin_git_commit: v1.0.3
-# Defines the Git host used to resolve the Fabric-X source repository.
+# Defines the Git host used to resolve the Chaguar source repository.
 fxadmin_git_hub_url: github.com
-# Defines the Fabric-X source repository path.
+# Defines the Chaguar source repository path.
 fxadmin_git_repo: hyperledger/fabric-x
 # Defines the fxadmin container image.
 fxadmin_image: "{{ fxadmin_registry_endpoint }}/{{ fxadmin_image_name }}:{{ fxadmin_image_tag }}"

@@ -98,7 +98,7 @@ argument_specs:
         type: path
         description:
           - "Sets the shared remote configuration directory consumed by YugabyteDB."
-          - "Example: C(/opt/hyperledger/fabric-x/yugabyte/config)."
+          - "Example: C(/opt/lfdt/chaguar/yugabyte/config)."
       yugabyte_remote_data_dir: &yugabyte_remote_data_dir
         type: path
         default: "{{ remote_data_dir }}"
@@ -108,7 +108,7 @@ argument_specs:
         type: path
         description:
           - "Sets the shared remote data directory consumed by YugabyteDB."
-          - "Example: C(/var/hyperledger/fabric-x/yugabyte/data)."
+          - "Example: C(/var/lfdt/chaguar/yugabyte/data)."
       yugabyte_container_data_dir: &yugabyte_container_data_dir
         type: path
         default: "/var/data"
@@ -318,13 +318,13 @@ argument_specs:
         description:
           - "Defines the control-node directory that stores fetched YugabyteDB artifacts."
           - "Required when TLS-enabled tasks need access to fetched CA or certificate artifacts, such as when C(yugabyte_use_tls) or webserver TLS is enabled."
-          - "Example: C(/tmp/fabric-x/artifacts/yugabyte)."
+          - "Example: C(/tmp/chaguar/artifacts/yugabyte)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         required: true
         description:
           - "Defines the control-node directory that stores cryptogen-generated artifacts."
-          - "Example: C(/tmp/fabric-x/crypto-config)."
+          - "Example: C(/tmp/chaguar/crypto-config)."
       actual_host: &actual_host
         type: str
         required: true
@@ -342,13 +342,13 @@ argument_specs:
         required: true
         description:
           - "Sets the YugabyteDB database name created by the initialization SQL script."
-          - "Example: C(fabricx)."
+          - "Example: C(chaguar)."
       yugabyte_user: &yugabyte_user
         type: str
         required: true
         description:
           - "Sets the YugabyteDB database user created by the initialization SQL script."
-          - "Example: C(fabricx_user)."
+          - "Example: C(chaguar_user)."
       yugabyte_password: &yugabyte_password
         type: str
         required: true
@@ -360,7 +360,7 @@ argument_specs:
         type: str
         description:
           - "Sets the Kubernetes namespace used by YugabyteDB resources."
-          - "Example: C(fabricx-yugabyte)."
+          - "Example: C(chaguar-yugabyte)."
       k8s_storage_size: &k8s_storage_size
         type: str
         required: true

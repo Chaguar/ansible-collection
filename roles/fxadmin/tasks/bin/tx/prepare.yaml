@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Prepare the Fabric-X transaction from the endorsed ConfigUpdate
+- name: Prepare the Chaguar transaction from the endorsed ConfigUpdate
   vars:
     bin_command: >-
       {{ fxadmin_bin_name }} tx
@@ -15,5 +15,5 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start

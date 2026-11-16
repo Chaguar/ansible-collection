@@ -18,7 +18,7 @@
       }}
     yugabyte_cluster_ref_host: "{{ yugabyte_cluster_tls_hosts | first }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/yugabyte/transfer
   when:
     - yugabyte_cluster_ref_id is defined
@@ -27,7 +27,7 @@
 
 - name: Transfer PostgresDB TLS certificate
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/postgres/transfer
   when:
     - postgres_db_host is defined

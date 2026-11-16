@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Loadgen container
+- name: Remove Chaguar Loadgen container
   vars:
     container_name: "{{ loadgen_container_name }}"
     container_image: "{{ loadgen_image }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: rm

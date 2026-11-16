@@ -1,4 +1,4 @@
-# hyperledger.fabricx.container
+# hyperledger.chaguar.container
 
 > Shared Docker and Podman lifecycle helpers for installing runtimes, managing containers, networks, registry logins, host-path volumes, and collected logs.
 
@@ -53,7 +53,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.container
+ansible-doc -t role hyperledger.chaguar.container
 ```
 
 ## Tasks
@@ -70,7 +70,7 @@ Verifies the requested container runtime or auto-detects a host runtime, preferr
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: install
 ```
 
@@ -86,7 +86,7 @@ Selects the container runtime used by generic lifecycle tasks. Uses `container_c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: get_container_client
 ```
 
@@ -104,7 +104,7 @@ Uses `container_socket` when provided. Otherwise discovers the local Docker or P
     # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
     container_socket: "unix:///run/user/1000/podman/podman.sock"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: get_container_client_socket
 ```
 
@@ -120,11 +120,11 @@ Starts or updates a container through the selected Docker or Podman backend. Acc
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
     # Supplies the command passed to the container runtime.
-    container_command: orderer --config /etc/fabricx/orderer.yaml
+    container_command: orderer --config /etc/chaguar/orderer.yaml
     # Enables debug output.
     container_debug: "{{ lookup('env', 'DEBUG') | bool | default(false) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start
 ```
 
@@ -140,7 +140,7 @@ Stops the named container through the selected Docker or Podman backend. Uses `c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: stop
 ```
 
@@ -156,7 +156,7 @@ Removes the named container through the selected Docker or Podman backend. Uses 
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: rm
 ```
 
@@ -172,7 +172,7 @@ Runs `container_command` inside an existing container through the selected Docke
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: exec
 ```
 
@@ -188,7 +188,7 @@ Collects logs from the named container with the selected runtime client. Writes 
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Sets the remote directory used to stage collected container logs.
     container_remote_logs_dir: "{{ remote_node_dir }}/logs"
     # Sets the filename used for collected container logs.
@@ -198,11 +198,11 @@ Collects logs from the named container with the selected runtime client. Writes 
     # Sets the filename used for fetched container logs.
     container_fetched_logs_file: logs.txt
     # Provides the base remote artifact directory for collected logs.
-    remote_node_dir: "/var/hyperledger/fabricx/orderer-assembler-1"
+    remote_node_dir: "/var/lfdt/chaguar/orderer-assembler-1"
     # Provides the base local artifact directory for fetched logs.
-    fetched_artifacts_dir: "/tmp/fabricx/fetched-logs"
+    fetched_artifacts_dir: "/tmp/chaguar/fetched-logs"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: fetch_logs
 ```
 
@@ -218,7 +218,7 @@ Authenticates the selected Docker or Podman backend to `container_registry`. Use
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: registry/login
 ```
 
@@ -234,7 +234,7 @@ Creates the named network through the selected Docker or Podman backend. Uses dr
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: network/create
 ```
 
@@ -250,7 +250,7 @@ Removes the named network through the selected Docker or Podman backend. Uses `c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: network/rm
 ```
 
@@ -266,7 +266,7 @@ Creates or updates a host path used as a container volume through the selected D
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: volume/create
 ```
 
@@ -282,7 +282,7 @@ Removes the host path used as a container volume through the selected Docker or 
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: volume/rm
 ```
 
@@ -295,7 +295,7 @@ Installs the Docker runtime on supported Linux hosts. Enables the Docker service
 ```yaml
 - name: Install Docker on the target host
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/install
 ```
 
@@ -308,7 +308,7 @@ Reads the active Docker context and sets `container_socket`. For Unix endpoints,
 ```yaml
 - name: Resolve the Docker socket from the current Docker context
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/get_socket
 ```
 
@@ -324,7 +324,7 @@ Checks for a containerd socket at the standard location (`/run/containerd/contai
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/get_containerd_socket
 ```
 
@@ -338,13 +338,13 @@ Starts or updates a Docker container with the requested image, command, environm
 - name: Start a container with Docker
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Selects the container image to start.
     container_image: "ghcr.io/hyperledger/fabric-x/orderer:latest"
     # Overrides the image entrypoint.
     container_entrypoint: ['/bin/sh', '-c']
     # Supplies the command passed to the container runtime.
-    container_command: orderer --config /etc/fabricx/orderer.yaml
+    container_command: orderer --config /etc/chaguar/orderer.yaml
     # Sets the hostname inside the container.
     container_hostname: "{{ container_name | default(inventory_hostname) }}"
     # Provides the host uid used to build `container_host_user`.
@@ -360,7 +360,7 @@ Starts or updates a Docker container with the requested image, command, environm
     # Controls the container network mode.
     container_network_mode: "{{ 'bridge' if (container_on_mac or (container_network is defined)) else 'host' }}"
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
     # Publishes container ports when bridge networking is used.
     container_ports:[7050:7050, 9443:9443]
     # Limits container memory using runtime syntax such as `2g`.
@@ -369,7 +369,7 @@ Starts or updates a Docker container with the requested image, command, environm
     container_cpus: "2.0"
     # Mounts host paths or named volumes into the container.
     container_volumes:
-      - "/opt/fabricx/orderer/config:/etc/fabricx:ro"
+      - "/opt/chaguar/orderer/config:/etc/chaguar:ro"
     # Applies runtime ulimit settings to the container.
     container_ulimits:
       - "nofile=65536:65536"
@@ -417,7 +417,7 @@ Starts or updates a Docker container with the requested image, command, environm
     # Sets the readiness check timeout.
     container_wait_timeout: 60
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/start
 ```
 
@@ -431,9 +431,9 @@ Stops the named Docker container when it exists. Uses `container_name` as the li
 - name: Stop a container with Docker
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/stop
 ```
 
@@ -447,9 +447,9 @@ Removes the named Docker container and its attached anonymous volumes. Uses `con
 - name: Remove a container with Docker
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/rm
 ```
 
@@ -463,15 +463,15 @@ Runs `container_command` inside an existing Docker container. Passes `container_
 - name: Execute a command in a Docker container
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Supplies the command passed to the container runtime.
-    container_command: orderer --config /etc/fabricx/orderer.yaml
+    container_command: orderer --config /etc/chaguar/orderer.yaml
     # Defines environment variables passed to the container process.
     container_env:
       FABRIC_LOGGING_SPEC: "INFO"
       ORDERER_GENERAL_LISTENPORT: "7050"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/exec
 ```
 
@@ -491,7 +491,7 @@ Logs the Docker client in to `container_registry`. Uses the supplied username an
     # Provides the registry password.
     container_registry_password: "my_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/registry/login
 ```
 
@@ -505,7 +505,7 @@ Creates the named Docker network with the requested driver, attachable flag, and
 - name: Create a Docker network
   vars:
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
     # Selects the network driver used when creating a container network.
     container_network_driver: bridge
     # Marks Docker networks as attachable. Podman networks are always attachable.
@@ -513,7 +513,7 @@ Creates the named Docker network with the requested driver, attachable flag, and
     # Marks the container network as internal when set to `true`.
     container_network_internal: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/network/create
 ```
 
@@ -527,9 +527,9 @@ Removes the named Docker network. Uses `container_network` as the lifecycle targ
 - name: Remove a Docker network
   vars:
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/network/rm
 ```
 
@@ -543,7 +543,7 @@ Creates or updates a host path used as a Docker volume. Applies state, mode, own
 - name: Create a Docker volume
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Provides the host uid used to build `container_host_user`.
     container_host_uid: "{{ ansible_facts.user_uid }}"
     # Provides the host gid used to build `container_host_user`.
@@ -553,7 +553,7 @@ Creates or updates a host path used as a Docker volume. Applies state, mode, own
     # Reports whether `container_host_user` resolves to `0:0`.
     container_host_user_is_root: "{{ container_host_user == '0:0' }}"
     # Names the file system path used for a container volume.
-    container_volume_path: "/var/hyperledger/fabricx/orderer/data"
+    container_volume_path: "/var/lfdt/chaguar/orderer/data"
     # Sets the file mode applied to a container volume path.
     container_volume_mode: "0750"
     # Selects the file system state for a container volume path.
@@ -567,7 +567,7 @@ Creates or updates a host path used as a Docker volume. Applies state, mode, own
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/volume/create
 ```
 
@@ -591,9 +591,9 @@ Removes the host path used as a Docker volume. Uses `container_volume_path` as t
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
     # Names the file system path used for a container volume.
-    container_volume_path: "/var/hyperledger/fabricx/orderer/data"
+    container_volume_path: "/var/lfdt/chaguar/orderer/data"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: docker/volume/rm
 ```
 
@@ -606,7 +606,7 @@ Installs the Podman runtime on supported hosts. Verifies that the Podman client 
 ```yaml
 - name: Install Podman on the target host
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/install
 ```
 
@@ -619,7 +619,7 @@ Reads Podman system information and sets `container_socket`. For Unix endpoints,
 ```yaml
 - name: Resolve the Podman socket from system information
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/get_socket
 ```
 
@@ -633,13 +633,13 @@ Starts or updates a Podman container with the requested image, command, environm
 - name: Start a container with Podman
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Selects the container image to start.
     container_image: "ghcr.io/hyperledger/fabric-x/orderer:latest"
     # Overrides the image entrypoint.
     container_entrypoint: ['/bin/sh', '-c']
     # Supplies the command passed to the container runtime.
-    container_command: orderer --config /etc/fabricx/orderer.yaml
+    container_command: orderer --config /etc/chaguar/orderer.yaml
     # Sets the hostname inside the container.
     container_hostname: "{{ container_name | default(inventory_hostname) }}"
     # Provides the host uid used to build `container_host_user`.
@@ -657,7 +657,7 @@ Starts or updates a Podman container with the requested image, command, environm
     # Controls the container network mode.
     container_network_mode: "{{ 'bridge' if (container_on_mac or (container_network is defined)) else 'host' }}"
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
     # Publishes container ports when bridge networking is used.
     container_ports:[7050:7050, 9443:9443]
     # Limits container memory using runtime syntax such as `2g`.
@@ -666,7 +666,7 @@ Starts or updates a Podman container with the requested image, command, environm
     container_cpus: "2.0"
     # Mounts host paths or named volumes into the container.
     container_volumes:
-      - "/opt/fabricx/orderer/config:/etc/fabricx:ro"
+      - "/opt/chaguar/orderer/config:/etc/chaguar:ro"
     # Applies runtime security options to the container.
     container_security_opts:
       - "label=disable"
@@ -711,7 +711,7 @@ Starts or updates a Podman container with the requested image, command, environm
     # Sets the readiness check timeout.
     container_wait_timeout: 60
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/start
 ```
 
@@ -725,9 +725,9 @@ Stops the named Podman container when it exists. Uses `container_name` as the li
 - name: Stop a container with Podman
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/stop
 ```
 
@@ -741,9 +741,9 @@ Removes the named Podman container and its attached anonymous volumes. Uses `con
 - name: Remove a container with Podman
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/rm
 ```
 
@@ -757,15 +757,15 @@ Runs `container_command` inside an existing Podman container. Passes `container_
 - name: Execute a command in a Podman container
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Supplies the command passed to the container runtime.
-    container_command: orderer --config /etc/fabricx/orderer.yaml
+    container_command: orderer --config /etc/chaguar/orderer.yaml
     # Defines environment variables passed to the container process.
     container_env:
       FABRIC_LOGGING_SPEC: "INFO"
       ORDERER_GENERAL_LISTENPORT: "7050"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/exec
 ```
 
@@ -785,7 +785,7 @@ Logs the Podman client in to `container_registry`. Uses the supplied username an
     # Provides the registry password.
     container_registry_password: "my_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/registry/login
 ```
 
@@ -799,13 +799,13 @@ Creates the named Podman network with the requested driver and internal flag. Pr
 - name: Create a Podman network
   vars:
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
     # Selects the network driver used when creating a container network.
     container_network_driver: bridge
     # Marks the container network as internal when set to `true`.
     container_network_internal: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/network/create
 ```
 
@@ -819,9 +819,9 @@ Removes the named Podman network. Uses `container_network` as the lifecycle targ
 - name: Remove a Podman network
   vars:
     # Names the bridge network attached to the container when bridge mode is selected.
-    container_network: "fabricx-net"
+    container_network: "chaguar-net"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/network/rm
 ```
 
@@ -835,7 +835,7 @@ Creates or updates a host path used as a Podman volume. Applies state, mode, own
 - name: Create a Podman volume
   vars:
     # Names the container managed by the role.
-    container_name: "fabricx-orderer-assembler-1"
+    container_name: "chaguar-orderer-assembler-1"
     # Provides the host uid used to build `container_host_user`.
     container_host_uid: "{{ ansible_facts.user_uid }}"
     # Provides the host gid used to build `container_host_user`.
@@ -845,7 +845,7 @@ Creates or updates a host path used as a Podman volume. Applies state, mode, own
     # Reports whether `container_host_user` resolves to `0:0`.
     container_host_user_is_root: "{{ container_host_user == '0:0' }}"
     # Names the file system path used for a container volume.
-    container_volume_path: "/var/hyperledger/fabricx/orderer/data"
+    container_volume_path: "/var/lfdt/chaguar/orderer/data"
     # Sets the file mode applied to a container volume path.
     container_volume_mode: "0750"
     # Selects the file system state for a container volume path.
@@ -859,7 +859,7 @@ Creates or updates a host path used as a Podman volume. Applies state, mode, own
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/volume/create
 ```
 
@@ -883,8 +883,8 @@ Removes the host path used as a Podman volume. Uses `container_volume_path` as t
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
     # Names the file system path used for a container volume.
-    container_volume_path: "/var/hyperledger/fabricx/orderer/data"
+    container_volume_path: "/var/lfdt/chaguar/orderer/data"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: podman/volume/rm
 ```

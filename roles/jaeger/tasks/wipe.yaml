@@ -6,10 +6,10 @@
 
 - name: Teardown Jaeger
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: teardown
 
 - name: Remove Jaeger configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: config/rm

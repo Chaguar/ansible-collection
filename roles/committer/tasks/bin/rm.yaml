@@ -4,9 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove the Fabric-X Committer binary
+- name: Remove the Chaguar Committer binary
   vars:
     bin_name: "{{ committer_bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: rm

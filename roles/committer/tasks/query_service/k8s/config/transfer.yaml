@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Committer query-service
+- name: Ensure Kubernetes namespace exists for Chaguar Committer query-service
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Apply ConfigMap
 # =========================
-- name: Apply Fabric-X Committer query-service ConfigMap
+- name: Apply Chaguar Committer query-service ConfigMap
   vars:
     committer_k8s_db_ca_path: "{{ committer_remote_config_dir }}/tls/db/ca.crt"
   kubernetes.core.k8s:

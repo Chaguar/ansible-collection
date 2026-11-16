@@ -5,31 +5,31 @@
 #
 
 - name: Start PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.start
 
 - name: Start YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.start
 
 - name: Start Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.start
 
-- name: Start Fabric-X Orderer
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.start
+- name: Start Chaguar Orderer
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.start
 
-- name: Start Hyperledger Fabric-X Committer
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.start
+- name: Start LFDT Chaguar Committer
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.start
 
-- name: Start Hyperledger Fabric-X Block Explorer
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.start
+- name: Start LFDT Chaguar Block Explorer
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.start
 
-- name: Start Hyperledger Fabric-X EVM
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.start
+- name: Start LFDT Chaguar EVM
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.start
 
 - name: Start Monitoring
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.start
 
 - name: Start Loadgen
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.start
 
 - name: Start Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.fabricx.semaphore_ui.start
+  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.start

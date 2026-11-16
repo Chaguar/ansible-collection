@@ -6,7 +6,7 @@
 
 - name: Start Grafana workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: k8s/start
 
 - name: Apply Grafana web OpenShift Route
@@ -21,6 +21,6 @@
       app.kubernetes.io/component: "grafana"
       app.kubernetes.io/part-of: "{{ grafana_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.openshift
+    name: hyperledger.chaguar.openshift
     tasks_from: route/apply
   when: grafana_openshift_route is defined

@@ -12,7 +12,7 @@
     # =========================
     - name: Teardown Fabric CA servers
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fabric_ca
+        name: hyperledger.chaguar.fabric_ca
         tasks_from: server/teardown
       when:
         - fabric_ca_port is defined

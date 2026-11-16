@@ -1,6 +1,6 @@
 # Inventory Guide
 
-The inventory is the deployment model for a Fabric-X network. It tells the collection which services exist, which machines or Kubernetes services they represent, how those services are connected, and which runtime and security mode each role should use.
+The inventory is the deployment model for a Chaguar network. It tells the collection which services exist, which machines or Kubernetes services they represent, how those services are connected, and which runtime and security mode each role should use.
 
 This directory documents the example inventories shipped with the collection. Use those examples as working references, but treat this page as the starting point for designing your own inventory.
 
@@ -23,18 +23,18 @@ This directory documents the example inventories shipped with the collection. Us
 
 ## What an Inventory Defines
 
-An Ansible inventory for this collection is more than a host list. It is the contract between your topology and the Fabric-X roles.
+An Ansible inventory for this collection is more than a host list. It is the contract between your topology and the Chaguar roles.
 
 At a minimum, an inventory answers these questions:
 
-- Which Fabric-X services are part of the network?
+- Which Chaguar services are part of the network?
 - Which logical host represents each service instance?
 - Which physical target runs each logical host?
 - Which ports, hostnames, certificates, and database backends connect the services?
 - Which deployment mode is used for each role: container, binary, or Kubernetes?
 - Which identities and organizations own the orderer, committer, load generator, and Fabric CA components?
 
-Fabric-X is composed of independently managed services. The orderer is split into routers, batchers, consenters, and assemblers. The committer is split into validators, verifiers, a coordinator, a sidecar, a query service, and a database backend. The inventory must preserve those component identities so the playbooks can render the correct configuration and start the correct role tasks.
+Chaguar is composed of independently managed services. The orderer is split into routers, batchers, consenters, and assemblers. The committer is split into validators, verifiers, a coordinator, a sidecar, a query service, and a database backend. The inventory must preserve those component identities so the playbooks can render the correct configuration and start the correct role tasks.
 
 ```mermaid
 graph LR
@@ -60,22 +60,22 @@ The sample inventories all describe a complete network with orderers, a committe
 
 The collection playbooks target well-known groups. Those group names are part of the public contract of the examples and the [`Makefile`](../../Makefile) workflow.
 
-For example, the orderer lifecycle playbooks target `fabric_x_orderers`, the committer lifecycle playbooks target `fabric_x_committers`, load generator playbooks target `load_generators`, and monitoring playbooks target `monitoring`. The example wrapper playbooks compose those lifecycle playbooks into `make start`, `make stop`, `make teardown`, and related commands.
+For example, the orderer lifecycle playbooks target `chaguar_orderers`, the committer lifecycle playbooks target `chaguar_committers`, load generator playbooks target `load_generators`, and monitoring playbooks target `monitoring`. The example wrapper playbooks compose those lifecycle playbooks into `make start`, `make stop`, `make teardown`, and related commands.
 
 Keep the standard groups when adapting an example inventory. If you rename them, the roles can still be used directly, but the provided playbooks and generated `target_hosts` shortcuts will no longer know which hosts to operate on.
 
 The most important groups are:
 
-| Group                 | Purpose                                                                        |
-| --------------------- | ------------------------------------------------------------------------------ |
-| `network`             | Parent group for the deployable Fabric-X network.                              |
-| `fabric_cas`          | Fabric CA servers and their databases, when the inventory uses Fabric CA.      |
-| `fabric_x`            | Parent group for Fabric-X orderer and committer components.                    |
-| `fabric_x_orderers`   | All Fabric-X orderer component hosts.                                          |
-| `fabric_x_committers` | Parent group for one or more Fabric-X committer deployments.                   |
-| `fabric_x_committer`  | The default Fabric-X committer deployment and selected committer database.     |
-| `load_generators`     | Load generator instances.                                                      |
-| `monitoring`          | Monitoring components such as exporters, Prometheus, Grafana, Loki, and Alloy. |
+| Group                | Purpose                                                                        |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `network`            | Parent group for the deployable Chaguar network.                               |
+| `fabric_cas`         | Fabric CA servers and their databases, when the inventory uses Fabric CA.      |
+| `chaguar`            | Parent group for Chaguar orderer and committer components.                     |
+| `chaguar_orderers`   | All Chaguar orderer component hosts.                                           |
+| `chaguar_committers` | Parent group for one or more Chaguar committer deployments.                    |
+| `chaguar_committer`  | The default Chaguar committer deployment and selected committer database.      |
+| `load_generators`    | Load generator instances.                                                      |
+| `monitoring`         | Monitoring components such as exporters, Prometheus, Grafana, Loki, and Alloy. |
 
 ```mermaid
 graph TD
@@ -90,10 +90,10 @@ graph TD
     grafana --> loki
     alloy --> loki
     network --> fabric_cas
-    network --> fabric_x
-    fabric_x --> fabric_x_orderers
-    fabric_x --> fabric_x_committers
-    fabric_x_committers --> fabric_x_committer
+    network --> chaguar
+    chaguar --> chaguar_orderers
+    chaguar --> chaguar_committers
+    chaguar_committers --> chaguar_committer
 ```
 
 ## Inventory Structure
@@ -102,7 +102,7 @@ The examples use a layered structure:
 
 - `all.vars` contains network-wide data such as organization definitions.
 - Group variables describe behavior shared by a service family, such as `orderer_use_tls: true` or `committer_use_mtls: true`.
-- Child groups divide a service family into logical sub-topologies, such as `fabric_x_orderer_1` through `fabric_x_orderer_4`.
+- Child groups divide a service family into logical sub-topologies, such as `chaguar_orderer_1` through `chaguar_orderer_4`.
 - Host variables describe one service instance: its component type, ports, database reference, organization identity, and runtime-specific settings.
 - Each inventory family has an environment file that describes how Ansible reaches the target environment and where generated files live on each target.
 - [`examples/inventory/vars.yaml`](./vars.yaml) describes control-node paths used by the example playbooks.
@@ -124,7 +124,7 @@ Use these rules when crafting a custom inventory:
 
 1. Keep hostnames stable and unique. They are used in generated configuration, service names, certificate names, output directories, and [`Makefile`](../../Makefile) targets.
 2. Keep the standard parent groups unless you are also replacing the example playbooks.
-3. Set the dispatcher variable on every Fabric-X component host. Orderer hosts need `orderer_component_type`; committer hosts need `committer_component_type`.
+3. Set the dispatcher variable on every Chaguar component host. Orderer hosts need `orderer_component_type`; committer hosts need `committer_component_type`.
 4. Assign unique ports for colocated services. This is especially important for local and distributed container deployments where several logical hosts can share one physical machine.
 5. Use group variables for policy decisions shared by a family of components, such as TLS, mTLS, container mode, Kubernetes mode, or shared organization data.
 6. Use host variables for per-instance facts, such as RPC ports, metrics ports, shard IDs, database hosts, and NodePort values.
@@ -140,21 +140,21 @@ The practical test is simple: a reader should be able to pick any host in the in
 Runtime mode is expressed through inventory variables consumed by each role:
 
 - **Container inventories** start long-running services as containers on the target machine. They require a container engine and is the default runtime mode unless otherwise specified;
-- **Binary inventories** build the services as binaries and run them on the target machine. Use this mode when you want to debug processes without container boundaries, but note that such mode is supported only by the Fabric-X services;
+- **Binary inventories** build the services as binaries and run them on the target machine. Use this mode when you want to debug processes without container boundaries, but note that such mode is supported only by the Chaguar services;
 - **Kubernetes inventories** describe workloads, services, persistent storage, and externally reachable NodePorts. The inventory hosts are still Ansible hosts, but they represent Kubernetes resources rather than SSH machines.
 
 ## Security and Crypto
 
 The examples intentionally cover several security postures:
 
-- TLS with mTLS is the default for representative Fabric-X samples. Services encrypt traffic and supported service-to-service calls authenticate clients with certificates.
+- TLS with mTLS is the default for representative Chaguar samples. Services encrypt traffic and supported service-to-service calls authenticate clients with certificates.
 - TLS without mTLS keeps transport encryption but disables client certificate authentication where mTLS variables are omitted or disabled. Use it for debugging interoperability or certificate issues.
 - Fabric CA inventories enroll identities through CA services. This is the safest sample pattern because private keys can be generated on the node that owns them.
 
 > [!NOTE]
 > `cryptogen` inventories generate test certificates centrally on the control node. They are convenient for repeatable tests and performance runs, but they are not a production certificate lifecycle.
 
-Security choices affect several roles at once. If you disable TLS or mTLS for Fabric-X components, check the orderer, committer, load generator, monitoring, and database variables together so generated endpoints and certificate references remain consistent.
+Security choices affect several roles at once. If you disable TLS or mTLS for Chaguar components, check the orderer, committer, load generator, monitoring, and database variables together so generated endpoints and certificate references remain consistent.
 
 > [!WARNING]
 > No TLS is only for local debugging. It should not be used as a production starting point.
@@ -173,7 +173,7 @@ The [`examples/inventory/vars.yaml`](./vars.yaml) file defines general variables
 | `out_dir`                 | Root output directory for generated material. Defaults to `PROJECT_DIR/out`. Override `OUT_DIR` to keep artifacts outside the checkout. |
 | `control_node_dir`        | Control-node output directory under `out_dir`.                                                                                          |
 | `cryptogen_artifacts_dir` | Control-node path for centrally generated `cryptogen` material.                                                                         |
-| `channel_id`              | Channel name used by generated Fabric-X configuration.                                                                                  |
+| `channel_id`              | Channel name used by generated Chaguar configuration.                                                                                   |
 
 Each deployment environment also provides an environment file. The distinction matters: control-node paths hold generated or collected artifacts used by the operator, while environment files define how target nodes are reached and where their service files are written.
 
@@ -183,16 +183,16 @@ Local inventories run a complete network on the control machine with `ansible_co
 
 [`local/group_vars/all/env.yaml`](./local/group_vars/all/env.yaml) uses local Ansible execution and writes deployment state below `out_dir`.
 
-| Inventory                                                             | Description                                                                           |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [`local/fabric-x.yaml`](./docs/local/fabric-x.md)                     | Default local container deployment with Fabric CA, PostgreSQL, TLS, and mTLS.         |
-| [`local/fabric-x-vault.yaml`](./docs/local/fabric-x-vault.md)         | Same topology as `fabric-x.yaml` with every credential encrypted using Ansible Vault. |
-| [`local/fabric-x-yugabyte.yaml`](./docs/local/fabric-x-yugabyte.md)   | Local container deployment using YugabyteDB as the committer database.                |
-| [`local/fabric-x-evm.yaml`](./docs/local/fabric-x-evm.md)             | Local container deployment with the Fabric-X EVM gateway attached.                    |
-| [`local/fabric-x-bin.yaml`](./docs/local/fabric-x-bin.md)             | Local deployment that runs Fabric-X services as binaries.                             |
-| [`local/fabric-x-cryptogen.yaml`](./docs/local/fabric-x-cryptogen.md) | Local container deployment using centrally generated `cryptogen` material.            |
-| [`local/fabric-x-no-mtls.yaml`](./docs/local/fabric-x-no-mtls.md)     | Local container deployment with TLS enabled and mTLS disabled.                        |
-| [`local/fabric-x-no-tls.yaml`](./docs/local/fabric-x-no-tls.md)       | Local container deployment with TLS and mTLS disabled for debugging only.             |
+| Inventory                                                           | Description                                                                          |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [`local/chaguar.yaml`](./docs/local/chaguar.md)                     | Default local container deployment with Fabric CA, PostgreSQL, TLS, and mTLS.        |
+| [`local/chaguar-vault.yaml`](./docs/local/chaguar-vault.md)         | Same topology as `chaguar.yaml` with every credential encrypted using Ansible Vault. |
+| [`local/chaguar-yugabyte.yaml`](./docs/local/chaguar-yugabyte.md)   | Local container deployment using YugabyteDB as the committer database.               |
+| [`local/chaguar-evm.yaml`](./docs/local/chaguar-evm.md)             | Local container deployment with the Chaguar EVM gateway attached.                    |
+| [`local/chaguar-bin.yaml`](./docs/local/chaguar-bin.md)             | Local deployment that runs Chaguar services as binaries.                             |
+| [`local/chaguar-cryptogen.yaml`](./docs/local/chaguar-cryptogen.md) | Local container deployment using centrally generated `cryptogen` material.           |
+| [`local/chaguar-no-mtls.yaml`](./docs/local/chaguar-no-mtls.md)     | Local container deployment with TLS enabled and mTLS disabled.                       |
+| [`local/chaguar-no-tls.yaml`](./docs/local/chaguar-no-tls.md)       | Local container deployment with TLS and mTLS disabled for debugging only.            |
 
 When running local containers on macOS, set `LOCAL_ANSIBLE_HOST` so containers can reach services on the host:
 
@@ -202,18 +202,18 @@ export LOCAL_ANSIBLE_HOST=host.docker.internal
 
 ### Kubernetes
 
-Kubernetes inventories deploy the same logical Fabric-X services as Kubernetes workloads and services. They are useful when you need to validate Kubernetes manifests, service exposure, storage, and cluster behavior.
+Kubernetes inventories deploy the same logical Chaguar services as Kubernetes workloads and services. They are useful when you need to validate Kubernetes manifests, service exposure, storage, and cluster behavior.
 
 [`k8s/group_vars/all/env.yaml`](./k8s/group_vars/all/env.yaml) uses local Ansible execution against Kubernetes services and adds Kubernetes defaults such as `k8s_namespace` and `k8s_storage_size`.
 
-| Inventory                                                         | Description                                                              |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [`k8s/fabric-x.yaml`](./docs/k8s/fabric-x.md)                     | Default Kubernetes deployment with Fabric CA, PostgreSQL, TLS, and mTLS. |
-| [`k8s/fabric-x-yugabyte.yaml`](./docs/k8s/fabric-x-yugabyte.md)   | Kubernetes deployment using YugabyteDB as the committer database.        |
-| [`k8s/fabric-x-evm.yaml`](./docs/k8s/fabric-x-evm.md)             | Kubernetes deployment with the Fabric-X EVM gateway attached.            |
-| [`k8s/fabric-x-cryptogen.yaml`](./docs/k8s/fabric-x-cryptogen.md) | Kubernetes deployment using centrally generated `cryptogen` material.    |
-| [`k8s/fabric-x-no-mtls.yaml`](./docs/k8s/fabric-x-no-mtls.md)     | Kubernetes deployment with TLS enabled and mTLS disabled.                |
-| [`k8s/fabric-x-no-tls.yaml`](./docs/k8s/fabric-x-no-tls.md)       | Kubernetes deployment with TLS and mTLS disabled for debugging only.     |
+| Inventory                                                       | Description                                                              |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [`k8s/chaguar.yaml`](./docs/k8s/chaguar.md)                     | Default Kubernetes deployment with Fabric CA, PostgreSQL, TLS, and mTLS. |
+| [`k8s/chaguar-yugabyte.yaml`](./docs/k8s/chaguar-yugabyte.md)   | Kubernetes deployment using YugabyteDB as the committer database.        |
+| [`k8s/chaguar-evm.yaml`](./docs/k8s/chaguar-evm.md)             | Kubernetes deployment with the Chaguar EVM gateway attached.             |
+| [`k8s/chaguar-cryptogen.yaml`](./docs/k8s/chaguar-cryptogen.md) | Kubernetes deployment using centrally generated `cryptogen` material.    |
+| [`k8s/chaguar-no-mtls.yaml`](./docs/k8s/chaguar-no-mtls.md)     | Kubernetes deployment with TLS enabled and mTLS disabled.                |
+| [`k8s/chaguar-no-tls.yaml`](./docs/k8s/chaguar-no-tls.md)       | Kubernetes deployment with TLS and mTLS disabled for debugging only.     |
 
 For remote clusters, set the externally reachable node address used by NodePort services:
 
@@ -227,9 +227,9 @@ OpenShift inventories deploy Kubernetes-compatible workloads and services, then 
 
 [`openshift/group_vars/all/env.yaml`](./openshift/group_vars/all/env.yaml) uses local Ansible execution against OpenShift services and stores generated deployment state below `out_dir`.
 
-| Inventory                                                                     | Description                                                                                 |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [`openshift/fabric-x-cryptogen.yaml`](./docs/openshift/fabric-x-cryptogen.md) | OpenShift deployment using centrally generated `cryptogen` material and route-based access. |
+| Inventory                                                                   | Description                                                                                 |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`openshift/chaguar-cryptogen.yaml`](./docs/openshift/chaguar-cryptogen.md) | OpenShift deployment using centrally generated `cryptogen` material and route-based access. |
 
 Set the OpenShift wildcard route domain before running the inventory:
 
@@ -243,19 +243,19 @@ The distributed inventory is a performance-oriented SSH topology. It uses contai
 
 [`distributed/group_vars/all/env.yaml`](./distributed/group_vars/all/env.yaml) uses SSH, defines remote machine placeholders, and writes deployment state below a remote directory such as `/root/perf-deployment`.
 
-| Inventory                                                     | Description                                                                 |
-| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [`distributed/fabric-x.yaml`](./docs/distributed/fabric-x.md) | Multi-machine reference topology for performance evaluation and adaptation. |
+| Inventory                                                   | Description                                                                 |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------- |
+| [`distributed/chaguar.yaml`](./docs/distributed/chaguar.md) | Multi-machine reference topology for performance evaluation and adaptation. |
 
 > [!WARNING]
 > This inventory is not ready to run as-is. Replace the `host_machine_*` placeholders in [`distributed/group_vars/all/env.yaml`](./distributed/group_vars/all/env.yaml), confirm SSH access, update `remote_deploy_dir`, and review all port assignments before using it.
 
 ## Scaling a Component
 
-Components marked as horizontally scalable can be replicated by adding hosts to the relevant group. For example, add a second batcher to `fabric_x_orderer_1`:
+Components marked as horizontally scalable can be replicated by adding hosts to the relevant group. For example, add a second batcher to `chaguar_orderer_1`:
 
 ```yaml
-fabric_x_orderer_1:
+chaguar_orderer_1:
   hosts:
     orderer-batcher-1:
       orderer_shard_id: 1
@@ -274,7 +274,7 @@ Each replicated instance needs unique ports on the same target machine. Batcher 
 Local inventories use `ansible_connection: local`. To run services on remote machines, change the connection model and assign `ansible_host` per service:
 
 ```yaml
-fabric_x_orderer_1:
+chaguar_orderer_1:
   hosts:
     orderer-router-1:
       # Use ansible_host to define on which machine you want the service to run.
@@ -283,4 +283,4 @@ fabric_x_orderer_1:
       orderer_rpc_port: 7050
 ```
 
-The [distributed sample](./docs/distributed/fabric-x.md) shows a larger SSH-based layout.
+The [distributed sample](./docs/distributed/chaguar.md) shows a larger SSH-based layout.

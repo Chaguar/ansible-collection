@@ -32,15 +32,15 @@ Every lifecycle playbook in this collection accepts one Ansible variable, `targe
 
 ```shell
 make start                          # TARGET_HOSTS defaults to "all"
-make TARGET_HOSTS=fabric_x_orderers start
-make fabric_x_orderers start        # the readable form, same result
+make TARGET_HOSTS=chaguar_orderers start
+make chaguar_orderers start        # the readable form, same result
 ```
 
 Underneath, the `Makefile` is doing this:
 
 ```shell
 ansible-playbook examples/playbooks/40-start.yaml \
-  --extra-vars '{"target_hosts": "fabric_x_orderers"}'
+  --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 So anything the `Makefile` can do, you can do directly with `ansible-playbook` — and the value is an ordinary [Ansible host pattern](https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html), not just a group name. Patterns compose with `:` for union, `:&` for intersection, and `:!` for exclusion.
@@ -49,22 +49,22 @@ So anything the `Makefile` can do, you can do directly with `ansible-playbook` �
 
 Typing `TARGET_HOSTS=` every time is tedious, so [`target_groups.mk`](../../target_groups.mk) defines a make target per common group. Put it _before_ the verb:
 
-| Group target              | Targets                                              |
-| ------------------------- | ---------------------------------------------------- |
-| `network`                 | The whole deployable Fabric-X network                |
-| `fabric_cas`              | Fabric CA servers and their databases                |
-| `fabric_ca_servers`       | Just the CA servers                                  |
-| `fabric_ca_dbs`           | Just the CA databases                                |
-| `fabric_x`                | Orderers plus committer plus Block Explorer          |
-| `fabric_x_orderers`       | All orderer components                               |
-| `fabric_x_committers`     | All committer components and their database          |
-| `fabric_x_block_explorer` | Block Explorer server, UI, and database              |
-| `fabric_x_evm`            | The EVM gateway ([lesson 9](./09-add-the-extras.md)) |
-| `load_generators`         | All load generators                                  |
-| `monitoring`              | Prometheus, Grafana, Loki, Alloy, exporters          |
+| Group target             | Targets                                              |
+| ------------------------ | ---------------------------------------------------- |
+| `network`                | The whole deployable Chaguar network                 |
+| `fabric_cas`             | Fabric CA servers and their databases                |
+| `fabric_ca_servers`      | Just the CA servers                                  |
+| `fabric_ca_dbs`          | Just the CA databases                                |
+| `chaguar`                | Orderers plus committer plus Block Explorer          |
+| `chaguar_orderers`       | All orderer components                               |
+| `chaguar_committers`     | All committer components and their database          |
+| `chaguar_block_explorer` | Block Explorer server, UI, and database              |
+| `chaguar_evm`            | The EVM gateway ([lesson 9](./09-add-the-extras.md)) |
+| `load_generators`        | All load generators                                  |
+| `monitoring`             | Prometheus, Grafana, Loki, Alloy, exporters          |
 
 ```shell
-make fabric_x_orderers ping
+make chaguar_orderers ping
 make monitoring stop
 make load_generators get-metrics
 ```
@@ -78,7 +78,7 @@ These are exactly the group names from the inventory you read in [lesson 5](./05
 Group targets can be chained on a single command line, and their hosts are **unioned**:
 
 ```shell
-make fabric_x_orderers fabric_x_committers start
+make chaguar_orderers chaguar_committers start
 ```
 
 ![make chained ping gif](./images/make-chained-ping.gif)
@@ -93,7 +93,7 @@ $(eval TARGET_HOSTS := $(if $(_target_hosts_chained),$(TARGET_HOSTS):$(1),$(1)))
 endef
 ```
 
-So the chained command above ends up as `target_hosts: fabric_x_orderers:fabric_x_committers`. Put the group targets **first** and the verb last; a verb in the middle would run with only the groups seen so far.
+So the chained command above ends up as `target_hosts: chaguar_orderers:chaguar_committers`. Put the group targets **first** and the verb last; a verb in the middle would run with only the groups seen so far.
 
 ## Targeting a Single Host
 
@@ -192,7 +192,7 @@ Three targets exist purely to save you typing, and they are worth knowing by nam
 | `make restart`      | `stop` + `start`              |
 | `make hard-restart` | `teardown` + `start`          |
 
-All three accept targeting, so `make fabric_x_orderers update` rebuilds and restarts only the ordering service.
+All three accept targeting, so `make chaguar_orderers update` rebuilds and restarts only the ordering service.
 
 `make setup` and `make artifacts` are composites too, as you saw in [lesson 3](./03-run-your-first-network.md):
 
@@ -207,7 +207,7 @@ Finally, an escape hatch. When you need to run something on the targeted hosts t
 
 ```shell
 make run-command COMMAND="echo hello-world"
-make fabric_x_committers run-command COMMAND="df -h"
+make chaguar_committers run-command COMMAND="df -h"
 ```
 
 On a local inventory this runs on your own machine, which makes it a novelty. On the distributed inventories from [lesson 10](./10-go-beyond-local.md) it becomes genuinely useful — one command across every machine in the deployment.
@@ -228,7 +228,7 @@ On a local inventory this runs on your own machine, which makes it a novelty. On
 Part 1:
 
 ```shell
-make fabric_x_orderers restart
+make chaguar_orderers restart
 ```
 
 Part 2 — generate the per-host targets first if you have not already:
@@ -262,7 +262,7 @@ There is a second-order effect worth noticing, and it is the reason a port chang
 
 ```shell
 make configs
-make fabric_x restart
+make chaguar restart
 ```
 
 Re-render everything, then restart the services that consume it. This is the same lesson as part 4 of the previous exercise: the inventory is the source of truth, and `configs` is the step that propagates it.

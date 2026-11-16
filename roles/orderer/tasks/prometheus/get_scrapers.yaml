@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Set Prometheus scrape services for Fabric-X Orderer
+- name: Set Prometheus scrape services for Chaguar Orderer
   vars:
     orderer_hosts_with_vars: >-
       {{

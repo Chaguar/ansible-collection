@@ -5,40 +5,40 @@
 #
 
 - name: Wipe Loadgen
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.wipe
 
 - name: Wipe Monitoring
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.wipe
 
 - name: Wipe fxconfig
-  ansible.builtin.import_playbook: hyperledger.fabricx.fxconfig.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.wipe
 
 - name: Wipe fxadmin
-  ansible.builtin.import_playbook: hyperledger.fabricx.fxadmin.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.fxadmin.wipe
 
-- name: Wipe Fabric-X Block Explorer
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.wipe
+- name: Wipe Chaguar Block Explorer
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.wipe
 
-- name: Wipe Fabric-X EVM
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.wipe
+- name: Wipe Chaguar EVM
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.wipe
 
-- name: Wipe Fabric-X Committer
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.wipe
+- name: Wipe Chaguar Committer
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.wipe
 
-- name: Wipe Fabric-X Orderer
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.wipe
+- name: Wipe Chaguar Orderer
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.wipe
 
 - name: Wipe Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.wipe
 
 - name: Wipe PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.wipe
 
 - name: Wipe YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.wipe
 
 - name: Remove container networks
-  ansible.builtin.import_playbook: hyperledger.fabricx.remove_container_networks
+  ansible.builtin.import_playbook: hyperledger.chaguar.remove_container_networks
 
 - name: Wipe Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.fabricx.semaphore_ui.wipe
+  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.wipe

@@ -3,7 +3,7 @@
 Now you install things. This lesson gets the collection onto your machine, explains the one installation choice that actually matters, and teaches you the command you will use more than any other: `make help`.
 
 > [!NOTE]
-> Estimated time: 15 minutes. Builds on [1. Fabric-X in 10 Minutes](./01-fabric-x-in-10-minutes.md).
+> Estimated time: 15 minutes. Builds on [1. Chaguar in 10 Minutes](./01-chaguar-in-10-minutes.md).
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -35,7 +35,7 @@ Ansible has two sides:
 - The **control node** is the machine you type commands on. It runs `ansible-playbook`, holds the inventory, generates configuration files, and builds artifacts such as the genesis block.
 - The **target nodes** are the machines the services actually run on.
 
-For the whole first half of this tutorial these are the **same machine**. The local sample inventories use `ansible_connection: local`, so Ansible talks to your own machine and starts the Fabric-X services as containers right there. You only need to think about the distinction again in [lesson 10](./10-go-beyond-local.md).
+For the whole first half of this tutorial these are the **same machine**. The local sample inventories use `ansible_connection: local`, so Ansible talks to your own machine and starts the Chaguar services as containers right there. You only need to think about the distinction again in [lesson 10](./10-go-beyond-local.md).
 
 ## Install the Prerequisites
 
@@ -51,16 +51,16 @@ Make sure your container engine is actually running (`docker info` or `podman in
 
 ## Choose How to Install the Collection
 
-There are three ways to install `hyperledger.fabricx`. They are not equivalent, and the choice affects the rest of this tutorial.
+There are three ways to install `hyperledger.chaguar`. They are not equivalent, and the choice affects the rest of this tutorial.
 
 ### Option 1: Clone into the collections path
 
 This is the option to pick for this tutorial.
 
 ```shell
-git clone https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection.git \
-  ~/.ansible/collections/ansible_collections/hyperledger/fabricx
-cd ~/.ansible/collections/ansible_collections/hyperledger/fabricx
+git clone https://github.com/Chaguar/ansible-collection.git \
+  ~/.ansible/collections/ansible_collections/hyperledger/chaguar
+cd ~/.ansible/collections/ansible_collections/hyperledger/chaguar
 ```
 
 The checkout _is_ the installed collection. You get the `Makefile`, the sample inventories, and the example playbooks, and any change you make to a role takes effect immediately with no reinstall.
@@ -68,8 +68,8 @@ The checkout _is_ the installed collection. You get the `Makefile`, the sample i
 ### Option 2: Install from source
 
 ```shell
-git clone https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection.git
-cd fabric-x-ansible-collection
+git clone https://github.com/Chaguar/ansible-collection.git
+cd ansible-collection
 make install
 ```
 
@@ -78,9 +78,9 @@ Builds the collection and installs it into your Ansible collections path. Use th
 ### Option 3: Install from Ansible Galaxy
 
 ```shell
-ansible-galaxy collection install hyperledger.fabricx
+ansible-galaxy collection install hyperledger.chaguar
 ansible-galaxy collection install -r \
-  ~/.ansible/collections/ansible_collections/hyperledger/fabricx/requirements.yml
+  ~/.ansible/collections/ansible_collections/hyperledger/chaguar/requirements.yml
 ```
 
 The published release, for using the collection inside your own Ansible project. This tutorial assumes you have the repository checkout, so prefer option 1 or 2 while you are learning.
@@ -195,6 +195,6 @@ Note that `make genesis-block` is one half of `make artifacts`, which is itself 
 
 ## Next
 
-| Previous                                                    | Next                                                        |
-| ----------------------------------------------------------- | ----------------------------------------------------------- |
-| [1. Fabric-X in 10 Minutes](./01-fabric-x-in-10-minutes.md) | [3. Run Your First Network](./03-run-your-first-network.md) |
+| Previous                                                  | Next                                                        |
+| --------------------------------------------------------- | ----------------------------------------------------------- |
+| [1. Chaguar in 10 Minutes](./01-chaguar-in-10-minutes.md) | [3. Run Your First Network](./03-run-your-first-network.md) |

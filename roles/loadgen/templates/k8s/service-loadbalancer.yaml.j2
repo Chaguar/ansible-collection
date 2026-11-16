@@ -8,7 +8,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  # LoadBalancer Service -- exposes Fabric-X Loadgen outside the cluster for external clients.
+  # LoadBalancer Service -- exposes Chaguar Loadgen outside the cluster for external clients.
   name: {{ loadgen_k8s_resource_name }}-loadbalancer
   labels:
     app.kubernetes.io/name: {{ loadgen_k8s_resource_name }}

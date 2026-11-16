@@ -77,7 +77,7 @@ argument_specs:
         type: path
         description:
           - Base directory for C(armageddon_artifacts_dir).
-          - "Example: C(/opt/fabricx/build/armageddon)."
+          - "Example: C(/opt/chaguar/build/armageddon)."
       armageddon_artifacts_dir: &armageddon_artifacts_dir
         type: path
         default: "{{ config_build_dir }}/armageddon-artifacts"
@@ -120,7 +120,7 @@ argument_specs:
         description:
           - Host directory with fetched crypto artifacts.
           - The binary flow reads this directory directly and the container flow mounts it read-only.
-          - "Example: C(/opt/fabricx/fetched-artifacts)."
+          - "Example: C(/opt/chaguar/fetched-artifacts)."
       cli_bin_dir: &cli_bin_dir
         type: path
         required: true
@@ -133,14 +133,14 @@ argument_specs:
         elements: str
         required: true
         description:
-          - Inventory hosts that form the Fabric-X orderer topology.
+          - Inventory hosts that form the Chaguar orderer topology.
           - Each host must expose `orderer_group`, `orderer_component_type`, `organization`, `ansible_host`, and `orderer_rpc_port`.
           - "Example: C(['orderer1', 'orderer2', 'orderer3'])"
 
   config/build:
     short_description: Render the shared Armageddon config
     description:
-      - Render C(shared_config.yaml) for the Fabric-X orderer topology.
+      - Render C(shared_config.yaml) for the Chaguar orderer topology.
       - This entry point prepares the config consumed by both the binary and container shared-config flows.
       - When C(armageddon_use_bin) is true, the template reads C(fetched_artifacts_dir); otherwise it uses C(armageddon_container_crypto_artifacts_dir).
     options:

@@ -4,42 +4,42 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Check that the Fabric-X Loadgen metrics node port is open
+- name: Check that the Chaguar Loadgen metrics node port is open
   vars:
     utils_ports_to_ping:
       - "{{ loadgen_k8s_metrics_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when:
     - loadgen_k8s_metrics_node_port is defined
 
-- name: Check that the Fabric-X Loadgen metrics load balancer port is open
+- name: Check that the Chaguar Loadgen metrics load balancer port is open
   vars:
     utils_ports_to_ping:
       - "{{ loadgen_metrics_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when:
     - loadgen_k8s_loadbalancer_expose_metrics_port
 
-- name: Check that the Fabric-X Loadgen gRPC node port is open
+- name: Check that the Chaguar Loadgen gRPC node port is open
   vars:
     utils_ports_to_ping:
       - "{{ loadgen_k8s_rpc_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when:
     - loadgen_k8s_rpc_node_port is defined
 
-- name: Check that the Fabric-X Loadgen gRPC load balancer port is open
+- name: Check that the Chaguar Loadgen gRPC load balancer port is open
   vars:
     utils_ports_to_ping:
       - "{{ loadgen_rpc_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when:
     - loadgen_k8s_loadbalancer_expose_rpc_port

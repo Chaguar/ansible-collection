@@ -25,7 +25,7 @@ git grep -nE '<role>_(image_tag|git_commit):' origin/main -- examples playbooks
 Stop and report if `main` already supports the target, or if an issue already exists:
 
 ```bash
-gh issue list -R LF-Decentralized-Trust-labs/fabric-x-ansible-collection --label version-support --state all --search '<component> <version>'
+gh issue list -R Chaguar/ansible-collection --label version-support --state all --search '<component> <version>'
 ```
 
 ## 2. Decide whether the update is breaking
@@ -53,7 +53,7 @@ For a breaking update, `Configuration changes` lists one entry per change, each 
 - the concrete action (new/removed/renamed variable with its default, new task or playbook step, template diff);
 - the affected deployment modes (bin, container, k8s, openshift).
 
-Example entry: "`committer db-init` subcommand added ([cmd/committer/db_init_cmd.go](https://github.com/hyperledger/fabric-x-committer/blob/v1.0.5/cmd/committer/db_init_cmd.go)): add an `init_db` entrypoint to `roles/committer` (bin, container, k8s job) and call it from `playbooks/committer/start.yaml` before starting the committer services."
+Example entry: "`committer db-init` subcommand added ([cmd/committer/db_init_cmd.go](https://github.com/Chaguar/committer/blob/v1.0.5/cmd/committer/db_init_cmd.go)): add an `init_db` entrypoint to `roles/committer` (bin, container, k8s job) and call it from `playbooks/committer/start.yaml` before starting the committer services."
 
 Body (issue forms render each field as a `###` heading; the dropdown value must match the form verbatim):
 
@@ -78,7 +78,7 @@ Yes - Details on how to support it are provide in the `Configuration changes` se
 Show the draft to the user. Create it only when asked:
 
 ```bash
-gh issue create -R LF-Decentralized-Trust-labs/fabric-x-ansible-collection \
+gh issue create -R Chaguar/ansible-collection \
   --title '[UPDATE] Update to `<component>:<version>`' \
   --label enhancement --label version-support --body-file <draft.md>
 ```

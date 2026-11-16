@@ -1,6 +1,6 @@
-# hyperledger.fabricx.committer
+# hyperledger.chaguar.committer
 
-> Runs Fabric-X Committer components across host-binary, container, and Kubernetes deployments. The role renders component configuration, manages TLS/mTLS artifacts, and starts or removes validators, verifiers, coordinators, sidecars, and query-services.
+> Runs Chaguar Committer components across host-binary, container, and Kubernetes deployments. The role renders component configuration, manages TLS/mTLS artifacts, and starts or removes validators, verifiers, coordinators, sidecars, and query-services.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -76,7 +76,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.committer
+ansible-doc -t role hyperledger.chaguar.committer
 ```
 
 ## Tasks
@@ -85,7 +85,7 @@ ansible-doc -t role hyperledger.fabricx.committer
 
 > Check the committer gRPC endpoint
 
-Validate that the Fabric-X Committer RPC port is reachable. Uses `committer_rpc_port` on host deployments and skips the direct host check in Kubernetes mode.
+Validate that the Chaguar Committer RPC port is reachable. Uses `committer_rpc_port` on host deployments and skips the direct host check in Kubernetes mode.
 
 ```yaml
 - name: Check the committer gRPC endpoint
@@ -97,7 +97,7 @@ Validate that the Fabric-X Committer RPC port is reachable. Uses `committer_rpc_
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: ping
 ```
 
@@ -123,7 +123,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Metrics port exposed by the selected committer component.
     committer_metrics_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/ping
 ```
 
@@ -145,7 +145,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     committer_openshift_metrics_route: "committer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: openshift/ping
 ```
 
@@ -169,7 +169,7 @@ Stop the selected component in bin or container mode. Kubernetes teardown is han
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: stop
 ```
 
@@ -193,7 +193,7 @@ Remove the selected component according to its deployment mode. Sidecar teardown
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: teardown
 ```
 
@@ -209,7 +209,7 @@ Tear down the selected component and remove binary, config, and crypto assets. I
     # Enable host-binary deployment mode.
     committer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: wipe
 ```
 
@@ -231,7 +231,7 @@ Fetch logs from the selected deployment mode. Dispatches to binary, container, o
     # Enable container deployment mode.
     committer_use_container: "{{ (not committer_use_bin) and (not committer_use_k8s) and (not committer_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: fetch_logs
 ```
 
@@ -247,7 +247,7 @@ Compute the address used to reach a committer metrics endpoint from outside its 
     # Inventory host whose committer metrics endpoint should be resolved.
     committer_host: "committer-validator-1"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: effective_address
 ```
 
@@ -269,9 +269,9 @@ Query the component metrics endpoint and print the response body. Delegates addr
     # Enable mTLS for the selected component.
     committer_use_mtls: false
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: get_metrics
 ```
 
@@ -293,7 +293,7 @@ Dispatch database initialization to the entry point matching `committer_deployme
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: init_db
 ```
 
@@ -317,7 +317,7 @@ Dispatch startup to the selected committer component. `committer_component_type`
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: start
 ```
 
@@ -347,7 +347,7 @@ Transfer cryptogen artifacts or enroll with Fabric CA for the selected component
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/setup
 ```
 
@@ -361,15 +361,15 @@ Fetch the committer TLS CA certificate and server certificate to the control nod
 - name: Fetch TLS certificates
   vars:
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Enable TLS material for the selected component.
     committer_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/fetch
 ```
 
@@ -395,7 +395,7 @@ Install the committer binary through the shared `bin` role Go installer entry po
     # Go package path used as the build or install target.
     committer_source_code_package: cmd/committer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/install
 ```
 
@@ -419,7 +419,7 @@ Build the committer binary through the shared `bin` role Go build entry point. P
     # Go package path used as the build or install target.
     committer_source_code_package: cmd/committer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/build
 ```
 
@@ -432,7 +432,7 @@ Stop the running committer binary process through the shared `bin` role. Applies
 ```yaml
 - name: Stop a committer binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/stop
 ```
 
@@ -448,7 +448,7 @@ Remove the installed committer binary from the target host. Uses `committer_bin_
     # Binary name managed by the committer role.
     committer_bin_name: committer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/rm
 ```
 
@@ -461,7 +461,7 @@ Collect logs generated by the committer binary through the shared `bin` role. Ap
 ```yaml
 - name: Fetch committer binary logs
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/fetch_logs
 ```
 
@@ -477,7 +477,7 @@ Copy the built committer binary to the target host. Uses `committer_bin_name` fo
     # Binary name managed by the committer role.
     committer_bin_name: committer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/transfer
 ```
 
@@ -511,9 +511,9 @@ Run `committer init-db` as a one-shot, auto-removing container against the curre
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: container/init_db
 ```
 
@@ -555,11 +555,11 @@ Run the container for the selected committer component, with its generated confi
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Remote data directory used by delegated sidecar tasks.
-    remote_data_dir: "/var/lib/fabricx/committer/sidecar"
+    remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: container/start
 ```
 
@@ -575,7 +575,7 @@ Stop the committer container through the shared `container` role. Uses `committe
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: container/stop
 ```
 
@@ -591,7 +591,7 @@ Remove the committer container through the shared `container` role. Uses `commit
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: container/rm
 ```
 
@@ -607,7 +607,7 @@ Collect logs from the committer container through the shared `container` role. U
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: container/fetch_logs
 ```
 
@@ -623,7 +623,7 @@ Dispatch configuration generation to the selected committer component. Renders t
     # Committer component handled by the entry point.
     committer_component_type: "coordinator"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/transfer
 ```
 
@@ -643,9 +643,9 @@ Remove the component config directory and the Kubernetes ConfigMap when enabled.
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/rm
 ```
 
@@ -658,7 +658,7 @@ Publish the committer Grafana dashboard through the shared Grafana helper flow. 
 ```yaml
 - name: Transfer the committer Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -676,7 +676,7 @@ Dispatch database configuration generation to the selected backend. Selects Post
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/transfer
 ```
 
@@ -692,13 +692,13 @@ Generate the PostgreSQL connection settings consumed by the committer component.
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/postgres/transfer
 ```
 
@@ -714,11 +714,11 @@ Generate the Yugabyte connection settings consumed by the committer component. C
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/yugabyte/transfer
 ```
 
@@ -744,11 +744,11 @@ Copy mTLS certificates for the committer service-to-service connections. Builds 
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/transfer
 ```
 
@@ -771,11 +771,11 @@ Copy monitoring mTLS certificates for Prometheus scraping. Builds monitoring tru
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
 ```
 
@@ -809,9 +809,9 @@ Remove local TLS assets, user assets when `organization.user` is defined, and th
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/rm
 ```
 
@@ -833,7 +833,7 @@ Copy cryptogen-generated TLS assets for the selected committer component. Sideca
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Control-node directory that stores cryptogen output.
-    cryptogen_artifacts_dir: "/tmp/fabricx/crypto-material"
+    cryptogen_artifacts_dir: "/tmp/chaguar/crypto-material"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -847,9 +847,9 @@ Copy cryptogen-generated TLS assets for the selected committer component. Sideca
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -877,7 +877,7 @@ Enroll the selected committer component against its Fabric CA and write the resu
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -891,9 +891,9 @@ Enroll the selected committer component against its Fabric CA and write the resu
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -915,11 +915,11 @@ Remove the sidecar data directory and sidecar PVC when Kubernetes mode is enable
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Remote data directory used by delegated sidecar tasks.
-    remote_data_dir: "/var/lib/fabricx/committer/sidecar"
+    remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: data/rm
 ```
 
@@ -935,9 +935,9 @@ Delete the committer Kubernetes ConfigMap. Uses `committer_k8s_resource_name` an
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/config/rm
 ```
 
@@ -953,9 +953,9 @@ Delete the committer Kubernetes Secret. Uses `committer_k8s_resource_name` and `
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/crypto/rm
 ```
 
@@ -973,7 +973,7 @@ Create the committer Kubernetes Secret from the generated TLS materials. Include
     # Crypto material base name for the committer.
     committer_crypto_name: "{{ organization.peer.name | default(inventory_hostname) }}"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Remote config directory managed by the role.
@@ -981,7 +981,7 @@ Create the committer Kubernetes Secret from the generated TLS materials. Include
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -995,9 +995,9 @@ Create the committer Kubernetes Secret from the generated TLS materials. Include
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1013,7 +1013,7 @@ Collect logs from committer pods through the shared Kubernetes helper role. Uses
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/fetch_logs
 ```
 
@@ -1033,9 +1033,9 @@ Construct the Prometheus scrape service definitions for all deployed committer c
       - "committer-coordinator-1"
       - "committer-sidecar-1"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -1059,9 +1059,9 @@ Run `committer init-db` against the current host's own rendered config (normally
     # Remote config directory managed by the role.
     committer_remote_config_dir: "{{ remote_config_dir }}"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/init_db
 ```
 
@@ -1087,11 +1087,11 @@ Run the binary for the selected committer component with its generated configura
     # RPC port exposed by the selected committer component.
     committer_rpc_port: 7051
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Remote data directory used by delegated sidecar tasks.
-    remote_data_dir: "/var/lib/fabricx/committer/sidecar"
+    remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/start
 ```
 
@@ -1198,11 +1198,11 @@ Render validator configuration, DB settings, mTLS assets, and optional Kubernete
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: validator/config/transfer
 ```
 
@@ -1291,9 +1291,9 @@ Render verifier configuration, mTLS assets, and optional Kubernetes ConfigMap. I
     # Parallel signature verification workers.
     committer_verifier_parallelism: 16
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: verifier/config/transfer
 ```
 
@@ -1388,11 +1388,11 @@ Render coordinator configuration, validator and verifier CA bundles, and optiona
       - "committer-verifier-1"
       - "committer-verifier-2"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: coordinator/config/transfer
 ```
 
@@ -1521,19 +1521,19 @@ Render sidecar configuration, upstream TLS bundles, and optional Kubernetes Conf
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Control-node configtxgen output directory containing the genesis config block.
-    configtxgen_artifacts_dir: "/tmp/fabricx/configtxgen-artifacts"
+    configtxgen_artifacts_dir: "/tmp/chaguar/configtxgen-artifacts"
     # Control-node directory that stores fetched artifacts.
-    fetched_artifacts_dir: "/tmp/fabricx/artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar/artifacts"
     # Inventory hosts for orderer assembler components.
     orderer_assemblers:
       - "orderer-assembler-1"
       - "orderer-assembler-2"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Remote data directory used by delegated sidecar tasks.
-    remote_data_dir: "/var/lib/fabricx/committer/sidecar"
+    remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: sidecar/config/transfer
 ```
 
@@ -1644,11 +1644,11 @@ Render query-service configuration, DB settings, mTLS assets, and optional Kuber
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: query_service/config/transfer
 ```
 
@@ -1680,7 +1680,7 @@ Run `committer init-db` as a Job against the validator ConfigMap and Secret. Job
     # Wait timeout in seconds for the database-init Job to reach Complete. Kept above `committer_init_db_timeout`, which governs the binary's own retry budget once running.
     committer_k8s_init_db_wait_timeout: 360
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Container registry endpoint for the committer image.
@@ -1690,9 +1690,9 @@ Run `committer init-db` as a Job against the validator ConfigMap and Secret. Job
     # Enable TLS material for the selected component.
     committer_use_tls: false
     # Optional image pull secret referenced by Kubernetes workloads.
-    k8s_image_pull_secret: "fabricx-registry-secret"
+    k8s_image_pull_secret: "chaguar-registry-secret"
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -1708,11 +1708,11 @@ Run `committer init-db` as a Job against the validator ConfigMap and Secret. Job
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/init_db
 ```
 
@@ -1752,7 +1752,7 @@ Creates the committer Service, and optional NodePort and LoadBalancer Services, 
     # Kubernetes NodePort value used by the external metrics Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
     committer_k8s_metrics_node_port: 31052
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes NodePort value used by the external RPC Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -1799,7 +1799,7 @@ Creates the committer Service, and optional NodePort and LoadBalancer Services, 
       - "committer-verifier-1"
       - "committer-verifier-2"
     # Optional image pull secret referenced by Kubernetes workloads.
-    k8s_image_pull_secret: "fabricx-registry-secret"
+    k8s_image_pull_secret: "chaguar-registry-secret"
     # Liveness probe failure threshold for Kubernetes workloads.
     k8s_liveness_probe_failure_threshold: 5
     # Liveness probe initial delay for Kubernetes workloads.
@@ -1809,7 +1809,7 @@ Creates the committer Service, and optional NodePort and LoadBalancer Services, 
     # Liveness probe timeout for Kubernetes workloads.
     k8s_liveness_probe_timeout_seconds: 5
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Readiness probe failure threshold for Kubernetes workloads.
     k8s_readiness_probe_failure_threshold: 3
     # Readiness probe initial delay for Kubernetes workloads.
@@ -1847,7 +1847,7 @@ Creates the committer Service, and optional NodePort and LoadBalancer Services, 
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/start
 ```
 
@@ -1863,7 +1863,7 @@ Deletes the committer Deployment or StatefulSet and Services from the configured
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Committer component handled by the entry point.
     committer_component_type: "coordinator"
     # Kubernetes NodePort value used by the external RPC Service port. Defining this variable enables the NodePort Service; the value is set as the static `nodePort` in the Service spec.
@@ -1879,7 +1879,7 @@ Deletes the committer Deployment or StatefulSet and Services from the configured
       - "committer-validator-1"
       - "committer-validator-2"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: k8s/rm
 ```
 
@@ -1897,7 +1897,7 @@ Ensure the namespace exists and create the validator Kubernetes ConfigMap. Publi
     # Generated config file name used by the selected component.
     committer_config_file: "config-{{ committer_component_type }}.yml"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Monitoring mTLS client identifiers trusted by the component.
@@ -1924,7 +1924,7 @@ Ensure the namespace exists and create the validator Kubernetes ConfigMap. Publi
     # Enable mTLS for the selected component.
     committer_use_mtls: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -1940,11 +1940,11 @@ Ensure the namespace exists and create the validator Kubernetes ConfigMap. Publi
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: validator/k8s/config/transfer
 ```
 
@@ -1962,7 +1962,7 @@ Ensure the namespace exists and create the verifier Kubernetes ConfigMap. Publis
     # Generated config file name used by the selected component.
     committer_config_file: "config-{{ committer_component_type }}.yml"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Monitoring mTLS client identifiers trusted by the component.
@@ -1989,7 +1989,7 @@ Ensure the namespace exists and create the verifier Kubernetes ConfigMap. Publis
     # Enable mTLS for the selected component.
     committer_use_mtls: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -2003,9 +2003,9 @@ Ensure the namespace exists and create the verifier Kubernetes ConfigMap. Publis
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: verifier/k8s/config/transfer
 ```
 
@@ -2023,7 +2023,7 @@ Ensure the namespace exists and create the coordinator Kubernetes ConfigMap. Pub
     # Generated config file name used by the selected component.
     committer_config_file: "config-{{ committer_component_type }}.yml"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Monitoring mTLS client identifiers trusted by the component.
@@ -2058,7 +2058,7 @@ Ensure the namespace exists and create the coordinator Kubernetes ConfigMap. Pub
       - "committer-verifier-1"
       - "committer-verifier-2"
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -2072,9 +2072,9 @@ Ensure the namespace exists and create the coordinator Kubernetes ConfigMap. Pub
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: coordinator/k8s/config/transfer
 ```
 
@@ -2094,7 +2094,7 @@ Ensure the namespace exists and create the sidecar Kubernetes ConfigMap. Publish
     # Inventory host name of the coordinator component.
     committer_coordinator: "committer-coordinator-1"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Monitoring mTLS client identifiers trusted by the component.
@@ -2123,7 +2123,7 @@ Ensure the namespace exists and create the sidecar Kubernetes ConfigMap. Publish
     # Enable mTLS for the selected component.
     committer_use_mtls: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -2137,9 +2137,9 @@ Ensure the namespace exists and create the sidecar Kubernetes ConfigMap. Publish
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: sidecar/k8s/config/transfer
 ```
 
@@ -2157,7 +2157,7 @@ Ensure the namespace exists and create the query-service Kubernetes ConfigMap. P
     # Generated config file name used by the selected component.
     committer_config_file: "config-{{ committer_component_type }}.yml"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Monitoring mTLS client identifiers trusted by the component.
@@ -2184,7 +2184,7 @@ Ensure the namespace exists and create the query-service Kubernetes ConfigMap. P
     # Enable mTLS for the selected component.
     committer_use_mtls: false
     # Kubernetes namespace that contains the committer resources.
-    k8s_namespace: "fabricx-committer"
+    k8s_namespace: "chaguar-committer"
     # Organization definition consumed by crypto and sidecar configuration tasks.
     organization:
       name: "Org1"
@@ -2200,11 +2200,11 @@ Ensure the namespace exists and create the query-service Kubernetes ConfigMap. P
     # Inventory host name of the Postgres backend used by validator or query-service configuration.
     postgres_db_host: "postgres-committer-1"
     # Remote config directory used by delegated crypto tasks.
-    remote_config_dir: "/opt/fabricx/committer/config"
+    remote_config_dir: "/opt/chaguar/committer/config"
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: query_service/k8s/config/transfer
 ```
 
@@ -2217,7 +2217,7 @@ Reuses the Kubernetes database-init Job flow; no Route is needed since a Job exp
 ```yaml
 - name: Initialize the committer database on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: openshift/init_db
 ```
 
@@ -2233,7 +2233,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Committer component handled by the entry point.
     committer_component_type: "coordinator"
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to committer resources.
-    committer_k8s_part_of: "fabric-x-committer-{{ organization.name }}"
+    committer_k8s_part_of: "chaguar-committer-{{ organization.name }}"
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
     # Enable TLS for the monitoring endpoint.
@@ -2257,7 +2257,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: openshift/start
 ```
 
@@ -2277,6 +2277,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     committer_openshift_metrics_route: "committer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: openshift/rm
 ```

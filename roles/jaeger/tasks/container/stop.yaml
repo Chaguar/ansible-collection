@@ -9,5 +9,5 @@
     container_name: "{{ jaeger_container_name }}"
     container_image: "{{ jaeger_image }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: stop

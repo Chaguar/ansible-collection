@@ -43,18 +43,18 @@
 
 - name: Start Yugabyte DB on Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: k8s/start
   when: yugabyte_use_k8s
 
 - name: Start Yugabyte on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: openshift/start
   when: yugabyte_use_openshift
 
 - name: Start Yugabyte DB containers
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/start
   when: yugabyte_use_container

@@ -4,23 +4,23 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Teardown the Fabric-X Committer components
+- name: Teardown the Chaguar Committer components
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: teardown
 
-- name: Remove Fabric-X Committer binary
+- name: Remove Chaguar Committer binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: bin/rm
   when: committer_use_bin
 
-- name: Remove Fabric-X Committer configuration files
+- name: Remove Chaguar Committer configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/rm
 
-- name: Remove Fabric-X Committer crypto material
+- name: Remove Chaguar Committer crypto material
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: crypto/rm

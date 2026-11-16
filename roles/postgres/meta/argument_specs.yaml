@@ -17,31 +17,31 @@ argument_specs:
         description:
           - Outer remote configuration directory consumed by C(postgres_remote_config_dir).
           - This dependency is validated wherever PostgreSQL configuration files or TLS materials are used.
-          - "Example: C(/opt/fabricx/postgres/postgres0/config)."
+          - "Example: C(/opt/chaguar/postgres/postgres0/config)."
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - Outer remote data directory consumed by C(postgres_remote_data_dir).
           - This dependency is validated wherever PostgreSQL persistent data is used.
-          - "Example: C(/var/lib/fabricx/postgres/postgres0/data)."
+          - "Example: C(/var/lib/chaguar/postgres/postgres0/data)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - Control-node directory where fetched PostgreSQL artifacts are written.
-          - "Example: C(/tmp/fabricx/fetched-artifacts)."
+          - "Example: C(/tmp/chaguar/fetched-artifacts)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         required: true
         description:
           - Control-node directory containing cryptogen output for PostgreSQL.
-          - "Example: C(/tmp/fabricx/cryptogen-artifacts)."
+          - "Example: C(/tmp/chaguar/cryptogen-artifacts)."
       k8s_namespace: &k8s_namespace
         type: str
         description:
           - Kubernetes namespace used for PostgreSQL resources.
           - This dependency is validated by every Kubernetes leaf entry point.
-          - "Example: C(fabricx-postgres)."
+          - "Example: C(chaguar-postgres)."
       actual_host: &actual_host
         type: str
         required: true
@@ -178,7 +178,7 @@ argument_specs:
         required: true
         description:
           - PostgreSQL database name used during initialization and in the readiness checks.
-          - "Example: C(fabricx)."
+          - "Example: C(chaguar)."
       postgres_user: &postgres_user
         type: str
         required: true
@@ -346,7 +346,7 @@ argument_specs:
     short_description: Remove PostgreSQL data storage
     description:
       - Removes PostgreSQL persistent data for the selected deployment mode.
-      - Container mode deletes C(postgres_remote_data_dir), such as C(/var/lib/fabricx/postgres/postgres0/data).
+      - Container mode deletes C(postgres_remote_data_dir), such as C(/var/lib/chaguar/postgres/postgres0/data).
       - Kubernetes and OpenShift modes delete the StatefulSet PVC in C(k8s_namespace).
     options:
       postgres_use_k8s: *postgres_use_k8s

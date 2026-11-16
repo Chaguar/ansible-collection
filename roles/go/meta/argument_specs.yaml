@@ -43,7 +43,7 @@ argument_specs:
         required: true
         description:
           - Defines the base directory containing the Go source tree or module to build.
-          - "Example: C(/opt/fabricx/tools/fxconfig)."
+          - "Example: C(/opt/chaguar/tools/fxconfig)."
       go_source_code_package: &go_source_code_package
         type: str
         default: ""
@@ -54,7 +54,7 @@ argument_specs:
         required: true
         description:
           - Sets the output path passed to C(go build -o).
-          - "Example: C(/opt/fabricx/bin/fxconfig)."
+          - "Example: C(/opt/chaguar/bin/fxconfig)."
       go_package: &go_package
         type: str
         required: true

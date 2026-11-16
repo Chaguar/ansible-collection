@@ -1,0 +1,410 @@
+#
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# This inventory is identical to "local/chaguar.yaml" except that every credential is encrypted with
+# Ansible Vault instead of stored as plaintext. It exists as a reference for a secured deployment
+# strategy: see docs/tutorial/13-using-ansible-vault.md for how to configure, view, and edit these
+# encrypted values, including the demo password used to encrypt this file.
+# All the services run as containers, therefore make sure to have a container engine installed on
+# your target machines (Docker or Podman).
+
+all:
+  vars:
+    # =========================
+    # Organizations
+    # =========================
+    organizations:
+      orderer_org_1: &OrdererOrg1
+        name: OrdererOrg1
+        domain: ordererorg1.example.com
+      orderer_org_2: &OrdererOrg2
+        name: OrdererOrg2
+        domain: ordererorg2.example.com
+      orderer_org_3: &OrdererOrg3
+        name: OrdererOrg3
+        domain: ordererorg3.example.com
+      orderer_org_4: &OrdererOrg4
+        name: OrdererOrg4
+        domain: ordererorg4.example.com
+      org1: &Org1
+        name: Org1
+        domain: org1.example.com
+    # =========================
+    # Vault-Protected Secrets
+    # =========================
+    # decrypted value: PWD
+    # To generate a replacement (or any other Vault-encrypted value), run:
+    #   make vault-encrypt VAULT_VAR_NAME=vault_identity_secret_suffix
+    # then paste the printed block over this one.
+    vault_identity_secret_suffix: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              66336136313836626464643633653237393062386136653335636134303433336238663033376638
+              3565323835393735623830313037656663303433333837310a373934306566366534376236306630
+              35306663626235363436336535646331366532343134653439663835336535353835623638326364
+              6437343864336230300a323231353436663933313566623338613261333230373438653339663039
+              3237
+  children:
+    # =========================
+    # Network (Chaguar)
+    # =========================
+    network:
+      children:
+        # =========================
+        # Hyperledger Fabric CAs
+        # =========================
+        fabric_cas:
+          children:
+            # =========================
+            # Hyperledger Fabric CA DBs
+            # =========================
+            fabric_ca_dbs:
+              vars:
+                postgres_user: postgres
+                # decrypted value: example
+                postgres_password: !vault |
+                          $ANSIBLE_VAULT;1.1;AES256
+                          65306339633063636432396230373633303436373637326635323635633964636538313864653737
+                          6536643566333464353336343766646430336431633464660a316534396634353763633138313063
+                          32303764396666353534663138333638653165323563656332303633653837646233346137633031
+                          6264626665313430390a323566333832643038386366626335396462316266316165326262653835
+                          6133
+                postgres_use_tls: true
+              hosts:
+                fca-orderer-org1-db:
+                  postgres_db: ordererOrg1DB
+                  postgres_port: 9120
+                fca-orderer-org2-db:
+                  postgres_db: ordererOrg2DB
+                  postgres_port: 9130
+                fca-orderer-org3-db:
+                  postgres_db: ordererOrg3DB
+                  postgres_port: 9140
+                fca-orderer-org4-db:
+                  postgres_db: ordererOrg4DB
+                  postgres_port: 9150
+                fca-org1-db:
+                  postgres_db: Org1DB
+                  postgres_port: 9170
+            # =========================
+            # Hyperledger Fabric CA Servers
+            # =========================
+            fabric_ca_servers:
+              vars:
+                fabric_ca_use_tls: true
+                fabric_ca_name: "{{ inventory_hostname }}"
+                fabric_ca_admin:
+                  name: admin
+                  # decrypted value: adminPWD
+                  secret: !vault |
+                            $ANSIBLE_VAULT;1.1;AES256
+                            35653331623763623938613437613131653432363734303766396239353036633935376131626638
+                            3335393330313631323262646137623561646331303435330a633430653964333361643939393964
+                            61623563643630353662333436396538383533316532306263323166386436656238353130373636
+                            6366626333376665330a393739363666393961663633353863666331343366333338333336626433
+                            3266
+                  attrs:
+                    hf.Registrar.Roles: "*"
+                    hf.Registrar.Attributes: "*"
+                    hf.GenCRL: "true"
+                    hf.Revoker: "true"
+              hosts:
+                fca-orderer-org1:
+                  fabric_ca_port: 9019
+                  fabric_ca_operations_port: 9020
+                  organization: *OrdererOrg1
+                  postgres_db_host: fca-orderer-org1-db
+                fca-orderer-org2:
+                  fabric_ca_port: 9029
+                  fabric_ca_operations_port: 9030
+                  organization: *OrdererOrg2
+                  postgres_db_host: fca-orderer-org2-db
+                fca-orderer-org3:
+                  fabric_ca_port: 9039
+                  fabric_ca_operations_port: 9040
+                  organization: *OrdererOrg3
+                  postgres_db_host: fca-orderer-org3-db
+                fca-orderer-org4:
+                  fabric_ca_port: 9049
+                  fabric_ca_operations_port: 9050
+                  organization: *OrdererOrg4
+                  postgres_db_host: fca-orderer-org4-db
+                fca-org1:
+                  fabric_ca_port: 9069
+                  fabric_ca_operations_port: 9070
+                  organization: *Org1
+                  postgres_db_host: fca-org1-db
+
+        # =========================
+        # LFDT Chaguar
+        # =========================
+        chaguar:
+          children:
+            # =========================
+            # Chaguar Orderers
+            # =========================
+            chaguar_orderers:
+              vars:
+                orderer_use_tls: true
+                orderer_use_mtls: true
+                orderer_operations_mtls_clients:
+                  - prometheus
+              children:
+                chaguar_orderer_1:
+                  vars:
+                    organization:
+                      <<: *OrdererOrg1
+                      fabric_ca_host: fca-orderer-org1
+                      role: orderer
+                      orderer:
+                        name: "{{ inventory_hostname }}"
+                        secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+                    orderer_group: 1
+                  hosts:
+                    orderer-router-1:
+                      orderer_component_type: router
+                      orderer_rpc_port: 7050
+                      orderer_operations_port: 7060
+                    orderer-consenter-1:
+                      orderer_component_type: consensus
+                      orderer_rpc_port: 7051
+                      orderer_operations_port: 7061
+                    orderer-assembler-1:
+                      orderer_component_type: assembler
+                      orderer_rpc_port: 7052
+                      orderer_operations_port: 7062
+                    orderer-batcher-1:
+                      orderer_component_type: batcher
+                      orderer_shard_id: 1
+                      orderer_rpc_port: 7053
+                      orderer_operations_port: 7063
+                chaguar_orderer_2:
+                  vars:
+                    organization:
+                      <<: *OrdererOrg2
+                      fabric_ca_host: fca-orderer-org2
+                      role: orderer
+                      orderer:
+                        name: "{{ inventory_hostname }}"
+                        secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+                    orderer_group: 2
+                  hosts:
+                    orderer-router-2:
+                      orderer_component_type: router
+                      orderer_rpc_port: 7150
+                      orderer_operations_port: 7160
+                    orderer-consenter-2:
+                      orderer_component_type: consensus
+                      orderer_rpc_port: 7151
+                      orderer_operations_port: 7161
+                    orderer-assembler-2:
+                      orderer_component_type: assembler
+                      orderer_rpc_port: 7152
+                      orderer_operations_port: 7162
+                    orderer-batcher-2:
+                      orderer_component_type: batcher
+                      orderer_shard_id: 1
+                      orderer_rpc_port: 7153
+                      orderer_operations_port: 7163
+                chaguar_orderer_3:
+                  vars:
+                    organization:
+                      <<: *OrdererOrg3
+                      fabric_ca_host: fca-orderer-org3
+                      role: orderer
+                      orderer:
+                        name: "{{ inventory_hostname }}"
+                        secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+                    orderer_group: 3
+                  hosts:
+                    orderer-router-3:
+                      orderer_component_type: router
+                      orderer_rpc_port: 7250
+                      orderer_operations_port: 7260
+                    orderer-consenter-3:
+                      orderer_component_type: consensus
+                      orderer_rpc_port: 7251
+                      orderer_operations_port: 7261
+                    orderer-assembler-3:
+                      orderer_component_type: assembler
+                      orderer_rpc_port: 7252
+                      orderer_operations_port: 7262
+                    orderer-batcher-3:
+                      orderer_component_type: batcher
+                      orderer_shard_id: 1
+                      orderer_rpc_port: 7253
+                      orderer_operations_port: 7263
+                chaguar_orderer_4:
+                  vars:
+                    organization:
+                      <<: *OrdererOrg4
+                      fabric_ca_host: fca-orderer-org4
+                      role: orderer
+                      orderer:
+                        name: "{{ inventory_hostname }}"
+                        secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+                    orderer_group: 4
+                  hosts:
+                    orderer-router-4:
+                      orderer_component_type: router
+                      orderer_rpc_port: 7350
+                      orderer_operations_port: 7360
+                    orderer-consenter-4:
+                      orderer_component_type: consensus
+                      orderer_rpc_port: 7351
+                      orderer_operations_port: 7361
+                    orderer-assembler-4:
+                      orderer_component_type: assembler
+                      orderer_rpc_port: 7352
+                      orderer_operations_port: 7362
+                    orderer-batcher-4:
+                      orderer_component_type: batcher
+                      orderer_shard_id: 1
+                      orderer_rpc_port: 7353
+                      orderer_operations_port: 7363
+
+            # =========================
+            # Chaguar Committer
+            # =========================
+            chaguar_committers:
+              children:
+                chaguar_committer:
+                  vars:
+                    committer_use_tls: true
+                    committer_use_mtls: true
+                    committer_monitoring_mtls_clients:
+                      - prometheus
+                    committer_mtls_clients:
+                      - block-explorer
+                    organization:
+                      <<: *Org1
+                      fabric_ca_host: fca-org1
+                      role: peer
+                      peer:
+                        name: "{{ inventory_hostname }}"
+                        secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+                  hosts:
+                    committer-db:
+                      postgres_user: sc_user
+                      # decrypted value: sc_secret_pwd
+                      postgres_password: !vault |
+                                $ANSIBLE_VAULT;1.1;AES256
+                                32623737613133343438633234363338626537336635353430393962623064383234363937306161
+                                6432363838353566353732383866353961643133643338330a316231356265643362303634613566
+                                35653539336436313563633434666363396232666335323163633937653432666362373362643162
+                                6363646136623561340a303031656332626235646633303030333637356566646539393838303139
+                                6239
+                      postgres_db: sc_db
+                      postgres_port: 5150
+                      postgres_use_tls: true
+                    committer-validator:
+                      committer_component_type: validator
+                      committer_rpc_port: 5100
+                      committer_metrics_port: 5200
+                      postgres_db_host: committer-db
+                    committer-verifier:
+                      committer_component_type: verifier
+                      committer_rpc_port: 5110
+                      committer_metrics_port: 5210
+                    committer-coordinator:
+                      committer_component_type: coordinator
+                      committer_rpc_port: 5120
+                      committer_metrics_port: 5220
+                    committer-sidecar:
+                      committer_component_type: sidecar
+                      committer_rpc_port: 5130
+                      committer_metrics_port: 5230
+                    committer-query-service:
+                      committer_component_type: query-service
+                      committer_rpc_port: 5140
+                      committer_metrics_port: 5240
+                      postgres_db_host: committer-db
+
+            # =========================
+            # Chaguar Block Explorer
+            # =========================
+            chaguar_block_explorer:
+              hosts:
+                block-explorer-db:
+                  postgres_user: block_explorer_user
+                  # decrypted value: block_explorer_pwd
+                  postgres_password: !vault |
+                            $ANSIBLE_VAULT;1.1;AES256
+                            33623737326564613663323231323631646165666163646266623165383364346262636238336563
+                            6266386563313035356466333433643063396236396532370a383333336431356137653763373332
+                            66636562323636663861356361363736326361613030393466383262333762346530363766333061
+                            3866393034313261300a346563653664383834663137666437363530366565333263326134366264
+                            34666537383237343262353866356135646139393935313664613065373034303564
+                  postgres_db: explorer
+                  postgres_port: 18432
+                  postgres_use_tls: true
+                block-explorer:
+                  block_explorer_port: 18080
+                  block_explorer_ui_port: 18000
+                  sidecar_host: committer-sidecar
+                  postgres_db_host: block-explorer-db
+
+    # =========================
+    # Chaguar LoadGens
+    # =========================
+    load_generators:
+      hosts:
+        orderer-loadgen:
+          organization:
+            <<: *Org1
+            fabric_ca_host: fca-org1
+            role: peer
+            peer:
+              name: "{{ inventory_hostname }}"
+              secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+            user:
+              name: orderer-loadgen-client
+              secret: "{{ inventory_hostname }}{{ vault_identity_secret_suffix }}"
+            namespaces:
+              - id: 0
+                policy: threshold
+          loadgen_use_tls: true
+          loadgen_metrics_port: 12010
+          loadgen_rpc_port: 12020
+
+    # =========================
+    # Monitoring Infra
+    # =========================
+    monitoring:
+      hosts:
+        node-exporter:
+          node_exporter_port: 9111
+          node_exporter_use_tls: true
+        cadvisor:
+          cadvisor_port: 9400
+        committer-db-exporter:
+          postgres_db_host: committer-db
+          postgres_exporter_port: 2110
+          postgres_exporter_use_tls: true
+        prometheus:
+          prometheus_port: 9090
+          prometheus_use_tls: true
+        grafana:
+          grafana_username: admin
+          # decrypted value: adminPWD
+          grafana_password: !vault |
+                    $ANSIBLE_VAULT;1.1;AES256
+                    62646533386638623862336230333662396161366431383834616537636461353965353530303734
+                    3134396431336265396138636434393239366264363030660a306238346361363731393765656236
+                    35613439643731636438353839356137323539336232313535653234393738366232313034313562
+                    6632366265623134360a663836636239616238343835373737613464633738393736363232316365
+                    3931
+          grafana_web_port: 3000
+          grafana_use_tls: true
+          prometheus_host: prometheus
+          loki_host: loki
+        loki:
+          loki_port: 9200
+          loki_grpc_port: 9201
+          loki_use_tls: true
+        alloy:
+          alloy_port: 9300
+          alloy_use_tls: true
+          loki_host: loki

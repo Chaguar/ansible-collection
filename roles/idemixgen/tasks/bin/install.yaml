@@ -9,5 +9,5 @@
     bin_dir: "{{ cli_bin_dir }}"
     go_package: "{{ idemixgen_bin_package }}@{{ idemixgen_git_commit }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: go/install

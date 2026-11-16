@@ -6,23 +6,23 @@
 
 - name: Remove Alloy container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: container/rm
   when: alloy_use_container
 
 - name: Remove Alloy Kubernetes workload
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: k8s/rm
   when: alloy_use_k8s
 
 - name: Remove Alloy OpenShift workload
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: openshift/rm
   when: alloy_use_openshift
 
 - name: Remove Alloy data directory
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: data/rm

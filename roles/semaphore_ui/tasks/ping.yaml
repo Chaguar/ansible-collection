@@ -9,5 +9,5 @@
     utils_ports_to_ping:
       - "{{ semaphore_ui_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping

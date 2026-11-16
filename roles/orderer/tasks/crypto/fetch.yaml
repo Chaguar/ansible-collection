@@ -7,7 +7,7 @@
 # =========================
 # MSP certs
 # =========================
-- name: Fetch Hyperledger Fabric-X Orderer sign certificates
+- name: Fetch LFDT Chaguar Orderer sign certificates
   ansible.builtin.fetch:
     src: "{{ orderer_remote_config_dir }}/msp/signcerts/{{ orderer_crypto_name }}.{{ organization.domain }}-cert.pem"
     dest: "{{ fetched_artifacts_dir }}/crypto/organizations/{{ organization.domain }}/orderers/{{ orderer_crypto_name }}.{{ organization.domain }}/msp/signcerts/{{ orderer_crypto_name }}.{{ organization.domain }}-cert.pem"
@@ -16,19 +16,19 @@
 # =========================
 # TLS certs
 # =========================
-- name: Fetch Hyperledger Fabric-X Orderer TLS certificate to build genesis block
+- name: Fetch LFDT Chaguar Orderer TLS certificate to build genesis block
   ansible.builtin.fetch:
     src: "{{ orderer_remote_config_dir }}/tls/server.crt"
     dest: "{{ fetched_artifacts_dir }}/crypto/organizations/{{ organization.domain }}/orderers/{{ orderer_crypto_name }}.{{ organization.domain }}/tls/server.crt"
     flat: true
 
-- name: Fetch Hyperledger Fabric-X Orderer TLS CA certificate
+- name: Fetch LFDT Chaguar Orderer TLS CA certificate
   ansible.builtin.fetch:
     src: "{{ orderer_remote_config_dir }}/tls/ca.crt"
     dest: "{{ fetched_artifacts_dir }}/{{ inventory_hostname }}/tls/ca.crt"
     flat: true
 
-- name: Fetch Hyperledger Fabric-X Orderer TLS certificate
+- name: Fetch LFDT Chaguar Orderer TLS certificate
   ansible.builtin.fetch:
     src: "{{ orderer_remote_config_dir }}/tls/server.crt"
     dest: "{{ fetched_artifacts_dir }}/{{ inventory_hostname }}/tls/server.crt"

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Delete Fabric-X Committer workload
+- name: Delete Chaguar Committer workload
   vars:
     committer_k8s_workload_kinds:
       validator: Deployment
@@ -19,7 +19,7 @@
     name: "{{ committer_k8s_resource_name }}"
     namespace: "{{ k8s_namespace | default('default') }}"
 
-- name: Delete Fabric-X Committer Service
+- name: Delete Chaguar Committer Service
   kubernetes.core.k8s:
     state: absent
     api_version: v1
@@ -27,7 +27,7 @@
     name: "{{ committer_k8s_resource_name }}"
     namespace: "{{ k8s_namespace | default('default') }}"
 
-- name: Delete Fabric-X Committer NodePort Service
+- name: Delete Chaguar Committer NodePort Service
   kubernetes.core.k8s:
     state: absent
     api_version: v1
@@ -38,7 +38,7 @@
     - committer_k8s_rpc_node_port is defined or
       committer_k8s_metrics_node_port is defined
 
-- name: Delete Fabric-X Committer LoadBalancer Service
+- name: Delete Chaguar Committer LoadBalancer Service
   kubernetes.core.k8s:
     state: absent
     api_version: v1
@@ -49,7 +49,7 @@
     - committer_k8s_loadbalancer_expose_rpc_port or
       committer_k8s_loadbalancer_expose_metrics_port
 
-- name: Delete Fabric-X Committer database-init Job
+- name: Delete Chaguar Committer database-init Job
   kubernetes.core.k8s:
     state: absent
     api_version: batch/v1

@@ -1,6 +1,6 @@
-# hyperledger.fabricx.jaeger
+# hyperledger.chaguar.jaeger
 
-> Deploys and manages Jaeger for Hyperledger Fabric-X tracing in container or Kubernetes mode.
+> Deploys and manages Jaeger for LFDT Chaguar tracing in container or Kubernetes mode.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -38,7 +38,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.jaeger
+ansible-doc -t role hyperledger.chaguar.jaeger
 ```
 
 ## Tasks
@@ -59,7 +59,7 @@ Starts Jaeger in container mode or applies the Kubernetes Service and Deployment
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: start
 ```
 
@@ -79,7 +79,7 @@ Stops the running Jaeger container without removing configuration assets.
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: stop
 ```
 
@@ -99,7 +99,7 @@ Removes the container workload or Kubernetes resources for the active Jaeger dep
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: teardown
 ```
 
@@ -112,7 +112,7 @@ Runs the teardown and configuration cleanup entry points for Jaeger.
 ```yaml
 - name: Remove the Jaeger deployment and configuration
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: wipe
 ```
 
@@ -132,7 +132,7 @@ Collects logs from the running Jaeger container or from the Jaeger pods in Kuber
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: fetch_logs
 ```
 
@@ -162,7 +162,7 @@ Checks the Jaeger query, admin, collector, and OTLP endpoints with the utils pin
     # Sets the Jaeger OTLP gRPC collector port.
     jaeger_collector_port: 4317
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: ping
 ```
 
@@ -188,7 +188,7 @@ Builds the Jaeger container environment, publishes the query and collector ports
     # Sets the Jaeger container image.
     jaeger_image: "{{ jaeger_registry_endpoint }}/{{ jaeger_image_name }}:{{ jaeger_image_tag }}"
     # Sets the shared remote configuration base directory. The directory can be on the control or remote host.
-    remote_config_dir: "/var/lib/fabricx/jaeger/config"
+    remote_config_dir: "/var/lib/chaguar/jaeger/config"
     # Sets the remote directory mounted into the Jaeger container for configuration and certificates.
     jaeger_remote_config_dir: "{{ remote_config_dir }}"
     # Sets the in-container directory where Jaeger reads configuration and certificates.
@@ -206,7 +206,7 @@ Builds the Jaeger container environment, publishes the query and collector ports
     # Sets the Jaeger OTLP gRPC collector port.
     jaeger_collector_port: 4317
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: container/start
 ```
 
@@ -230,7 +230,7 @@ Stops the named Jaeger container without changing image or configuration setting
     # Sets the Jaeger container image.
     jaeger_image: "{{ jaeger_registry_endpoint }}/{{ jaeger_image_name }}:{{ jaeger_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: container/stop
 ```
 
@@ -254,7 +254,7 @@ Removes the Jaeger container and its runtime state from the container host.
     # Sets the Jaeger container image.
     jaeger_image: "{{ jaeger_registry_endpoint }}/{{ jaeger_image_name }}:{{ jaeger_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: container/rm
 ```
 
@@ -270,7 +270,7 @@ Collects the container logs for the Jaeger runtime from the named container.
     # Sets the Jaeger container name.
     jaeger_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: container/fetch_logs
 ```
 
@@ -368,7 +368,7 @@ Applies the Jaeger Service, optional NodePort and LoadBalancer Services, and Dep
     # Set to `true` to create a LoadBalancer Service entry that exposes the collector port externally. When undefined or `false`, the collector port is not included in the LoadBalancer Service.
     jaeger_k8s_loadbalancer_expose_collector_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/start
 ```
 
@@ -410,7 +410,7 @@ Deletes the Jaeger Deployment, Service, and NodePort Service from the target nam
     # Set to `true` to create a LoadBalancer Service entry that exposes the collector port externally. When undefined or `false`, the collector port is not included in the LoadBalancer Service.
     jaeger_k8s_loadbalancer_expose_collector_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/rm
 ```
 
@@ -426,7 +426,7 @@ Collects logs from Jaeger pods using the resource label selector for the Kuberne
     # Sets the Kubernetes resource name used for Jaeger objects.
     jaeger_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/fetch_logs
 ```
 
@@ -476,7 +476,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the collector port externally. When undefined or `false`, the collector port is not included in the LoadBalancer Service.
     jaeger_k8s_loadbalancer_expose_collector_port: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/ping
 ```
 
@@ -492,9 +492,9 @@ Creates the remote Jaeger config path, copies the ElasticSearch CA certificate w
     # Names the inventory host running ElasticSearch for Jaeger span storage. Jaeger sends spans to this inventory host.
     elasticsearch_host: "elasticsearch-0"
     # Sets the local directory containing fetched artifacts used by Jaeger. It is used when copying the ElasticSearch CA certificate into Jaeger configuration.
-    fetched_artifacts_dir: "/tmp/fabricx-artifacts"
+    fetched_artifacts_dir: "/tmp/chaguar-artifacts"
     # Sets the shared remote configuration base directory. The directory can be on the control or remote host.
-    remote_config_dir: "/var/lib/fabricx/jaeger/config"
+    remote_config_dir: "/var/lib/chaguar/jaeger/config"
     # Sets the remote directory mounted into the Jaeger container for configuration and certificates.
     jaeger_remote_config_dir: "{{ remote_config_dir }}"
     # Runs the Kubernetes Jaeger path when set to `true`.
@@ -502,7 +502,7 @@ Creates the remote Jaeger config path, copies the ElasticSearch CA certificate w
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: config/transfer
 ```
 
@@ -520,11 +520,11 @@ Deletes the remote Jaeger configuration directory and any copied certificate mat
     # Selects the OpenShift deployment branch.
     jaeger_use_openshift: false
     # Sets the shared remote configuration base directory. The directory can be on the control or remote host.
-    remote_config_dir: "/var/lib/fabricx/jaeger/config"
+    remote_config_dir: "/var/lib/chaguar/jaeger/config"
     # Sets the remote directory mounted into the Jaeger container for configuration and certificates.
     jaeger_remote_config_dir: "{{ remote_config_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: config/rm
 ```
 
@@ -544,13 +544,13 @@ Creates the ConfigMap that projects the Jaeger config path and ElasticSearch CA 
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Jaeger resources.
     jaeger_k8s_part_of: monitoring
     # Sets the shared remote configuration base directory. The directory can be on the control or remote host.
-    remote_config_dir: "/var/lib/fabricx/jaeger/config"
+    remote_config_dir: "/var/lib/chaguar/jaeger/config"
     # Sets the remote directory mounted into the Jaeger container for configuration and certificates.
     jaeger_remote_config_dir: "{{ remote_config_dir }}"
     # Sets the Kubernetes namespace used for Jaeger resources. Use a shared namespace when Jaeger runs with other observability services.
     k8s_namespace: "tracing"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/config/transfer
 ```
 
@@ -568,7 +568,7 @@ Deletes the Jaeger ConfigMap from Kubernetes when container config data is no lo
     # Sets the Kubernetes namespace used for Jaeger resources. Use a shared namespace when Jaeger runs with other observability services.
     k8s_namespace: "tracing"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/config/rm
 ```
 
@@ -598,7 +598,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     jaeger_openshift_collector_route: "jaeger-collector.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: openshift/start
 ```
 
@@ -624,7 +624,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     jaeger_openshift_collector_route: "jaeger-collector.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: openshift/ping
 ```
 
@@ -652,6 +652,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     jaeger_openshift_collector_route: "jaeger-collector.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: openshift/rm
 ```

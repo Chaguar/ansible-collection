@@ -12,7 +12,7 @@
     dest: "{{ fxadmin_output_dir }}/config_block.pb"
     mode: preserve
 
-- name: Decode the Fabric-X channel configuration block to JSON
+- name: Decode the Chaguar channel configuration block to JSON
   vars:
     container_name: "{{ fxadmin_container_name }}-decode"
     container_image: "{{ fxadmin_image }}"
@@ -26,5 +26,5 @@
     container_run_as_host_user: true
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

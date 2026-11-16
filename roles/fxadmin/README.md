@@ -1,6 +1,6 @@
-# hyperledger.fabricx.fxadmin
+# hyperledger.chaguar.fxadmin
 
-> Fetches and decodes the Fabric-X channel configuration, patches it, and drives the fxadmin endorse/merge/prepare/submit flow for live network reconfigurations.
+> Fetches and decodes the Chaguar channel configuration, patches it, and drives the fxadmin endorse/merge/prepare/submit flow for live network reconfigurations.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -49,7 +49,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.fxadmin
+ansible-doc -t role hyperledger.chaguar.fxadmin
 ```
 
 ## Tasks
@@ -58,7 +58,7 @@ ansible-doc -t role hyperledger.fabricx.fxadmin
 
 > Build the fxadmin binary
 
-Builds the fxadmin Go binary from the configured Fabric-X source package by delegating compilation to the shared bin role.
+Builds the fxadmin Go binary from the configured Chaguar source package by delegating compilation to the shared bin role.
 
 ```yaml
 - name: Build the fxadmin binary
@@ -67,14 +67,14 @@ Builds the fxadmin Go binary from the configured Fabric-X source package by dele
     fxadmin_bin_name: fxadmin
     # Selects the Git ref used by build and install workflows.
     fxadmin_git_commit: v1.0.3
-    # Defines the Git host used to resolve the Fabric-X source repository.
+    # Defines the Git host used to resolve the Chaguar source repository.
     fxadmin_git_hub_url: github.com
-    # Defines the Fabric-X source repository path.
+    # Defines the Chaguar source repository path.
     fxadmin_git_repo: hyperledger/fabric-x
     # Defines the Go package path containing the fxadmin source code.
     fxadmin_source_code_package: tools/fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/build
 ```
 
@@ -88,23 +88,23 @@ Runs `fxadmin compute-update` with the control-node fxadmin binary to compute th
 - name: Compute a ConfigUpdate with the fxadmin binary
   vars:
     # Defines the channel identifier used to derive the genesis block filename.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Sets the control-node directory searched for CLI binaries used by the steps that run on the control node.
     cli_bin_dir: "string"
     # Defines the control-node directory where configtxgen writes the genesis block.
-    configtxgen_artifacts_dir: "/tmp/fabricx/config-build/configtxgen-artifacts"
+    configtxgen_artifacts_dir: "/tmp/chaguar/config-build/configtxgen-artifacts"
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
     # Defines the control-node reference configuration block fxadmin uses for endpoint discovery, defaulting to the genesis block produced by configtxgen.
     fxadmin_current_block: "{{ configtxgen_artifacts_dir }}/{{ channel_id }}_block.pb"
     # Defines the local decoded current channel configuration JSON file.
-    fxadmin_current_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/current_config.json"
+    fxadmin_current_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/current_config.json"
     # Defines the local modified channel configuration JSON file produced by `patch_config_value` and consumed by `compute_update`.
-    fxadmin_modified_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/modified_config.json"
+    fxadmin_modified_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/modified_config.json"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/compute_update
 ```
 
@@ -122,11 +122,11 @@ Runs `fxadmin decode` with the control-node fxadmin binary to convert a protobuf
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
     # Defines the local protobuf-encoded configuration block to decode into JSON.
-    fxadmin_config_block: "/tmp/fabricx/config-build/fxadmin-artifacts/config.pb"
+    fxadmin_config_block: "/tmp/chaguar/config-build/fxadmin-artifacts/config.pb"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/decode
 ```
 
@@ -146,15 +146,15 @@ Runs `fxadmin follow` on the host with the rendered admin configuration to confi
     # Defines how long `follow` waits for the submitted configuration update to commit.
     fxadmin_follow_timeout: 60s
     # Defines the latest channel configuration block on the host, as written by `ledger/config_latest`, that fxadmin uses for endpoint discovery.
-    fxadmin_latest_block: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config.pb"
+    fxadmin_latest_block: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config.pb"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/follow
 ```
 
@@ -162,7 +162,7 @@ Runs `fxadmin follow` on the host with the rendered admin configuration to confi
 
 > Install the fxadmin binary
 
-Installs the fxadmin Go package from the configured Fabric-X source package by delegating to the shared bin role.
+Installs the fxadmin Go package from the configured Chaguar source package by delegating to the shared bin role.
 
 ```yaml
 - name: Install the fxadmin binary
@@ -173,14 +173,14 @@ Installs the fxadmin Go package from the configured Fabric-X source package by d
     fxadmin_bin_package: "{{ fxadmin_git_hub_url }}/{{ fxadmin_git_repo }}/{{ fxadmin_source_code_package }}"
     # Selects the Git ref used by build and install workflows.
     fxadmin_git_commit: v1.0.3
-    # Defines the Git host used to resolve the Fabric-X source repository.
+    # Defines the Git host used to resolve the Chaguar source repository.
     fxadmin_git_hub_url: github.com
-    # Defines the Fabric-X source repository path.
+    # Defines the Chaguar source repository path.
     fxadmin_git_repo: hyperledger/fabric-x
     # Defines the Go package path containing the fxadmin source code.
     fxadmin_source_code_package: tools/fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/install
 ```
 
@@ -198,13 +198,13 @@ Runs `fxadmin ledger config latest` on the host with the rendered admin configur
     # Defines the fxadmin admin configuration filename.
     fxadmin_config_file: admin.yaml
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/ledger/config_latest
 ```
 
@@ -220,7 +220,7 @@ Removes the fxadmin binary from the managed host by delegating cleanup to the sh
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/rm
 ```
 
@@ -236,7 +236,7 @@ Transfers the previously built fxadmin binary to the managed host by delegating 
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/transfer
 ```
 
@@ -254,13 +254,13 @@ Endorses the staged ConfigUpdate with the fxadmin binary and rendered admin conf
     # Defines the fxadmin admin configuration filename.
     fxadmin_config_file: admin.yaml
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/tx/endorse
 ```
 
@@ -278,9 +278,9 @@ Merges the staged endorsements into a single ConfigUpdateEnvelope with the contr
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/tx/merge
 ```
 
@@ -298,13 +298,13 @@ Runs `fxadmin tx prepare` on the host to turn the merged, endorsed ConfigUpdate 
     # Defines the fxadmin admin configuration filename.
     fxadmin_config_file: admin.yaml
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/tx/prepare
 ```
 
@@ -322,15 +322,15 @@ Runs `fxadmin tx submit` on the host with the rendered admin configuration to br
     # Defines the fxadmin admin configuration filename.
     fxadmin_config_file: admin.yaml
     # Defines the prepared transaction file to submit, on the host that submits it.
-    fxadmin_config_tx: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config_tx.pb"
+    fxadmin_config_tx: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config_tx.pb"
     # Defines the latest channel configuration block on the host, as written by `ledger/config_latest`, that fxadmin uses for endpoint discovery.
-    fxadmin_latest_block: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config.pb"
+    fxadmin_latest_block: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config.pb"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: bin/tx/submit
 ```
 
@@ -344,11 +344,11 @@ Dispatches ConfigUpdate computation to either the host binary or a transient con
 - name: Compute a ConfigUpdate
   vars:
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: compute_update
 ```
 
@@ -368,9 +368,9 @@ Copies the client certificate and key consumed by fxadmin for mTLS connections i
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: config/mtls/transfer
 ```
 
@@ -408,9 +408,9 @@ Creates the remote fxadmin configuration directory, renders the admin configurat
         secret: "ordererorg1-adminPWD"
         type: "admin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: config/transfer
 ```
 
@@ -424,9 +424,9 @@ Mounts the current and modified configuration JSON files and the reference block
 - name: Compute a ConfigUpdate with the fxadmin container
   vars:
     # Defines the channel identifier used to derive the genesis block filename.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Defines the control-node directory where configtxgen writes the genesis block.
-    configtxgen_artifacts_dir: "/tmp/fabricx/config-build/configtxgen-artifacts"
+    configtxgen_artifacts_dir: "/tmp/chaguar/config-build/configtxgen-artifacts"
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
     # Defines the base container name used by fxadmin workflows, suffixed per host so parallel runs never collide.
@@ -434,7 +434,7 @@ Mounts the current and modified configuration JSON files and the reference block
     # Defines the control-node reference configuration block fxadmin uses for endpoint discovery, defaulting to the genesis block produced by configtxgen.
     fxadmin_current_block: "{{ configtxgen_artifacts_dir }}/{{ channel_id }}_block.pb"
     # Defines the local decoded current channel configuration JSON file.
-    fxadmin_current_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/current_config.json"
+    fxadmin_current_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/current_config.json"
     # Defines the fxadmin container image.
     fxadmin_image: "{{ fxadmin_registry_endpoint }}/{{ fxadmin_image_name }}:{{ fxadmin_image_tag }}"
     # Defines the image name used by the fxadmin container image.
@@ -442,13 +442,13 @@ Mounts the current and modified configuration JSON files and the reference block
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the local modified channel configuration JSON file produced by `patch_config_value` and consumed by `compute_update`.
-    fxadmin_modified_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/modified_config.json"
+    fxadmin_modified_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/modified_config.json"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/compute_update
 ```
 
@@ -464,7 +464,7 @@ Stages the configuration block into the output directory, then runs `fxadmin dec
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
     # Defines the local protobuf-encoded configuration block to decode into JSON.
-    fxadmin_config_block: "/tmp/fabricx/config-build/fxadmin-artifacts/config.pb"
+    fxadmin_config_block: "/tmp/chaguar/config-build/fxadmin-artifacts/config.pb"
     # Defines the base container name used by fxadmin workflows, suffixed per host so parallel runs never collide.
     fxadmin_container_name: "fxadmin-{{ inventory_hostname }}"
     # Defines the fxadmin container image.
@@ -474,11 +474,11 @@ Stages the configuration block into the output directory, then runs `fxadmin dec
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/decode
 ```
 
@@ -508,17 +508,17 @@ Mounts the rendered admin configuration and the latest block into a transient fx
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the latest channel configuration block on the host, as written by `ledger/config_latest`, that fxadmin uses for endpoint discovery.
-    fxadmin_latest_block: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config.pb"
+    fxadmin_latest_block: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config.pb"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/follow
 ```
 
@@ -546,15 +546,15 @@ Mounts the rendered admin configuration and the staged reference block into a tr
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/ledger/config_latest
 ```
 
@@ -582,15 +582,15 @@ Mounts the staged ConfigUpdate and the rendered admin configuration into a trans
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/tx/endorse
 ```
 
@@ -608,7 +608,7 @@ Mounts the staged endorsements directory into a transient fxadmin container and 
     # Defines the base container name used by fxadmin workflows, suffixed per host so parallel runs never collide.
     fxadmin_container_name: "fxadmin-{{ inventory_hostname }}"
     # Defines the local directory that collects one endorsement file per required organization before merging.
-    fxadmin_endorsements_dir: "/tmp/fabricx/config-build/fxadmin-artifacts/endorsements"
+    fxadmin_endorsements_dir: "/tmp/chaguar/config-build/fxadmin-artifacts/endorsements"
     # Defines the fxadmin container image.
     fxadmin_image: "{{ fxadmin_registry_endpoint }}/{{ fxadmin_image_name }}:{{ fxadmin_image_tag }}"
     # Defines the image name used by the fxadmin container image.
@@ -616,11 +616,11 @@ Mounts the staged endorsements directory into a transient fxadmin container and 
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/tx/merge
 ```
 
@@ -648,15 +648,15 @@ Mounts the staged endorsed ConfigUpdate and the rendered admin configuration int
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/tx/prepare
 ```
 
@@ -674,7 +674,7 @@ Mounts the transaction, the latest block and the rendered admin configuration in
     # Defines the fxadmin admin configuration filename.
     fxadmin_config_file: admin.yaml
     # Defines the prepared transaction file to submit, on the host that submits it.
-    fxadmin_config_tx: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config_tx.pb"
+    fxadmin_config_tx: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config_tx.pb"
     # Defines the configuration directory mounted inside the fxadmin container.
     fxadmin_container_config_dir: /config
     # Defines the base container name used by fxadmin workflows, suffixed per host so parallel runs never collide.
@@ -686,15 +686,15 @@ Mounts the transaction, the latest block and the rendered admin configuration in
     # Defines the image tag used by the fxadmin container image, which must be at least 1.0.2 because earlier tags do not bundle the fxadmin binary.
     fxadmin_image_tag: 1.0.3
     # Defines the latest channel configuration block on the host, as written by `ledger/config_latest`, that fxadmin uses for endpoint discovery.
-    fxadmin_latest_block: "/tmp/fabricx/orderer-consenter-1/config/fxadmin/config.pb"
+    fxadmin_latest_block: "/tmp/chaguar/orderer-consenter-1/config/fxadmin/config.pb"
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
     # Defines the fxadmin remote configuration directory.
     fxadmin_remote_config_dir: "{{ remote_config_dir }}/fxadmin"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: container/tx/submit
 ```
 
@@ -708,11 +708,11 @@ Dispatches configuration block decoding to either the host binary or a transient
 - name: Decode a configuration block
   vars:
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: decode
 ```
 
@@ -726,13 +726,13 @@ Dispatches ledger following to either the host binary or a transient container b
 - name: Follow the ledger until a configuration update commits
   vars:
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the control-node path that `fxadmin_output` is fetched back to once the command completes on a remote host.
-    fxadmin_output_fetch_dest: "/tmp/fabricx/config-build/fxadmin-artifacts/config_tx.pb"
+    fxadmin_output_fetch_dest: "/tmp/chaguar/config-build/fxadmin-artifacts/config_tx.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: follow
 ```
 
@@ -746,19 +746,19 @@ Dispatches fetching the latest channel configuration block to either the host bi
 - name: Fetch the latest channel configuration block
   vars:
     # Defines the channel identifier used to derive the genesis block filename.
-    channel_id: "fabricx-main-channel"
+    channel_id: "chaguar-main-channel"
     # Defines the control-node directory where configtxgen writes the genesis block.
-    configtxgen_artifacts_dir: "/tmp/fabricx/config-build/configtxgen-artifacts"
+    configtxgen_artifacts_dir: "/tmp/chaguar/config-build/configtxgen-artifacts"
     # Defines the control-node reference configuration block fxadmin uses for endpoint discovery, defaulting to the genesis block produced by configtxgen.
     fxadmin_current_block: "{{ configtxgen_artifacts_dir }}/{{ channel_id }}_block.pb"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the control-node path that `fxadmin_output` is fetched back to once the command completes on a remote host.
-    fxadmin_output_fetch_dest: "/tmp/fabricx/config-build/fxadmin-artifacts/config_tx.pb"
+    fxadmin_output_fetch_dest: "/tmp/chaguar/config-build/fxadmin-artifacts/config_tx.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: ledger/config_latest
 ```
 
@@ -772,15 +772,15 @@ Applies a caller-supplied jq filter to the decoded current channel configuration
 - name: Patch a decoded channel configuration
   vars:
     # Defines the local decoded current channel configuration JSON file.
-    fxadmin_current_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/current_config.json"
+    fxadmin_current_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/current_config.json"
     # Defines the values passed to `fxadmin_jq_filter`, which reads them as `$args`.
     fxadmin_jq_args: {}
     # Defines the jq filter applied to the decoded current configuration to produce the modified configuration.
     fxadmin_jq_filter: ".channel_group.groups.Orderer.values.ConsensusType.value.metadata.PartiesConfig[0].AssemblerConfig.port = $args.port"
     # Defines the local modified channel configuration JSON file produced by `patch_config_value` and consumed by `compute_update`.
-    fxadmin_modified_config_json: "/tmp/fabricx/config-build/fxadmin-artifacts/modified_config.json"
+    fxadmin_modified_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/modified_config.json"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: patch_config_value
 ```
 
@@ -794,15 +794,15 @@ Stages the ConfigUpdate, dispatches its endorsement to either the host binary or
 - name: Endorse a ConfigUpdate
   vars:
     # Defines the local ConfigUpdate protobuf file to endorse.
-    fxadmin_config_update: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_config_update: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the local directory that collects one endorsement file per required organization before merging.
-    fxadmin_endorsements_dir: "/tmp/fabricx/config-build/fxadmin-artifacts/endorsements"
+    fxadmin_endorsements_dir: "/tmp/chaguar/config-build/fxadmin-artifacts/endorsements"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: tx/endorse
 ```
 
@@ -816,13 +816,13 @@ Dispatches endorsement merging to either the host binary or a transient containe
 - name: Merge endorsements
   vars:
     # Defines the local directory that collects one endorsement file per required organization before merging.
-    fxadmin_endorsements_dir: "/tmp/fabricx/config-build/fxadmin-artifacts/endorsements"
+    fxadmin_endorsements_dir: "/tmp/chaguar/config-build/fxadmin-artifacts/endorsements"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: tx/merge
 ```
 
@@ -836,15 +836,15 @@ Stages the merged, endorsed ConfigUpdate, dispatches transaction preparation to 
 - name: Prepare a transaction
   vars:
     # Defines the local merged, endorsed ConfigUpdate envelope to prepare into a submittable transaction.
-    fxadmin_endorsed_config_update: "/tmp/fabricx/config-build/fxadmin-artifacts/merged.pb"
+    fxadmin_endorsed_config_update: "/tmp/chaguar/config-build/fxadmin-artifacts/merged.pb"
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
-    fxadmin_output: "/tmp/fabricx/config-build/fxadmin-artifacts/config_update.pb"
+    fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
     # Defines the control-node path that `fxadmin_output` is fetched back to once the command completes on a remote host.
-    fxadmin_output_fetch_dest: "/tmp/fabricx/config-build/fxadmin-artifacts/config_tx.pb"
+    fxadmin_output_fetch_dest: "/tmp/chaguar/config-build/fxadmin-artifacts/config_tx.pb"
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: tx/prepare
 ```
 
@@ -860,7 +860,7 @@ Dispatches submission of the prepared transaction to either the host binary or a
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: tx/submit
 ```
 
@@ -878,8 +878,8 @@ Removes the fxadmin binary when the host-binary workflow is selected, and the re
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxadmin
+    name: hyperledger.chaguar.fxadmin
     tasks_from: wipe
 ```

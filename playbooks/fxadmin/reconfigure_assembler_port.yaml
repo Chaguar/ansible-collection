@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Reconfigures the network-level port of one Fabric-X orderer Assembler.
+# Reconfigures the network-level port of one Chaguar orderer Assembler.
 # Does not restart the Assembler process -- afterwards set `orderer_rpc_port`
 # of <assembler_host> to the new port in the inventory, then run
 # `make <assembler_host> configs restart` to pick up the new port.
@@ -13,8 +13,8 @@
 # part. Only the orderer organizations' admins count toward the Orderer group's
 # Admins policy, so endorsements from other organizations are extra signatures.
 #
-# Prerequisites: `hyperledger.fabricx.fxadmin.binaries` and
-# `hyperledger.fabricx.fxadmin.configs` (both wired into `make setup`).
+# Prerequisites: `hyperledger.chaguar.fxadmin.binaries` and
+# `hyperledger.chaguar.fxadmin.configs` (both wired into `make setup`).
 #
 # target_hosts selects the admin hosts that take part in the reconfiguration;
 # assembler_host names the orderer Assembler whose port changes. Like fxconfig,
@@ -32,7 +32,7 @@
 #      .PartiesConfig, a second, channel-wide copy of every party's
 #      AssemblerConfig.host/port that ARMA reads directly.
 
-- name: Resolve inputs for reconfiguring a Fabric-X orderer Assembler's port
+- name: Resolve inputs for reconfiguring a Chaguar orderer Assembler's port
   hosts: localhost
   vars:
     # Only read inside this play, so plain play vars are enough. fxadmin_hosts
@@ -50,12 +50,12 @@
     - name: Fail when the required inputs are missing or invalid
       ansible.builtin.fail:
         msg: >-
-          assembler_host must name a single Assembler host in the fabric_x_orderers group,
+          assembler_host must name a single Assembler host in the chaguar_orderers group,
           and new_assembler_port must be a positive port number (e.g. make reconfigure-assembler-port
           ASSEMBLER_HOST=orderer-assembler-1 NEW_PORT=7065).
       when:
         - assembler_host is undefined
-          or assembler_host not in groups['fabric_x_orderers']
+          or assembler_host not in groups['chaguar_orderers']
           or hostvars[assembler_host].orderer_component_type | default('') != 'assembler'
           or new_assembler_port is undefined
           or new_assembler_port | int(-1) <= 0
@@ -100,7 +100,7 @@
         fxadmin_assembler_organization: "{{ hostvars[assembler_host].organization.name }}"
         fxadmin_assembler_party_id: "{{ hostvars[assembler_host].orderer_group }}"
 
-- name: Fetch the latest Fabric-X channel configuration block on the leader
+- name: Fetch the latest Chaguar channel configuration block on the leader
   hosts: "{{ target_hosts | default('all') }}"
   vars:
     fxadmin_artifacts_dir: "{{ config_build_dir }}/fxadmin-artifacts"
@@ -113,12 +113,12 @@
         fxadmin_output: "{{ fxadmin_remote_config_dir }}/config.pb"
         fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/config.pb"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: ledger/config_latest
       when:
         - hostvars['localhost'].fxadmin_hosts[0] == inventory_hostname
 
-- name: Compute the Fabric-X ConfigUpdate on the control node
+- name: Compute the Chaguar ConfigUpdate on the control node
   hosts: localhost
   vars:
     fxadmin_artifacts_dir: "{{ config_build_dir }}/fxadmin-artifacts"
@@ -129,7 +129,7 @@
         fxadmin_config_block: "{{ fxadmin_latest_block }}"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/current_config.json"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: decode
 
     # Both places that record the assembler's address are patched in the same
@@ -158,17 +158,17 @@
               if .PartyID == $args.party_id then .AssemblerConfig.port = $args.port else . end
             )
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: patch_config_value
 
-    - name: Compute the Fabric-X ConfigUpdate
+    - name: Compute the Chaguar ConfigUpdate
       vars:
         fxadmin_current_block: "{{ fxadmin_latest_block }}"
         fxadmin_current_config_json: "{{ fxadmin_artifacts_dir }}/current_config.json"
         fxadmin_modified_config_json: "{{ fxadmin_artifacts_dir }}/modified_config.json"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/config_update.pb"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: compute_update
 
 - name: Endorse the ConfigUpdate as each organization's admin
@@ -187,7 +187,7 @@
         # the merge sees one endorsement per identity.
         fxadmin_output: "{{ fxadmin_remote_config_dir }}/{{ organization.user.name }}@{{ organization.domain }}-endorsement.pb"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: tx/endorse
       when:
         - organization is defined
@@ -204,15 +204,15 @@
         fxadmin_endorsements_dir: "{{ fxadmin_artifacts_dir }}/endorsements"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/merged.pb"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.fxadmin
+        name: hyperledger.chaguar.fxadmin
         tasks_from: tx/merge
 
-- name: Prepare, submit and follow the Fabric-X ConfigUpdate on the leader
+- name: Prepare, submit and follow the Chaguar ConfigUpdate on the leader
   hosts: "{{ target_hosts | default('all') }}"
   vars:
     fxadmin_artifacts_dir: "{{ config_build_dir }}/fxadmin-artifacts"
   tasks:
-    - name: Perform submission of the Fabric-X ConfigUpdate as the leader's admin identity
+    - name: Perform submission of the Chaguar ConfigUpdate as the leader's admin identity
       when:
         - hostvars['localhost'].fxadmin_hosts[0] == inventory_hostname
       block:
@@ -222,7 +222,7 @@
             fxadmin_output: "{{ fxadmin_remote_config_dir }}/config_tx.pb"
             fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/config_tx.pb"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fxadmin
+            name: hyperledger.chaguar.fxadmin
             tasks_from: tx/prepare
 
         - name: Submit the transaction
@@ -230,7 +230,7 @@
             fxadmin_config_tx: "{{ fxadmin_remote_config_dir }}/config_tx.pb"
             fxadmin_latest_block: "{{ fxadmin_remote_config_dir }}/config.pb"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fxadmin
+            name: hyperledger.chaguar.fxadmin
             tasks_from: tx/submit
 
         - name: Follow the ledger until the new configuration commits
@@ -239,5 +239,5 @@
             fxadmin_output: "{{ fxadmin_remote_config_dir }}/next_config.pb"
             fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/next_config.pb"
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fxadmin
+            name: hyperledger.chaguar.fxadmin
             tasks_from: follow

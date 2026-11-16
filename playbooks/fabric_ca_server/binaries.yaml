@@ -42,7 +42,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fabric_ca
+            name: hyperledger.chaguar.fabric_ca
             tasks_from: server/bin/install
           when:
             - bin_hosts | length > 0
@@ -62,7 +62,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fabric_ca
+            name: hyperledger.chaguar.fabric_ca
             tasks_from: server/bin/build
           when:
             - bin_hosts | length > 0
@@ -87,5 +87,5 @@
           block:
             - name: "{{ bin_operation | capitalize }} Fabric CA server binaries on the remote nodes"
               ansible.builtin.include_role:
-                name: hyperledger.fabricx.fabric_ca
+                name: hyperledger.chaguar.fabric_ca
                 tasks_from: "server/bin/{{ bin_operation }}"

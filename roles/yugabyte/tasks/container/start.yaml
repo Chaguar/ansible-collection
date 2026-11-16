@@ -6,14 +6,14 @@
 
 - name: Start Yugabyte master DB container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/master/start
   when:
     - yugabyte_component_type == 'master'
 
 - name: Start Yugabyte Tablet Servers containers
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.yugabyte
+    name: hyperledger.chaguar.yugabyte
     tasks_from: container/tablet/start
   when:
     - yugabyte_component_type == 'tablet'

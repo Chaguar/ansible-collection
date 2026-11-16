@@ -13,12 +13,12 @@ argument_specs:
         type: path
         description:
           - "Shared base directory for generated configuration."
-          - "Example: C(/var/hyperledger/fabric-x/config/orderer/assembler-1)."
+          - "Example: C(/var/lfdt/chaguar/config/orderer/assembler-1)."
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - "Shared base directory for persisted runtime data."
-          - "Example: C(/var/hyperledger/fabric-x/data/orderer/router-1)."
+          - "Example: C(/var/lfdt/chaguar/data/orderer/router-1)."
       actual_host: &actual_host
         type: str
         required: true
@@ -34,30 +34,30 @@ argument_specs:
         type: str
         description:
           - "Channel identifier used to derive the genesis block filename."
-          - "Example: C(fabricx-channel)."
+          - "Example: C(chaguar-channel)."
       configtxgen_artifacts_dir: &configtxgen_artifacts_dir
         type: path
         required: true
         description:
           - "Control-node directory containing configtxgen artifacts."
-          - "Example: C(/tmp/fabric-x/artifacts/configtxgen)."
+          - "Example: C(/tmp/chaguar/artifacts/configtxgen)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - "Control-node directory containing fetched crypto artifacts."
-          - "Example: C(/tmp/fabric-x/artifacts/fetched)."
+          - "Example: C(/tmp/chaguar/artifacts/fetched)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         required: true
         description:
           - "Control-node directory containing cryptogen-generated crypto artifacts."
-          - "Example: C(/tmp/fabric-x/artifacts/cryptogen)."
+          - "Example: C(/tmp/chaguar/artifacts/cryptogen)."
       k8s_namespace: &k8s_namespace
         type: str
         description:
           - "Kubernetes namespace used for orderer resources."
-          - "Example: C(fabricx-orderer)."
+          - "Example: C(chaguar-orderer)."
       k8s_storage_size: &k8s_storage_size
         type: str
         required: true
@@ -135,7 +135,7 @@ argument_specs:
           - "Base name used for the orderer Kubernetes objects, including the optional NodePort Service."
       orderer_k8s_part_of: &orderer_k8s_part_of
         type: str
-        default: "fabric-x-orderer-{{ organization.name }}"
+        default: "chaguar-orderer-{{ organization.name }}"
         description:
           - "Value for the Kubernetes C(app.kubernetes.io/part-of) label applied to orderer resources."
       orderer_k8s_wait_timeout: &orderer_k8s_wait_timeout
@@ -962,7 +962,7 @@ argument_specs:
   config/transfer_grafana_dashboard:
     short_description: Copy the orderer Grafana dashboard
     description:
-      - "Publishes the bundled Fabric-X Orderer Grafana dashboard through the grafana role."
+      - "Publishes the bundled Chaguar Orderer Grafana dashboard through the grafana role."
       - "The dashboard consumes Prometheus scrape targets produced for consenter, batcher, assembler, and router metrics endpoints."
     options: {}
 

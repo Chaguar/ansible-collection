@@ -6,14 +6,14 @@
 
 - name: Submit transactions with fxconfig binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/submit
   when:
     - fxconfig_use_bin
 
 - name: Submit transactions with fxconfig container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/submit
   when:
     - not fxconfig_use_bin

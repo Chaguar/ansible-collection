@@ -13,17 +13,17 @@ argument_specs:
         type: path
         description:
           - "Sets the base directory on the control node for C(bin_control_source_code_dir) and C(bin_control_dir)."
-          - "Example: C(/opt/fabricx/control)."
+          - "Example: C(/opt/chaguar/control)."
       remote_node_dir: &remote_node_dir
         type: path
         description:
           - "Sets the base directory on the managed host for C(bin_remote_source_code_dir), C(bin_remote_dir), and C(bin_remote_logs_dir)."
-          - "Example: C(/var/lib/fabricx)."
+          - "Example: C(/var/lib/chaguar)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:
           - "Sets the local directory for C(bin_fetched_logs_dir)."
-          - "Example: C(/tmp/fabricx/artifacts)."
+          - "Example: C(/tmp/chaguar/artifacts)."
       bin_build_on_control_node: &bin_build_on_control_node
         type: bool
         default: false
@@ -110,7 +110,7 @@ argument_specs:
         required: true
         description:
           - "Defines the command to execute, relative to C(bin_remote_dir) when that directory is set."
-          - "Example: C(orderer --config /etc/fabricx/orderer.yaml)."
+          - "Example: C(orderer --config /etc/chaguar/orderer.yaml)."
       bin_env: &bin_env
         type: dict
         default: {}

@@ -1,8 +1,8 @@
-# Fabric-X Ansible Tutorial
+# Chaguar Ansible Tutorial
 
-Welcome. This tutorial teaches you how to run and reshape a Hyperledger Fabric-X network with the `hyperledger.fabricx` Ansible collection, one step at a time.
+Welcome. This tutorial teaches you how to run and reshape a LFDT Chaguar network with the `hyperledger.chaguar` Ansible collection, one step at a time.
 
-The rest of the documentation in this repository is **reference material**: it tells you what every role, playbook, and inventory variable does. This tutorial is different. It is a **learning path**. It starts with no assumptions about Fabric-X, gets a real network running on your laptop, and ends with you writing your own inventory from scratch.
+The rest of the documentation in this repository is **reference material**: it tells you what every role, playbook, and inventory variable does. This tutorial is different. It is a **learning path**. It starts with no assumptions about Chaguar, gets a real network running on your laptop, and ends with you writing your own inventory from scratch.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -18,20 +18,20 @@ The rest of the documentation in this repository is **reference material**: it t
 
 You are the right reader if:
 
-- You are **new to Fabric-X**. Every Fabric-X concept is explained before it is used. Prior Hyperledger Fabric experience helps but is not required.
+- You are **new to Chaguar**. Every Chaguar concept is explained before it is used. Prior Hyperledger Fabric experience helps but is not required.
 - You are **comfortable with basic Ansible**. You should be able to read an inventory file, recognise a group and a group variable, and understand what `ansible-playbook` does. You do not need to know how to write roles.
 - You want to **actually run something**, not just read about it.
 
 > [!NOTE]
-> If you already know Fabric-X and only want the variable reference, skip this tutorial and go to the [Inventory Guide](../../examples/inventory/README.md), the [playbooks documentation](../../playbooks/README.md), and the [roles documentation](../../roles/README.md).
+> If you already know Chaguar and only want the variable reference, skip this tutorial and go to the [Inventory Guide](../../examples/inventory/README.md), the [playbooks documentation](../../playbooks/README.md), and the [roles documentation](../../roles/README.md).
 
 ## What You Will Build
 
 By the end of the tutorial you will have:
 
-- A complete Fabric-X network running on a single machine: Fabric CA services issuing identities, four orderer groups producing blocks, a PostgreSQL-backed committer validating and storing state, a load generator pushing transactions, and a full monitoring stack.
+- A complete Chaguar network running on a single machine: Fabric CA services issuing identities, four orderer groups producing blocks, a PostgreSQL-backed committer validating and storing state, a load generator pushing transactions, and a full monitoring stack.
 - Grafana dashboards showing your own network's throughput, and a Block Explorer browsing your own blocks.
-- An Ethereum JSON-RPC endpoint, backed by Fabric-X, that Hardhat and Foundry can talk to.
+- An Ethereum JSON-RPC endpoint, backed by Chaguar, that Hardhat and Foundry can talk to.
 - A hand-written inventory of your own design that the collection can deploy.
 
 ## Before You Start
@@ -54,9 +54,9 @@ Lessons build on each other. Work through them in order the first time.
 
 | Lesson | Title                                                                      | Time      | What you take away                                                       |
 | ------ | -------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------ |
-| 1      | [Fabric-X in 10 Minutes](./01-fabric-x-in-10-minutes.md)                   | 10 min    | The vocabulary: what the orderer and committer are split into, and why   |
+| 1      | [Chaguar in 10 Minutes](./01-chaguar-in-10-minutes.md)                     | 10 min    | The vocabulary: what the orderer and committer are split into, and why   |
 | 2      | [Prepare Your Control Node](./02-prepare-your-control-node.md)             | 15 min    | A working control node and an understanding of `make help`               |
-| 3      | [Run Your First Network](./03-run-your-first-network.md)                   | 30 min    | A live Fabric-X network, and what `setup`, `start`, and `init` each do   |
+| 3      | [Run Your First Network](./03-run-your-first-network.md)                   | 30 min    | A live Chaguar network, and what `setup`, `start`, and `init` each do    |
 | 4      | [Observe the Network](./04-observe-the-network.md)                         | 20 min    | Grafana, Prometheus, Loki, Block Explorer, and how to change the load    |
 | 5      | [Read the Inventory](./05-read-the-inventory.md)                           | 25 min    | How to read any inventory in this repository and know what it deploys    |
 | 6      | [Target Hosts and the Lifecycle](./06-target-hosts-and-lifecycle.md)       | 20 min    | Operating one group, or one host, instead of the whole network           |
@@ -119,6 +119,6 @@ Ready? Begin with the concepts — no installation required yet.
 
 ## Next
 
-| Previous | Next                                                        |
-| -------- | ----------------------------------------------------------- |
-| —        | [1. Fabric-X in 10 Minutes](./01-fabric-x-in-10-minutes.md) |
+| Previous | Next                                                      |
+| -------- | --------------------------------------------------------- |
+| —        | [1. Chaguar in 10 Minutes](./01-chaguar-in-10-minutes.md) |

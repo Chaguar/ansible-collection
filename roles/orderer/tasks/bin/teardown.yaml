@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Stop Fabric-X Orderer binary
+- name: Stop Chaguar Orderer binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: bin/stop
 
-- name: Remove Fabric-X Orderer data
+- name: Remove Chaguar Orderer data
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: data/rm

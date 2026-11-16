@@ -71,5 +71,5 @@
       name: "{{ organization.peer.name }}"
       secret: "{{ organization.peer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: client/enroll

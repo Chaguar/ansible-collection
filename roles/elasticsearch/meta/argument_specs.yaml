@@ -16,25 +16,25 @@ argument_specs:
         type: path
         description:
           - Shared remote configuration directory consumed by C(elasticsearch_remote_config_dir).
-          - "Example: C(/opt/fabricx/elasticsearch/config)."
+          - "Example: C(/opt/chaguar/elasticsearch/config)."
           - Required when relying on the default of that option.
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - Shared remote data directory consumed by C(elasticsearch_remote_data_dir).
-          - "Example: C(/opt/fabricx/elasticsearch/data)."
+          - "Example: C(/opt/chaguar/elasticsearch/data)."
           - Required when relying on the default of that option.
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - Control-node directory where fetched ElasticSearch artifacts such as TLS certificates and log bundles are written.
-          - "Example: C(/tmp/fabricx/elasticsearch-artifacts)."
+          - "Example: C(/tmp/chaguar/elasticsearch-artifacts)."
       k8s_namespace: &k8s_namespace
         type: str
         description:
           - Kubernetes namespace used for ElasticSearch resources.
-          - "Example: C(fabricx-elasticsearch)."
+          - "Example: C(chaguar-elasticsearch)."
       k8s_image_pull_secret: &k8s_image_pull_secret
         type: str
         description:
@@ -104,7 +104,7 @@ argument_specs:
         type: dict
         description:
           - Optionally provides organization metadata used to derive the TLS certificate organization name.
-          - "Example: C({'domain': 'observability.example.com', 'common_name': 'elasticsearch-0.observability.example.com', 'organization_name': 'Hyperledger Fabric-X'})."
+          - "Example: C({'domain': 'observability.example.com', 'common_name': 'elasticsearch-0.observability.example.com', 'organization_name': 'LFDT Chaguar'})."
       elasticsearch_registry_endpoint: &elasticsearch_registry_endpoint
         type: str
         default: "{{ lookup('env', 'ELASTICSEARCH_REGISTRY_ENDPOINT') or 'docker.io/library' }}"

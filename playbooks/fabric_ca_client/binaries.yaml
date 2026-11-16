@@ -58,7 +58,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fabric_ca
+            name: hyperledger.chaguar.fabric_ca
             tasks_from: client/bin/install
           when:
             - bin_hosts | length > 0
@@ -78,7 +78,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.fabric_ca
+            name: hyperledger.chaguar.fabric_ca
             tasks_from: client/bin/build
           when:
             - bin_hosts | length > 0
@@ -103,13 +103,13 @@
           block:
             - name: "{{ bin_operation | capitalize }} Fabric CA client on the Fabric CA server remote hosts"
               ansible.builtin.include_role:
-                name: hyperledger.fabricx.fabric_ca
+                name: hyperledger.chaguar.fabric_ca
                 tasks_from: "client/bin/{{ bin_operation }}"
               when:
                 - fabric_ca_port is defined
             - name: "{{ bin_operation | capitalize }} Fabric CA client on the remote hosts requiring Fabric CA"
               ansible.builtin.include_role:
-                name: hyperledger.fabricx.fabric_ca
+                name: hyperledger.chaguar.fabric_ca
                 tasks_from: "client/bin/{{ bin_operation }}"
               when:
                 - organization is defined

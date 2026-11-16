@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Stop the Fabric-X EVM gateway
-  hosts: "{{ target_hosts | default('fabric_x_evm') }}:&fabric_x_evm"
+- name: Stop the Chaguar EVM gateway
+  hosts: "{{ target_hosts | default('chaguar_evm') }}:&chaguar_evm"
   tasks:
-    - name: Stop the Fabric-X EVM gateway
+    - name: Stop the Chaguar EVM gateway
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.evm
+        name: hyperledger.chaguar.evm
         tasks_from: stop

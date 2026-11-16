@@ -6,6 +6,6 @@
 
 - name: Remove Fabric CA Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: server/k8s/crypto/rm
   when: fabric_ca_server_use_k8s or fabric_ca_server_use_openshift

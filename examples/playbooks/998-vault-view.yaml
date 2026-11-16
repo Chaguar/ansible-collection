@@ -7,7 +7,7 @@
 # Ansible only decrypts a Vault-protected value when a task or template
 # actually reads it; `ansible-inventory` leaves it wrapped and encrypted, and
 # `ansible-vault view` only works on a whole-file-encrypted file, not on an
-# inventory with inline `!vault` blocks like fabric-x-vault.yaml. Reading a
+# inventory with inline `!vault` blocks like chaguar-vault.yaml. Reading a
 # host's variables through this play's Jinja templating is what forces the
 # decryption, so the values printed below are the real, decrypted ones.
 

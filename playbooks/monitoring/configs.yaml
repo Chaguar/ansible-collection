@@ -12,7 +12,7 @@
     # =========================
     - name: Transfer the Node Exporter configuration files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.node_exporter
+        name: hyperledger.chaguar.node_exporter
         tasks_from: config/transfer
       when:
         - node_exporter_port is defined
@@ -21,7 +21,7 @@
     # =========================
     - name: Transfer the Postgres Exporter configuration files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.postgres_exporter
+        name: hyperledger.chaguar.postgres_exporter
         tasks_from: config/transfer
       when:
         - postgres_exporter_port is defined
@@ -33,13 +33,13 @@
         - prometheus_port is defined
       block:
         # =========================
-        # HLFX Orderer metrics
+        # Chaguar Orderer metrics
         # =========================
-        - name: Add Prometheus scrape services for Fabric-X Orderer
+        - name: Add Prometheus scrape services for Chaguar Orderer
           vars:
             orderer_hosts: >-
               {{
-                groups['fabric_x_orderers']
+                groups['chaguar_orderers']
                 | map('extract', hostvars)
                 | selectattr('orderer_component_type', 'defined')
                 | selectattr('organization.domain', 'defined')
@@ -48,11 +48,11 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.orderer
+            name: hyperledger.chaguar.orderer
             tasks_from: prometheus/get_scrapers
           loop: >-
             {{
-              groups['fabric_x_orderers']
+              groups['chaguar_orderers']
               | map('extract', hostvars)
               | selectattr('orderer_component_type', 'defined')
               | selectattr('organization.domain', 'defined')
@@ -63,16 +63,16 @@
           loop_control:
             loop_var: current_orderer_organization_domain
           when:
-            - "'fabric_x_orderers' in groups"
+            - "'chaguar_orderers' in groups"
             - orderer_hosts | length > 0
         # =========================
-        # HLFX Committer metrics
+        # Chaguar Committer metrics
         # =========================
-        - name: Add Prometheus scrape services for Fabric-X Committer
+        - name: Add Prometheus scrape services for Chaguar Committer
           vars:
             committer_hosts: >-
               {{
-                groups['fabric_x_committers']
+                groups['chaguar_committers']
                 | map('extract', hostvars)
                 | selectattr('committer_component_type', 'defined')
                 | selectattr('organization.domain', 'defined')
@@ -81,11 +81,11 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.committer
+            name: hyperledger.chaguar.committer
             tasks_from: prometheus/get_scrapers
           loop: >-
             {{
-              groups['fabric_x_committers']
+              groups['chaguar_committers']
               | map('extract', hostvars)
               | selectattr('committer_component_type', 'defined')
               | selectattr('organization.domain', 'defined')
@@ -96,12 +96,12 @@
           loop_control:
             loop_var: current_committer_organization_domain
           when:
-            - "'fabric_x_committers' in groups"
+            - "'chaguar_committers' in groups"
             - committer_hosts | length > 0
         # =========================
-        # HLFX Loadgen metrics
+        # Chaguar Loadgen metrics
         # =========================
-        - name: Add Prometheus scrape services for Fabric-X Loadgen
+        - name: Add Prometheus scrape services for Chaguar Loadgen
           vars:
             loadgen_hosts: >-
               {{
@@ -113,7 +113,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.loadgen
+            name: hyperledger.chaguar.loadgen
             tasks_from: prometheus/get_scrapers
           loop: >-
             {{
@@ -143,7 +143,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.yugabyte
+            name: hyperledger.chaguar.yugabyte
             tasks_from: prometheus/get_scrapers
           when:
             - yugabyte_hosts | length > 0
@@ -161,7 +161,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.postgres_exporter
+            name: hyperledger.chaguar.postgres_exporter
             tasks_from: prometheus/get_scrapers
           when:
             - postgres_exporter_hosts | length > 0
@@ -179,7 +179,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.node_exporter
+            name: hyperledger.chaguar.node_exporter
             tasks_from: prometheus/get_scrapers
           when:
             - node_exporter_hosts | length > 0
@@ -197,7 +197,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.cadvisor
+            name: hyperledger.chaguar.cadvisor
             tasks_from: prometheus/get_scrapers
           when:
             - cadvisor_hosts | length > 0
@@ -214,14 +214,14 @@
                 + (cadvisor_prometheus_scrape_services | default([]))
               }}
           ansible.builtin.include_role:
-            name: hyperledger.fabricx.prometheus
+            name: hyperledger.chaguar.prometheus
             tasks_from: config/transfer
     # =========================
     # Loki
     # =========================
     - name: Transfer Loki configuration files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.loki
+        name: hyperledger.chaguar.loki
         tasks_from: config/transfer
       when:
         - loki_port is defined
@@ -231,7 +231,7 @@
     # Transfer Alloy configuration — all application hosts
     - name: Transfer Grafana Alloy configuration files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.alloy
+        name: hyperledger.chaguar.alloy
         tasks_from: config/transfer
       when:
         - alloy_port is defined
@@ -240,7 +240,7 @@
     # =========================
     - name: Transfer the Node Exporter Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.node_exporter
+        name: hyperledger.chaguar.node_exporter
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
@@ -249,27 +249,27 @@
           | selectattr('node_exporter_port', 'defined')
           | list
           | length > 0
-    - name: Transfer the Fabric-X Committer Grafana Dashboard
+    - name: Transfer the Chaguar Committer Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
-        - groups['fabric_x_committers']
+        - groups['chaguar_committers']
           | default([])
           | length > 0
-    - name: Transfer the Fabric-X Orderer Grafana Dashboard
+    - name: Transfer the Chaguar Orderer Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.orderer
+        name: hyperledger.chaguar.orderer
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
-        - groups['fabric_x_orderers']
+        - groups['chaguar_orderers']
           | default([])
           | length > 0
     - name: Transfer the Postgres Exporter Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.postgres_exporter
+        name: hyperledger.chaguar.postgres_exporter
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
@@ -280,7 +280,7 @@
           | length > 0
     - name: Transfer the cAdvisor Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.cadvisor
+        name: hyperledger.chaguar.cadvisor
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
@@ -291,7 +291,7 @@
           | length > 0
     - name: Transfer the Yugabyte Grafana Dashboard
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: config/transfer_grafana_dashboard
       when:
         - grafana_web_port is defined
@@ -302,7 +302,7 @@
           | length > 0
     - name: Transfer the Grafana config files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.grafana
+        name: hyperledger.chaguar.grafana
         tasks_from: config/transfer
       when:
         - grafana_web_port is defined
@@ -311,7 +311,7 @@
     # =========================
     - name: Transfer the Jaeger config files
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.jaeger
+        name: hyperledger.chaguar.jaeger
         tasks_from: config/transfer
       when:
         - jaeger_collector_port is defined

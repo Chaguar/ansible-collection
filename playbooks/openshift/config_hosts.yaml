@@ -9,5 +9,5 @@
   tasks:
     - name: Configure hosts entries for OpenShift routes
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.openshift
+        name: hyperledger.chaguar.openshift
         tasks_from: route/setup_hosts

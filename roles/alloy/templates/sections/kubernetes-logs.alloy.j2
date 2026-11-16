@@ -55,7 +55,7 @@ discovery.relabel "pod_labels" {
   }
 
   // Emit one boolean label per inventory group the pod belongs to, so logs can be
-  // filtered by topology, e.g. {fabric_x_orderers="true"}. One rule per group; the regex
+  // filtered by topology, e.g. {chaguar_orderers="true"}. One rule per group; the regex
   // matches the app.kubernetes.io/name label (= inventory hostname) of that group's members.
 {% for group_name in groups | sort %}
 {% if groups[group_name] | length > 0 %}

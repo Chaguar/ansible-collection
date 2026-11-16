@@ -6,6 +6,6 @@
 
 - name: Stop Loki container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: container/stop
   when: loki_use_container

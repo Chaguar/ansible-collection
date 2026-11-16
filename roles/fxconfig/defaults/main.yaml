@@ -22,9 +22,9 @@ fxconfig_container_config_dir: /config
 fxconfig_container_name: fxconfig-{{ inventory_hostname }}
 # Selects the Git ref used by build and install workflows.
 fxconfig_git_commit: v1.0.3
-# Defines the Git host used to resolve the Fabric-X source repository.
+# Defines the Git host used to resolve the Chaguar source repository.
 fxconfig_git_hub_url: github.com
-# Defines the Fabric-X source repository path.
+# Defines the Chaguar source repository path.
 fxconfig_git_repo: hyperledger/fabric-x
 # Defines the fxconfig container image.
 fxconfig_image: "{{ fxconfig_registry_endpoint }}/{{ fxconfig_image_name }}:{{ fxconfig_image_tag }}"

@@ -6,15 +6,15 @@
 
 - name: Teardown Alloy
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: teardown
 
 - name: Remove Alloy crypto files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: crypto/rm
 
 - name: Remove Alloy configuration files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.alloy
+    name: hyperledger.chaguar.alloy
     tasks_from: config/rm

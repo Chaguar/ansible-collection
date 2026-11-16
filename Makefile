@@ -91,7 +91,7 @@ help:
 # Guard against running install from within the Galaxy install destination (e.g. a worktree).
 .PHONY: check-install-path
 check-install-path:
-	@DEST=$$(echo "$${ANSIBLE_COLLECTIONS_PATH:-$(HOME)/.ansible/collections}" | cut -d: -f1)/ansible_collections/hyperledger/fabricx; \
+	@DEST=$$(echo "$${ANSIBLE_COLLECTIONS_PATH:-$(HOME)/.ansible/collections}" | cut -d: -f1)/ansible_collections/hyperledger/chaguar; \
 	REALPATH_DEST=$$(realpath "$$DEST" 2>/dev/null); \
 	REALPATH_PROJ=$$(realpath $(PROJECT_DIR)); \
 	if [ -n "$$REALPATH_DEST" ]; then \
@@ -102,13 +102,13 @@ check-install-path:
 	  esac; \
 	fi
 
-# Install the hyperledger.fabricx Ansible collection locally
+# Install the hyperledger.chaguar Ansible collection locally
 .PHONY: install
 install: check-install-path install-deps
-	@printf "$(COLOR_CYAN)🚩 Building and installing hyperledger.fabricx collection...$(COLOR_RESET)\n"
+	@printf "$(COLOR_CYAN)🚩 Building and installing hyperledger.chaguar collection...$(COLOR_RESET)\n"
 	$(ANSIBLE_GALAXY) collection build -f
-	$(ANSIBLE_GALAXY) collection install $$(ls -1 | grep fabricx) -f
-	@rm -f $$(ls -1 | grep fabricx)
+	$(ANSIBLE_GALAXY) collection install $$(ls -1 | grep chaguar) -f
+	@rm -f $$(ls -1 | grep chaguar)
 
 # Install the dependencies needed to run this collection (e.g. make install-deps).
 .PHONY: install-deps
@@ -136,7 +136,7 @@ install-ansible-deps:
 .PHONY: install-remote-node-deps
 install-remote-node-deps:
 	@printf "$(COLOR_CYAN)🚩 Installing prerequisites on remote hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.install_prerequisites --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.install_prerequisites --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Check the linting correctness (e.g. make lint)
 .PHONY: lint
@@ -204,19 +204,19 @@ check-argument-specs:
 .PHONY: login-cr
 login-cr:
 	@printf "$(COLOR_CYAN)🚩 Logging into container registry [$(COLOR_GREEN)$(CONTAINER_REGISTRY)$(COLOR_CYAN)] for hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.log_in_container_registry --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "container_registry": "$(CONTAINER_REGISTRY)", "container_registry_username": "$(CONTAINER_REGISTRY_USERNAME)", "container_registry_password": "$(CONTAINER_REGISTRY_PASSWORD)"}'
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "container_registry": "$(CONTAINER_REGISTRY)", "container_registry_username": "$(CONTAINER_REGISTRY_USERNAME)", "container_registry_password": "$(CONTAINER_REGISTRY_PASSWORD)"}'
 
 # Login to managed OpenShift using personal token.
 .PHONY: login-oc
 login-oc:
 	@printf "$(COLOR_CYAN)🚩 Logging in to OpenShift cluster...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.openshift.login
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.openshift.login
 
 # Configure local hosts entries for OpenShift routes (e.g. CRC apps-crc.testing).
 .PHONY: oc-config-hosts
 oc-config-hosts:
 	@printf "$(COLOR_CYAN)🚩 Configuring local hosts entries for OpenShift routes...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.openshift.config_hosts --ask-become-pass
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.openshift.config_hosts --ask-become-pass
 
 # Build all the artifacts, the binaries and configuration files (e.g. make setup).
 .PHONY: setup
@@ -262,13 +262,13 @@ clean-mkdocs:
 	@printf "$(COLOR_CYAN)🚩 Cleaning mkDocs artifacts...$(COLOR_RESET)\n"
 	rm -rf site docs/mkdocs
 
-# Create/Ship the configs to the remote nodes (e.g. make fabric_x configs).
+# Create/Ship the configs to the remote nodes (e.g. make chaguar configs).
 .PHONY: configs
 configs:
 	@printf "$(COLOR_CYAN)🚩 Creating and shipping configs to remote nodes [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/30-configs.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Start the targeted hosts (e.g. make fabric_x start).
+# Start the targeted hosts (e.g. make chaguar start).
 .PHONY: start
 start:
 	@printf "$(COLOR_CYAN)🚩 Starting hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
@@ -280,37 +280,37 @@ init:
 	@printf "$(COLOR_CYAN)🚩 Initializing [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/41-init.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Stop the targeted hosts (e.g. make fabric_x stop).
+# Stop the targeted hosts (e.g. make chaguar stop).
 .PHONY: stop
 stop:
 	@printf "$(COLOR_CYAN)🚩 Stopping hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/50-stop.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Teardown the targeted hosts (e.g. make fabric_x teardown).
+# Teardown the targeted hosts (e.g. make chaguar teardown).
 .PHONY: teardown
 teardown:
 	@printf "$(COLOR_CYAN)🚩 Tearing down hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/60-teardown.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Update the targeted hosts (e.g. make fabric_x update).
+# Update the targeted hosts (e.g. make chaguar update).
 .PHONY: update
 update: stop binaries start
 
-# Restart the targeted hosts (e.g. make fabric_x restart).
+# Restart the targeted hosts (e.g. make chaguar restart).
 .PHONY: restart
 restart: stop start
 
-# Hard restart the targeted hosts by deleting runtime generated data (e.g. make fabric_x hard-restart).
+# Hard restart the targeted hosts by deleting runtime generated data (e.g. make chaguar hard-restart).
 .PHONY: hard-restart
 hard-restart: teardown start
 
-# Wipe out the config artifacts and the binaries from the remote hosts (e.g. make fabric_x wipe).
+# Wipe out the config artifacts and the binaries from the remote hosts (e.g. make chaguar wipe).
 .PHONY: wipe
 wipe:
 	@printf "$(COLOR_CYAN)🚩 Wiping configs and binaries from remote hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/100-wipe.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Wipe the deploy folder from the remote hosts (e.g. make fabric_x hard-wipe).
+# Wipe the deploy folder from the remote hosts (e.g. make chaguar hard-wipe).
 .PHONY: hard-wipe
 hard-wipe:
 	@printf "$(COLOR_CYAN)🚩 Wiping deploy folder from remote hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
@@ -324,7 +324,7 @@ hard-wipe:
 .PHONY: targets
 targets:
 	@printf "$(COLOR_CYAN)🚩 Generating Makefile targets for all inventory hosts...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "hyperledger.fabricx.generate_target_hosts"
+	$(ANSIBLE_PLAYBOOK) "hyperledger.chaguar.generate_target_hosts"
 
 # Run a generic command on the targeted hosts (e.g. make run-command COMMAND="echo 'hello-world'")
 .PHONY: run-command
@@ -332,7 +332,7 @@ run-command:
 	@printf "$(COLOR_CYAN)🚩 Running command on hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]: $(COLOR_RESET)$(COMMAND)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/999-run-command.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "command": "$(COMMAND)"}'
 
-# Ping the targeted host to check whether is reachable (e.g. make fabric_x ping).
+# Ping the targeted host to check whether is reachable (e.g. make chaguar ping).
 .PHONY: ping
 ping:
 	@printf "$(COLOR_CYAN)🚩 Checking component ports on hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
@@ -356,13 +356,13 @@ get-metrics:
 	@printf "$(COLOR_CYAN)🚩 Collecting metrics from hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/93-get-metrics.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "assert_metrics": "$(ASSERT_METRICS)"}'
 
-# Fetch the logs from the targeted hosts (e.g. make fabric_x fetch-logs).
+# Fetch the logs from the targeted hosts (e.g. make chaguar fetch-logs).
 .PHONY: fetch-logs
 fetch-logs:
 	@printf "$(COLOR_CYAN)🚩 Fetching logs from hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
 	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/96-fetch-logs.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
-# Fetch the crypto material from the targeted hosts (e.g. make fabric_x fetch-crypto).
+# Fetch the crypto material from the targeted hosts (e.g. make chaguar fetch-crypto).
 .PHONY: fetch-crypto
 fetch-crypto:
 	@printf "$(COLOR_CYAN)🚩 Fetching crypto material from hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
@@ -372,16 +372,16 @@ fetch-crypto:
 .PHONY: limit-rate
 limit-rate:
 	@printf "$(COLOR_CYAN)🚩 Setting TPS rate limit to $(COLOR_GREEN)$(LIMIT)$(COLOR_CYAN)...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.loadgen.limit_rate --extra-vars '{"loadgen_limit_rate": "$(LIMIT)"}';
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.loadgen.limit_rate --extra-vars '{"loadgen_limit_rate": "$(LIMIT)"}';
 
 # Benchmark the volume performance on targeted hosts and verify they meet the 1 GB/s sequential write threshold (e.g. make benchmark-volume TARGET_HOSTS=all).
 .PHONY: benchmark-volume
 benchmark-volume:
 	@printf "$(COLOR_CYAN)🚩 Benchmarking volume performance on hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.benchmark_volume --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.benchmark_volume --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Change an orderer Assembler's port at the network-config level only; afterwards set `orderer_rpc_port` of <assembler_host> to NEW_PORT in the inventory and run `make <assembler_host> configs restart` to apply it (e.g. make reconfigure-assembler-port ASSEMBLER_HOST=orderer-assembler-1 NEW_PORT=7065). TARGET_HOSTS selects the admin hosts that take part (default: all).
 .PHONY: reconfigure-assembler-port
 reconfigure-assembler-port:
 	@printf "$(COLOR_CYAN)🚩 Reconfiguring the port of Assembler [$(COLOR_GREEN)$(ASSEMBLER_HOST)$(COLOR_CYAN)] to $(COLOR_GREEN)$(NEW_PORT)$(COLOR_CYAN)...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.fabricx.fxadmin.reconfigure_assembler_port --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "assembler_host": "$(ASSEMBLER_HOST)", "new_assembler_port": "$(NEW_PORT)"}'
+	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.fxadmin.reconfigure_assembler_port --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "assembler_host": "$(ASSEMBLER_HOST)", "new_assembler_port": "$(NEW_PORT)"}'

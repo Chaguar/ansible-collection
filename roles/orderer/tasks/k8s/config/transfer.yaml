@@ -7,15 +7,15 @@
 # =========================
 # Namespace
 # =========================
-- name: Ensure Kubernetes namespace exists for Fabric-X Orderer
+- name: Ensure Kubernetes namespace exists for Chaguar Orderer
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.k8s
+    name: hyperledger.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================
 # Genesis block
 # =========================
-- name: Slurp Fabric-X Orderer genesis block
+- name: Slurp Chaguar Orderer genesis block
   ansible.builtin.slurp:
     src: "{{ orderer_remote_config_dir }}/genesis.block"
   register: orderer_slurp_genesis
@@ -23,7 +23,7 @@
 # =========================
 # Apply ConfigMap
 # =========================
-- name: Apply Fabric-X Orderer ConfigMap
+- name: Apply Chaguar Orderer ConfigMap
   vars:
     orderer_k8s_genesis_block_b64: "{{ orderer_slurp_genesis.content }}"
   kubernetes.core.k8s:

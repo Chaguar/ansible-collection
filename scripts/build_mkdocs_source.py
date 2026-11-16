@@ -15,7 +15,7 @@ from urllib.parse import quote, urlsplit
 
 # GitHub URLs produced for links that point to repository files we do not copy
 # into the MkDocs source tree.
-REPO_URL = "https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection"
+REPO_URL = "https://github.com/Chaguar/ansible-collection"
 GITHUB_BRANCH = "main"
 
 # Generated MkDocs input directory. This path is intentionally ignored by git
@@ -26,7 +26,7 @@ DOCS_ROOT = Path("docs") / "mkdocs"
 
 # Matches normal Markdown links and images, for example:
 #   [Roles](./roles/README.md)
-#   ![Network](./examples/images/fabric-x.drawio.png)
+#   ![Network](./examples/images/chaguar.drawio.png)
 MARKDOWN_LINK_RE = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)(\))")
 
 # Matches links that wrap an image, for example:

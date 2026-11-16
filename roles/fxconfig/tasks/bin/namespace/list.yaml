@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: List Hyperledger Fabric-X Committer namespaces
+- name: List LFDT Chaguar Committer namespaces
   vars:
     bin_env:
       FXCONFIG_LOGGING_LEVEL: "{{ fxconfig_log_level }}"
@@ -16,10 +16,10 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start
 
-- name: Print retrieved Fabric-X namespaces
+- name: Print retrieved Chaguar namespaces
   ansible.builtin.debug:
     msg: "{{ bin_output.stdout_lines }}"
   when:

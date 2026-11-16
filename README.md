@@ -1,17 +1,17 @@
-# Hyperledger Fabric-X Ansible Collection
+# LFDT Chaguar Ansible Collection
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://lf-decentralized-trust-labs.github.io/fabric-x-ansible-collection/) ![Tests](https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection/actions/workflows/test.yaml/badge.svg) ![Lint](https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection/actions/workflows/lint.yaml/badge.svg) ![Publish](https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection/actions/workflows/publish.yaml/badge.svg) [![Galaxy Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fhyperledger%2Ffabricx%2F&query=%24.download_count&label=Galaxy%20Downloads&logo=ansible&color=blue)](https://galaxy.ansible.com/ui/repo/published/hyperledger/fabricx/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://chaguar.github.io/ansible-collection/) ![Tests](https://github.com/Chaguar/ansible-collection/actions/workflows/test.yaml/badge.svg) ![Lint](https://github.com/Chaguar/ansible-collection/actions/workflows/lint.yaml/badge.svg) ![Publish](https://github.com/Chaguar/ansible-collection/actions/workflows/publish.yaml/badge.svg) [![Galaxy Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fhyperledger%2Fchaguar%2F&query=%24.download_count&label=Galaxy%20Downloads&logo=ansible&color=blue)](https://galaxy.ansible.com/ui/repo/published/hyperledger/chaguar/)
 
 <p align="center">
-  <img src="./examples/images/fabric-x-ansible-collection-logo.png" alt="Hyperledger Fabric-X Ansible Collection" width="240">
+  <img src="./examples/images/chaguar-ansible-collection-logo.png" alt="LFDT Chaguar Ansible Collection" width="240">
 </p>
 
-Hyperledger Fabric-X is an open source project that builds on top of Hyperledger Fabric and is tailored specifically for digital asset use cases. Fabric-X builds on the core principles of Hyperledger Fabric (_sovereign_, _horizontally scalable smart contract execution_ and a _modular_, _agile_ architecture), making it well-suited to meet the governance and compliance needs of regulated digital assets.
+LFDT Chaguar is an open source permissioned ledger built for performance at scale. It builds on the core principles of Hyperledger Fabric (_sovereign_, _horizontally scalable smart contract execution_ and a _modular_, _agile_ architecture) and is tailored for digital asset use cases, making it well-suited to meet the governance and compliance needs of regulated digital assets.
 
-This repository contains the `hyperledger.fabricx` Ansible collection, which can be used to deploy a Hyperledger Fabric-X network locally, on Kubernetes, or across multiple nodes.
+This repository contains the `hyperledger.chaguar` Ansible collection, which can be used to deploy an LFDT Chaguar network locally, on Kubernetes, or across multiple nodes.
 
 > [!TIP]
-> New to Fabric-X? Start with the [**Tutorial**](./docs/tutorial/index.md) — a twelve-lesson learning path that takes you from the core concepts to a running network, and on to writing your own inventory. The rest of this README is reference material.
+> New to Chaguar? Start with the [**Tutorial**](./docs/tutorial/index.md) — a twelve-lesson learning path that takes you from the core concepts to a running network, and on to writing your own inventory. The rest of this README is reference material.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -23,7 +23,7 @@ This repository contains the `hyperledger.fabricx` Ansible collection, which can
 - [Prerequisites](#prerequisites)
   - [Setup the control node](#setup-the-control-node)
   - [Setup the remote nodes](#setup-the-remote-nodes)
-- [Run a sample Fabric-X network](#run-a-sample-fabric-x-network)
+- [Run a sample Chaguar network](#run-a-sample-chaguar-network)
   - [Choose another sample inventory](#choose-another-sample-inventory)
   - [Run with Podman/Docker on macOS](#run-with-podmandocker-on-macos)
   - [1. Setup the network](#1-setup-the-network)
@@ -41,30 +41,32 @@ This repository contains the `hyperledger.fabricx` Ansible collection, which can
 
 ### Option 1: Install from Ansible Galaxy
 
-To install the latest published version of the `hyperledger.fabricx` collection from [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/hyperledger/fabricx/), run:
+To install the latest published version of the `hyperledger.chaguar` collection from [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/hyperledger/chaguar/), run:
 
 ```shell
-ansible-galaxy collection install hyperledger.fabricx
+ansible-galaxy collection install hyperledger.chaguar
 ```
 
 Then install the collection's dependencies:
 
 ```shell
-ansible-galaxy collection install -r ~/.ansible/collections/ansible_collections/hyperledger/fabricx/requirements.yml
+ansible-galaxy collection install -r ~/.ansible/collections/ansible_collections/hyperledger/chaguar/requirements.yml
 ```
 
 ### Option 2: Clone under `ANSIBLE_COLLECTIONS_PATHS` (for development)
 
-To install the `hyperledger.fabricx` collection on your control node, run:
+To install the `hyperledger.chaguar` collection on your control node, run:
 
 > [!NOTE]
 > This is the recommended way if you plan to develop and change the scripts, since it allows to test directly the modified scripts avoiding to reinstall the collection at every change.
 
 ```shell
-git clone https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection.git ~/.ansible/collections/ansible_collections/hyperledger/fabricx
-cd ~/.ansible/collections/ansible_collections/hyperledger/fabricx
+git clone https://github.com/Chaguar/ansible-collection.git ~/.ansible/collections/ansible_collections/hyperledger/chaguar
+cd ~/.ansible/collections/ansible_collections/hyperledger/chaguar
 make install-deps
 ```
+
+The sample inventories default `project_dir` to `~/.ansible/collections/ansible_collections/hyperledger/chaguar`. If your checkout lives elsewhere (for example, an older clone under `ansible_collections/hyperledger/fabricx`), move it to that path or export `PROJECT_DIR` with the path of your checkout.
 
 > [!WARNING]
 > Do not run `make install` with this setup — the collection is already live from the cloned directory. Running it would overwrite your checkout with a built artifact. Use `make install-deps` to install dependencies only. The Makefile will also guard against this and abort if it detects the risk.
@@ -74,14 +76,14 @@ make install-deps
 If you don't know where the `COLLECTIONS_PATHS` is located, or you don't plan to develop/change the Ansible scripts within the collection, you can install from source using the commands:
 
 ```shell
-git clone https://github.com/LF-Decentralized-Trust-labs/fabric-x-ansible-collection.git
-cd fabric-x-ansible-collection
+git clone https://github.com/Chaguar/ansible-collection.git
+cd ansible-collection
 make install
 ```
 
 ## Usage
 
-The collection provides a set of Ansible roles that can be used to deploy a Hyperledger Fabric-X network in a distributed manner. Each role is devoted to a specific component.
+The collection provides a set of Ansible roles that can be used to deploy a LFDT Chaguar network in a distributed manner. Each role is devoted to a specific component.
 
 Each role comes with tasks and each task performs a specific operation, such as starting, stopping, configuring, or wiping a component. The collection also includes predefined playbooks that compose these roles into common lifecycle operations. If your inventory follows the expected group names, you can use those playbooks directly instead of writing your own orchestration layer.
 
@@ -93,12 +95,12 @@ The collection is organized around three concepts:
 | Playbooks   | Reusable lifecycle workflows that call the roles in the expected order.                                                         |
 | Inventories | The deployment model: which components exist, where they run, which ports they use, and which security/runtime mode is enabled. |
 
-For example, the playbook [playbooks/orderer/start.yaml](./playbooks/orderer/start.yaml) shows how to use the `hyperledger.fabricx.orderer` role to start a Fabric-X Orderer node:
+For example, the playbook [playbooks/orderer/start.yaml](./playbooks/orderer/start.yaml) shows how to use the `hyperledger.chaguar.orderer` role to start a Chaguar Orderer node:
 
 ```yaml
-- name: Start Fabric-X Orderer components
+- name: Start Chaguar Orderer components
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: start
 ```
 
@@ -133,13 +135,13 @@ make install-remote-node-deps
 > [!WARNING]
 > The playbook installs the needed packages and requires `sudo` permission. Make sure to use a passwordless `sudo` user so the playbook can complete.
 
-## Run a sample Fabric-X network
+## Run a sample Chaguar network
 
-This repository comes with Ansible inventories and example playbooks that can start sample Fabric-X networks on your local machine, in Kubernetes, or across multiple machines. See the [examples README](./examples/README.md) for the available inventory families.
+This repository comes with Ansible inventories and example playbooks that can start sample Chaguar networks on your local machine, in Kubernetes, or across multiple machines. See the [examples README](./examples/README.md) for the available inventory families.
 
-By default, the [`local/fabric-x.yaml`](./examples/inventory/docs/local/fabric-x.md) inventory is used:
+By default, the [`local/chaguar.yaml`](./examples/inventory/docs/local/chaguar.md) inventory is used:
 
-![fabric-x-inventory](./examples/images/fabric-x.drawio.png)
+![chaguar-inventory](./examples/images/chaguar.drawio.png)
 
 This diagram shows the default local sample topology: Fabric CA services issue identities, four orderer groups produce ordered blocks, a PostgreSQL-backed committer validates and stores state, and monitoring collects metrics.
 
@@ -166,7 +168,7 @@ The current sample inventory families are:
 Set `ANSIBLE_INVENTORY` to use another inventory without editing [`examples/ansible.cfg`](./examples/ansible.cfg):
 
 ```shell
-export ANSIBLE_INVENTORY=examples/inventory/k8s/fabric-x.yaml
+export ANSIBLE_INVENTORY=examples/inventory/k8s/chaguar.yaml
 ```
 
 ### Run with Podman/Docker on macOS
@@ -214,7 +216,7 @@ This command runs post-start initialization, such as creating the namespaces ind
 
 ### 4. Observe the network
 
-You can access [Grafana dashboards](http://localhost:3000/dashboards) (user=_admin_, password=_adminPWD_) to see how the Fabric-X network is handling the transactions processing.
+You can access [Grafana dashboards](http://localhost:3000/dashboards) (user=_admin_, password=_adminPWD_) to see how the Chaguar network is handling the transactions processing.
 
 > [!NOTE]
 > These Grafana credentials are sample defaults. Change them before using an adapted inventory in a shared environment.
@@ -241,7 +243,7 @@ The most frequently used commands are:
 
 | Command                    | Usage                                                                        |
 | -------------------------- | ---------------------------------------------------------------------------- |
-| `install`                  | Build and install the `hyperledger.fabricx` collection locally.              |
+| `install`                  | Build and install the `hyperledger.chaguar` collection locally.              |
 | `install-deps`             | Wrapper for `install-venv` + `install-python-deps` + `install-ansible-deps`. |
 | `install-venv`             | Install a `venv` environment.                                                |
 | `install-python-deps`      | Install Python dependencies on the control node.                             |
@@ -281,31 +283,31 @@ By default all the `Makefile` commands target all the hosts which are defined wi
 
 The `Makefile` comes with a set of [predefined host groups](./target_groups.mk) that can be used to easily restrict commands:
 
-| Group                 | Target                                           |
-| --------------------- | ------------------------------------------------ |
-| `fabric_cas`          | The Fabric CA servers                            |
-| `fabric_x`            | The Fabric-X network nodes (orderers+committer). |
-| `fabric_x_orderers`   | All the Fabric-X orderers.                       |
-| `fabric_x_committers` | The Fabric-X committer components.               |
-| `fabric_x_evm`        | The Fabric-X EVM gateway.                        |
-| `load_generators`     | All the load_generators.                         |
-| `monitoring`          | All the monitoring instances.                    |
+| Group                | Target                                          |
+| -------------------- | ----------------------------------------------- |
+| `fabric_cas`         | The Fabric CA servers                           |
+| `chaguar`            | The Chaguar network nodes (orderers+committer). |
+| `chaguar_orderers`   | All the Chaguar orderers.                       |
+| `chaguar_committers` | The Chaguar committer components.               |
+| `chaguar_evm`        | The Chaguar EVM gateway.                        |
+| `load_generators`    | All the load_generators.                        |
+| `monitoring`         | All the monitoring instances.                   |
 
 For example, running:
 
 ```shell
-make fabric_x_orderers start
+make chaguar_orderers start
 ```
 
-restricts the command to the host group `fabric_x_orderers` defined within the inventory.
+restricts the command to the host group `chaguar_orderers` defined within the inventory.
 
 Group/host targets can also be chained on the same command line to union their hosts, for example:
 
 ```shell
-make fabric_x_orderers fabric_x_committers start
+make chaguar_orderers chaguar_committers start
 ```
 
-restricts the command to the union of the `fabric_x_orderers` and `fabric_x_committers` host groups.
+restricts the command to the union of the `chaguar_orderers` and `chaguar_committers` host groups.
 
 All these groups are reflected in the [sample inventories](./examples/README.md). If you plan to use the playbooks provided with the collection, keep the group names identical so the high-level lifecycle commands keep working.
 

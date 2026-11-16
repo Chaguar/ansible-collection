@@ -26,6 +26,6 @@
 
 - name: Delete EVM Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.evm
+    name: hyperledger.chaguar.evm
     tasks_from: k8s/crypto/rm
   when: evm_use_k8s or evm_use_openshift

@@ -5,34 +5,34 @@
 #
 
 - name: Teardown Loadgen
-  ansible.builtin.import_playbook: hyperledger.fabricx.loadgen.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.teardown
 
 - name: Teardown Monitoring
-  ansible.builtin.import_playbook: hyperledger.fabricx.monitoring.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.teardown
 
-- name: Teardown Fabric-X Block Explorer
-  ansible.builtin.import_playbook: hyperledger.fabricx.block_explorer.teardown
+- name: Teardown Chaguar Block Explorer
+  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.teardown
 
-- name: Teardown Fabric-X EVM
-  ansible.builtin.import_playbook: hyperledger.fabricx.evm.teardown
+- name: Teardown Chaguar EVM
+  ansible.builtin.import_playbook: hyperledger.chaguar.evm.teardown
 
-- name: Teardown Fabric-X Committer
-  ansible.builtin.import_playbook: hyperledger.fabricx.committer.teardown
+- name: Teardown Chaguar Committer
+  ansible.builtin.import_playbook: hyperledger.chaguar.committer.teardown
 
-- name: Teardown Fabric-X Orderers
-  ansible.builtin.import_playbook: hyperledger.fabricx.orderer.teardown
+- name: Teardown Chaguar Orderers
+  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.teardown
 
 - name: Teardown Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.fabricx.fabric_ca_server.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.teardown
 
 - name: Teardown PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.fabricx.postgres.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.teardown
 
 - name: Teardown YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.fabricx.yugabyte.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.teardown
 
 - name: Remove container networks
-  ansible.builtin.import_playbook: hyperledger.fabricx.remove_container_networks
+  ansible.builtin.import_playbook: hyperledger.chaguar.remove_container_networks
 
 - name: Teardown Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.fabricx.semaphore_ui.teardown
+  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.teardown

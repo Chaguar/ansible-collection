@@ -1,4 +1,4 @@
-# hyperledger.fabricx.idemixgen
+# hyperledger.chaguar.idemixgen
 
 > Generates Idemix CA key material and signer configuration artifacts with the `idemixgen` CLI in binary or container mode.
 
@@ -25,7 +25,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.idemixgen
+ansible-doc -t role hyperledger.chaguar.idemixgen
 ```
 
 ## Tasks
@@ -44,7 +44,7 @@ Select whether Idemix CA key generation runs in a container or through the local
     # Sets the host directory where the generated artifacts are written.
     idemixgen_output_dir: "{{ config_build_dir }}/idemixgen-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: ca-keygen
 ```
 
@@ -74,9 +74,9 @@ Select whether Idemix signer configuration generation runs in a container or thr
     # Sets the path to the file that tracks a fingerprint of the inputs behind the signer artifact set generated under `idemixgen_output_dir`, used to detect changes since the last run.
     idemixgen_state_file: "{{ idemixgen_output_dir }}/idemixgen-state.yaml"
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: signerconfig
 ```
 
@@ -90,7 +90,7 @@ Builds the idemixgen CLI from source on the control node so binary-mode CA key g
 - name: Build the idemixgen binary
   vars:
     # Sets the shared directory used by the binary execution path.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Pins the git ref used for the idemixgen binary install or build.
@@ -102,7 +102,7 @@ Builds the idemixgen CLI from source on the control node so binary-mode CA key g
     # Defines the source package path built into the idemixgen binary.
     idemixgen_source_code_package: tools/idemixgen
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: bin/build
 ```
 
@@ -116,7 +116,7 @@ Installs the idemixgen CLI from the configured repository and commit before bina
 - name: Install the idemixgen binary
   vars:
     # Sets the shared directory used by the binary execution path.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Defines the Go package path used to install idemixgen.
@@ -130,7 +130,7 @@ Installs the idemixgen CLI from the configured repository and commit before bina
     # Defines the source package path built into the idemixgen binary.
     idemixgen_source_code_package: tools/idemixgen
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: bin/install
 ```
 
@@ -144,9 +144,9 @@ Runs `idemixgen ca-keygen` through the locally installed binary. The task remove
 - name: Generate Idemix CA key material with the binary
   vars:
     # Sets the shared directory used by the binary execution path.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Selects the cryptographic curve passed to idemixgen.
@@ -156,7 +156,7 @@ Runs `idemixgen ca-keygen` through the locally installed binary. The task remove
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: bin/ca-keygen
 ```
 
@@ -170,13 +170,13 @@ Runs `idemixgen signerconfig` through the locally installed binary. The task rem
 - name: Generate Idemix signer configuration with the binary
   vars:
     # Sets the shared directory used by the binary execution path.
-    cli_bin_dir: "/opt/hyperledger/fabricx/bin"
+    cli_bin_dir: "/opt/lfdt/chaguar/bin"
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Sets the directory containing the CA material consumed by `signerconfig`.
-    idemixgen_ca_input_dir: "/opt/hyperledger/fabricx/build/idemixgen-artifacts/ca"
+    idemixgen_ca_input_dir: "/opt/lfdt/chaguar/build/idemixgen-artifacts/ca"
     # Selects the cryptographic curve passed to idemixgen.
     idemixgen_curve_id: BLS12_381_BBS
     # Defines the enrollment identifier embedded in the signer configuration.
@@ -190,7 +190,7 @@ Runs `idemixgen signerconfig` through the locally installed binary. The task rem
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: bin/signerconfig
 ```
 
@@ -204,7 +204,7 @@ Runs `idemixgen ca-keygen` in the configured container image. The task removes a
 - name: Generate Idemix CA key material in a container
   vars:
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Defines the container name used for the idemixgen run.
@@ -226,7 +226,7 @@ Runs `idemixgen ca-keygen` in the configured container image. The task removes a
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: container/ca-keygen
 ```
 
@@ -240,11 +240,11 @@ Runs `idemixgen signerconfig` in the configured container image. The task remove
 - name: Generate Idemix signer configuration in a container
   vars:
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
-    config_build_dir: "/opt/hyperledger/fabricx/build"
+    config_build_dir: "/opt/lfdt/chaguar/build"
     # Defines the idemixgen binary name.
     idemixgen_bin_name: idemixgen
     # Sets the directory containing the CA material consumed by `signerconfig`.
-    idemixgen_ca_input_dir: "/opt/hyperledger/fabricx/build/idemixgen-artifacts/ca"
+    idemixgen_ca_input_dir: "/opt/lfdt/chaguar/build/idemixgen-artifacts/ca"
     # Defines the container name used for the idemixgen run.
     idemixgen_container_name: "idemixgen-{{ inventory_hostname }}"
     # Sets the output directory path used inside the container.
@@ -270,6 +270,6 @@ Runs `idemixgen signerconfig` in the configured container image. The task remove
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.idemixgen
+    name: hyperledger.chaguar.idemixgen
     tasks_from: container/signerconfig
 ```

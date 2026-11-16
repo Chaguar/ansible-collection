@@ -1,6 +1,6 @@
-# Hyperledger Fabric-X Deployment Samples
+# LFDT Chaguar Deployment Samples
 
-This directory contains sample inventories and wrapper playbooks for running Hyperledger Fabric-X networks with the `hyperledger.fabricx` collection.
+This directory contains sample inventories and wrapper playbooks for running LFDT Chaguar networks with the `hyperledger.chaguar` collection.
 
 > [!NOTE]
 > The samples are intentionally small enough to inspect and adapt. They are not a production blueprint. Use them to learn the inventory contract, validate changes locally, and create your own topology.
@@ -20,7 +20,7 @@ This directory contains sample inventories and wrapper playbooks for running Hyp
 
 ## Common Network Shape
 
-If you are new to Fabric-X, read an inventory as a map of services:
+If you are new to Chaguar, read an inventory as a map of services:
 
 | Service family | What to look for in inventory                                       |
 | -------------- | ------------------------------------------------------------------- |
@@ -30,15 +30,15 @@ If you are new to Fabric-X, read an inventory as a map of services:
 | Load generator | A client process that submits test traffic.                         |
 | Monitoring     | Exporters, Prometheus, Grafana, Loki, and Alloy.                    |
 
-Fabric-X keeps the Fabric governance and identity model, but decomposes the ordering and peer-side work into independently scalable services. Fabric-X currently supports a single channel, and state is partitioned across namespaces within that channel.
+Chaguar keeps the Fabric governance and identity model, but decomposes the ordering and peer-side work into independently scalable services. Chaguar currently supports a single channel, and state is partitioned across namespaces within that channel.
 
-Inventories define both topology and behavior. A variable such as `orderer_use_k8s: true` changes the runtime mode, while `orderer_use_mtls: true` changes the security posture. Most samples use the same logical Fabric-X shape:
+Inventories define both topology and behavior. A variable such as `orderer_use_k8s: true` changes the runtime mode, while `orderer_use_mtls: true` changes the security posture. Most samples use the same logical Chaguar shape:
 
 ```mermaid
 flowchart LR
   LG[Load generator]
 
-  subgraph ORDS[Fabric-X ordering service - 4 instances]
+  subgraph ORDS[Chaguar ordering service - 4 instances]
     direction LR
     R[Routers x4] --> B[Batchers x4]
     B --> C[Consenters x4]
@@ -46,7 +46,7 @@ flowchart LR
     A -. batch feedback .-> B
   end
 
-  subgraph COM[Fabric-X Committer]
+  subgraph COM[Chaguar Committer]
     direction LR
     SC[Sidecar]
     CO[Coordinator]
@@ -69,7 +69,7 @@ The monitoring services observe the same three parts of the deployment without p
 
 ```mermaid
 flowchart LR
-  subgraph TARGETS[Fabric-X deployment]
+  subgraph TARGETS[Chaguar deployment]
     direction TB
     LG[Load generator]
     ORD[Ordering service]
@@ -95,7 +95,7 @@ Inventories differ mostly in runtime mode, security settings, crypto source, and
 
 ### Orderer Components
 
-The Fabric-X orderer is based on Arma, a BFT ordering service that separates transaction dissemination from consensus. Consensus orders compact metadata for transaction batches rather than full transaction payloads.
+The Chaguar orderer is based on Arma, a BFT ordering service that separates transaction dissemination from consensus. Consensus orders compact metadata for transaction batches rather than full transaction payloads.
 
 | Component | Inventory value                     | Role in the pipeline                                                                                                                                                  |
 | --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -108,7 +108,7 @@ Clients submit through routers. Committer sidecars consume blocks from assembler
 
 ### Committer Components
 
-The Fabric-X committer handles post-ordering validation, commit, query, and notification work.
+The Chaguar committer handles post-ordering validation, commit, query, and notification work.
 
 | Component           | Inventory value                           | Role in the pipeline                                                                                                                                                                                                                  | Deployment notes                                                                                                                              |
 | ------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -123,9 +123,9 @@ Validators and verifiers can be scaled by adding hosts with the matching `commit
 
 ### Namespaces
 
-A namespace is the unit of state isolation in Fabric-X, similar to a chaincode in Hyperledger Fabric. Each namespace carries an endorsement policy that specifies which organizations must endorse a transaction before it can be committed to that namespace's state.
+A namespace is the unit of state isolation in Chaguar, similar to a chaincode in Hyperledger Fabric. Each namespace carries an endorsement policy that specifies which organizations must endorse a transaction before it can be committed to that namespace's state.
 
-Because Fabric-X uses a single channel, all namespaces share the same ordered block stream and the same committer pipeline. Isolation is enforced at the endorsement-policy and state-key level, not at the channel level.
+Because Chaguar uses a single channel, all namespaces share the same ordered block stream and the same committer pipeline. Isolation is enforced at the endorsement-policy and state-key level, not at the channel level.
 
 Namespaces are created after the network is started, using the `fxconfig` role through the [init process](../playbooks/fxconfig/README.md#create_namespacesyaml). The `fxconfig` playbooks submit namespace-creation transactions to the running network. No namespace needs to exist for the network itself to start.
 
@@ -143,14 +143,14 @@ Generated configuration defaults to `LOCAL_ANSIBLE_HOST` or `localhost`. When ru
 export LOCAL_ANSIBLE_HOST=host.docker.internal
 ```
 
-| Inventory                                                                       | Runtime    | TLS | mTLS | Best for                                                                    |
-| ------------------------------------------------------------------------------- | ---------- | --- | ---- | --------------------------------------------------------------------------- |
-| [`local/fabric-x.yaml`](./inventory/docs/local/fabric-x.md)                     | Containers | Yes | Yes  | Full local Fabric-X network.                                                |
-| [`local/fabric-x-yugabyte.yaml`](./inventory/docs/local/fabric-x-yugabyte.md)   | Containers | Yes | Yes  | Full local Fabric-X network with YugabyteDB as committer persistence layer. |
-| [`local/fabric-x-bin.yaml`](./inventory/docs/local/fabric-x-bin.md)             | Binaries   | Yes | Yes  | Full local Fabric-X network deployed using binaries.                        |
-| [`local/fabric-x-cryptogen.yaml`](./inventory/docs/local/fabric-x-cryptogen.md) | Containers | Yes | Yes  | Local Fabric-X deployment without Fabric CA services for quick debug.       |
-| [`local/fabric-x-no-mtls.yaml`](./inventory/docs/local/fabric-x-no-mtls.md)     | Containers | Yes | No   | Full local Fabric-X network without mTLS for debug only.                    |
-| [`local/fabric-x-no-tls.yaml`](./inventory/docs/local/fabric-x-no-tls.md)       | Containers | No  | No   | Full local Fabric-X network without TLS and mTLS for debug only.            |
+| Inventory                                                                     | Runtime    | TLS | mTLS | Best for                                                                   |
+| ----------------------------------------------------------------------------- | ---------- | --- | ---- | -------------------------------------------------------------------------- |
+| [`local/chaguar.yaml`](./inventory/docs/local/chaguar.md)                     | Containers | Yes | Yes  | Full local Chaguar network.                                                |
+| [`local/chaguar-yugabyte.yaml`](./inventory/docs/local/chaguar-yugabyte.md)   | Containers | Yes | Yes  | Full local Chaguar network with YugabyteDB as committer persistence layer. |
+| [`local/chaguar-bin.yaml`](./inventory/docs/local/chaguar-bin.md)             | Binaries   | Yes | Yes  | Full local Chaguar network deployed using binaries.                        |
+| [`local/chaguar-cryptogen.yaml`](./inventory/docs/local/chaguar-cryptogen.md) | Containers | Yes | Yes  | Local Chaguar deployment without Fabric CA services for quick debug.       |
+| [`local/chaguar-no-mtls.yaml`](./inventory/docs/local/chaguar-no-mtls.md)     | Containers | Yes | No   | Full local Chaguar network without mTLS for debug only.                    |
+| [`local/chaguar-no-tls.yaml`](./inventory/docs/local/chaguar-no-tls.md)       | Containers | No  | No   | Full local Chaguar network without TLS and mTLS for debug only.            |
 
 ### Kubernetes Inventories
 
@@ -162,13 +162,13 @@ The samples expose externally useful services with NodePort settings. For remote
 export K8S_NODE_IP=<node-ip>
 ```
 
-| Inventory                                                                   | Runtime    | TLS | mTLS | Best for                                                                       |
-| --------------------------------------------------------------------------- | ---------- | --- | ---- | ------------------------------------------------------------------------------ |
-| [`k8s/fabric-x.yaml`](./inventory/docs/k8s/fabric-x.md)                     | Kubernetes | Yes | Yes  | Full Fabric-X network deploy on `k8s`.                                         |
-| [`k8s/fabric-x-yugabyte.yaml`](./inventory/docs/k8s/fabric-x-yugabyte.md)   | Kubernetes | Yes | Yes  | Full Fabric-X network on `k8s` with YugabyteDB as committer persistence layer. |
-| [`k8s/fabric-x-cryptogen.yaml`](./inventory/docs/k8s/fabric-x-cryptogen.md) | Kubernetes | Yes | Yes  | Fabric-X deployment on `k8s` without Fabric CA services for quick debug.       |
-| [`k8s/fabric-x-no-mtls.yaml`](./inventory/docs/k8s/fabric-x-no-mtls.md)     | Kubernetes | Yes | No   | Full Fabric-X network on `k8s` without mTLS for debug only.                    |
-| [`k8s/fabric-x-no-tls.yaml`](./inventory/docs/k8s/fabric-x-no-tls.md)       | Kubernetes | No  | No   | Full Fabric-X network on `k8s` without TLS and mTLS for debug only.            |
+| Inventory                                                                 | Runtime    | TLS | mTLS | Best for                                                                      |
+| ------------------------------------------------------------------------- | ---------- | --- | ---- | ----------------------------------------------------------------------------- |
+| [`k8s/chaguar.yaml`](./inventory/docs/k8s/chaguar.md)                     | Kubernetes | Yes | Yes  | Full Chaguar network deploy on `k8s`.                                         |
+| [`k8s/chaguar-yugabyte.yaml`](./inventory/docs/k8s/chaguar-yugabyte.md)   | Kubernetes | Yes | Yes  | Full Chaguar network on `k8s` with YugabyteDB as committer persistence layer. |
+| [`k8s/chaguar-cryptogen.yaml`](./inventory/docs/k8s/chaguar-cryptogen.md) | Kubernetes | Yes | Yes  | Chaguar deployment on `k8s` without Fabric CA services for quick debug.       |
+| [`k8s/chaguar-no-mtls.yaml`](./inventory/docs/k8s/chaguar-no-mtls.md)     | Kubernetes | Yes | No   | Full Chaguar network on `k8s` without mTLS for debug only.                    |
+| [`k8s/chaguar-no-tls.yaml`](./inventory/docs/k8s/chaguar-no-tls.md)       | Kubernetes | No  | No   | Full Chaguar network on `k8s` without TLS and mTLS for debug only.            |
 
 ### Distributed Inventories
 
@@ -177,22 +177,22 @@ Distributed inventories use SSH-managed machines for performance-oriented topolo
 > [!WARNING]
 > The distributed sample uses `host_machine_*` placeholders. Replace all of them before running it.
 
-| Inventory                                                               | Runtime    | TLS | mTLS | Best for                                                     |
-| ----------------------------------------------------------------------- | ---------- | --- | ---- | ------------------------------------------------------------ |
-| [`distributed/fabric-x.yaml`](./inventory/docs/distributed/fabric-x.md) | Containers | Yes | Yes  | Full distributed Fabric-X deploy for performance evaluation. |
+| Inventory                                                             | Runtime    | TLS | mTLS | Best for                                                    |
+| --------------------------------------------------------------------- | ---------- | --- | ---- | ----------------------------------------------------------- |
+| [`distributed/chaguar.yaml`](./inventory/docs/distributed/chaguar.md) | Containers | Yes | Yes  | Full distributed Chaguar deploy for performance evaluation. |
 
 ## Selecting an Inventory
 
-The default examples configuration points to `inventory/local/fabric-x.yaml`:
+The default examples configuration points to `inventory/local/chaguar.yaml`:
 
 ```ini
-inventory = ./inventory/local/fabric-x.yaml
+inventory = ./inventory/local/chaguar.yaml
 ```
 
 You can change the inventory in [`ansible.cfg`](./ansible.cfg), or override it at runtime:
 
 ```shell
-export ANSIBLE_INVENTORY=examples/inventory/k8s/fabric-x.yaml
+export ANSIBLE_INVENTORY=examples/inventory/k8s/chaguar.yaml
 ```
 
 ## Playbooks

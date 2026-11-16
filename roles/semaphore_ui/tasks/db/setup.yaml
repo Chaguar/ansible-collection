@@ -46,14 +46,14 @@
           --password {{ semaphore_ui_password | quote }}
           --config {{ semaphore_ui_remote_config_dir }}/{{ semaphore_ui_config_file }}
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.bin
+        name: hyperledger.chaguar.bin
         tasks_from: start
       when:
         - semaphore_ui_admin_user_check.rc != 0
     # Safe to re-run: Semaphore UI refuses to import over an existing project rather than
     # overwriting it. It will not, however, update an existing project when
     # semaphore_ui_inventories/semaphore_ui_job_templates change.
-    - name: Import the Semaphore UI Fabric-X project
+    - name: Import the Semaphore UI Chaguar project
       ansible.builtin.command: >-
         {{ remote_node_dir }}/bin/{{ semaphore_ui_bin_name }} project import
         --file {{ semaphore_ui_remote_config_dir }}/{{ semaphore_ui_project_seed_file }}

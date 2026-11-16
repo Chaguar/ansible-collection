@@ -6,7 +6,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fabric_ca
+    name: hyperledger.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 - name: Generate CRL from Fabric CA
@@ -24,5 +24,5 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.bin
+    name: hyperledger.chaguar.bin
     tasks_from: start

@@ -6,17 +6,17 @@
 
 - name: Ensure the Semaphore UI database exists and is seeded
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: db/setup
 
 - name: Start the Semaphore UI binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: bin/start
 
 - name: Get Semaphore UI effective address
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.semaphore_ui
+    name: hyperledger.chaguar.semaphore_ui
     tasks_from: effective_address
 
 - name: Show Semaphore UI access details

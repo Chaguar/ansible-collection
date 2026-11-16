@@ -35,7 +35,7 @@ evm_remote_data_dir: '{{ remote_data_dir }}'
 evm_container_data_dir: /data
 # Ethereum-style chain ID served by the gateway.
 evm_chain_id: 4011
-# Fabric-X namespace version, starting at C(0) and incremented on each namespace update; a mismatch makes the committer reject every transaction.
+# Chaguar namespace version, starting at C(0) and incremented on each namespace update; a mismatch makes the committer reject every transaction.
 evm_ns_version: '0'
 # Network protocol the gateway speaks to the committer and orderers, C(fabric-x) or C(fabric).
 evm_protocol: fabric-x

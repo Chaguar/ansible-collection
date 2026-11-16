@@ -17,10 +17,10 @@
         | first
       }}
   block:
-    - name: Check that exactly one Fabric-X namespace is declared for the EVM gateway
+    - name: Check that exactly one Chaguar namespace is declared for the EVM gateway
       ansible.builtin.fail:
         msg: >-
-          The Fabric-X EVM gateway can only serve a single Fabric-X application namespace, but
+          The Chaguar EVM gateway can only serve a single Chaguar application namespace, but
           organization.namespaces declares {{ organization.namespaces | default([]) | length }}.
           Please declare exactly one entry under 'organization.namespaces' for this host.
       when:
@@ -106,6 +106,6 @@
     # =========================
     - name: Transfer EVM Kubernetes ConfigMap
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.evm
+        name: hyperledger.chaguar.evm
         tasks_from: k8s/config/transfer
       when: evm_use_k8s or evm_use_openshift

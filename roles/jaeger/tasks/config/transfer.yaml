@@ -28,6 +28,6 @@
 
 - name: Transfer Jaeger Kubernetes ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.jaeger
+    name: hyperledger.chaguar.jaeger
     tasks_from: k8s/config/transfer
   when: jaeger_use_k8s or jaeger_use_openshift

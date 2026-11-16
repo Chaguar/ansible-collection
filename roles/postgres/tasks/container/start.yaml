@@ -12,7 +12,7 @@
     container_volume_gid: "999"
     container_volume_type: directory
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: volume/create
 
 - name: Set right permissions for Postgres TLS files
@@ -29,7 +29,7 @@
         container_volume_gid: "999"
         container_volume_type: file
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.container
+        name: hyperledger.chaguar.container
         tasks_from: volume/create
     # This operation is needed for systems where openssl runs with umask=027.
     # In this case the certificate will be created with permission 0o640, which
@@ -45,7 +45,7 @@
 # For this reason the container is started with the host user.
 - name: Find the container client used on macOS
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: get_container_client
   when:
     - ansible_facts.os_family == 'Darwin'
@@ -94,5 +94,5 @@
     # of the folder for the user 999:999.
     container_run_as_host_user: "{{ (ansible_facts.os_family == 'Darwin') and (container_client == 'docker' | default(false)) }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start

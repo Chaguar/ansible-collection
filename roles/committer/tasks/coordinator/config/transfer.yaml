@@ -9,17 +9,17 @@
 # =========================
 - name: Check if committer_verifiers required variable is set
   ansible.builtin.fail:
-    msg: "The variable 'committer_verifiers' must be defined to use this role. It must contain the list of hosts devoted for the Fabric-X Committer verifiers."
+    msg: "The variable 'committer_verifiers' must be defined to use this role. It must contain the list of hosts devoted for the Chaguar Committer verifiers."
   when:
     - committer_verifiers is not defined
 
 - name: Check if committer_validators required variable is set
   ansible.builtin.fail:
-    msg: "The variable 'committer_validators' must be defined to use this role. It must contain the list of hosts devoted for the Fabric-X Committer validators."
+    msg: "The variable 'committer_validators' must be defined to use this role. It must contain the list of hosts devoted for the Chaguar Committer validators."
   when:
     - committer_validators is not defined
 
-- name: Ensure Hyperledger Fabric-X Committer coordinator config directory exists
+- name: Ensure LFDT Chaguar Committer coordinator config directory exists
   ansible.builtin.file:
     path: "{{ committer_remote_config_dir }}"
     state: directory
@@ -81,14 +81,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/transfer
   when:
     - committer_use_mtls
 
 - name: Transfer Monitoring mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
   when:
     - committer_monitoring_use_mtls
@@ -96,8 +96,8 @@
 # =========================
 # Kubernetes
 # =========================
-- name: Generate Hyperledger Fabric-X Committer coordinator k8s config
+- name: Generate LFDT Chaguar Committer coordinator k8s config
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: coordinator/k8s/config/transfer
   when: committer_use_k8s or committer_use_openshift

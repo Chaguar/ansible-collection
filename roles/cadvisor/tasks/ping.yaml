@@ -9,6 +9,6 @@
     utils_ports_to_ping:
       - "{{ cadvisor_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
   when: cadvisor_use_container

@@ -13,7 +13,7 @@ argument_specs:
         type: path
         description:
           - "Sets the base directory for generated configuration artifacts."
-          - "Example: C(/opt/hyperledger/fabricx/build)."
+          - "Example: C(/opt/lfdt/chaguar/build)."
       cryptogen_use_bin: &cryptogen_use_bin
         type: bool
         default: false
@@ -107,13 +107,13 @@ argument_specs:
         required: true
         description:
           - "Sets the destination directory for fetched MSP folders."
-          - "Example: C(/opt/hyperledger/fabricx/build/fetched-artifacts)."
+          - "Example: C(/opt/lfdt/chaguar/build/fetched-artifacts)."
       cli_bin_dir: &cli_bin_dir
         type: path
         required: true
         description:
           - "Sets the directory that receives the cryptogen binary."
-          - "Example: C(/opt/hyperledger/fabricx/bin)."
+          - "Example: C(/opt/lfdt/chaguar/bin)."
       cryptogen_config_file: &cryptogen_config_file
         type: str
         default: "crypto-config.yaml"
@@ -126,7 +126,7 @@ argument_specs:
           - "Sets the filename that tracks a fingerprint of every generated component, used to detect components missing or changed since the last run."
 
   start:
-    short_description: Extend or generate the Fabric-X crypto material
+    short_description: Extend or generate the Chaguar crypto material
     description:
       - "Inspect the existing crypto material, then run cryptogen only for the components that are missing or changed, extending the material already on disk instead of regenerating it."
       - "This dispatcher selects either the C(bin/start) or C(container/start) entry point so the role can render configuration and generate crypto material in the requested execution mode."
@@ -169,7 +169,7 @@ argument_specs:
     description:
       - "Render C(crypto-config.yaml) for the cryptogen CLI."
       - "This entry point gathers host IPv4 facts for every referenced node before templating C({{ cryptogen_artifacts_dir }}/{{ cryptogen_config_file }})."
-      - "The rendered file captures the Fabric-X organization layout, as a single C(GenericOrgs) list, that cryptogen uses to generate orderer and peer MSP and TLS material."
+      - "The rendered file captures the Chaguar organization layout, as a single C(GenericOrgs) list, that cryptogen uses to generate orderer and peer MSP and TLS material."
     options:
       config_build_dir: *config_build_dir
       cryptogen_artifacts_dir: *cryptogen_artifacts_dir
@@ -181,7 +181,7 @@ argument_specs:
     description:
       - "Clean the output directory and run the cryptogen CLI in a container."
       - "The container mounts the rendered configuration from C({{ cryptogen_artifacts_dir }}) and writes generated material to C({{ cryptogen_output_dir }})."
-      - "This entry point delegates container startup to C(hyperledger.fabricx.container)."
+      - "This entry point delegates container startup to C(hyperledger.chaguar.container)."
     options:
       config_build_dir: *config_build_dir
       cryptogen_artifacts_dir: *cryptogen_artifacts_dir
@@ -199,7 +199,7 @@ argument_specs:
   bin/install:
     short_description: Install the cryptogen binary
     description:
-      - "Install the cryptogen binary through C(hyperledger.fabricx.bin)."
+      - "Install the cryptogen binary through C(hyperledger.chaguar.bin)."
       - "This entry point is intended for binary-mode deployments that execute cryptogen on the target host."
     options:
       cli_bin_dir: *cli_bin_dir
@@ -213,7 +213,7 @@ argument_specs:
   bin/build:
     short_description: Build the cryptogen binary from source
     description:
-      - "Build the cryptogen binary from the configured source repository through C(hyperledger.fabricx.bin)."
+      - "Build the cryptogen binary from the configured source repository through C(hyperledger.chaguar.bin)."
       - "This entry point builds on the control node and writes the binary into C(cli_bin_dir) for later reuse by the binary start path."
     options:
       cli_bin_dir: *cli_bin_dir
@@ -228,7 +228,7 @@ argument_specs:
     description:
       - "Clean the output directory and run the cryptogen binary on the target host."
       - "The binary consumes the rendered configuration from C({{ cryptogen_artifacts_dir }}) and writes generated material to C({{ cryptogen_output_dir }})."
-      - "This entry point delegates command execution to C(hyperledger.fabricx.bin)."
+      - "This entry point delegates command execution to C(hyperledger.chaguar.bin)."
     options:
       cli_bin_dir: *cli_bin_dir
       config_build_dir: *config_build_dir

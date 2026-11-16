@@ -22,7 +22,7 @@ Everything so far ran on one machine. This lesson leaves it. The remarkable part
 
 - Why the same topology deploys to a laptop, a cluster, or sixteen machines with no structural change.
 - The four inventory families and what each environment file sets.
-- The two completely different things the word "namespace" means in a Kubernetes Fabric-X deployment.
+- The two completely different things the word "namespace" means in a Kubernetes Chaguar deployment.
 - What you must do before a distributed inventory will run at all.
 
 ## The Environment File Is the Only Difference
@@ -52,7 +52,7 @@ Locally they are the same. On Kubernetes, `ansible_host` is a cluster-internal D
 The mechanism is the same one you used in [lesson 8](./08-change-the-topology.md):
 
 ```shell
-export ANSIBLE_INVENTORY=examples/inventory/k8s/fabric-x.yaml
+export ANSIBLE_INVENTORY=examples/inventory/k8s/chaguar.yaml
 make targets
 ```
 
@@ -63,7 +63,7 @@ Always `make targets` after switching, so the per-host `Makefile` targets descri
 
 ## Kubernetes
 
-The [Kubernetes family](../../examples/inventory/docs/k8s/fabric-x.md) deploys the same logical Fabric-X services as Kubernetes workloads and services.
+The [Kubernetes family](../../examples/inventory/docs/k8s/chaguar.md) deploys the same logical Chaguar services as Kubernetes workloads and services.
 
 What you need:
 
@@ -106,7 +106,7 @@ This deserves its own section, because the word is badly overloaded and the two 
 | "Namespace"              | What it is                                                     | Set by                                  | Created by                                                                          |
 | ------------------------ | -------------------------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
 | **Kubernetes namespace** | A Kubernetes API grouping for pods, services, and PVCs         | `k8s_namespace` in the environment file | each role's `k8s` task path, via the shared [`k8s`](../../roles/k8s/README.md) role |
-| **Fabric-X namespace**   | The unit of ledger state isolation, with an endorsement policy | `organization.namespaces` on a host     | `fxconfig`, during `make init`                                                      |
+| **Chaguar namespace**    | The unit of ledger state isolation, with an endorsement policy | `organization.namespaces` on a host     | `fxconfig`, during `make init`                                                      |
 
 ```mermaid
 flowchart TD
@@ -116,14 +116,14 @@ flowchart TD
     POD2[committer-sidecar pod]
     POD3[committer-validator pod]
   end
-  K8S -.->|the ledger inside it contains| FXNS["Fabric-X namespaces: 'basic', '0', ...<br/>created by make init"]
+  K8S -.->|the ledger inside it contains| FXNS["Chaguar namespaces: 'basic', '0', ...<br/>created by make init"]
 ```
 
 One is infrastructure, the other is ledger semantics. A Kubernetes deployment has both, and the fact that `make init` "creates namespaces" refers only to the second kind. If `make init` fails, look at `fxconfig` and the committer endpoints — not at `kubectl`.
 
 ## OpenShift
 
-The [OpenShift family](../../examples/inventory/docs/openshift/fabric-x.md) is Kubernetes with a different exposure model: HTTP and HTTP2-capable ports are published through **OpenShift Routes** instead of NodePort or LoadBalancer services.
+The [OpenShift family](../../examples/inventory/docs/openshift/chaguar.md) is Kubernetes with a different exposure model: HTTP and HTTP2-capable ports are published through **OpenShift Routes** instead of NodePort or LoadBalancer services.
 
 ```shell
 make login-oc                    # log in with a personal token
@@ -138,11 +138,11 @@ There is one local-cluster wrinkle worth knowing before you hit it. If OpenShift
 make oc-config-hosts             # needs sudo
 ```
 
-Run it before starting Fabric-X. It is the same class of problem as the macOS `host.docker.internal` setup from [lesson 2](./02-prepare-your-control-node.md) — a container's idea of `localhost` is not yours.
+Run it before starting Chaguar. It is the same class of problem as the macOS `host.docker.internal` setup from [lesson 2](./02-prepare-your-control-node.md) — a container's idea of `localhost` is not yours.
 
 ## Distributed over SSH
 
-The [distributed family](../../examples/inventory/docs/distributed/fabric-x.md) is where the collection earns its keep: a performance-oriented topology spread over sixteen machines.
+The [distributed family](../../examples/inventory/docs/distributed/chaguar.md) is where the collection earns its keep: a performance-oriented topology spread over sixteen machines.
 
 It is deliberately larger than the local samples:
 
@@ -200,7 +200,7 @@ The advice from [lesson 8](./08-change-the-topology.md) still holds, and it hold
 > [!TIP]
 > This one is mostly reading — no cluster required.
 >
-> 1. Switch `ANSIBLE_INVENTORY` to `examples/inventory/k8s/fabric-x.yaml` and use `ansible-inventory` to compare it against the local inventory. Which hosts changed, and which did not?
+> 1. Switch `ANSIBLE_INVENTORY` to `examples/inventory/k8s/chaguar.yaml` and use `ansible-inventory` to compare it against the local inventory. Which hosts changed, and which did not?
 > 2. For the host `committer-sidecar`, find both `ansible_host` and `actual_host` in the Kubernetes inventory and explain what each is for.
 > 3. Then, without running anything: you have a remote Kubernetes cluster, you deploy successfully, every pod is `Running`, and `make ping` fails on every NodePort service. What is the single most likely cause?
 
@@ -210,11 +210,11 @@ The advice from [lesson 8](./08-change-the-topology.md) still holds, and it hold
 Part 1:
 
 ```shell
-export ANSIBLE_INVENTORY=examples/inventory/k8s/fabric-x.yaml
+export ANSIBLE_INVENTORY=examples/inventory/k8s/chaguar.yaml
 .venv/bin/ansible-inventory --graph
 
 # and compare against the local one
-ANSIBLE_INVENTORY=examples/inventory/local/fabric-x.yaml \
+ANSIBLE_INVENTORY=examples/inventory/local/chaguar.yaml \
   .venv/bin/ansible-inventory --graph
 ```
 

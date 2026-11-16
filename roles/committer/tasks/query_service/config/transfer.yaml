@@ -15,7 +15,7 @@
   when:
     - (postgres_db_host is not defined) and (yugabyte_cluster_ref_id is not defined)
 
-- name: Ensure Hyperledger Fabric-X Committer QueryService config directory exists
+- name: Ensure LFDT Chaguar Committer QueryService config directory exists
   ansible.builtin.file:
     path: "{{ committer_remote_config_dir }}"
     state: directory
@@ -32,7 +32,7 @@
 # =========================
 - name: Transfer DB files
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/db/transfer
 
 # =========================
@@ -40,14 +40,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/transfer
   when:
     - committer_use_mtls
 
 - name: Transfer Monitoring mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
   when:
     - committer_monitoring_use_mtls
@@ -55,8 +55,8 @@
 # =========================
 # Kubernetes
 # =========================
-- name: Generate Hyperledger Fabric-X QueryService k8s config
+- name: Generate LFDT Chaguar QueryService k8s config
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.committer
+    name: hyperledger.chaguar.committer
     tasks_from: query_service/k8s/config/transfer
   when: committer_use_k8s or committer_use_openshift

@@ -6,18 +6,18 @@
 
 - name: Start Grafana container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: container/start
   when: grafana_use_container
 
 - name: Start Grafana on Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: k8s/start
   when: grafana_use_k8s
 
 - name: Start Grafana on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.grafana
+    name: hyperledger.chaguar.grafana
     tasks_from: openshift/start
   when: grafana_use_openshift

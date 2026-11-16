@@ -9,13 +9,13 @@
   tasks:
     - name: Setup YugabyteDB node crypto material
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: crypto/setup
       when:
         - yugabyte_component_type is defined
     - name: Fetch YugabyteDB node certificates
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.yugabyte
+        name: hyperledger.chaguar.yugabyte
         tasks_from: crypto/fetch
       when:
         - yugabyte_component_type is defined

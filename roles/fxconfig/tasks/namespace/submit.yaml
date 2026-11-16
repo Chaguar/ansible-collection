@@ -8,7 +8,7 @@
   vars:
     fxconfig_tx_to_submit_path: "{{ fxconfig_artifacts_dir }}/{{ fxconfig_namespace_id }}/merged.json"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: submit
 
 - name: Record the fingerprint for namespace {{ fxconfig_namespace_id }}
@@ -20,5 +20,5 @@
         }
       }}
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/record_state

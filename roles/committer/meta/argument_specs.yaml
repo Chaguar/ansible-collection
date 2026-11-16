@@ -96,7 +96,7 @@ argument_specs:
           - Used by the service, workload, secret, and optional NodePort resources.
       committer_k8s_part_of: &committer_k8s_part_of
         type: str
-        default: "fabric-x-committer-{{ organization.name }}"
+        default: "chaguar-committer-{{ organization.name }}"
         description:
           - Value for the Kubernetes C(app.kubernetes.io/part-of) label applied to committer resources.
       committer_k8s_wait_timeout: &committer_k8s_wait_timeout
@@ -245,29 +245,29 @@ argument_specs:
         type: path
         description:
           - Remote config directory used by delegated crypto tasks.
-          - "Example: C(/opt/fabricx/committer/config)."
+          - "Example: C(/opt/chaguar/committer/config)."
       remote_data_dir: &remote_data_dir
         type: path
         description:
           - Remote data directory used by delegated sidecar tasks.
-          - "Example: C(/var/lib/fabricx/committer/sidecar)."
+          - "Example: C(/var/lib/chaguar/committer/sidecar)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         description:
           - Control-node directory that stores fetched artifacts.
-          - "Example: C(/tmp/fabricx/artifacts)."
+          - "Example: C(/tmp/chaguar/artifacts)."
       cryptogen_artifacts_dir: &cryptogen_artifacts_dir
         type: path
         required: true
         description:
           - Control-node directory that stores cryptogen output.
-          - "Example: C(/tmp/fabricx/crypto-material)."
+          - "Example: C(/tmp/chaguar/crypto-material)."
       configtxgen_artifacts_dir: &configtxgen_artifacts_dir
         type: path
         required: true
         description:
           - Control-node configtxgen output directory containing the genesis config block.
-          - "Example: C(/tmp/fabricx/configtxgen-artifacts)."
+          - "Example: C(/tmp/chaguar/configtxgen-artifacts)."
       actual_host: &actual_host
         type: str
         description:
@@ -336,7 +336,7 @@ argument_specs:
         type: str
         description:
           - Kubernetes namespace that contains the committer resources.
-          - "Example: C(fabricx-committer)."
+          - "Example: C(chaguar-committer)."
       k8s_storage_size: &k8s_storage_size
         type: str
         description:
@@ -351,7 +351,7 @@ argument_specs:
         type: str
         description:
           - Optional image pull secret referenced by Kubernetes workloads.
-          - "Example: C(fabricx-registry-secret)."
+          - "Example: C(chaguar-registry-secret)."
       k8s_readiness_probe_initial_delay_seconds:
         &k8s_readiness_probe_initial_delay_seconds
         type: int
@@ -723,7 +723,7 @@ argument_specs:
   ping:
     short_description: Check the committer gRPC endpoint
     description:
-      - Validate that the Fabric-X Committer RPC port is reachable.
+      - Validate that the Chaguar Committer RPC port is reachable.
       - Uses C(committer_rpc_port) on host deployments and skips the direct host check in Kubernetes mode.
     options:
       committer_rpc_port: *committer_rpc_port

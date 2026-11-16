@@ -4,21 +4,21 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Generate the Fabric-X Committer crypto material
-  hosts: "{{ target_hosts | default('fabric_x_committers') }}:&fabric_x_committers"
+- name: Generate the Chaguar Committer crypto material
+  hosts: "{{ target_hosts | default('chaguar_committers') }}:&chaguar_committers"
   tasks:
     # =========================
-    # HLFX Committer
+    # Chaguar Committer
     # =========================
-    - name: Setup Hyperledger Fabric-X Committer crypto material
+    - name: Setup LFDT Chaguar Committer crypto material
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: crypto/setup
       when:
         - committer_component_type is defined
-    - name: Fetch Hyperledger Fabric-X Committer certificates
+    - name: Fetch LFDT Chaguar Committer certificates
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.committer
+        name: hyperledger.chaguar.committer
         tasks_from: crypto/fetch
       when:
         - committer_component_type is defined

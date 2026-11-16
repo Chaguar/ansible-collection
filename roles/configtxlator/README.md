@@ -1,4 +1,4 @@
-# hyperledger.fabricx.configtxlator
+# hyperledger.chaguar.configtxlator
 
 > Wraps the configtxlator CLI for one-shot proto_encode, proto_decode, and compute_update operations through binary or container entry points.
 
@@ -28,7 +28,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.configtxlator
+ansible-doc -t role hyperledger.chaguar.configtxlator
 ```
 
 ## Tasks
@@ -37,13 +37,13 @@ ansible-doc -t role hyperledger.fabricx.configtxlator
 
 > Build the configtxlator binary on the control node
 
-Build the `configtxlator` binary from the Fabric-X source tree on the control node. The compiled executable is written to `cli_bin_dir` and reused by binary entry points.
+Build the `configtxlator` binary from the Chaguar source tree on the control node. The compiled executable is written to `cli_bin_dir` and reused by binary entry points.
 
 ```yaml
 - name: Build the configtxlator binary on the control node
   vars:
     # Directory used as the `configtxlator` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Executable name used by the binary and container entry points.
     configtxlator_bin_name: configtxlator
     # Git reference used by the binary build and install entry points.
@@ -55,7 +55,7 @@ Build the `configtxlator` binary from the Fabric-X source tree on the control no
     # Go package path for the `configtxlator` source tree.
     configtxlator_source_code_package: tools/configtxlator
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: bin/build
 ```
 
@@ -69,7 +69,7 @@ Install the `configtxlator` Go package through the shared `bin` role. The instal
 - name: Install the configtxlator binary into the local bin directory
   vars:
     # Directory used as the `configtxlator` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Executable name used by the binary and container entry points.
     configtxlator_bin_name: configtxlator
     # Go package reference used by `bin/install`.
@@ -83,7 +83,7 @@ Install the `configtxlator` Go package through the shared `bin` role. The instal
     # Go package path for the `configtxlator` source tree.
     configtxlator_source_code_package: tools/configtxlator
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: bin/install
 ```
 
@@ -97,9 +97,9 @@ Run `configtxlator proto_encode` one-shot through the locally installed binary. 
 - name: Run configtxlator proto_encode with the binary
   vars:
     # Directory used as the `configtxlator` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -111,7 +111,7 @@ Run `configtxlator proto_encode` one-shot through the locally installed binary. 
     # Filename of the output file within `configtxlator_artifacts_dir` written by `proto_encode`, `proto_decode`, and `compute_update`.
     configtxlator_output_file: "config.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: bin/proto_encode
 ```
 
@@ -125,9 +125,9 @@ Run `configtxlator proto_decode` one-shot through the locally installed binary. 
 - name: Run configtxlator proto_decode with the binary
   vars:
     # Directory used as the `configtxlator` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -139,7 +139,7 @@ Run `configtxlator proto_decode` one-shot through the locally installed binary. 
     # Filename of the output file within `configtxlator_artifacts_dir` written by `proto_encode`, `proto_decode`, and `compute_update`.
     configtxlator_output_file: "config.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: bin/proto_decode
 ```
 
@@ -153,9 +153,9 @@ Run `configtxlator compute_update` one-shot through the locally installed binary
 - name: Run configtxlator compute_update with the binary
   vars:
     # Directory used as the `configtxlator` binary destination or lookup path.
-    cli_bin_dir: "/opt/fabricx/bin"
+    cli_bin_dir: "/opt/chaguar/bin"
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -169,7 +169,7 @@ Run `configtxlator compute_update` one-shot through the locally installed binary
     # Filename of the output file within `configtxlator_artifacts_dir` written by `proto_encode`, `proto_decode`, and `compute_update`.
     configtxlator_output_file: "config.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: bin/compute_update
 ```
 
@@ -183,7 +183,7 @@ Run `configtxlator proto_encode` as a one-shot auto-removing container. Mounts `
 - name: Run configtxlator proto_encode in a container
   vars:
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -207,7 +207,7 @@ Run `configtxlator proto_encode` as a one-shot auto-removing container. Mounts `
     # Image registry endpoint for `configtxlator_image`.
     configtxlator_registry_endpoint: "{{ lookup('env', 'CONFIGTXLATOR_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: container/proto_encode
 ```
 
@@ -221,7 +221,7 @@ Run `configtxlator proto_decode` as a one-shot auto-removing container. Mounts `
 - name: Run configtxlator proto_decode in a container
   vars:
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -245,7 +245,7 @@ Run `configtxlator proto_decode` as a one-shot auto-removing container. Mounts `
     # Image registry endpoint for `configtxlator_image`.
     configtxlator_registry_endpoint: "{{ lookup('env', 'CONFIGTXLATOR_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: container/proto_decode
 ```
 
@@ -259,7 +259,7 @@ Run `configtxlator compute_update` as a one-shot auto-removing container. Mounts
 - name: Run configtxlator compute_update in a container
   vars:
     # Base build directory for `configtxlator_artifacts_dir`.
-    config_build_dir: "/opt/fabricx/build"
+    config_build_dir: "/opt/chaguar/build"
     # Host directory mounted into the container for CLI operation input and output.
     configtxlator_artifacts_dir: "{{ config_build_dir }}/configtxlator-artifacts"
     # Executable name used by the binary and container entry points.
@@ -285,7 +285,7 @@ Run `configtxlator compute_update` as a one-shot auto-removing container. Mounts
     # Filename of the updated config proto within `configtxlator_artifacts_dir` passed to `compute_update`.
     configtxlator_updated_file: "modified_config.pb"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: container/compute_update
 ```
 
@@ -301,7 +301,7 @@ Select the binary or container execution path for `proto_encode` based on `confi
     # Dispatch selector for the public entry points. When false, the container path is used.
     configtxlator_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: proto_encode
 ```
 
@@ -317,7 +317,7 @@ Select the binary or container execution path for `proto_decode` based on `confi
     # Dispatch selector for the public entry points. When false, the container path is used.
     configtxlator_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: proto_decode
 ```
 
@@ -333,6 +333,6 @@ Select the binary or container execution path for `compute_update` based on `con
     # Dispatch selector for the public entry points. When false, the container path is used.
     configtxlator_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.configtxlator
+    name: hyperledger.chaguar.configtxlator
     tasks_from: compute_update
 ```

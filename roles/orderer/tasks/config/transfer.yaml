@@ -7,13 +7,13 @@
 # =========================
 # Config
 # =========================
-- name: Ensure Fabric-X Orderer config directory exists
+- name: Ensure Chaguar Orderer config directory exists
   ansible.builtin.file:
     path: "{{ orderer_remote_config_dir }}"
     state: directory
     mode: "0o755"
 
-- name: Create Fabric-X Orderer config
+- name: Create Chaguar Orderer config
   ansible.builtin.template:
     src: config-{{ orderer_component_type }}.yaml.j2
     dest: "{{ orderer_remote_config_dir }}/{{ orderer_config_file }}"
@@ -33,14 +33,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/mtls/transfer
   when:
     - orderer_use_mtls
 
 - name: Transfer Operations mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: config/mtls/operations/transfer
   when:
     - orderer_operations_use_mtls
@@ -48,8 +48,8 @@
 # =========================
 # Config (Kubernetes)
 # =========================
-- name: Transfer Fabric-X Orderer K8s config
+- name: Transfer Chaguar Orderer K8s config
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.orderer
+    name: hyperledger.chaguar.orderer
     tasks_from: k8s/config/transfer
   when: orderer_use_k8s or orderer_use_openshift

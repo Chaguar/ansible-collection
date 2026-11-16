@@ -1,6 +1,6 @@
-# hyperledger.fabricx.fxconfig
+# hyperledger.chaguar.fxconfig
 
-> Generates and transfers fxconfig configuration material, manages namespace transaction artifacts, and submits Fabric-X namespace lifecycle changes.
+> Generates and transfers fxconfig configuration material, manages namespace transaction artifacts, and submits Chaguar namespace lifecycle changes.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -48,7 +48,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.fxconfig
+ansible-doc -t role hyperledger.chaguar.fxconfig
 ```
 
 ## Tasks
@@ -57,7 +57,7 @@ ansible-doc -t role hyperledger.fabricx.fxconfig
 
 > Build the fxconfig binary
 
-Builds the fxconfig Go binary from the configured Fabric-X source package by delegating compilation to the shared bin role.
+Builds the fxconfig Go binary from the configured Chaguar source package by delegating compilation to the shared bin role.
 
 ```yaml
 - name: Build the fxconfig binary
@@ -66,14 +66,14 @@ Builds the fxconfig Go binary from the configured Fabric-X source package by del
     fxconfig_bin_name: fxconfig
     # Selects the Git ref used by build and install workflows.
     fxconfig_git_commit: v1.0.3
-    # Defines the Git host used to resolve the Fabric-X source repository.
+    # Defines the Git host used to resolve the Chaguar source repository.
     fxconfig_git_hub_url: github.com
-    # Defines the Fabric-X source repository path.
+    # Defines the Chaguar source repository path.
     fxconfig_git_repo: hyperledger/fabric-x
     # Defines the Go package path containing the fxconfig source code.
     fxconfig_source_code_package: tools/fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/build
 ```
 
@@ -95,11 +95,11 @@ Copies a namespace transaction JSON file to the managed host, endorses it with t
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Supplies the local namespace transaction JSON file to endorse.
-    fxconfig_tx_to_endorse: "/tmp/fabricx/config-build/fxconfig-artifacts/payments/ns.json"
+    fxconfig_tx_to_endorse: "/tmp/chaguar/config-build/fxconfig-artifacts/payments/ns.json"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/endorse
 ```
 
@@ -107,7 +107,7 @@ Copies a namespace transaction JSON file to the managed host, endorses it with t
 
 > Install the fxconfig binary
 
-Installs the fxconfig Go package from the configured Fabric-X source package by delegating to the shared bin role.
+Installs the fxconfig Go package from the configured Chaguar source package by delegating to the shared bin role.
 
 ```yaml
 - name: Install the fxconfig binary
@@ -118,14 +118,14 @@ Installs the fxconfig Go package from the configured Fabric-X source package by 
     fxconfig_bin_package: "{{ fxconfig_git_hub_url }}/{{ fxconfig_git_repo }}/{{ fxconfig_source_code_package }}"
     # Selects the Git ref used by build and install workflows.
     fxconfig_git_commit: v1.0.3
-    # Defines the Git host used to resolve the Fabric-X source repository.
+    # Defines the Git host used to resolve the Chaguar source repository.
     fxconfig_git_hub_url: github.com
-    # Defines the Fabric-X source repository path.
+    # Defines the Chaguar source repository path.
     fxconfig_git_repo: hyperledger/fabric-x
     # Defines the Go package path containing the fxconfig source code.
     fxconfig_source_code_package: tools/fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/install
 ```
 
@@ -141,7 +141,7 @@ Collects endorsed namespace transaction JSON files from the artifact directory a
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
     # Defines the local directory containing endorsed namespace transaction JSON files to merge.
-    fxconfig_endorsed_txs_dir: "/tmp/fabricx/config-build/fxconfig-artifacts/mychannel/endorsed"
+    fxconfig_endorsed_txs_dir: "/tmp/chaguar/config-build/fxconfig-artifacts/mychannel/endorsed"
     # Defines the fxconfig log format.
     fxconfig_log_format: "%{color}%{time:2006-01-02 15:04:05.000 MST} [%{module}] %{shortfunc} -> %{level:.4s} %{id:03x}%{color:reset} %{message}"
     # Defines the fxconfig log level.
@@ -151,9 +151,9 @@ Collects endorsed namespace transaction JSON files from the artifact directory a
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/merge
 ```
 
@@ -175,15 +175,15 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
     # Defines the namespace endorsement policy.
-    fxconfig_namespace_policy: "threshold:/tmp/fabricx/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
+    fxconfig_namespace_policy: "threshold:/tmp/chaguar/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
     # Defines the transaction artifact path on the managed host.
     fxconfig_output: "{{ fxconfig_remote_config_dir }}/tx.json"
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/namespace/create
 ```
 
@@ -191,7 +191,7 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
 
 > List namespaces with the fxconfig binary
 
-Lists namespaces from the configured Fabric-X network by invoking the local fxconfig binary with the rendered fxconfig file.
+Lists namespaces from the configured Chaguar network by invoking the local fxconfig binary with the rendered fxconfig file.
 
 ```yaml
 - name: List namespaces with the fxconfig binary
@@ -207,9 +207,9 @@ Lists namespaces from the configured Fabric-X network by invoking the local fxco
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/namespace/list
 ```
 
@@ -231,7 +231,7 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
     # Defines the namespace endorsement policy.
-    fxconfig_namespace_policy: "threshold:/tmp/fabricx/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
+    fxconfig_namespace_policy: "threshold:/tmp/chaguar/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
     # Defines the namespace's current on-chain version, passed as the compare-and-swap token fxconfig requires for an update.
     fxconfig_namespace_version: 0
     # Defines the transaction artifact path on the managed host.
@@ -239,9 +239,9 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/namespace/update
 ```
 
@@ -257,7 +257,7 @@ Removes the fxconfig binary from the managed host by delegating cleanup to the s
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/rm
 ```
 
@@ -277,11 +277,11 @@ Transfers a merged namespace transaction JSON artifact to the managed host and s
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Supplies the local merged namespace transaction JSON file to submit.
-    fxconfig_tx_to_submit_path: "/tmp/fabricx/config-build/fxconfig-artifacts/payments/merged.json"
+    fxconfig_tx_to_submit_path: "/tmp/chaguar/config-build/fxconfig-artifacts/payments/merged.json"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/submit
 ```
 
@@ -297,7 +297,7 @@ Transfers the previously built fxconfig binary to the managed host by delegating
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: bin/transfer
 ```
 
@@ -317,9 +317,9 @@ Copies the client certificate and key consumed by fxconfig for mTLS connections 
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: config/mtls/transfer
 ```
 
@@ -335,15 +335,15 @@ Copies fetched Orderer Router and Committer Query-Service CA certificates into t
     # Identifies the inventory host for the Committer Query-Service endpoint consumed by fxconfig.
     committer_query_service_host: "committer-query-service"
     # Defines the local directory that stores fetched crypto and TLS artifacts consumed by fxconfig.
-    fetched_artifacts_dir: "/tmp/fabricx/config-build"
+    fetched_artifacts_dir: "/tmp/chaguar/config-build"
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Identifies the inventory host for the Orderer Router endpoint consumed by fxconfig.
     orderer_router_host: "orderer-router-1"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: config/tls/transfer
 ```
 
@@ -356,7 +356,7 @@ Creates the remote fxconfig configuration directory, renders the fxconfig file, 
 ```yaml
 - name: Transfer fxconfig configuration material
   vars:
-    # Defines the Fabric-X channel written into the rendered fxconfig file.
+    # Defines the Chaguar channel written into the rendered fxconfig file.
     channel_id: "mychannel"
     # Defines the Committer Query-Service connection timeout written into the rendered fxconfig file.
     fxconfig_committer_query_service_connection_timeout: "45s"
@@ -377,7 +377,7 @@ Creates the remote fxconfig configuration directory, renders the fxconfig file, 
     # Defines the fxconfig log level.
     fxconfig_log_level: info
     # Defines the source MSP directory copied into the fxconfig configuration directory.
-    fxconfig_msp_config_path: "/opt/hyperledger/fabricx/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp"
+    fxconfig_msp_config_path: "/opt/lfdt/chaguar/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp"
     # Defines the MSP identifier written into the rendered configuration.
     fxconfig_msp_id: "{{ organization.name }}MSP"
     # Defines the Orderer Router connection timeout written into the rendered fxconfig file.
@@ -395,14 +395,14 @@ Creates the remote fxconfig configuration directory, renders the fxconfig file, 
       role: "peer"
       users:
         - name: "endorser"
-          cert: "/tmp/fabricx/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+          cert: "/tmp/chaguar/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
       namespaces:
         - id: "payments"
           policy: "threshold"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: config/transfer
 ```
 
@@ -436,11 +436,11 @@ Copies a namespace transaction JSON file to the managed host, mounts the rendere
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Supplies the local namespace transaction JSON file to endorse.
-    fxconfig_tx_to_endorse: "/tmp/fabricx/config-build/fxconfig-artifacts/payments/ns.json"
+    fxconfig_tx_to_endorse: "/tmp/chaguar/config-build/fxconfig-artifacts/payments/ns.json"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/endorse
 ```
 
@@ -460,7 +460,7 @@ Collects endorsed namespace transaction JSON files from the artifact directory, 
     # Defines the base container name used by fxconfig workflows. Includes `inventory_hostname` by default so container names never collide when this role runs across multiple hosts in parallel against the same local container storage.
     fxconfig_container_name: "fxconfig-{{ inventory_hostname }}"
     # Defines the local directory containing endorsed namespace transaction JSON files to merge.
-    fxconfig_endorsed_txs_dir: "/tmp/fabricx/config-build/fxconfig-artifacts/mychannel/endorsed"
+    fxconfig_endorsed_txs_dir: "/tmp/chaguar/config-build/fxconfig-artifacts/mychannel/endorsed"
     # Defines the fxconfig container image.
     fxconfig_image: "{{ fxconfig_registry_endpoint }}/{{ fxconfig_image_name }}:{{ fxconfig_image_tag }}"
     # Defines the image name used by the fxconfig container image.
@@ -478,9 +478,9 @@ Collects endorsed namespace transaction JSON files from the artifact directory, 
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/merge
 ```
 
@@ -510,7 +510,7 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
     # Defines the namespace endorsement policy.
-    fxconfig_namespace_policy: "threshold:/tmp/fabricx/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
+    fxconfig_namespace_policy: "threshold:/tmp/chaguar/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
     # Defines the transaction artifact path on the managed host.
     fxconfig_output: "{{ fxconfig_remote_config_dir }}/tx.json"
     # Defines the registry endpoint used by the fxconfig container image.
@@ -518,9 +518,9 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/namespace/create
 ```
 
@@ -528,7 +528,7 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
 
 > List namespaces with the fxconfig container
 
-Lists namespaces from the configured Fabric-X network by mounting the rendered configuration into a transient fxconfig container.
+Lists namespaces from the configured Chaguar network by mounting the rendered configuration into a transient fxconfig container.
 
 ```yaml
 - name: List namespaces with the fxconfig container
@@ -556,9 +556,9 @@ Lists namespaces from the configured Fabric-X network by mounting the rendered c
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/namespace/list
 ```
 
@@ -588,7 +588,7 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
     # Defines the namespace endorsement policy.
-    fxconfig_namespace_policy: "threshold:/tmp/fabricx/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
+    fxconfig_namespace_policy: "threshold:/tmp/chaguar/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem"
     # Defines the namespace's current on-chain version, passed as the compare-and-swap token fxconfig requires for an update.
     fxconfig_namespace_version: 0
     # Defines the transaction artifact path on the managed host.
@@ -598,9 +598,9 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/namespace/update
 ```
 
@@ -632,11 +632,11 @@ Transfers a merged namespace transaction JSON artifact to the managed host, moun
     # Defines the fxconfig remote configuration directory.
     fxconfig_remote_config_dir: "{{ remote_config_dir }}/fxconfig"
     # Supplies the local merged namespace transaction JSON file to submit.
-    fxconfig_tx_to_submit_path: "/tmp/fabricx/config-build/fxconfig-artifacts/payments/merged.json"
+    fxconfig_tx_to_submit_path: "/tmp/chaguar/config-build/fxconfig-artifacts/payments/merged.json"
     # Provides the base remote configuration directory used by the role.
-    remote_config_dir: "/opt/hyperledger/fabricx/config"
+    remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: container/submit
 ```
 
@@ -652,7 +652,7 @@ Dispatches namespace transaction endorsement to either the host binary or a tran
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: endorse
 ```
 
@@ -672,12 +672,12 @@ Selects the namespace endorser and stores it in `fxconfig_endorser_user`: `organ
       role: "peer"
       users:
         - name: "endorser"
-          cert: "/tmp/fabricx/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+          cert: "/tmp/chaguar/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
       namespaces:
         - id: "payments"
           policy: "threshold"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: get_endorser
 ```
 
@@ -691,11 +691,11 @@ Dispatches endorsed namespace transaction merging to either the host binary or a
 - name: Merge endorsed namespace transactions
   vars:
     # Defines the local directory containing endorsed namespace transaction JSON files to merge.
-    fxconfig_endorsed_txs_dir: "/tmp/fabricx/config-build/fxconfig-artifacts/mychannel/endorsed"
+    fxconfig_endorsed_txs_dir: "/tmp/chaguar/config-build/fxconfig-artifacts/mychannel/endorsed"
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: merge
 ```
 
@@ -711,7 +711,7 @@ Dispatches namespace transaction creation to either the host binary or a transie
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/create
 ```
 
@@ -725,13 +725,13 @@ Builds a namespace-to-host mapping from inventory organization data before creat
 - name: Group hosts by declared namespaces
   vars:
     # Defines the local directory that stores fetched crypto and TLS artifacts consumed by fxconfig.
-    fetched_artifacts_dir: "/tmp/fabricx/config-build"
+    fetched_artifacts_dir: "/tmp/chaguar/config-build"
     # Limits namespace grouping to a subset of inventory hosts. If omitted, the task considers all hosts. Selected hosts must expose the organization metadata expected by the namespace grouping helper.
     fxconfig_hosts:
       - "committer-sidecar"
       - "committer-query-service"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/group
 ```
 
@@ -739,13 +739,13 @@ Builds a namespace-to-host mapping from inventory organization data before creat
 
 > Determine which namespaces need to be created or updated
 
-Lists existing Fabric-X namespaces via `namespace/list`, then compares each declared namespace's fingerprint (its policy, and for threshold policies its signer) against the namespace state file to decide whether it must be created, updated, or left alone. A namespace absent from the chain is always slated for creation. A namespace on chain whose recorded fingerprint does not exactly match its declared policy -- including having no recorded fingerprint at all -- is slated for update, using its current on-chain version as fxconfig's required compare-and-swap token. Populates `fxconfig_namespaces_to_create`, `fxconfig_namespaces_to_update`, and `fxconfig_namespace_fingerprints` for the caller to act on and to persist via `namespace/record_state`.
+Lists existing Chaguar namespaces via `namespace/list`, then compares each declared namespace's fingerprint (its policy, and for threshold policies its signer) against the namespace state file to decide whether it must be created, updated, or left alone. A namespace absent from the chain is always slated for creation. A namespace on chain whose recorded fingerprint does not exactly match its declared policy -- including having no recorded fingerprint at all -- is slated for update, using its current on-chain version as fxconfig's required compare-and-swap token. Populates `fxconfig_namespaces_to_create`, `fxconfig_namespaces_to_update`, and `fxconfig_namespace_fingerprints` for the caller to act on and to persist via `namespace/record_state`.
 
 ```yaml
 - name: Determine which namespaces need to be created or updated
   vars:
     # Defines the base local build directory used to derive `fxconfig_artifacts_dir`.
-    config_build_dir: "/tmp/fabricx/config-build"
+    config_build_dir: "/tmp/chaguar/config-build"
     # Defines the local directory that stores generated namespace transaction artifacts and the namespace state file.
     fxconfig_artifacts_dir: "{{ config_build_dir }}/fxconfig-artifacts"
     # Defines the namespace state file name, stored under `fxconfig_artifacts_dir`.
@@ -757,12 +757,12 @@ Lists existing Fabric-X namespaces via `namespace/list`, then compares each decl
       role: "peer"
       users:
         - name: "endorser"
-          cert: "/tmp/fabricx/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+          cert: "/tmp/chaguar/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
       namespaces:
         - id: "payments"
           policy: "threshold"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/inspect
 ```
 
@@ -778,7 +778,7 @@ Dispatches namespace listing to either the host binary or a transient container 
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/list
 ```
 
@@ -792,7 +792,7 @@ Merges the given namespace fingerprints into the namespace state file, preservin
 - name: Persist namespace fingerprints to the state file
   vars:
     # Defines the base local build directory used to derive `fxconfig_artifacts_dir`.
-    config_build_dir: "/tmp/fabricx/config-build"
+    config_build_dir: "/tmp/chaguar/config-build"
     # Defines the local directory that stores generated namespace transaction artifacts and the namespace state file.
     fxconfig_artifacts_dir: "{{ config_build_dir }}/fxconfig-artifacts"
     # Maps namespace IDs to the fingerprint to merge into the namespace state file.
@@ -801,7 +801,7 @@ Merges the given namespace fingerprints into the namespace state file, preservin
     # Defines the namespace state file name, stored under `fxconfig_artifacts_dir`.
     fxconfig_state_file: fxconfig-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/record_state
 ```
 
@@ -815,7 +815,7 @@ Submits a merged namespace transaction via `submit`, then immediately records th
 - name: Submit a namespace transaction and record its fingerprint
   vars:
     # Defines the base local build directory used to derive `fxconfig_artifacts_dir`.
-    config_build_dir: "/tmp/fabricx/config-build"
+    config_build_dir: "/tmp/chaguar/config-build"
     # Defines the local directory that stores generated namespace transaction artifacts and the namespace state file.
     fxconfig_artifacts_dir: "{{ config_build_dir }}/fxconfig-artifacts"
     # Maps namespace IDs to the fingerprint computed by `namespace/inspect` for each namespace's declared policy.
@@ -824,7 +824,7 @@ Submits a merged namespace transaction via `submit`, then immediately records th
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/submit
 ```
 
@@ -840,7 +840,7 @@ Dispatches namespace transaction update to either the host binary or a transient
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: namespace/update
 ```
 
@@ -856,7 +856,7 @@ Dispatches merged namespace transaction submission to either the host binary or 
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: submit
 ```
 
@@ -872,6 +872,6 @@ Removes the fxconfig binary from the managed host when the binary workflow is en
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.fxconfig
+    name: hyperledger.chaguar.fxconfig
     tasks_from: wipe
 ```

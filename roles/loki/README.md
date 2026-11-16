@@ -1,4 +1,4 @@
-# hyperledger.fabricx.loki
+# hyperledger.chaguar.loki
 
 > Ansible role to deploy and configure Loki, a log aggregation system.
 
@@ -40,7 +40,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.loki
+ansible-doc -t role hyperledger.chaguar.loki
 ```
 
 ## Tasks
@@ -61,7 +61,7 @@ Dispatches to container/start, k8s/start, or openshift/start based on deployment
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: start
 ```
 
@@ -81,7 +81,7 @@ Stops the Loki container. No-op for Kubernetes/OpenShift deployments.
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: stop
 ```
 
@@ -101,7 +101,7 @@ Removes the Loki container, Kubernetes/OpenShift workload, and data directory.
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: teardown
 ```
 
@@ -114,7 +114,7 @@ Removes the Loki configuration directory. Intended to be called explicitly, not 
 ```yaml
 - name: Wipe Loki configuration
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: wipe
 ```
 
@@ -122,7 +122,7 @@ Removes the Loki configuration directory. Intended to be called explicitly, not 
 
 > Start Loki container
 
-Creates the Loki data directory and starts the Loki container via hyperledger.fabricx.container.
+Creates the Loki data directory and starts the Loki container via hyperledger.chaguar.container.
 
 ```yaml
 - name: Start Loki container
@@ -154,7 +154,7 @@ Creates the Loki data directory and starts the Loki container via hyperledger.fa
     # Base deployment root directory on the remote host under which per-component config/data directories are created.
     remote_deploy_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: container/start
 ```
 
@@ -162,7 +162,7 @@ Creates the Loki data directory and starts the Loki container via hyperledger.fa
 
 > Stop Loki container
 
-Stops the Loki container via hyperledger.fabricx.container.
+Stops the Loki container via hyperledger.chaguar.container.
 
 ```yaml
 - name: Stop Loki container
@@ -176,7 +176,7 @@ Stops the Loki container via hyperledger.fabricx.container.
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: container/stop
 ```
 
@@ -184,7 +184,7 @@ Stops the Loki container via hyperledger.fabricx.container.
 
 > Remove Loki container
 
-Removes the Loki container via hyperledger.fabricx.container.
+Removes the Loki container via hyperledger.chaguar.container.
 
 ```yaml
 - name: Remove Loki container
@@ -198,7 +198,7 @@ Removes the Loki container via hyperledger.fabricx.container.
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: container/rm
 ```
 
@@ -220,7 +220,7 @@ Deletes the Loki data directory from the remote host and, in Kubernetes/OpenShif
     # Base deployment root directory on the remote host under which per-component config/data directories are created.
     remote_deploy_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: data/rm
 ```
 
@@ -266,7 +266,7 @@ Renders and uploads the Loki config file to the remote host. Applies the Kuberne
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: config/transfer
 ```
 
@@ -288,7 +288,7 @@ Deletes the Loki configuration directory from the remote host and, in Kubernetes
     # Base deployment root directory on the remote host under which per-component config/data directories are created.
     remote_deploy_dir: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: config/rm
 ```
 
@@ -352,7 +352,7 @@ Applies the ConfigMap, a headless Service, and a StatefulSet (with a PVC via vol
     # Liveness probe period for the Loki StatefulSet. Defaults to 30 when omitted.
     k8s_liveness_probe_period_seconds: 1000
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/start
 ```
 
@@ -376,7 +376,7 @@ Deletes the Loki StatefulSet and Service from Kubernetes. Does not delete the Co
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/rm
 ```
 
@@ -402,7 +402,7 @@ Applies the Loki ConfigMap on Kubernetes/OpenShift.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/config/transfer
 ```
 
@@ -422,7 +422,7 @@ Deletes the Loki ConfigMap from Kubernetes/OpenShift.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/config/rm
 ```
 
@@ -442,7 +442,7 @@ Deletes the Loki PersistentVolumeClaim from Kubernetes/OpenShift.
     # Target Kubernetes/OpenShift namespace for this host's resources.
     k8s_namespace: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/data/rm
 ```
 
@@ -466,7 +466,7 @@ Delegates to k8s/start against an OpenShift-authenticated client context. Option
     # Value for the Kubernetes `app.kubernetes.io/part-of` label applied to Loki resources.
     loki_k8s_part_of: monitoring
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: openshift/start
 ```
 
@@ -486,7 +486,7 @@ Deletes the Loki OpenShift Route (if configured), then delegates to k8s/rm. Uses
     # Base Kubernetes resource name used for the Loki StatefulSet and Services.
     loki_k8s_resource_name: "{{ loki_container_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: openshift/rm
 ```
 
@@ -506,7 +506,7 @@ Generates TLS assets for Loki and applies the Kubernetes Secret when Kubernetes/
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: crypto/setup
 ```
 
@@ -532,7 +532,7 @@ Delegates certificate creation to the shared OpenSSL role using Loki-specific ou
     # Hostname for the OpenShift Route exposing Loki's HTTP endpoint. When omitted, no Route is created.
     loki_openshift_route: "string"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -564,7 +564,7 @@ Creates or updates the Kubernetes Secret that stores the Loki TLS server keypair
     # Whether Loki serves HTTPS. Also controls the Loki Grafana datasource URL scheme and the OpenShift Route TLS setting.
     loki_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -588,7 +588,7 @@ Fetches the generated Loki TLS certificate material to the control node.
     # Whether Loki serves HTTPS. Also controls the Loki Grafana datasource URL scheme and the OpenShift Route TLS setting.
     loki_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: crypto/fetch
 ```
 
@@ -612,7 +612,7 @@ Deletes the Loki TLS directory and removes the Kubernetes Secret when Kubernetes
     # Deploy Loki on OpenShift.
     loki_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: crypto/rm
 ```
 
@@ -632,6 +632,6 @@ Deletes the Kubernetes Secret that stores the Loki TLS server keypair.
     # Base Kubernetes resource name used for the Loki StatefulSet and Services.
     loki_k8s_resource_name: "{{ loki_container_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.loki
+    name: hyperledger.chaguar.loki
     tasks_from: k8s/crypto/rm
 ```

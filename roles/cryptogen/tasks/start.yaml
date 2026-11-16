@@ -6,7 +6,7 @@
 
 - name: Inspect the existing cryptogen components
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: inspect
 
 - name: Remove the drifted cryptogen components so they get re-issued
@@ -22,7 +22,7 @@
 
 - name: Start cryptogen as container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: container/start
   when:
     - not cryptogen_use_bin
@@ -30,7 +30,7 @@
 
 - name: Start cryptogen as binary
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.cryptogen
+    name: hyperledger.chaguar.cryptogen
     tasks_from: bin/start
   when:
     - cryptogen_use_bin

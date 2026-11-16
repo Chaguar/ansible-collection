@@ -6,6 +6,6 @@
 
 - name: Stop Block Explorer container
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.block_explorer
+    name: hyperledger.chaguar.block_explorer
     tasks_from: container/stop
   when: block_explorer_use_container

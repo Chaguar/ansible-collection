@@ -1,4 +1,4 @@
-# hyperledger.fabricx.utils
+# hyperledger.chaguar.utils
 
 > Provides inventory grouping helpers, Makefile target generation, and TCP reachability checks.
 
@@ -22,7 +22,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.fabricx.utils
+ansible-doc -t role hyperledger.chaguar.utils
 ```
 
 ## Tasks
@@ -37,9 +37,9 @@ Creates the inventory dispatch group in Makefile form by writing one phony targe
 - name: Generate Makefile targets for inventory hosts
   vars:
     # Defines the project root directory used by utility entry points that generate Makefile targets, which writes `target_hosts.mk` to `project_dir/target_hosts.mk`.
-    project_dir: "/path/to/hyperledger/fabricx"
+    project_dir: "/path/to/lfdt/chaguar"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: generate_makefile_targets
 ```
 
@@ -59,7 +59,7 @@ Checks each port in `utils_ports_to_ping` against `actual_host` to verify whethe
     # Real machine host.
     actual_host: "myvpc.cloud.ibm.com"
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: ping
 ```
 
@@ -72,7 +72,7 @@ Creates the `k8s_namespaces` inventory group with one selected host per distinct
 ```yaml
 - name: Create a group with one host per Kubernetes namespace
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: select_one_host_per_k8s_namespace
 ```
 
@@ -85,7 +85,7 @@ Creates the `machines` inventory group with one selected host per distinct machi
 ```yaml
 - name: Create a group with one host per machine
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: select_one_host_per_machine
 ```
 
@@ -93,7 +93,7 @@ Creates the `machines` inventory group with one selected host per distinct machi
 
 > Run SSD performance benchmark on remote hosts
 
-Copies `ssd_benchmark.sh` to the remote host and executes it to measure sequential write/read throughput, random 4K IOPS, and I/O latency. Evaluates whether the machine meets the minimum sequential write threshold of `1 GB/s` required for high-performance Fabric-X operations. Prints a warning if the measured sequential write speed falls below the threshold but does not fail the play.
+Copies `ssd_benchmark.sh` to the remote host and executes it to measure sequential write/read throughput, random 4K IOPS, and I/O latency. Evaluates whether the machine meets the minimum sequential write threshold of `1 GB/s` required for high-performance Chaguar operations. Prints a warning if the measured sequential write speed falls below the threshold but does not fail the play.
 
 ```yaml
 - name: Run SSD performance benchmark on remote hosts
@@ -107,6 +107,6 @@ Copies `ssd_benchmark.sh` to the remote host and executes it to measure sequenti
     # Block size used for random I/O tests.
     utils_benchmark_block_size: 4k
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.utils
+    name: hyperledger.chaguar.utils
     tasks_from: benchmark_volume
 ```

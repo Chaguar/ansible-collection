@@ -38,7 +38,7 @@ Whatever the symptom, start here. In order, cheapest first:
 ```shell
 # 0. Point the bare ansible commands at the right inventory
 echo $ANSIBLE_INVENTORY
-export ANSIBLE_INVENTORY=examples/inventory/local/fabric-x.yaml   # or whichever you meant
+export ANSIBLE_INVENTORY=examples/inventory/local/chaguar.yaml   # or whichever you meant
 
 # 1. Which inventory am I actually running?
 .venv/bin/ansible-inventory --graph | head -5
@@ -191,13 +191,13 @@ Three causes, in order of likelihood:
 
 ## Symptom: `make init` Fails
 
-`make init` creates **Fabric-X namespaces** by submitting configuration transactions through live endpoints. It fails by design if the network is not ready.
+`make init` creates **Chaguar namespaces** by submitting configuration transactions through live endpoints. It fails by design if the network is not ready.
 
 | Check                              | Why                                                                                   |
 | ---------------------------------- | ------------------------------------------------------------------------------------- |
 | Is the network started?            | Namespace transactions need live endpoints. `make init` must follow `make start`      |
-| Is the committer reachable?        | `make fabric_x_committers ping` — `fxconfig` needs the query service and sidecar      |
-| Are the routers reachable?         | `make fabric_x_orderers ping` — the transaction is submitted through a router         |
+| Is the committer reachable?        | `make chaguar_committers ping` — `fxconfig` needs the query service and sidecar       |
+| Are the routers reachable?         | `make chaguar_orderers ping` — the transaction is submitted through a router          |
 | Does any host declare a namespace? | `organization.namespaces` on the load generator, EVM gateway, or your own client host |
 | Is the `fxconfig` CLI built?       | `ls out/control-node/cli/` — `make binaries` produces it                              |
 
@@ -262,7 +262,7 @@ Collect logs and crypto from the hosts:
 
 ```shell
 make fetch-logs                        # everything
-make fabric_x_committers fetch-logs    # one group
+make chaguar_committers fetch-logs    # one group
 make fetch-crypto
 ```
 
@@ -304,11 +304,11 @@ Step 5 deletes `out/` entirely, including your crypto material and genesis block
 Steps 1 to 3:
 
 ```shell
-cp examples/inventory/local/fabric-x.yaml examples/inventory/local/broken.yaml
+cp examples/inventory/local/chaguar.yaml examples/inventory/local/broken.yaml
 export ANSIBLE_INVENTORY=examples/inventory/local/broken.yaml
 # edit committer-verifier: committer_rpc_port: 5100
 make configs
-make fabric_x_committers restart
+make chaguar_committers restart
 ```
 
 The fastest diagnosis is the duplicate-port scan, because it finds the cause rather than the symptom:
@@ -323,8 +323,8 @@ That prints `5100`. `make ping` also fails, and `docker logs committer-verifier`
 
 ```shell
 make configs
-make fabric_x_committers restart
-make fabric_x_committers ping
+make chaguar_committers restart
+make chaguar_committers ping
 ```
 
 Step 4 — the two likely causes:
@@ -335,7 +335,7 @@ Step 4 — the two likely causes:
 The command that distinguishes them:
 
 ```shell
-make fabric_x_committers ping
+make chaguar_committers ping
 ```
 
 If the sidecar's port is closed, it is cause 2 — the sidecar is down, and the Explorer's connection error is a symptom rather than the problem. If the sidecar answers, it is cause 1: the sidecar is healthy and actively rejecting the Explorer, which you confirm with

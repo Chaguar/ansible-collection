@@ -37,7 +37,7 @@
     container_run_as_host_user: true
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.fabricx.container
+    name: hyperledger.chaguar.container
     tasks_from: start
 
 - name: Fetch endorsed transaction

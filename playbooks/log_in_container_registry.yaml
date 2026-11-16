@@ -9,7 +9,7 @@
   tasks:
     - name: Set the group "machines"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.utils
+        name: hyperledger.chaguar.utils
         tasks_from: select_one_host_per_machine
 
 - name: Log into Container Registry
@@ -17,7 +17,7 @@
   tasks:
     - name: Login the container engine in a container registry
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.container
+        name: hyperledger.chaguar.container
         tasks_from: registry/login
 
 - name: Select one host per k8s namespace for imagePullSecret creation
@@ -25,7 +25,7 @@
   tasks:
     - name: Set the group "k8s_namespaces"
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.utils
+        name: hyperledger.chaguar.utils
         tasks_from: select_one_host_per_k8s_namespace
 
 - name: Create imagePullSecret in Kubernetes clusters
@@ -37,5 +37,5 @@
   tasks:
     - name: Create imagePullSecret in Kubernetes cluster
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.k8s
+        name: hyperledger.chaguar.k8s
         tasks_from: registry/create_pull_secret

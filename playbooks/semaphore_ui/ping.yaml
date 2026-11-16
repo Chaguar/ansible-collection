@@ -9,7 +9,7 @@
   tasks:
     - name: Check that the Semaphore UI port is open
       ansible.builtin.include_role:
-        name: hyperledger.fabricx.semaphore_ui
+        name: hyperledger.chaguar.semaphore_ui
         tasks_from: ping
       when:
         - semaphore_ui_port is defined

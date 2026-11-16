@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-- name: Remove Fabric-X Committer data directory
+- name: Remove Chaguar Committer data directory
   ansible.builtin.file:
     path: "{{ committer_remote_data_dir }}"
     state: absent
 
-- name: Delete Fabric-X Committer sidecar PersistentVolumeClaim
+- name: Delete Chaguar Committer sidecar PersistentVolumeClaim
   kubernetes.core.k8s:
     state: absent
     api_version: v1

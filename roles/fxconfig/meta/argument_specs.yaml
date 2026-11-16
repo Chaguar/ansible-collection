@@ -13,7 +13,7 @@ argument_specs:
         type: str
         required: true
         description:
-          - "Defines the Fabric-X channel written into the rendered fxconfig file."
+          - "Defines the Chaguar channel written into the rendered fxconfig file."
           - "Example: C(mychannel)."
       fxconfig_committer_query_service_connection_timeout:
         &fxconfig_committer_query_service_connection_timeout
@@ -50,13 +50,13 @@ argument_specs:
         required: true
         description:
           - "Defines the base local build directory used to derive C(fxconfig_artifacts_dir)."
-          - "Example: C(/tmp/fabricx/config-build)."
+          - "Example: C(/tmp/chaguar/config-build)."
       fetched_artifacts_dir: &fetched_artifacts_dir
         type: path
         required: true
         description:
           - "Defines the local directory that stores fetched crypto and TLS artifacts consumed by fxconfig."
-          - "Example: C(/tmp/fabricx/config-build)."
+          - "Example: C(/tmp/chaguar/config-build)."
       fxconfig_artifacts_dir: &fxconfig_artifacts_dir
         type: path
         default: "{{ config_build_dir }}/fxconfig-artifacts"
@@ -93,7 +93,7 @@ argument_specs:
         required: true
         description:
           - "Defines the local directory containing endorsed namespace transaction JSON files to merge."
-          - "Example: C(/tmp/fabricx/config-build/fxconfig-artifacts/mychannel/endorsed)."
+          - "Example: C(/tmp/chaguar/config-build/fxconfig-artifacts/mychannel/endorsed)."
       fxconfig_git_commit: &fxconfig_git_commit
         type: str
         default: "v1.0.3"
@@ -103,12 +103,12 @@ argument_specs:
         type: str
         default: "github.com"
         description:
-          - "Defines the Git host used to resolve the Fabric-X source repository."
+          - "Defines the Git host used to resolve the Chaguar source repository."
       fxconfig_git_repo: &fxconfig_git_repo
         type: str
         default: "hyperledger/fabric-x"
         description:
-          - "Defines the Fabric-X source repository path."
+          - "Defines the Chaguar source repository path."
       fxconfig_hosts: &fxconfig_hosts
         type: list
         elements: str
@@ -146,7 +146,7 @@ argument_specs:
         required: true
         description:
           - "Defines the source MSP directory copied into the fxconfig configuration directory."
-          - "Example: C(/opt/hyperledger/fabricx/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp)."
+          - "Example: C(/opt/lfdt/chaguar/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp)."
       fxconfig_msp_id: &fxconfig_msp_id
         type: str
         default: "{{ organization.name }}MSP"
@@ -186,7 +186,7 @@ argument_specs:
         required: true
         description:
           - "Defines the namespace endorsement policy."
-          - "Example: C(threshold:/tmp/fabricx/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem)."
+          - "Example: C(threshold:/tmp/chaguar/config-build/crypto/organizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem)."
       fxconfig_namespace_version: &fxconfig_namespace_version
         type: int
         required: true
@@ -228,13 +228,13 @@ argument_specs:
         required: true
         description:
           - "Supplies the local namespace transaction JSON file to endorse."
-          - "Example: C(/tmp/fabricx/config-build/fxconfig-artifacts/payments/ns.json)."
+          - "Example: C(/tmp/chaguar/config-build/fxconfig-artifacts/payments/ns.json)."
       fxconfig_tx_to_submit_path: &fxconfig_tx_to_submit_path
         type: path
         required: true
         description:
           - "Supplies the local merged namespace transaction JSON file to submit."
-          - "Example: C(/tmp/fabricx/config-build/fxconfig-artifacts/payments/merged.json)."
+          - "Example: C(/tmp/chaguar/config-build/fxconfig-artifacts/payments/merged.json)."
       fxconfig_use_bin: &fxconfig_use_bin
         type: bool
         default: false
@@ -244,7 +244,7 @@ argument_specs:
         type: dict
         description:
           - "Provides organization metadata used by tasks that read C(organization.*), including names, users, domains, and namespace declarations."
-          - "Example: C({'name': 'Org1', 'domain': 'org1.example.com', 'role': 'peer', 'users': [{'name': 'endorser', 'cert': '/tmp/fabricx/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem'}], 'namespaces': [{'id': 'payments', 'policy': 'threshold'}]})."
+          - "Example: C({'name': 'Org1', 'domain': 'org1.example.com', 'role': 'peer', 'users': [{'name': 'endorser', 'cert': '/tmp/chaguar/crypto-config/organizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem'}], 'namespaces': [{'id': 'payments', 'policy': 'threshold'}]})."
       orderer_router_host: &orderer_router_host
         type: str
         required: true
@@ -255,12 +255,12 @@ argument_specs:
         type: path
         description:
           - "Provides the base remote configuration directory used by the role."
-          - "Example: C(/opt/hyperledger/fabricx/config)."
+          - "Example: C(/opt/lfdt/chaguar/config)."
 
   bin/build:
     short_description: Build the fxconfig binary
     description:
-      - "Builds the fxconfig Go binary from the configured Fabric-X source package by delegating compilation to the shared bin role."
+      - "Builds the fxconfig Go binary from the configured Chaguar source package by delegating compilation to the shared bin role."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
       fxconfig_git_commit: *fxconfig_git_commit
@@ -283,7 +283,7 @@ argument_specs:
   bin/install:
     short_description: Install the fxconfig binary
     description:
-      - "Installs the fxconfig Go package from the configured Fabric-X source package by delegating to the shared bin role."
+      - "Installs the fxconfig Go package from the configured Chaguar source package by delegating to the shared bin role."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
       fxconfig_bin_package: *fxconfig_bin_package
@@ -322,7 +322,7 @@ argument_specs:
   bin/namespace/list:
     short_description: List namespaces with the fxconfig binary
     description:
-      - "Lists namespaces from the configured Fabric-X network by invoking the local fxconfig binary with the rendered fxconfig file."
+      - "Lists namespaces from the configured Chaguar network by invoking the local fxconfig binary with the rendered fxconfig file."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
       fxconfig_config_file: *fxconfig_config_file
@@ -479,7 +479,7 @@ argument_specs:
   container/namespace/list:
     short_description: List namespaces with the fxconfig container
     description:
-      - "Lists namespaces from the configured Fabric-X network by mounting the rendered configuration into a transient fxconfig container."
+      - "Lists namespaces from the configured Chaguar network by mounting the rendered configuration into a transient fxconfig container."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
       fxconfig_config_file: *fxconfig_config_file
@@ -579,7 +579,7 @@ argument_specs:
   namespace/inspect:
     short_description: Determine which namespaces need to be created or updated
     description:
-      - "Lists existing Fabric-X namespaces via C(namespace/list), then compares each declared namespace's fingerprint (its policy, and for threshold policies its signer) against the namespace state file to decide whether it must be created, updated, or left alone."
+      - "Lists existing Chaguar namespaces via C(namespace/list), then compares each declared namespace's fingerprint (its policy, and for threshold policies its signer) against the namespace state file to decide whether it must be created, updated, or left alone."
       - "A namespace absent from the chain is always slated for creation. A namespace on chain whose recorded fingerprint does not exactly match its declared policy -- including having no recorded fingerprint at all -- is slated for update, using its current on-chain version as fxconfig's required compare-and-swap token."
       - "Populates C(fxconfig_namespaces_to_create), C(fxconfig_namespaces_to_update), and C(fxconfig_namespace_fingerprints) for the caller to act on and to persist via C(namespace/record_state)."
     options:
