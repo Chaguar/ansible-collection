@@ -6,7 +6,7 @@
 
 - name: Find all registered identities on Fabric CA
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/identity_list
   when: not fabric_ca_use_prelisted_identities
 
@@ -21,7 +21,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 - name: Register identity with Fabric CA client binary
@@ -49,6 +49,6 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start
   when: not fabric_ca_identity_exists

@@ -6,14 +6,14 @@
 
 - name: Install {{ package_name }} on Linux
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.package
+    name: lfdt.chaguar.package
     tasks_from: install_on_linux
   when:
     - ansible_facts.system == 'Linux'
 
 - name: Install {{ package_name }} on macOS
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.package
+    name: lfdt.chaguar.package
     tasks_from: install_on_macos
   when:
     - ansible_facts.system == 'Darwin'

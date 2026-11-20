@@ -6,15 +6,15 @@
 
 - name: Teardown Block Explorer
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.block_explorer
+    name: lfdt.chaguar.block_explorer
     tasks_from: teardown
 
 - name: Remove Block Explorer crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.block_explorer
+    name: lfdt.chaguar.block_explorer
     tasks_from: crypto/rm
 
 - name: Remove Block Explorer configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.block_explorer
+    name: lfdt.chaguar.block_explorer
     tasks_from: config/rm

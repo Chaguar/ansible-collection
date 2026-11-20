@@ -12,7 +12,7 @@
     # =========================
     - name: Wipe the Chaguar Committer services
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.committer
+        name: lfdt.chaguar.committer
         tasks_from: wipe
       when:
         - committer_component_type is defined

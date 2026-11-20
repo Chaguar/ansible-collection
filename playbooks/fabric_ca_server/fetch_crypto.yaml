@@ -9,7 +9,7 @@
   tasks:
     - name: Fetch the Fabric CA certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fabric_ca
+        name: lfdt.chaguar.fabric_ca
         tasks_from: server/crypto/fetch
       when:
         - fabric_ca_port is defined

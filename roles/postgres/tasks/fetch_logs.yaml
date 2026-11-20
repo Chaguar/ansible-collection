@@ -6,13 +6,13 @@
 
 - name: Fetch Postgres DB logs from Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/fetch_logs
   when:
     - postgres_use_k8s or postgres_use_openshift
 
 - name: Fetch Postgres DB logs from container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/fetch_logs
   when: postgres_use_container

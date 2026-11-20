@@ -38,7 +38,7 @@ flowchart LR
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares, when the committer sidecar requires mTLS, a self-signed client certificate for the Block Explorer server.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.generate_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.generate_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders the Block Explorer server configuration from the `sidecar_host` and `postgres_db_host` connection details declared in inventory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.configs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.configs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -64,7 +64,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts the combined Block Explorer server and UI.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.start --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.start --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -77,7 +77,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops the combined Block Explorer server and UI, leaving generated files and runtime data in place.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.stop --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.stop --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -89,7 +89,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) removes the combined Block Explorer server/UI runtime resources while leaving configuration and crypto material intact.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.teardown --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.teardown --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -101,7 +101,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes the combined Block Explorer server/UI artifacts from targeted hosts, including generated configuration and crypto material.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.wipe --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.wipe --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -113,7 +113,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks the combined Block Explorer server/UI endpoints declared by targeted hosts.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.ping --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.ping --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -125,7 +125,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches Block Explorer server crypto material into the configured artifacts directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:
@@ -137,7 +137,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches combined Block Explorer server/UI logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.block_explorer.fetch_logs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
+ansible-playbook lfdt.chaguar.block_explorer.fetch_logs --extra-vars '{"target_hosts": "chaguar_block_explorer"}'
 ```
 
 Properties:

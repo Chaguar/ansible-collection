@@ -1,4 +1,4 @@
-# hyperledger.chaguar.container
+# lfdt.chaguar.container
 
 > Shared Docker and Podman lifecycle helpers for installing runtimes, managing containers, networks, registry logins, host-path volumes, and collected logs.
 
@@ -53,7 +53,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.container
+ansible-doc -t role lfdt.chaguar.container
 ```
 
 ## Tasks
@@ -70,7 +70,7 @@ Verifies the requested container runtime or auto-detects a host runtime, preferr
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: install
 ```
 
@@ -86,7 +86,7 @@ Selects the container runtime used by generic lifecycle tasks. Uses `container_c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client
 ```
 
@@ -104,7 +104,7 @@ Uses `container_socket` when provided. Otherwise discovers the local Docker or P
     # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
     container_socket: "unix:///run/user/1000/podman/podman.sock"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client_socket
 ```
 
@@ -124,7 +124,7 @@ Starts or updates a container through the selected Docker or Podman backend. Acc
     # Enables debug output.
     container_debug: "{{ lookup('env', 'DEBUG') | bool | default(false) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start
 ```
 
@@ -140,7 +140,7 @@ Stops the named container through the selected Docker or Podman backend. Uses `c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: stop
 ```
 
@@ -156,7 +156,7 @@ Removes the named container through the selected Docker or Podman backend. Uses 
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: rm
 ```
 
@@ -172,7 +172,7 @@ Runs `container_command` inside an existing container through the selected Docke
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: exec
 ```
 
@@ -202,7 +202,7 @@ Collects logs from the named container with the selected runtime client. Writes 
     # Provides the base local artifact directory for fetched logs.
     fetched_artifacts_dir: "/tmp/chaguar/fetched-logs"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: fetch_logs
 ```
 
@@ -218,7 +218,7 @@ Authenticates the selected Docker or Podman backend to `container_registry`. Use
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: registry/login
 ```
 
@@ -234,7 +234,7 @@ Creates the named network through the selected Docker or Podman backend. Uses dr
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: network/create
 ```
 
@@ -250,7 +250,7 @@ Removes the named network through the selected Docker or Podman backend. Uses `c
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: network/rm
 ```
 
@@ -266,7 +266,7 @@ Creates or updates a host path used as a container volume through the selected D
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: volume/create
 ```
 
@@ -282,7 +282,7 @@ Removes the host path used as a container volume through the selected Docker or 
     # Selects the container client to verify or use. Leave it empty to auto-detect `podman` first and then `docker`.
     container_client: "{{ lookup('env', 'CONTAINER_CLIENT') or '' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: volume/rm
 ```
 
@@ -295,7 +295,7 @@ Installs the Docker runtime on supported Linux hosts. Enables the Docker service
 ```yaml
 - name: Install Docker on the target host
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/install
 ```
 
@@ -308,7 +308,7 @@ Reads the active Docker context and sets `container_socket`. For Unix endpoints,
 ```yaml
 - name: Resolve the Docker socket from the current Docker context
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/get_socket
 ```
 
@@ -324,7 +324,7 @@ Checks for a containerd socket at the standard location (`/run/containerd/contai
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/get_containerd_socket
 ```
 
@@ -417,7 +417,7 @@ Starts or updates a Docker container with the requested image, command, environm
     # Sets the readiness check timeout.
     container_wait_timeout: 60
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/start
 ```
 
@@ -433,7 +433,7 @@ Stops the named Docker container when it exists. Uses `container_name` as the li
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/stop
 ```
 
@@ -449,7 +449,7 @@ Removes the named Docker container and its attached anonymous volumes. Uses `con
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/rm
 ```
 
@@ -471,7 +471,7 @@ Runs `container_command` inside an existing Docker container. Passes `container_
       FABRIC_LOGGING_SPEC: "INFO"
       ORDERER_GENERAL_LISTENPORT: "7050"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/exec
 ```
 
@@ -491,7 +491,7 @@ Logs the Docker client in to `container_registry`. Uses the supplied username an
     # Provides the registry password.
     container_registry_password: "my_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/registry/login
 ```
 
@@ -513,7 +513,7 @@ Creates the named Docker network with the requested driver, attachable flag, and
     # Marks the container network as internal when set to `true`.
     container_network_internal: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/network/create
 ```
 
@@ -529,7 +529,7 @@ Removes the named Docker network. Uses `container_network` as the lifecycle targ
     # Names the bridge network attached to the container when bridge mode is selected.
     container_network: "chaguar-net"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/network/rm
 ```
 
@@ -567,7 +567,7 @@ Creates or updates a host path used as a Docker volume. Applies state, mode, own
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/volume/create
 ```
 
@@ -593,7 +593,7 @@ Removes the host path used as a Docker volume. Uses `container_volume_path` as t
     # Names the file system path used for a container volume.
     container_volume_path: "/var/lfdt/chaguar/orderer/data"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/volume/rm
 ```
 
@@ -606,7 +606,7 @@ Installs the Podman runtime on supported hosts. Verifies that the Podman client 
 ```yaml
 - name: Install Podman on the target host
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/install
 ```
 
@@ -619,7 +619,7 @@ Reads Podman system information and sets `container_socket`. For Unix endpoints,
 ```yaml
 - name: Resolve the Podman socket from system information
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/get_socket
 ```
 
@@ -711,7 +711,7 @@ Starts or updates a Podman container with the requested image, command, environm
     # Sets the readiness check timeout.
     container_wait_timeout: 60
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/start
 ```
 
@@ -727,7 +727,7 @@ Stops the named Podman container when it exists. Uses `container_name` as the li
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/stop
 ```
 
@@ -743,7 +743,7 @@ Removes the named Podman container and its attached anonymous volumes. Uses `con
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/rm
 ```
 
@@ -765,7 +765,7 @@ Runs `container_command` inside an existing Podman container. Passes `container_
       FABRIC_LOGGING_SPEC: "INFO"
       ORDERER_GENERAL_LISTENPORT: "7050"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/exec
 ```
 
@@ -785,7 +785,7 @@ Logs the Podman client in to `container_registry`. Uses the supplied username an
     # Provides the registry password.
     container_registry_password: "my_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/registry/login
 ```
 
@@ -805,7 +805,7 @@ Creates the named Podman network with the requested driver and internal flag. Pr
     # Marks the container network as internal when set to `true`.
     container_network_internal: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/network/create
 ```
 
@@ -821,7 +821,7 @@ Removes the named Podman network. Uses `container_network` as the lifecycle targ
     # Names the bridge network attached to the container when bridge mode is selected.
     container_network: "chaguar-net"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/network/rm
 ```
 
@@ -859,7 +859,7 @@ Creates or updates a host path used as a Podman volume. Applies state, mode, own
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/volume/create
 ```
 
@@ -885,6 +885,6 @@ Removes the host path used as a Podman volume. Uses `container_volume_path` as t
     # Names the file system path used for a container volume.
     container_volume_path: "/var/lfdt/chaguar/orderer/data"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/volume/rm
 ```

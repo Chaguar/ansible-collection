@@ -1,4 +1,4 @@
-# hyperledger.chaguar.armageddon
+# lfdt.chaguar.armageddon
 
 > Automates the `armageddon` CLI for Chaguar shared orderer configuration generation. The role renders `shared_config.yaml` from the orderer inventory and then runs Armageddon in binary or container mode to produce `shared_config.binpb`. It consumes the crypto artifacts prepared by the crypto roles and the artifact directory selected for the chosen run mode.
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.armageddon
+ansible-doc -t role lfdt.chaguar.armageddon
 ```
 
 ## Tasks
@@ -56,7 +56,7 @@ Render `shared_config.yaml` for the Chaguar orderer topology. This entry point p
     # Shared-config filename.
     armageddon_shared_config_file: shared_config.yaml
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: config/build
 ```
 
@@ -82,7 +82,7 @@ Fingerprint the rendered `shared_config.yaml` together with every fetched crypto
     # Host directory with fetched crypto artifacts. The binary flow reads this directory directly and the container flow mounts it read-only.
     fetched_artifacts_dir: "/opt/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: inspect
 ```
 
@@ -104,7 +104,7 @@ Inspect the existing shared-config output, then dispatch generation to the binar
     # Filename that tracks a fingerprint of the rendered shared config and the orderer crypto inputs, used to detect changes since the last run.
     armageddon_state_file: armageddon-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: create_shared_config
 ```
 
@@ -132,7 +132,7 @@ Install the Armageddon CLI through the shared binary helper for binary-mode depl
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: bin/install
 ```
 
@@ -158,7 +158,7 @@ Build the Armageddon CLI from source through the shared Go helper for binary-mod
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: bin/build
 ```
 
@@ -182,7 +182,7 @@ Run the installed Armageddon binary to generate `shared_config.binpb`. This bina
     # Directory where the Armageddon binary is installed or executed. The binary helper roles use this as the local or remote binary directory.
     cli_bin_dir: "/usr/local/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: bin/create_shared_config
 ```
 
@@ -220,6 +220,6 @@ Run the Armageddon container to generate `shared_config.binpb` for container-mod
     # Host directory with fetched crypto artifacts. The binary flow reads this directory directly and the container flow mounts it read-only.
     fetched_artifacts_dir: "/opt/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.armageddon
+    name: lfdt.chaguar.armageddon
     tasks_from: container/create_shared_config
 ```

@@ -1,6 +1,6 @@
 # Chaguar Ansible Tutorial
 
-Welcome. This tutorial teaches you how to run and reshape a LFDT Chaguar network with the `hyperledger.chaguar` Ansible collection, one step at a time.
+Welcome. This tutorial teaches you how to run and reshape a LFDT Chaguar network with the `lfdt.chaguar` Ansible collection, one step at a time.
 
 The rest of the documentation in this repository is **reference material**: it tells you what every role, playbook, and inventory variable does. This tutorial is different. It is a **learning path**. It starts with no assumptions about Chaguar, gets a real network running on your laptop, and ends with you writing your own inventory from scratch.
 

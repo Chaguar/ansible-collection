@@ -106,6 +106,6 @@
     # =========================
     - name: Transfer EVM Kubernetes ConfigMap
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.evm
+        name: lfdt.chaguar.evm
         tasks_from: k8s/config/transfer
       when: evm_use_k8s or evm_use_openshift

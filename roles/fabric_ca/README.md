@@ -1,4 +1,4 @@
-# hyperledger.chaguar.fabric_ca
+# lfdt.chaguar.fabric_ca
 
 > Manages Hyperledger Fabric CA server and client certificate workflows, including X.509 and Idemix crypto, enrollment, registration, logs, configuration, and binary, container, or Kubernetes runtimes.
 
@@ -80,7 +80,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.fabric_ca
+ansible-doc -t role lfdt.chaguar.fabric_ca
 ```
 
 ## Tasks
@@ -124,7 +124,7 @@ For a BCCSP identity: fingerprint the enrollment inputs (identity name, CA name,
     # Path to the file that tracks a fingerprint of the enrollment inputs behind each BCCSP identity's certificate, keyed by `fabric_ca_msp_dir`, used to detect changes since the last run.
     fabric_ca_client_state_file: "{{ remote_node_dir }}/fabric-ca-enroll-state.yaml"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/inspect
 ```
 
@@ -152,7 +152,7 @@ Dispatches client enrollment to the binary or transient-container implementation
     # Path to the file that tracks a fingerprint of the enrollment inputs behind each BCCSP identity's certificate, keyed by `fabric_ca_msp_dir`, used to detect changes since the last run.
     fabric_ca_client_state_file: "{{ remote_node_dir }}/fabric-ca-enroll-state.yaml"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/enroll
 ```
 
@@ -170,7 +170,7 @@ Reassembles `fabric_ca_cryptogenize_tls_ca_cert_file` as the root certificate fo
     # Sets the Fabric CA client TLS CA certificate output path relative to `fabric_ca_msp_dir`.
     fabric_ca_cryptogenize_tls_ca_cert_file: ca.crt
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/intermediate_ca/build_ca_chain
 ```
 
@@ -188,7 +188,7 @@ Reassembles `fabric_ca_cryptogenize_tls_cert_file` as the leaf certificate follo
     # Sets the Fabric CA client TLS certificate output path relative to `fabric_ca_msp_dir`.
     fabric_ca_cryptogenize_tls_cert_file: server.crt
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/intermediate_ca/build_server_chain
 ```
 
@@ -206,7 +206,7 @@ Dispatches identity registration to the binary or transient-container implementa
     # Uses the names already stored in `fabric_ca_registered_identities_names` instead of listing identities before each registration.
     fabric_ca_use_prelisted_identities: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/register
 ```
 
@@ -229,7 +229,7 @@ Derives orderer, peer, and user identities for the current Fabric CA organizatio
         name: "peer0"
         secret: "peer0PWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/gather_identities
 ```
 
@@ -245,7 +245,7 @@ Dispatches reenrollment to the binary or transient-container implementation. Ref
     # Uses the binary client flow instead of the container flow.
     fabric_ca_client_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/reenroll
 ```
 
@@ -261,7 +261,7 @@ Dispatches Fabric CA identity listing to the binary or transient-container imple
     # Uses the binary client flow instead of the container flow.
     fabric_ca_client_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/identity_list
 ```
 
@@ -277,7 +277,7 @@ Dispatches identity revocation to the binary or transient-container implementati
     # Uses the binary client flow instead of the container flow.
     fabric_ca_client_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/revoke
 ```
 
@@ -293,7 +293,7 @@ Dispatches certificate revocation list generation to the binary or transient-con
     # Uses the binary client flow instead of the container flow.
     fabric_ca_client_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/gencrl
 ```
 
@@ -309,7 +309,7 @@ Resolves the effective Fabric CA server host and port used by client operations.
     # Names the inventory host that provides the target Fabric CA server.
     fabric_ca_host: "ca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/effective_address
 ```
 
@@ -327,7 +327,7 @@ Copies the enrolled Idemix issuer keys into an idemixgen-compatible layout. Crea
     # Sets the filename of the revocation public key file produced by the Fabric CA client idemix enrollment.
     fabric_ca_idemix_msp_revocation_public_key: RevocationPublicKey
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/idemixgenize
 ```
 
@@ -351,7 +351,7 @@ Builds the Fabric CA client binary from the configured Fabric CA Git source revi
     # Sets the Go package path used to build the client binary.
     fabric_ca_client_source_code_package: cmd/fabric-ca-client
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/build
 ```
 
@@ -377,7 +377,7 @@ Installs the Fabric CA client binary directly on the managed host with Go toolin
     # Pins the Fabric CA source revision.
     fabric_ca_git_commit: v1.5.22
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/install
 ```
 
@@ -393,7 +393,7 @@ Copies the previously built Fabric CA client binary to the managed host. Prepare
     # Sets the client binary name.
     fabric_ca_client_bin_name: fabric-ca-client
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/transfer
 ```
 
@@ -409,7 +409,7 @@ Removes the Fabric CA client binary from the managed host. Leaves enrolled MSP, 
     # Sets the client binary name.
     fabric_ca_client_bin_name: fabric-ca-client
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/rm
 ```
 
@@ -473,7 +473,7 @@ Enrolls an identity with the locally installed Fabric CA client binary. Writes X
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/enroll
 ```
 
@@ -509,7 +509,7 @@ Registers a new identity with the locally installed Fabric CA client binary. Use
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/register
 ```
 
@@ -571,7 +571,7 @@ Reenrolls an existing identity with the locally installed Fabric CA client binar
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/reenroll
 ```
 
@@ -597,7 +597,7 @@ Lists identities registered in the target Fabric CA server with the locally inst
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/identity_list
 ```
 
@@ -631,7 +631,7 @@ Revokes an enrolled identity with the locally installed Fabric CA client binary.
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/revoke
 ```
 
@@ -657,7 +657,7 @@ Generates a certificate revocation list from the target Fabric CA server with th
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/gencrl
 ```
 
@@ -731,7 +731,7 @@ Enrolls an identity with a transient Fabric CA client container. Mounts the loca
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/enroll
 ```
 
@@ -777,7 +777,7 @@ Registers a new identity with a transient Fabric CA client container. Uses the m
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/register
 ```
 
@@ -849,7 +849,7 @@ Reenrolls an existing identity with a transient Fabric CA client container. Refr
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/reenroll
 ```
 
@@ -885,7 +885,7 @@ Lists identities registered in the target Fabric CA server with a transient clie
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/identity_list
 ```
 
@@ -927,7 +927,7 @@ Revokes an enrolled identity with a transient Fabric CA client container. Uses t
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/revoke
 ```
 
@@ -961,7 +961,7 @@ Generates a certificate revocation list from the target Fabric CA server with a 
     # Sets the TLS root certificate file used by Fabric CA client flows when TLS is enabled.
     fabric_ca_tls_certfile: "/tmp/chaguar/crypto-config/organizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/gencrl
 ```
 
@@ -983,7 +983,7 @@ Dispatches Fabric CA server startup to the binary, container, or Kubernetes runt
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/start
 ```
 
@@ -1005,7 +1005,7 @@ Dispatches Fabric CA server stop to the binary or container runtime. Stops local
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/stop
 ```
 
@@ -1027,7 +1027,7 @@ Dispatches Fabric CA server runtime removal across binary, container, or Kuberne
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/teardown
 ```
 
@@ -1043,7 +1043,7 @@ Removes Fabric CA server runtime resources, binaries, configuration, and Kuberne
     # Uses the binary server flow instead of container or Kubernetes.
     fabric_ca_server_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/wipe
 ```
 
@@ -1065,7 +1065,7 @@ Checks that the Fabric CA API and operations endpoints are reachable. Uses direc
     # Sets the Fabric CA operations port.
     fabric_ca_operations_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/ping
 ```
 
@@ -1087,7 +1087,7 @@ Dispatches Fabric CA server log collection for binary, container, or Kubernetes 
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/fetch_logs
 ```
 
@@ -1111,7 +1111,7 @@ Builds the Fabric CA server binary from the configured Fabric CA Git source revi
     # Sets the Go package path used to build the server binary.
     fabric_ca_server_source_code_package: cmd/fabric-ca-server
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/build
 ```
 
@@ -1137,7 +1137,7 @@ Installs the Fabric CA server binary directly on the managed host with Go toolin
     # Pins the Fabric CA source revision.
     fabric_ca_git_commit: v1.5.22
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/install
 ```
 
@@ -1157,7 +1157,7 @@ Starts the Fabric CA server as a managed local binary process. Reads the rendere
     # Sets the Fabric CA API port.
     fabric_ca_port: 7054
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/start
 ```
 
@@ -1170,7 +1170,7 @@ Stops the managed Fabric CA server binary process. Leaves binaries, rendered con
 ```yaml
 - name: Stop the Fabric CA server binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/stop
 ```
 
@@ -1183,7 +1183,7 @@ Collects logs for the managed Fabric CA server binary process. Fetches runtime o
 ```yaml
 - name: Fetch server binary logs
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/fetch_logs
 ```
 
@@ -1199,7 +1199,7 @@ Removes the Fabric CA server binary from the managed host. Does not remove rende
     # Sets the server binary name.
     fabric_ca_server_bin_name: fabric-ca-server
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/rm
 ```
 
@@ -1215,7 +1215,7 @@ Copies the previously built Fabric CA server binary to the managed host. Prepare
     # Sets the server binary name.
     fabric_ca_server_bin_name: fabric-ca-server
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/transfer
 ```
 
@@ -1249,7 +1249,7 @@ Starts the Fabric CA server as a managed container. Mounts rendered configuratio
     # Sets the Fabric CA operations port.
     fabric_ca_operations_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/container/start
 ```
 
@@ -1265,7 +1265,7 @@ Stops the managed Fabric CA server container. Keeps the container definition, mo
     # Sets the container name used for the Fabric CA server runtime.
     fabric_ca_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/container/stop
 ```
 
@@ -1281,7 +1281,7 @@ Collects logs for the managed Fabric CA server container. Reads container runtim
     # Sets the container name used for the Fabric CA server runtime.
     fabric_ca_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/container/fetch_logs
 ```
 
@@ -1297,7 +1297,7 @@ Removes the managed Fabric CA server container. Leaves remote configuration dire
     # Sets the container name used for the Fabric CA server runtime.
     fabric_ca_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/container/rm
 ```
 
@@ -1374,7 +1374,7 @@ Creates Fabric CA Kubernetes runtime resources for the server. Uses the ConfigMa
         name: "peer0"
         secret: "peer0PWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/start
 ```
 
@@ -1400,7 +1400,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Sets the Fabric CA operations port.
     fabric_ca_operations_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/ping
 ```
 
@@ -1416,7 +1416,7 @@ Collects pod logs for the Fabric CA Kubernetes deployment. Fetches runtime outpu
     # Sets the Kubernetes resource name for the Fabric CA server and its Service resources.
     fabric_ca_server_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/fetch_logs
 ```
 
@@ -1442,7 +1442,7 @@ Deletes the Fabric CA Kubernetes runtime resources. Removes Deployment and Servi
     # Set to `true` to create a LoadBalancer Service entry that exposes the operations port externally. When undefined or `false`, the operations port is not included in the LoadBalancer Service.
     fabric_ca_server_k8s_loadbalancer_expose_operations_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/rm
 ```
 
@@ -1477,7 +1477,7 @@ Creates or updates the Fabric CA Kubernetes ConfigMap from rendered server confi
         name: "peer0"
         secret: "peer0PWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/config/transfer
 ```
 
@@ -1495,7 +1495,7 @@ Deletes the Fabric CA Kubernetes ConfigMap. Removes Kubernetes config resources 
     # Provides the Kubernetes namespace from the shared inventory.
     k8s_namespace: "chaguar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/config/rm
 ```
 
@@ -1538,7 +1538,7 @@ Creates or updates the Fabric CA Kubernetes Secret containing server crypto mate
         name: "peer0"
         secret: "peer0PWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/crypto/transfer
 ```
 
@@ -1556,7 +1556,7 @@ Deletes the Fabric CA Kubernetes Secret. Removes server CA and TLS key material 
     # Provides the Kubernetes namespace from the shared inventory.
     k8s_namespace: "chaguar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/crypto/rm
 ```
 
@@ -1574,7 +1574,7 @@ Generates X.509 and Idemix crypto material for the Fabric CA server. Coordinates
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/setup
 ```
 
@@ -1636,7 +1636,7 @@ Generates the Fabric CA root CA and TLS keypairs. Writes private keys and certif
     # Specifies the OpenShift Route host.
     fabric_ca_server_openshift_operations_route: "fabric-ca-operations.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/x509/setup
 ```
 
@@ -1656,7 +1656,7 @@ Generates the Fabric CA Idemix issuer keys. Stages Idemix issuer artifacts in th
     # Sets the transient Idemix output directory.
     fabric_ca_server_idemixgen_output_dir: "{{ fabric_ca_server_remote_config_dir }}/idemixgen-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/idemix/setup
 ```
 
@@ -1695,7 +1695,7 @@ Fetches the Fabric CA server certificate material. Copies CA certificates from t
         | length > 0
       }}
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/fetch
 ```
 
@@ -1713,7 +1713,7 @@ Deletes Kubernetes crypto resources for the Fabric CA server when Kubernetes mod
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/rm
 ```
 
@@ -1799,7 +1799,7 @@ Renders and transfers the Fabric CA server configuration. Includes bootstrap adm
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/config/transfer
 ```
 
@@ -1821,7 +1821,7 @@ Deletes Fabric CA server configuration resources. Removes local or Kubernetes co
     # Selects the OpenShift deployment branch.
     fabric_ca_server_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/config/rm
 ```
 
@@ -1854,7 +1854,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     fabric_ca_server_openshift_operations_route: "fabric-ca-operations.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/openshift/start
 ```
 
@@ -1874,7 +1874,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     fabric_ca_server_openshift_operations_route: "fabric-ca-operations.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/openshift/ping
 ```
 
@@ -1894,6 +1894,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     fabric_ca_server_openshift_operations_route: "fabric-ca-operations.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/openshift/rm
 ```

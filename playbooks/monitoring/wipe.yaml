@@ -12,7 +12,7 @@
     # =========================
     - name: Wipe Jaeger
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.jaeger
+        name: lfdt.chaguar.jaeger
         tasks_from: wipe
       when:
         - jaeger_collector_port is defined
@@ -21,7 +21,7 @@
     # =========================
     - name: Wipe ElasticSearch
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.elasticsearch
+        name: lfdt.chaguar.elasticsearch
         tasks_from: wipe
       when:
         - elasticsearch_http_port is defined
@@ -30,7 +30,7 @@
     # =========================
     - name: Wipe Grafana
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.grafana
+        name: lfdt.chaguar.grafana
         tasks_from: wipe
       when:
         - grafana_web_port is defined
@@ -39,7 +39,7 @@
     # =========================
     - name: Wipe Alloy
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.alloy
+        name: lfdt.chaguar.alloy
         tasks_from: wipe
       when:
         - alloy_port is defined
@@ -48,7 +48,7 @@
     # =========================
     - name: Wipe Loki
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loki
+        name: lfdt.chaguar.loki
         tasks_from: wipe
       when:
         - loki_port is defined
@@ -57,7 +57,7 @@
     # =========================
     - name: Wipe Prometheus
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.prometheus
+        name: lfdt.chaguar.prometheus
         tasks_from: wipe
       when:
         - prometheus_port is defined
@@ -66,7 +66,7 @@
     # =========================
     - name: Wipe Postgres Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres_exporter
+        name: lfdt.chaguar.postgres_exporter
         tasks_from: wipe
       when:
         - postgres_exporter_port is defined
@@ -75,7 +75,7 @@
     # =========================
     - name: Wipe Node Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.node_exporter
+        name: lfdt.chaguar.node_exporter
         tasks_from: wipe
       when:
         - node_exporter_port is defined
@@ -84,7 +84,7 @@
     # =========================
     - name: Wipe cAdvisor nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cadvisor
+        name: lfdt.chaguar.cadvisor
         tasks_from: wipe
       when:
         - cadvisor_port is defined

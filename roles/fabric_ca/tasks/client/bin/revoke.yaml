@@ -6,7 +6,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 - name: Revoke identity with Fabric CA client binary
@@ -27,5 +27,5 @@
     bin_run_with_tmux: false
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start

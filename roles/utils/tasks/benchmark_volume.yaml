@@ -8,7 +8,7 @@
   vars:
     package_name: fio
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.package
+    name: lfdt.chaguar.package
     tasks_from: install
 
 - name: Check if ioping is installed
@@ -38,7 +38,7 @@
       vars:
         package_name: ioping
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.package
+        name: lfdt.chaguar.package
         tasks_from: install
 
 - name: Ensure benchmark directory exists

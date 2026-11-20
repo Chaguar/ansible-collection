@@ -98,7 +98,7 @@
 # =========================
 - name: Setup TLS material for fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: config/tls/transfer
   when:
     - (hostvars[committer_query_service_host].committer_use_tls is defined and hostvars[committer_query_service_host].committer_use_tls)
@@ -110,7 +110,7 @@
 # =========================
 - name: Setup mTLS material for fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: config/mtls/transfer
   when:
     - (hostvars[committer_query_service_host].committer_use_mtls is defined and hostvars[committer_query_service_host].committer_use_mtls)

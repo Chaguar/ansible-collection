@@ -5,31 +5,31 @@
 #
 
 - name: Stop Loadgen
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.stop
 
 - name: Stop Monitoring
-  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.monitoring.stop
 
 - name: Stop Chaguar Block Explorer
-  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.block_explorer.stop
 
 - name: Stop Chaguar EVM
-  ansible.builtin.import_playbook: hyperledger.chaguar.evm.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.evm.stop
 
 - name: Stop Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.stop
 
 - name: Stop Chaguar Orderer
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.stop
 
 - name: Stop Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.stop
 
 - name: Stop PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.postgres.stop
 
 - name: Stop YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.yugabyte.stop
 
 - name: Stop Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.stop
+  ansible.builtin.import_playbook: lfdt.chaguar.semaphore_ui.stop

@@ -36,7 +36,7 @@
       name: "{{ organization.peer.name | default(inventory_hostname) }}"
       secret: "{{ organization.peer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/enroll
 
 # =========================
@@ -59,7 +59,7 @@
       name: "{{ organization.user.name }}"
       secret: "{{ organization.user.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/enroll
 
 # =========================
@@ -85,5 +85,5 @@
           name: "{{ organization.peer.name | default(inventory_hostname) }}"
           secret: "{{ organization.peer.secret }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fabric_ca
+        name: lfdt.chaguar.fabric_ca
         tasks_from: client/enroll

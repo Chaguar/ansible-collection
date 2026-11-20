@@ -9,7 +9,7 @@
   tasks:
     - name: Fetch PostgreSQL database logs
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres
+        name: lfdt.chaguar.postgres
         tasks_from: fetch_logs
       when:
         - postgres_port is defined

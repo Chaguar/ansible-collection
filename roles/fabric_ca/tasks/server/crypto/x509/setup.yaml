@@ -21,7 +21,7 @@
     openssl_basic_constraints: "critical, CA:true"
     openssl_key_usage: "critical, keyCertSign, cRLSign, digitalSignature"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_signed_cert
 
 # =========================
@@ -106,7 +106,7 @@
         | sort
       }}
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_csr
 
 - name: Generate Fabric CA TLS certificate from CSR
@@ -118,5 +118,5 @@
     openssl_ext_file_path: "{{ fabric_ca_server_remote_config_dir }}/tls.ext"
     openssl_dir_mode: "0750"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_cert

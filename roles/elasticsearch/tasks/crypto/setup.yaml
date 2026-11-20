@@ -9,7 +9,7 @@
 # =========================
 - name: Generate ElasticSearch TLS crypto material with OpenSSL
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.elasticsearch
+    name: lfdt.chaguar.elasticsearch
     tasks_from: crypto/openssl/generate_cert
   when:
     - elasticsearch_use_tls
@@ -19,6 +19,6 @@
 # =========================
 - name: Apply ElasticSearch K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.elasticsearch
+    name: lfdt.chaguar.elasticsearch
     tasks_from: k8s/crypto/transfer
   when: elasticsearch_use_k8s or elasticsearch_use_openshift

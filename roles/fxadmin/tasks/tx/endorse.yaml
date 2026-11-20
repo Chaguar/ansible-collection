@@ -22,14 +22,14 @@
 
 - name: Endorse the Chaguar ConfigUpdate with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/endorse
   when:
     - fxadmin_use_bin
 
 - name: Endorse the Chaguar ConfigUpdate with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/endorse
   when:
     - not fxadmin_use_bin

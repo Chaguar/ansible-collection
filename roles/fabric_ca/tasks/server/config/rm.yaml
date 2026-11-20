@@ -11,6 +11,6 @@
 
 - name: Remove Fabric CA Kubernetes ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/config/rm
   when: fabric_ca_server_use_k8s or fabric_ca_server_use_openshift

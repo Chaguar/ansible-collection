@@ -32,8 +32,8 @@
 ```mermaid
 flowchart TD
   MK["<b>Makefile</b><br/>make start"] --> EX["<b>Example playbook</b><br/>examples/playbooks/40-start.yaml"]
-  EX --> CP["<b>Collection playbooks</b><br/>hyperledger.chaguar.orderer.start"]
-  CP --> RL["<b>Roles</b><br/>hyperledger.chaguar.orderer, tasks_from: container/start"]
+  EX --> CP["<b>Collection playbooks</b><br/>lfdt.chaguar.orderer.start"]
+  CP --> RL["<b>Roles</b><br/>lfdt.chaguar.orderer, tasks_from: container/start"]
   RL --> RUN[Running container]
 ```
 
@@ -89,19 +89,19 @@ Each file is nothing but a list of imports. Here is `40-start.yaml`, complete:
 
 ```yaml
 - name: Start PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.start
+  ansible.builtin.import_playbook: lfdt.chaguar.postgres.start
 
 - name: Start YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.start
+  ansible.builtin.import_playbook: lfdt.chaguar.yugabyte.start
 
 - name: Start Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.start
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.start
 
 - name: Start Chaguar Orderer
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.start
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.start
 
 - name: Start LFDT Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.start
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.start
 # ... block_explorer, evm, monitoring, loadgen, semaphore_ui
 ```
 
@@ -109,20 +109,20 @@ Two things to take from that.
 
 First, **the order is the dependency graph** — databases before the committer that needs one, orderers before the committer sidecar that connects out to the assemblers, the load generator last.
 
-Second, **every family is always imported**, whether or not your inventory has hosts for it. The default local inventory has no YugabyteDB hosts and no EVM gateway, so `hyperledger.chaguar.yugabyte.start` and `hyperledger.chaguar.evm.start` run against an empty host list and skip. That is why you see plays reporting `skipping: no hosts matched` and why nothing breaks when you switch to an inventory that _does_ have those hosts. Understanding that also explains something you saw in [lesson 3](./03-run-your-first-network.md): the run output covers more component families than your inventory actually deploys.
+Second, **every family is always imported**, whether or not your inventory has hosts for it. The default local inventory has no YugabyteDB hosts and no EVM gateway, so `lfdt.chaguar.yugabyte.start` and `lfdt.chaguar.evm.start` run against an empty host list and skip. That is why you see plays reporting `skipping: no hosts matched` and why nothing breaks when you switch to an inventory that _does_ have those hosts. Understanding that also explains something you saw in [lesson 3](./03-run-your-first-network.md): the run output covers more component families than your inventory actually deploys.
 
 The other lifecycle files are worth skimming for the same reason. `20-generate-crypto.yaml` in particular explains why `make setup` starts containers:
 
 ```yaml
-- hyperledger.chaguar.create_container_networks
-- hyperledger.chaguar.artifacts.build_crypto_material
-- hyperledger.chaguar.fabric_ca_server.generate_crypto
-- hyperledger.chaguar.fabric_ca_server.configs
-- hyperledger.chaguar.fabric_ca_server.start # <-- the CAs come up here
-- hyperledger.chaguar.fabric_ca_server.init
-- hyperledger.chaguar.fabric_ca_server.register_identities
-- hyperledger.chaguar.orderer.generate_crypto # <-- now every component can enrol
-- hyperledger.chaguar.committer.generate_crypto
+- lfdt.chaguar.create_container_networks
+- lfdt.chaguar.artifacts.build_crypto_material
+- lfdt.chaguar.fabric_ca_server.generate_crypto
+- lfdt.chaguar.fabric_ca_server.configs
+- lfdt.chaguar.fabric_ca_server.start # <-- the CAs come up here
+- lfdt.chaguar.fabric_ca_server.init
+- lfdt.chaguar.fabric_ca_server.register_identities
+- lfdt.chaguar.orderer.generate_crypto # <-- now every component can enrol
+- lfdt.chaguar.committer.generate_crypto
 # ... and so on for every family
 ```
 
@@ -130,13 +130,13 @@ A Fabric CA has to be running before it can issue anything, so the CA lifecycle 
 
 ## Layer 3: The Collection Playbooks
 
-`hyperledger.chaguar.orderer.start` is a **fully-qualified collection name**: namespace `hyperledger`, collection `chaguar`, namespace-within-the-collection `orderer`, playbook `start`. It maps to [`playbooks/orderer/start.yaml`](../../playbooks/orderer/README.md) in this repository.
+`lfdt.chaguar.orderer.start` is a **fully-qualified collection name**: namespace `lfdt`, collection `chaguar`, namespace-within-the-collection `orderer`, playbook `start`. It maps to [`playbooks/orderer/start.yaml`](../../playbooks/orderer/README.md) in this repository.
 
 You can run any of them directly:
 
 ```shell
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.start
-.venv/bin/ansible-playbook hyperledger.chaguar.committer.stop \
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.start
+.venv/bin/ansible-playbook lfdt.chaguar.committer.stop \
   --extra-vars '{"target_hosts": "committer-verifier"}'
 ```
 
@@ -162,11 +162,11 @@ There are also a handful of top-level playbooks that operate on shared host reso
 
 | Playbook                                        | Purpose                                                 |
 | ----------------------------------------------- | ------------------------------------------------------- |
-| `hyperledger.chaguar.install_prerequisites`     | Install OS packages and runtimes on the target machines |
-| `hyperledger.chaguar.log_in_container_registry` | Authenticate against a private registry                 |
-| `hyperledger.chaguar.create_container_networks` | Create the container networks the inventory declares    |
-| `hyperledger.chaguar.remove_container_networks` | Remove them again                                       |
-| `hyperledger.chaguar.generate_target_hosts`     | Write `target_hosts.mk` — this is `make targets`        |
+| `lfdt.chaguar.install_prerequisites`     | Install OS packages and runtimes on the target machines |
+| `lfdt.chaguar.log_in_container_registry` | Authenticate against a private registry                 |
+| `lfdt.chaguar.create_container_networks` | Create the container networks the inventory declares    |
+| `lfdt.chaguar.remove_container_networks` | Remove them again                                       |
+| `lfdt.chaguar.generate_target_hosts`     | Write `target_hosts.mk` — this is `make targets`        |
 
 These deduplicate work per _physical machine_ rather than per inventory host, which matters when twenty logical services share one `ansible_host`. `install_prerequisites`, for example, picks one representative host per machine so packages are not installed twenty times.
 
@@ -177,7 +177,7 @@ A collection playbook does almost nothing except include a role with a specific 
 ```yaml
 - name: Start Chaguar Orderer components
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: start
 ```
 
@@ -186,7 +186,7 @@ And the role's `start.yaml` dispatches on the two axes you met in [lesson 5](./0
 ```yaml
 - name: Start Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: "{{ orderer_deployment_mode }}/start"
   when: orderer_component_type is defined
 ```
@@ -245,7 +245,7 @@ committer-validator:
   postgres_db_host: committer-db
 ```
 
-`make configs` runs `hyperledger.chaguar.committer.configs`, which includes the `committer` role's `config/transfer` task, which dispatches to `validator/config/transfer` because of the component type, which renders a Jinja2 template from `roles/committer/templates/` with the inventory as its data, and writes the result to the path the environment file defines.
+`make configs` runs `lfdt.chaguar.committer.configs`, which includes the `committer` role's `config/transfer` task, which dispatches to `validator/config/transfer` because of the component type, which renders a Jinja2 template from `roles/committer/templates/` with the inventory as its data, and writes the result to the path the environment file defines.
 
 So you can read the outcome:
 
@@ -265,12 +265,12 @@ Put it all together and you can drive the collection directly. Set the config an
 ```shell
 export ANSIBLE_CONFIG=examples/ansible.cfg
 
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.configs
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.start
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.ping
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.configs
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.start
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.ping
 ```
 
-This is what building your own Ansible project on this collection looks like: your own playbooks importing `hyperledger.chaguar.*`, your own inventory, and no `Makefile` at all. The `Makefile` and `examples/playbooks/` are a convenient sample harness, not the product.
+This is what building your own Ansible project on this collection looks like: your own playbooks importing `lfdt.chaguar.*`, your own inventory, and no `Makefile` at all. The `Makefile` and `examples/playbooks/` are a convenient sample harness, not the product.
 
 ## Exercise
 
@@ -289,9 +289,9 @@ Part 1 — stop then start, with `target_hosts` passed as an extra variable:
 ```shell
 export ANSIBLE_CONFIG=examples/ansible.cfg
 
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.stop \
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.stop \
   --extra-vars '{"target_hosts": "chaguar_orderers"}'
-.venv/bin/ansible-playbook hyperledger.chaguar.orderer.start \
+.venv/bin/ansible-playbook lfdt.chaguar.orderer.start \
   --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 

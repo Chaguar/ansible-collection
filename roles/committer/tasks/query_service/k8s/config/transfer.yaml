@@ -9,7 +9,7 @@
 # =========================
 - name: Ensure Kubernetes namespace exists for Chaguar Committer query-service
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: namespace/create
 
 # =========================

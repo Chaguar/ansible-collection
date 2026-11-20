@@ -6,18 +6,18 @@
 
 - name: Remove Jaeger container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: container/rm
   when: jaeger_use_container
 
 - name: Remove Jaeger Kubernetes workload
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: k8s/rm
   when: jaeger_use_k8s
 
 - name: Teardown Jaeger on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: openshift/rm
   when: jaeger_use_openshift

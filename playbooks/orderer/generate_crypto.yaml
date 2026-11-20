@@ -9,9 +9,9 @@
   tasks:
     - name: Setup LFDT Chaguar Orderer crypto material
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.orderer
+        name: lfdt.chaguar.orderer
         tasks_from: crypto/setup
     - name: Fetch LFDT Chaguar Orderer certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.orderer
+        name: lfdt.chaguar.orderer
         tasks_from: crypto/fetch

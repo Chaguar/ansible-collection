@@ -9,5 +9,5 @@
   tasks:
     - name: Set the Chaguar Loadgen TPS limit rate
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loadgen
+        name: lfdt.chaguar.loadgen
         tasks_from: limit_rate

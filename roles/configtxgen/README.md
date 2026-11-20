@@ -1,4 +1,4 @@
-# hyperledger.chaguar.configtxgen
+# lfdt.chaguar.configtxgen
 
 > Generates Chaguar `configtx.yaml` and genesis block artifacts with `configtxgen` through binary or container entry points.
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.configtxgen
+ansible-doc -t role lfdt.chaguar.configtxgen
 ```
 
 ## Tasks
@@ -161,7 +161,7 @@ Generate `configtx.yaml` for Chaguar genesis block creation. Render the config t
     # Rule for the Channel Admins policy.
     configtxgen_channel_policies_admins_rule: MAJORITY Admins
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: config/build
 ```
 
@@ -195,7 +195,7 @@ Fingerprint the rendered `configtx.yaml`, the Armageddon shared-config binary, a
     # Directory containing fetched crypto artifacts used by the binary path and container mounts.
     fetched_artifacts_dir: "/opt/chaguar/artifacts/crypto"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: inspect
 ```
 
@@ -221,7 +221,7 @@ Build the `configtxgen` binary from the Chaguar source tree on the control node.
     # Directory used as the `configtxgen` binary destination or lookup path.
     cli_bin_dir: "/opt/chaguar/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: bin/build
 ```
 
@@ -249,7 +249,7 @@ Install the `configtxgen` Go package through the shared `bin` role. The installe
     # Directory used as the `configtxgen` binary destination or lookup path.
     cli_bin_dir: "/opt/chaguar/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: bin/install
 ```
 
@@ -279,7 +279,7 @@ Run the local `configtxgen` binary to generate the channel genesis block. The ou
     # Genesis block filename written by `configtxgen`, used to detect whether it already exists.
     configtxgen_genesis_block_file: "{{ configtxgen_channel_id }}_block.pb"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: bin/start
 ```
 
@@ -331,7 +331,7 @@ Run `configtxgen` in a container to generate the channel genesis block. The cont
     # Directory containing fetched crypto artifacts used by the binary path and container mounts.
     fetched_artifacts_dir: "/opt/chaguar/artifacts/crypto"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: container/start
 ```
 
@@ -353,6 +353,6 @@ Inspect the existing genesis block, then select the binary or container executio
     # Filename that tracks a fingerprint of the rendered config, the Armageddon shared-config binary, and the crypto inputs, used to detect changes since the last run.
     configtxgen_state_file: configtxgen-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.configtxgen
+    name: lfdt.chaguar.configtxgen
     tasks_from: start
 ```

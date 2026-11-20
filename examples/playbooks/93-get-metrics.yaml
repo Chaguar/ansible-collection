@@ -5,10 +5,10 @@
 #
 
 - name: Collect Chaguar Orderer metrics
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.get_metrics
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.get_metrics
 
 - name: Collect Chaguar Committer metrics
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.get_metrics
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.get_metrics
 
 - name: Collect Chaguar Loadgen
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.get_metrics
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.get_metrics

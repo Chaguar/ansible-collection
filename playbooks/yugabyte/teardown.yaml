@@ -9,7 +9,7 @@
   tasks:
     - name: Teardown YugabyteDB node
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.yugabyte
+        name: lfdt.chaguar.yugabyte
         tasks_from: teardown
       when:
         - yugabyte_component_type is defined

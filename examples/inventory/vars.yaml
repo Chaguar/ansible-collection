@@ -7,7 +7,7 @@
 # =========================
 # Control Node Paths
 # =========================
-project_dir: "{{ lookup('env', 'PROJECT_DIR') or ('~/.ansible/collections/ansible_collections/hyperledger/chaguar' | expanduser) }}"
+project_dir: "{{ lookup('env', 'PROJECT_DIR') or ('~/.ansible/collections/ansible_collections/lfdt/chaguar' | expanduser) }}"
 out_dir: "{{ lookup('env', 'OUT_DIR') or (project_dir + '/out') }}"
 control_node_dir: "{{ out_dir }}/control-node"
 cli_bin_dir: "{{ control_node_dir }}/cli"

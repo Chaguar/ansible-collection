@@ -6,12 +6,12 @@
 
 - name: Fetch node_exporter logs from container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/fetch_logs
   when: node_exporter_use_container
 
 - name: Fetch Node Exporter logs from Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/fetch_logs
   when: node_exporter_use_k8s or node_exporter_use_openshift

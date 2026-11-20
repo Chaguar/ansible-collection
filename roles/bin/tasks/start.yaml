@@ -58,7 +58,7 @@
     tmux_cmd_to_run: "{{ bin_cmd_to_run }}"
     tmux_chdir: "{{ bin_chdir }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.tmux
+    name: lfdt.chaguar.tmux
     tasks_from: start
   when:
     - bin_run_with_tmux

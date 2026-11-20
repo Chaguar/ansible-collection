@@ -6,18 +6,18 @@
 
 - name: Find the container client to use
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client
   when: container_client == ''
 
 - name: Remove a podman network
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: podman/network/rm
   when: container_client == 'podman'
 
 - name: Remove a docker network
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/network/rm
   when: container_client == 'docker'

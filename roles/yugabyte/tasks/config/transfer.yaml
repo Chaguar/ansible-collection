@@ -18,6 +18,6 @@
 
 - name: Apply Yugabyte k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: k8s/config/transfer
   when: yugabyte_use_k8s or yugabyte_use_openshift

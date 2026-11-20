@@ -9,7 +9,7 @@
   tasks:
     - name: Teardown PostgreSQL database
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres
+        name: lfdt.chaguar.postgres
         tasks_from: teardown
       when:
         - postgres_port is defined

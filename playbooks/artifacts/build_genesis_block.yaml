@@ -11,12 +11,12 @@
       vars:
         armageddon_orderer_hosts: "{{ groups['chaguar_orderers'] }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.armageddon
+        name: lfdt.chaguar.armageddon
         tasks_from: config/build
       when: "'chaguar_orderers' in groups"
     - name: Generate shared_config.binpb
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.armageddon
+        name: lfdt.chaguar.armageddon
         tasks_from: create_shared_config
       when: "'chaguar_orderers' in groups"
     - name: Group orderers by organization
@@ -88,16 +88,16 @@
         loop_var: peer
     - name: Build Chaguar-compatible configuration file for configtxgen
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.configtxgen
+        name: lfdt.chaguar.configtxgen
         tasks_from: config/build
     - name: Install configtxgen as binary for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.configtxgen
+        name: lfdt.chaguar.configtxgen
         tasks_from: bin/install
       when:
         - configtxgen_use_bin is defined
         - configtxgen_use_bin
     - name: Generate the genesis block for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.configtxgen
+        name: lfdt.chaguar.configtxgen
         tasks_from: start

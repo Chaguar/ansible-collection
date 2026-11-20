@@ -1,4 +1,4 @@
-# hyperledger.chaguar.postgres
+# lfdt.chaguar.postgres
 
 > Deploys and manages a PostgreSQL instance for Chaguar in container, Kubernetes, or OpenShift mode.
 
@@ -48,7 +48,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.postgres
+ansible-doc -t role lfdt.chaguar.postgres
 ```
 
 ## Tasks
@@ -73,7 +73,7 @@ Validates PostgreSQL reachability for the selected deployment mode. In container
     # Optional postgres_exporter port to probe after PostgreSQL itself. This entry point only runs when the variable is defined.
     postgres_exporter_port: 9187
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: ping
 ```
 
@@ -93,7 +93,7 @@ Starts PostgreSQL using the selected deployment mode and dispatches to the match
     # Run PostgreSQL as a container when set to `true`.
     postgres_use_container: "{{ (not postgres_use_k8s) and (not postgres_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: start
 ```
 
@@ -113,7 +113,7 @@ Stops PostgreSQL runtime processes for deployments managed as a local container.
     # Run PostgreSQL as a container when set to `true`.
     postgres_use_container: "{{ (not postgres_use_k8s) and (not postgres_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: stop
 ```
 
@@ -133,7 +133,7 @@ Removes PostgreSQL runtime resources for the selected deployment mode while leav
     # Run PostgreSQL as a container when set to `true`.
     postgres_use_container: "{{ (not postgres_use_k8s) and (not postgres_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: teardown
 ```
 
@@ -146,7 +146,7 @@ Fully removes PostgreSQL runtime resources, persistent data, TLS materials, and 
 ```yaml
 - name: Wipe PostgreSQL data and configuration
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: wipe
 ```
 
@@ -166,7 +166,7 @@ Collects PostgreSQL logs from the selected deployment mode without changing runt
     # Run PostgreSQL as a container when set to `true`.
     postgres_use_container: "{{ (not postgres_use_k8s) and (not postgres_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: fetch_logs
 ```
 
@@ -192,7 +192,7 @@ Removes PostgreSQL persistent data for the selected deployment mode. Container m
     # Kubernetes namespace used for PostgreSQL resources. This dependency is validated by every Kubernetes leaf entry point.
     k8s_namespace: "chaguar-postgres"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: data/rm
 ```
 
@@ -250,7 +250,7 @@ Creates the PostgreSQL data directory, fixes TLS file permissions when TLS is en
     # Additional PostgreSQL command-line options appended to the start command.
     postgres_extra_cmd_opts: "-c max_connections=200 -c log_directory=/var/lib/postgresql/data/pg_log"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/start
 ```
 
@@ -266,7 +266,7 @@ Stops the PostgreSQL container instance named by `postgres_container_name`. Uses
     # Container name for the PostgreSQL instance.
     postgres_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/stop
 ```
 
@@ -282,7 +282,7 @@ Removes the PostgreSQL container instance named by `postgres_container_name`. Co
     # Container name for the PostgreSQL instance.
     postgres_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/rm
 ```
 
@@ -298,7 +298,7 @@ Collects logs from the PostgreSQL container instance named by `postgres_containe
     # Container name for the PostgreSQL instance.
     postgres_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/fetch_logs
 ```
 
@@ -388,7 +388,7 @@ Ensures `k8s_namespace` exists and applies the PostgreSQL headless Service and S
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/start
 ```
 
@@ -408,7 +408,7 @@ Probes the PostgreSQL NodePort Service when `postgres_k8s_node_port` is defined.
     # Set to `true` to create a LoadBalancer Service and expose `postgres_port` externally. When undefined or `false`, no LoadBalancer Service is created.
     postgres_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/ping
 ```
 
@@ -430,7 +430,7 @@ Deletes the PostgreSQL StatefulSet, headless Service, optional NodePort Service,
     # Set to `true` to create a LoadBalancer Service and expose `postgres_port` externally. When undefined or `false`, no LoadBalancer Service is created.
     postgres_k8s_loadbalancer_expose_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/rm
 ```
 
@@ -446,7 +446,7 @@ Collects logs from the PostgreSQL pod in `k8s_namespace`. Selects pods using `po
     # Base Kubernetes resource name used for PostgreSQL objects, including the StatefulSet and Services.
     postgres_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/fetch_logs
 ```
 
@@ -482,7 +482,7 @@ Applies the Kubernetes Secret named `postgres_k8s_resource_name`-secret. Stores 
     # Enable server-side TLS for PostgreSQL.
     postgres_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -500,7 +500,7 @@ Deletes the Kubernetes Secret named `postgres_k8s_resource_name`-secret from `k8
     # Kubernetes namespace used for PostgreSQL resources. This dependency is validated by every Kubernetes leaf entry point.
     k8s_namespace: "chaguar-postgres"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/crypto/rm
 ```
 
@@ -530,7 +530,7 @@ Applies the Kubernetes ConfigMap named `postgres_k8s_resource_name`-config. Stor
       - "committer0"
       - "orderer0"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/config/transfer
 ```
 
@@ -548,7 +548,7 @@ Deletes the Kubernetes ConfigMap named `postgres_k8s_resource_name`-config from 
     # Kubernetes namespace used for PostgreSQL resources. This dependency is validated by every Kubernetes leaf entry point.
     k8s_namespace: "chaguar-postgres"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/config/rm
 ```
 
@@ -561,7 +561,7 @@ Starts PostgreSQL on OpenShift by reusing the generic `k8s/start` resource flow.
 ```yaml
 - name: Start PostgreSQL on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: openshift/start
 ```
 
@@ -574,7 +574,7 @@ Reuses the Kubernetes service ping flow for PostgreSQL OpenShift deployments.
 ```yaml
 - name: Check PostgreSQL OpenShift services
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: openshift/ping
 ```
 
@@ -587,7 +587,7 @@ Removes PostgreSQL OpenShift resources by reusing the generic `k8s/rm` resource 
 ```yaml
 - name: Remove PostgreSQL OpenShift resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: openshift/rm
 ```
 
@@ -615,7 +615,7 @@ Selects the PostgreSQL TLS generation path for OpenSSL, cryptogen, or Fabric CA 
         secret: "postgres0PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/setup
 ```
 
@@ -637,7 +637,7 @@ Fetches the PostgreSQL TLS CA certificate and server certificate from `postgres_
     # Control-node directory where fetched PostgreSQL artifacts are written.
     fetched_artifacts_dir: "/tmp/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/fetch
 ```
 
@@ -663,7 +663,7 @@ Deletes PostgreSQL TLS files from `postgres_remote_config_dir` when TLS is enabl
     # Filename of the PostgreSQL TLS private key under the TLS config directory.
     postgres_tls_private_key_file: server.key
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/rm
 ```
 
@@ -693,7 +693,7 @@ Generates a self-signed TLS keypair for PostgreSQL under `postgres_remote_config
         secret: "postgres0PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -725,7 +725,7 @@ Copies PostgreSQL TLS files generated by cryptogen from `cryptogen_artifacts_dir
         secret: "postgres0PWD"
       fabric_ca_host: "fca-org1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -759,7 +759,7 @@ Enrolls PostgreSQL through Fabric CA to generate TLS materials under `postgres_r
     # Resolved host name used for external reachability checks and in the Fabric CA CSR SAN list.
     actual_host: "postgres0.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -787,7 +787,7 @@ Ensures `postgres_remote_config_dir` exists and prepares optional mTLS configura
     # Run PostgreSQL on OpenShift when set to `true`.
     postgres_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: config/transfer
 ```
 
@@ -809,7 +809,7 @@ Deletes PostgreSQL configuration files from `postgres_remote_config_dir` on the 
     # Run PostgreSQL on OpenShift when set to `true`.
     postgres_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: config/rm
 ```
 
@@ -833,6 +833,6 @@ Renders `pg_hba.conf` and assembles the PostgreSQL client CA bundle used for mTL
     # Control-node directory where fetched PostgreSQL artifacts are written.
     fetched_artifacts_dir: "/tmp/chaguar/fetched-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: config/mtls/transfer
 ```

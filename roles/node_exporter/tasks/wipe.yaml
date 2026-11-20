@@ -6,15 +6,15 @@
 
 - name: Teardown Node Exporter
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: teardown
 
 - name: Remove the Node Exporter crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: crypto/rm
 
 - name: Remove the Node Exporter configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: config/rm

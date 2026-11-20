@@ -16,7 +16,7 @@ They are structured in multiple tasks, each one devoted to a specific action. To
 ```yaml
 - name: Generate the crypto material with cryptogen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.cryptogen
+    name: lfdt.chaguar.cryptogen
     tasks_from: start
 ```
 
@@ -26,34 +26,34 @@ The roles are interconnected each other, meaning that some roles play as base fo
 
 The roles that come within such collection are listed hereafter. Click on them to access their documentation:
 
-- [`hyperledger.chaguar.armageddon`](./armageddon);
-- [`hyperledger.chaguar.bin`](./bin);
-- [`hyperledger.chaguar.block_explorer`](./block_explorer);
-- [`hyperledger.chaguar.cadvisor`](./cadvisor);
-- [`hyperledger.chaguar.committer`](./committer);
-- [`hyperledger.chaguar.configtxgen`](./configtxgen);
-- [`hyperledger.chaguar.configtxlator`](./configtxlator);
-- [`hyperledger.chaguar.container`](./container);
-- [`hyperledger.chaguar.cryptogen`](./cryptogen);
-- [`hyperledger.chaguar.evm`](./evm);
-- [`hyperledger.chaguar.fabric_ca`](./fabric_ca);
-- [`hyperledger.chaguar.fxadmin`](./fxadmin);
-- [`hyperledger.chaguar.fxconfig`](./fxconfig);
-- [`hyperledger.chaguar.git`](./git);
-- [`hyperledger.chaguar.go`](./go);
-- [`hyperledger.chaguar.grafana`](./grafana);
-- [`hyperledger.chaguar.jaeger`](./jaeger);
-- [`hyperledger.chaguar.k8s`](./k8s);
-- [`hyperledger.chaguar.loadgen`](./loadgen);
-- [`hyperledger.chaguar.node_exporter`](./node_exporter);
-- [`hyperledger.chaguar.openshift`](./openshift);
-- [`hyperledger.chaguar.openssl`](./openssl);
-- [`hyperledger.chaguar.orderer`](./orderer);
-- [`hyperledger.chaguar.package`](./package);
-- [`hyperledger.chaguar.postgres`](./postgres);
-- [`hyperledger.chaguar.postgres_exporter`](./postgres_exporter);
-- [`hyperledger.chaguar.prometheus`](./prometheus);
-- [`hyperledger.chaguar.semaphore_ui`](./semaphore_ui);
-- [`hyperledger.chaguar.tmux`](./tmux);
-- [`hyperledger.chaguar.utils`](./utils);
-- [`hyperledger.chaguar.yugabyte`](./yugabyte).
+- [`lfdt.chaguar.armageddon`](./armageddon);
+- [`lfdt.chaguar.bin`](./bin);
+- [`lfdt.chaguar.block_explorer`](./block_explorer);
+- [`lfdt.chaguar.cadvisor`](./cadvisor);
+- [`lfdt.chaguar.committer`](./committer);
+- [`lfdt.chaguar.configtxgen`](./configtxgen);
+- [`lfdt.chaguar.configtxlator`](./configtxlator);
+- [`lfdt.chaguar.container`](./container);
+- [`lfdt.chaguar.cryptogen`](./cryptogen);
+- [`lfdt.chaguar.evm`](./evm);
+- [`lfdt.chaguar.fabric_ca`](./fabric_ca);
+- [`lfdt.chaguar.fxadmin`](./fxadmin);
+- [`lfdt.chaguar.fxconfig`](./fxconfig);
+- [`lfdt.chaguar.git`](./git);
+- [`lfdt.chaguar.go`](./go);
+- [`lfdt.chaguar.grafana`](./grafana);
+- [`lfdt.chaguar.jaeger`](./jaeger);
+- [`lfdt.chaguar.k8s`](./k8s);
+- [`lfdt.chaguar.loadgen`](./loadgen);
+- [`lfdt.chaguar.node_exporter`](./node_exporter);
+- [`lfdt.chaguar.openshift`](./openshift);
+- [`lfdt.chaguar.openssl`](./openssl);
+- [`lfdt.chaguar.orderer`](./orderer);
+- [`lfdt.chaguar.package`](./package);
+- [`lfdt.chaguar.postgres`](./postgres);
+- [`lfdt.chaguar.postgres_exporter`](./postgres_exporter);
+- [`lfdt.chaguar.prometheus`](./prometheus);
+- [`lfdt.chaguar.semaphore_ui`](./semaphore_ui);
+- [`lfdt.chaguar.tmux`](./tmux);
+- [`lfdt.chaguar.utils`](./utils);
+- [`lfdt.chaguar.yugabyte`](./yugabyte).

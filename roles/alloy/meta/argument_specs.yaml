@@ -221,7 +221,7 @@ argument_specs:
   container/start:
     short_description: Start Alloy container
     description:
-      - "Starts the Alloy container via hyperledger.chaguar.container, mounting config, data, and (when enabled) the Docker/Podman socket."
+      - "Starts the Alloy container via lfdt.chaguar.container, mounting config, data, and (when enabled) the Docker/Podman socket."
     options:
       alloy_container_name: *alloy_container_name
       alloy_image: *alloy_image
@@ -243,7 +243,7 @@ argument_specs:
   container/rm:
     short_description: Remove Alloy container
     description:
-      - "Removes the Alloy container via hyperledger.chaguar.container."
+      - "Removes the Alloy container via lfdt.chaguar.container."
     options:
       alloy_container_name: *alloy_container_name
 

@@ -9,7 +9,7 @@
   tasks:
     - name: Start the Semaphore UI binary
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.semaphore_ui
+        name: lfdt.chaguar.semaphore_ui
         tasks_from: start
       when:
         - semaphore_ui_port is defined

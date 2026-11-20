@@ -6,14 +6,14 @@
 
 - name: Reenroll identities with Fabric CA client container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/reenroll
   when:
     - not fabric_ca_client_use_bin
 
 - name: Reenroll identities with Fabric CA client binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/bin/reenroll
   when:
     - fabric_ca_client_use_bin

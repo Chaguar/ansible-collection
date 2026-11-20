@@ -6,6 +6,6 @@
 
 - name: Stop Prometheus container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: container/stop
   when: prometheus_use_container

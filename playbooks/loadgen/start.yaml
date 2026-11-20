@@ -29,5 +29,5 @@
           vars:
             committer_hosts: "{{ reference_committer_hosts }}"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.loadgen
+            name: lfdt.chaguar.loadgen
             tasks_from: start

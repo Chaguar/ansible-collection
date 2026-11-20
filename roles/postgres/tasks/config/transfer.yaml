@@ -15,7 +15,7 @@
 # =========================
 - name: Transfer the pg_hba.conf to enforce mTLS on PostgresDB
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: config/mtls/transfer
   when:
     - postgres_use_mtls
@@ -28,7 +28,7 @@
 # =========================
 - name: Transfer Postgres DB K8s config
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/config/transfer
   when:
     - postgres_use_k8s or postgres_use_openshift

@@ -9,7 +9,7 @@
 # =========================
 - name: Transfer the LFDT Chaguar Orderer crypto material generated with cryptogen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/cryptogen/transfer
   when:
     - organization.fabric_ca_host is undefined
@@ -19,7 +19,7 @@
 # =========================
 - name: Enroll the LFDT Chaguar Orderer with Fabric-CA to generate the crypto material
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/fabric_ca/enroll
   when:
     - organization.fabric_ca_host is defined
@@ -29,6 +29,6 @@
 # =========================
 - name: Apply Chaguar Orderer K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/crypto/transfer
   when: orderer_use_k8s or orderer_use_openshift

@@ -6,7 +6,7 @@
 
 - name: Compute Git directory name from Git Repo name
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.git
+    name: lfdt.chaguar.git
     tasks_from: get_repo_name
 
 - name: Ensure directory where to clone exists

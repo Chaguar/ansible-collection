@@ -1,7 +1,7 @@
-# AGENTS.md — AI Agent Guide for `hyperledger.chaguar`
+# AGENTS.md — AI Agent Guide for `lfdt.chaguar`
 
-`hyperledger.chaguar` is an Ansible collection that automates deployment and lifecycle management of **LFDT Chaguar** networks.
-Namespace/name: `hyperledger.chaguar`. Authoritative version and deps: [`galaxy.yml`](galaxy.yml).
+`lfdt.chaguar` is an Ansible collection that automates deployment and lifecycle management of **LFDT Chaguar** networks.
+Namespace/name: `lfdt.chaguar`. Authoritative version and deps: [`galaxy.yml`](galaxy.yml).
 
 ## Project-local Agent Skills
 
@@ -59,7 +59,7 @@ Roles that manage multiple sub-components (e.g. `orderer`: consenter/batcher/ass
 
 ```yaml
 ansible.builtin.include_role:
-  name: hyperledger.chaguar.<role>
+  name: lfdt.chaguar.<role>
   tasks_from: <sub_component>/start # e.g. coordinator/start, assembler/bin/install
 ```
 

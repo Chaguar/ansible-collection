@@ -6,6 +6,6 @@
 
 - name: Stop Postgres DB container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/stop
   when: postgres_use_container

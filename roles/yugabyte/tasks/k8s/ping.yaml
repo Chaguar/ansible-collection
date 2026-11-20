@@ -13,7 +13,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_master_rpc_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'master'
@@ -24,7 +24,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_master_rpc_bind_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'master'
@@ -35,7 +35,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_master_webserver_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'master'
@@ -46,7 +46,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_master_webserver_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'master'
@@ -61,7 +61,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_pgsql_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -72,7 +72,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_pgsql_bind_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -83,7 +83,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_rpc_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -94,7 +94,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_rpc_bind_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -105,7 +105,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_webserver_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -116,7 +116,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_webserver_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -127,7 +127,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_pgsql_web_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -138,7 +138,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_pgsql_web_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -149,7 +149,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_cql_bind_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -160,7 +160,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_cql_bind_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -171,7 +171,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_k8s_tablet_cql_web_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'
@@ -182,7 +182,7 @@
     utils_ports_to_ping:
       - "{{ yugabyte_tablet_cql_web_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - yugabyte_component_type == 'tablet'

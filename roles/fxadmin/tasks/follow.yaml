@@ -16,14 +16,14 @@
 
 - name: Follow the ledger with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/follow
   when:
     - fxadmin_use_bin
 
 - name: Follow the ledger with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/follow
   when:
     - not fxadmin_use_bin

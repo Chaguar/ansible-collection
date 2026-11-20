@@ -24,5 +24,5 @@
     openssl_cert_path: "{{ postgres_exporter_remote_config_dir }}/tls/{{ postgres_exporter_tls_cert_file }}"
     openssl_san_hosts: "{{ postgres_exporter_tls_san_hosts | unique }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_signed_cert

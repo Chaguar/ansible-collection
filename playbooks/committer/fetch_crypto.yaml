@@ -9,13 +9,13 @@
   tasks:
     - name: Fetch LFDT Chaguar Committer Yugabyte DB certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.yugabyte
+        name: lfdt.chaguar.yugabyte
         tasks_from: crypto/fetch
       when:
         - yugabyte_component_type is defined
     - name: Fetch LFDT Chaguar Committer certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.committer
+        name: lfdt.chaguar.committer
         tasks_from: crypto/fetch
       when:
         - committer_component_type is defined

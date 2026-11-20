@@ -6,5 +6,5 @@
 
 - name: Stop ElasticSearch container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.elasticsearch
+    name: lfdt.chaguar.elasticsearch
     tasks_from: container/stop

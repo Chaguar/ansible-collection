@@ -6,10 +6,10 @@
 
 - name: Stop Chaguar Orderer binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/stop
 
 - name: Remove Chaguar Orderer data
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: data/rm

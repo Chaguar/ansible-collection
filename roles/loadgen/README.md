@@ -1,4 +1,4 @@
-# hyperledger.chaguar.loadgen
+# lfdt.chaguar.loadgen
 
 > Deploys and manages the Chaguar Load Generator across binary, container, and Kubernetes modes for workload, metrics, TLS, and log collection workflows.
 
@@ -57,7 +57,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.loadgen
+ansible-doc -t role lfdt.chaguar.loadgen
 ```
 
 ## Tasks
@@ -80,7 +80,7 @@ Start the Loadgen runtime selected by the deployment mode flags. Container mode 
     # Use Kubernetes resources.
     loadgen_use_k8s: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: start
 ```
 
@@ -102,7 +102,7 @@ Stop the active Loadgen runtime selected by the deployment mode flags. Stops the
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: stop
 ```
 
@@ -124,7 +124,7 @@ Remove runtime resources for the selected Loadgen deployment mode. Deletes the l
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: teardown
 ```
 
@@ -140,7 +140,7 @@ Remove Loadgen runtime resources, binary artifacts, generated configuration, and
     # Run the binary runtime.
     loadgen_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: wipe
 ```
 
@@ -162,7 +162,7 @@ Collect Loadgen logs for the selected deployment mode. Binary, container, and Ku
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: fetch_logs
 ```
 
@@ -182,7 +182,7 @@ Verify that the Loadgen monitoring endpoint is reachable. Uses direct host acces
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: ping
 ```
 
@@ -198,7 +198,7 @@ Compute the host-and-port values used to reach the Loadgen instance from outside
     # Names the inventory host that provides the target Loadgen instance.
     loadgen_host: "loadgen1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: effective_address
 ```
 
@@ -214,7 +214,7 @@ Query the Loadgen Prometheus metrics endpoint over HTTP or HTTPS. Delegates addr
     # Assert the committed transaction metric and report aborted transactions when fetching metrics.
     loadgen_assert_metrics: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: get_metrics
 ```
 
@@ -230,7 +230,7 @@ Send a control-plane HTTP request that changes the active generated transaction 
     # Maximum generated transaction rate.
     loadgen_limit_rate: 2500
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: limit_rate
 ```
 
@@ -250,7 +250,7 @@ Build Prometheus scrape target definitions for all Loadgen hosts. Includes monit
     # Local artifacts directory used for fetched TLS and MSP files.
     fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -421,7 +421,7 @@ Render the Loadgen configuration file and transfer config-side support artifacts
     # Enable mTLS for the monitoring endpoint.
     loadgen_monitoring_use_mtls: "{{ loadgen_use_mtls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: config/transfer
 ```
 
@@ -449,7 +449,7 @@ Transfer CA bundles trusted by the Loadgen monitoring endpoint. Copies client an
       - name: "MonitoringOrg"
         domain: "monitoring.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: config/mtls/monitoring/transfer
 ```
 
@@ -471,7 +471,7 @@ Remove host-side rendered Loadgen configuration. Also removes the Kubernetes Con
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: config/rm
 ```
 
@@ -504,7 +504,7 @@ Prepare Loadgen MSP, user, and TLS material through the configured crypto source
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/setup
 ```
 
@@ -545,7 +545,7 @@ Transfer MSP, user, and TLS artifacts generated by cryptogen to the Loadgen host
     # Enable TLS for the monitoring endpoint.
     loadgen_monitoring_use_tls: "{{ loadgen_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -592,7 +592,7 @@ Enroll Loadgen peer, user, and optional TLS identities against Fabric CA. Writes
     # Specifies the OpenShift Route host.
     loadgen_openshift_rpc_route: "loadgen-rpc.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -631,7 +631,7 @@ Fetch the generated Loadgen user MSP signcert and TLS certificates back to the c
     # Enable TLS for the monitoring endpoint.
     loadgen_monitoring_use_tls: "{{ loadgen_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/fetch
 ```
 
@@ -657,7 +657,7 @@ Remove Loadgen MSP, user, and TLS artifacts from the host config directory. Also
     # Selects the OpenShift deployment branch.
     loadgen_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/rm
 ```
 
@@ -681,7 +681,7 @@ Build the `loadgen` binary from the configured Chaguar source repository. Uses t
     # Go package path for the Loadgen binary.
     loadgen_source_code_package: cmd/loadgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/build
 ```
 
@@ -707,7 +707,7 @@ Install the `loadgen` binary through the shared binary helper role. Consumes the
     # Go package path for the Loadgen binary.
     loadgen_source_code_package: cmd/loadgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/install
 ```
 
@@ -723,7 +723,7 @@ Remove the installed `loadgen` binary managed by the shared binary helper role. 
     # Binary name used by the shared bin role.
     loadgen_bin_name: loadgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/rm
 ```
 
@@ -747,7 +747,7 @@ Start Loadgen as a local binary process using the rendered config file. Waits on
     # Prometheus metrics port exposed by Loadgen.
     loadgen_metrics_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/start
 ```
 
@@ -760,7 +760,7 @@ Stop the local Loadgen binary process managed by the shared binary helper role. 
 ```yaml
 - name: Stop the binary runtime
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/stop
 ```
 
@@ -776,7 +776,7 @@ Transfer a prebuilt `loadgen` binary through the shared binary helper role. Used
     # Binary name used by the shared bin role.
     loadgen_bin_name: loadgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/transfer
 ```
 
@@ -789,7 +789,7 @@ Collect logs emitted by a binary-based Loadgen runtime. Fetches process logs wit
 ```yaml
 - name: Fetch binary logs
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/fetch_logs
 ```
 
@@ -825,7 +825,7 @@ Start Loadgen as a local container with the rendered config directory mounted re
     # gRPC control port exposed by Loadgen.
     loadgen_rpc_port: 7051
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: container/start
 ```
 
@@ -849,7 +849,7 @@ Stop the local Loadgen container. Preserves the container definition, image refe
     # Image registry endpoint.
     loadgen_registry_endpoint: "{{ lookup('env', 'LOADGEN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: container/stop
 ```
 
@@ -873,7 +873,7 @@ Remove the local Loadgen container runtime resources. Leaves host-side generated
     # Image registry endpoint.
     loadgen_registry_endpoint: "{{ lookup('env', 'LOADGEN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: container/rm
 ```
 
@@ -889,7 +889,7 @@ Collect logs from a containerized Loadgen runtime. Reads container logs for the 
     # Container name used by the runtime.
     loadgen_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: container/fetch_logs
 ```
 
@@ -1000,7 +1000,7 @@ Create or update Kubernetes resources for Loadgen. Ensures the namespace exists,
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/start
 ```
 
@@ -1026,7 +1026,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the gRPC control port externally. When undefined or `false`, the gRPC control port is not included in the LoadBalancer Service.
     loadgen_k8s_loadbalancer_expose_rpc_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/ping
 ```
 
@@ -1052,7 +1052,7 @@ Remove the Kubernetes Deployment and Services created for Loadgen. Does not remo
     # Set to `true` to create a LoadBalancer Service entry that exposes the gRPC control port externally. When undefined or `false`, the gRPC control port is not included in the LoadBalancer Service.
     loadgen_k8s_loadbalancer_expose_rpc_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/rm
 ```
 
@@ -1068,7 +1068,7 @@ Collect logs from the Kubernetes pod running Loadgen. Uses the configured Kubern
     # Kubernetes resource name used for the Deployment, Service, Secret, and optional NodePort Service.
     loadgen_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/fetch_logs
 ```
 
@@ -1135,7 +1135,7 @@ Publish the rendered Loadgen configuration and trusted CA bundles as a Kubernete
       - name: "MonitoringOrg"
         domain: "monitoring.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/config/transfer
 ```
 
@@ -1153,7 +1153,7 @@ Remove the Kubernetes ConfigMap created for Loadgen configuration. Leaves host-s
     # Kubernetes resource name used for the Deployment, Service, Secret, and optional NodePort Service.
     loadgen_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/config/rm
 ```
 
@@ -1198,7 +1198,7 @@ Publish Loadgen MSP and TLS material as a Kubernetes Secret. The Secret is consu
     # Enable TLS for the monitoring endpoint.
     loadgen_monitoring_use_tls: "{{ loadgen_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1218,7 +1218,7 @@ Remove the Kubernetes Secret created for Loadgen MSP and TLS material. Leaves ho
     # Enable TLS for the main endpoint.
     loadgen_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/crypto/rm
 ```
 
@@ -1259,7 +1259,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     loadgen_openshift_rpc_route: "loadgen-rpc.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: openshift/start
 ```
 
@@ -1281,7 +1281,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     loadgen_openshift_rpc_route: "loadgen-rpc.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: openshift/ping
 ```
 
@@ -1301,6 +1301,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     loadgen_openshift_rpc_route: "loadgen-rpc.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: openshift/rm
 ```

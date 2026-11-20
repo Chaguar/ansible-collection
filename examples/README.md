@@ -1,6 +1,6 @@
 # LFDT Chaguar Deployment Samples
 
-This directory contains sample inventories and wrapper playbooks for running LFDT Chaguar networks with the `hyperledger.chaguar` collection.
+This directory contains sample inventories and wrapper playbooks for running LFDT Chaguar networks with the `lfdt.chaguar` collection.
 
 > [!NOTE]
 > The samples are intentionally small enough to inspect and adapt. They are not a production blueprint. Use them to learn the inventory contract, validate changes locally, and create your own topology.

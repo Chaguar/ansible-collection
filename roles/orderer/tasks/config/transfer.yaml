@@ -33,14 +33,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/mtls/transfer
   when:
     - orderer_use_mtls
 
 - name: Transfer Operations mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/mtls/operations/transfer
   when:
     - orderer_operations_use_mtls
@@ -50,6 +50,6 @@
 # =========================
 - name: Transfer Chaguar Orderer K8s config
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/config/transfer
   when: orderer_use_k8s or orderer_use_openshift

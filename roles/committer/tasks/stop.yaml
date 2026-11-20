@@ -6,7 +6,7 @@
 
 - name: Stop Chaguar Committer components
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: "{{ committer_deployment_mode }}/stop"
   when:
     - committer_deployment_mode in ['bin', 'container']

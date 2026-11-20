@@ -12,7 +12,7 @@
       vars:
         container_volume_path: "{{ postgres_remote_config_dir }}/tls/{{ postgres_tls_private_key_file }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: volume/rm
     - name: Clean Postgres TLS folder
       ansible.builtin.file:
@@ -21,7 +21,7 @@
 
 - name: Delete Postgres DB K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/crypto/rm
   when:
     - postgres_use_k8s or postgres_use_openshift

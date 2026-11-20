@@ -9,13 +9,13 @@
 # =========================
 - name: Generate the Prometheus TLS crypto material with OpenSSL
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: crypto/openssl/generate_cert
   when:
     - prometheus_use_tls
 
 - name: Apply Prometheus K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: k8s/crypto/transfer
   when: prometheus_use_k8s or prometheus_use_openshift

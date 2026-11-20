@@ -14,5 +14,5 @@
     grafana_dashboard_file: "Chaguar-Orderer_Grafana_Dashboard.json"
     grafana_dashboard_path: "{{ orderer_grafana_dashboard_path }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/copy_dashboard

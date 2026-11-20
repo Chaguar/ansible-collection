@@ -12,7 +12,7 @@
     utils_ports_to_ping:
       - "{{ evm_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when: not (evm_use_k8s or evm_use_openshift)
 
@@ -20,7 +20,7 @@
   vars:
     evm_ping_base_url: "http://{{ actual_host }}:{{ evm_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: rpc_check
   when: not (evm_use_k8s or evm_use_openshift)
 
@@ -29,7 +29,7 @@
 # =======================
 - name: Check that the EVM Kubernetes services are reachable
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: k8s/ping
   when: evm_use_k8s
 
@@ -38,6 +38,6 @@
 # =======================
 - name: Check that the EVM OpenShift route and Kubernetes services are open
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: openshift/ping
   when: evm_use_openshift

@@ -12,7 +12,7 @@
     # =========================
     - name: Fetch the logs from Node Exporter
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.node_exporter
+        name: lfdt.chaguar.node_exporter
         tasks_from: fetch_logs
       when:
         - node_exporter_port is defined
@@ -21,7 +21,7 @@
     # =========================
     - name: Fetch the logs from Postgres Exporter
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres_exporter
+        name: lfdt.chaguar.postgres_exporter
         tasks_from: fetch_logs
       when:
         - postgres_exporter_port is defined
@@ -30,7 +30,7 @@
     # =========================
     - name: Fetch the logs from cAdvisor
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cadvisor
+        name: lfdt.chaguar.cadvisor
         tasks_from: fetch_logs
       when:
         - cadvisor_port is defined
@@ -39,7 +39,7 @@
     # =========================
     - name: Fetch the logs from Prometheus
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.prometheus
+        name: lfdt.chaguar.prometheus
         tasks_from: fetch_logs
       when:
         - prometheus_port is defined
@@ -48,7 +48,7 @@
     # =========================
     - name: Fetch the logs from Grafana
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.grafana
+        name: lfdt.chaguar.grafana
         tasks_from: fetch_logs
       when:
         - grafana_web_port is defined
@@ -57,7 +57,7 @@
     # =========================
     - name: Fetch the logs from ElasticSearch
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.elasticsearch
+        name: lfdt.chaguar.elasticsearch
         tasks_from: fetch_logs
       when:
         - elasticsearch_http_port is defined
@@ -66,7 +66,7 @@
     # =========================
     - name: Fetch the logs from Jaeger
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.jaeger
+        name: lfdt.chaguar.jaeger
         tasks_from: fetch_logs
       when:
         - jaeger_collector_port is defined

@@ -6,23 +6,23 @@
 
 - name: Remove Postgres DB Kubernetes workload
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/rm
   when: postgres_use_k8s
 
 - name: Remove Postgres DB OpenShift workload
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: openshift/rm
   when: postgres_use_openshift
 
 - name: Remove Postgres DB container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: container/rm
   when: postgres_use_container
 
 - name: Remove Postgres DB data
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: data/rm

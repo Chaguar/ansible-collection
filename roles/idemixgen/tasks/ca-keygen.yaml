@@ -15,7 +15,7 @@
   block:
     - name: Start idemixgen ca-keygen as container
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.idemixgen
+        name: lfdt.chaguar.idemixgen
         tasks_from: container/ca-keygen
       when:
         - not idemixgen_use_bin
@@ -25,9 +25,9 @@
       block:
         - name: Install idemixgen as binary
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.idemixgen
+            name: lfdt.chaguar.idemixgen
             tasks_from: bin/install
         - name: Start idemixgen ca-keygen as binary
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.idemixgen
+            name: lfdt.chaguar.idemixgen
             tasks_from: bin/ca-keygen

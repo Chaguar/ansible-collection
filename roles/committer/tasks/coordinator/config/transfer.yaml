@@ -81,14 +81,14 @@
 # =========================
 - name: Transfer mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/mtls/transfer
   when:
     - committer_use_mtls
 
 - name: Transfer Monitoring mTLS certificates
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
   when:
     - committer_monitoring_use_mtls
@@ -98,6 +98,6 @@
 # =========================
 - name: Generate LFDT Chaguar Committer coordinator k8s config
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: coordinator/k8s/config/transfer
   when: committer_use_k8s or committer_use_openshift

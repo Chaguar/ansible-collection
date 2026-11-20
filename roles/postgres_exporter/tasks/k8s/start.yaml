@@ -6,7 +6,7 @@
 
 - name: Ensure Kubernetes namespace exists for Postgres Exporter
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: namespace/create
 
 - name: Apply Postgres Exporter Service

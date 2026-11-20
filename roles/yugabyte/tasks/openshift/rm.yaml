@@ -6,12 +6,12 @@
 
 - name: Remove Yugabyte master OpenShift resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: openshift/master/rm
   when: yugabyte_component_type == 'master'
 
 - name: Remove Yugabyte tablet server OpenShift resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: openshift/tablet/rm
   when: yugabyte_component_type == 'tablet'

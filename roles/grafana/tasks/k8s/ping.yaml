@@ -9,7 +9,7 @@
     utils_ports_to_ping:
       - "{{ grafana_k8s_web_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - grafana_k8s_web_node_port is defined
@@ -19,7 +19,7 @@
     utils_ports_to_ping:
       - "{{ grafana_web_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - grafana_k8s_loadbalancer_expose_web_port

@@ -9,7 +9,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_ui_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_ui_node_port is defined
@@ -19,7 +19,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_ui_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_ui_port
@@ -29,7 +29,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_admin_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_admin_node_port is defined
@@ -39,7 +39,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_admin_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_admin_port
@@ -49,7 +49,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_http_server_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_http_server_node_port is defined
@@ -59,7 +59,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_http_server_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_http_server_port
@@ -69,7 +69,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_http_collector_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_http_collector_node_port is defined
@@ -79,7 +79,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_http_collector_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_http_collector_port
@@ -89,7 +89,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_grpc_server_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_grpc_server_node_port is defined
@@ -99,7 +99,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_grpc_server_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_grpc_server_port
@@ -109,7 +109,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_k8s_collector_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_collector_node_port is defined
@@ -119,7 +119,7 @@
     utils_ports_to_ping:
       - "{{ jaeger_collector_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - jaeger_k8s_loadbalancer_expose_collector_port

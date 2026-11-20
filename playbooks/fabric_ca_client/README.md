@@ -19,7 +19,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares the Fabric CA client wherever enrollment or registration tasks may need it. It can install or build the client on the control node, then transfer, install, or build it on remote Fabric CA servers and component hosts whose organizations enroll through Fabric CA.
 
 ```shell
-ansible-playbook hyperledger.chaguar.fabric_ca_client.binaries
+ansible-playbook lfdt.chaguar.fabric_ca_client.binaries
 ```
 
 Properties:

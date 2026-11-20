@@ -12,7 +12,7 @@
     # =========================
     - name: Ping the Chaguar Committer
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.committer
+        name: lfdt.chaguar.committer
         tasks_from: ping
       when:
         - committer_component_type is defined

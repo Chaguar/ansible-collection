@@ -13,7 +13,7 @@
       - "{{ yugabyte_master_webserver_port }}"
       - "{{ yugabyte_master_rpc_bind_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - not (yugabyte_use_k8s or yugabyte_use_openshift)
@@ -32,7 +32,7 @@
       - "{{ yugabyte_tablet_cql_bind_port }}"
       - "{{ yugabyte_tablet_cql_web_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - not (yugabyte_use_k8s or yugabyte_use_openshift)
@@ -43,7 +43,7 @@
 # =======================
 - name: Check that the Yugabyte node ports are open
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: k8s/ping
   when: yugabyte_use_k8s
 
@@ -52,6 +52,6 @@
 # =======================
 - name: Check that the Yugabyte OpenShift routes and Kubernetes services are open
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: openshift/ping
   when: yugabyte_use_openshift

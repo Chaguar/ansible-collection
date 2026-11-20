@@ -51,7 +51,7 @@ Make sure your container engine is actually running (`docker info` or `podman in
 
 ## Choose How to Install the Collection
 
-There are three ways to install `hyperledger.chaguar`. They are not equivalent, and the choice affects the rest of this tutorial.
+There are three ways to install `lfdt.chaguar`. They are not equivalent, and the choice affects the rest of this tutorial.
 
 ### Option 1: Clone into the collections path
 
@@ -59,8 +59,8 @@ This is the option to pick for this tutorial.
 
 ```shell
 git clone https://github.com/Chaguar/ansible-collection.git \
-  ~/.ansible/collections/ansible_collections/hyperledger/chaguar
-cd ~/.ansible/collections/ansible_collections/hyperledger/chaguar
+  ~/.ansible/collections/ansible_collections/lfdt/chaguar
+cd ~/.ansible/collections/ansible_collections/lfdt/chaguar
 ```
 
 The checkout _is_ the installed collection. You get the `Makefile`, the sample inventories, and the example playbooks, and any change you make to a role takes effect immediately with no reinstall.
@@ -78,9 +78,9 @@ Builds the collection and installs it into your Ansible collections path. Use th
 ### Option 3: Install from Ansible Galaxy
 
 ```shell
-ansible-galaxy collection install hyperledger.chaguar
+ansible-galaxy collection install lfdt.chaguar
 ansible-galaxy collection install -r \
-  ~/.ansible/collections/ansible_collections/hyperledger/chaguar/requirements.yml
+  ~/.ansible/collections/ansible_collections/lfdt/chaguar/requirements.yml
 ```
 
 The published release, for using the collection inside your own Ansible project. This tutorial assumes you have the repository checkout, so prefer option 1 or 2 while you are learning.

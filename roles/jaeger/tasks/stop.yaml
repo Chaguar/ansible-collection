@@ -6,6 +6,6 @@
 
 - name: Stop Jaeger container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: container/stop
   when: jaeger_use_container

@@ -1,4 +1,4 @@
-# hyperledger.chaguar.grafana
+# lfdt.chaguar.grafana
 
 > Manages Grafana for Chaguar metrics visualization in container and Kubernetes deployments, including provisioning, dashboards, data sources, and TLS artifacts.
 
@@ -46,7 +46,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.grafana
+ansible-doc -t role lfdt.chaguar.grafana
 ```
 
 ## Tasks
@@ -67,7 +67,7 @@ Starts Grafana by dispatching to the container or Kubernetes entry point after p
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: start
 ```
 
@@ -87,7 +87,7 @@ Stops the Grafana container without removing the generated provisioning or TLS a
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: stop
 ```
 
@@ -107,7 +107,7 @@ Removes the Grafana container or Kubernetes workload by dispatching to the match
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: teardown
 ```
 
@@ -120,7 +120,7 @@ Removes the Grafana workload, generated configuration, and TLS material.
 ```yaml
 - name: Remove all Grafana data
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: wipe
 ```
 
@@ -140,7 +140,7 @@ Collects Grafana logs from the container deployment or from the Kubernetes pod f
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: fetch_logs
 ```
 
@@ -160,7 +160,7 @@ Verifies that the Grafana web interface port is reachable on the target host. In
     # Sets the Grafana web port.
     grafana_web_port: 3000
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: ping
 ```
 
@@ -202,7 +202,7 @@ Starts the containerized Grafana deployment with the generated datasource and da
     # Sets the Grafana TLS certificate filename.
     grafana_tls_cert_file: server.crt
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: container/start
 ```
 
@@ -218,7 +218,7 @@ Stops the running Grafana container by name without deleting the associated arti
     # Sets the Grafana container name.
     grafana_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: container/stop
 ```
 
@@ -234,7 +234,7 @@ Removes the Grafana container by name while leaving the staged provisioning file
     # Sets the Grafana container name.
     grafana_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: container/rm
 ```
 
@@ -250,7 +250,7 @@ Collects logs from the named Grafana container for post-startup inspection.
     # Sets the Grafana container name.
     grafana_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: container/fetch_logs
 ```
 
@@ -284,7 +284,7 @@ Writes the datasource and dashboard provisioning files to the remote Grafana con
     # Sets the inventory host name of the Loki instance used by Grafana.
     loki_host: "loki-1.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/transfer
 ```
 
@@ -306,7 +306,7 @@ Removes the remote Grafana provisioning directory. Deletes the Kubernetes Config
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/rm
 ```
 
@@ -332,7 +332,7 @@ Copies one Grafana dashboard JSON file into the remote dashboards directory. App
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/copy_dashboard
 ```
 
@@ -352,7 +352,7 @@ Generates Grafana TLS material when TLS is enabled and stages it with the other 
     # Selects the OpenShift deployment branch.
     grafana_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: crypto/setup
 ```
 
@@ -374,7 +374,7 @@ Fetches the Grafana TLS CA certificate when TLS is enabled so other roles can tr
     # Sets the shared fetched-artifacts root used by Grafana. Required when relying on it to derive paths for fetched TLS artifacts.
     fetched_artifacts_dir: "/tmp/chaguar-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: crypto/fetch
 ```
 
@@ -398,7 +398,7 @@ Removes the Grafana TLS directory when TLS is enabled. Deletes the Kubernetes Se
     # Sets the shared remote config root used by Grafana. Required when using it for `grafana_remote_config_dir`.
     remote_config_dir: "/var/lfdt/chaguar/grafana"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: crypto/rm
 ```
 
@@ -427,7 +427,7 @@ Generates the Grafana TLS key pair and certificate using OpenSSL for the staged 
     # Specifies the OpenShift Route host.
     grafana_openshift_route: "grafana.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -511,7 +511,7 @@ Applies the Grafana Service, optional NodePort and LoadBalancer Services, Secret
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/start
 ```
 
@@ -531,7 +531,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the web port externally. When undefined or `false`, the web port is not included in the LoadBalancer Service.
     grafana_k8s_loadbalancer_expose_web_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/ping
 ```
 
@@ -553,7 +553,7 @@ Deletes the Grafana Deployment, Service, and NodePort Service from Kubernetes.
     # Set to `true` to create a LoadBalancer Service entry that exposes the web port externally. When undefined or `false`, the web port is not included in the LoadBalancer Service.
     grafana_k8s_loadbalancer_expose_web_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/rm
 ```
 
@@ -569,7 +569,7 @@ Collects logs from the Grafana pod selected by the Grafana application label.
     # Sets the base Kubernetes resource name for Grafana.
     grafana_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/fetch_logs
 ```
 
@@ -601,7 +601,7 @@ Applies the Kubernetes ConfigMap that contains Grafana provisioning files for th
     # Sets the Kubernetes namespace used for Grafana resources.
     k8s_namespace: "chaguar-observability"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/config/transfer
 ```
 
@@ -621,7 +621,7 @@ Deletes the Grafana provisioning ConfigMap and dashboard ConfigMaps from the nam
     # Sets the Kubernetes namespace used for Grafana resources.
     k8s_namespace: "chaguar-observability"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/config/rm
 ```
 
@@ -645,7 +645,7 @@ Applies a dashboard ConfigMap for one Grafana dashboard JSON file.
     # Sets the Kubernetes namespace used for Grafana resources.
     k8s_namespace: "chaguar-observability"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/config/copy_dashboard
 ```
 
@@ -679,7 +679,7 @@ Applies the Grafana Kubernetes Secret that holds admin credentials and optional 
     # Sets the Kubernetes namespace used for Grafana resources.
     k8s_namespace: "chaguar-observability"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -697,7 +697,7 @@ Deletes the Grafana Kubernetes Secret from the namespace.
     # Sets the Kubernetes namespace used for Grafana resources.
     k8s_namespace: "chaguar-observability"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/crypto/rm
 ```
 
@@ -719,7 +719,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     grafana_openshift_route: "grafana.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: openshift/start
 ```
 
@@ -737,7 +737,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     grafana_openshift_route: "grafana.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: openshift/ping
 ```
 
@@ -755,6 +755,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     grafana_openshift_route: "grafana.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: openshift/rm
 ```

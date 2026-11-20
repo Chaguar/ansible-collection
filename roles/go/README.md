@@ -1,4 +1,4 @@
-# hyperledger.chaguar.go
+# lfdt.chaguar.go
 
 > Provides tasks for installing Go, mapping Ansible facts to GOOS and GOARCH, and building or installing Go binaries with cross-compilation support.
 
@@ -21,7 +21,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.go
+ansible-doc -t role lfdt.chaguar.go
 ```
 
 ## Tasks
@@ -40,7 +40,7 @@ Installs the Go runtime when it is not already present on the target host. Maps 
     # Sets the base directory where the Go distribution is extracted.
     go_install_dir: /usr/local
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.go
+    name: lfdt.chaguar.go
     tasks_from: install_go
 ```
 
@@ -56,7 +56,7 @@ Reads host facts and derives the Go platform identifiers used for cross-compilat
     # Selects the host whose facts are mapped into `go_os` and `go_arch`.
     go_host_to_map: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.go
+    name: lfdt.chaguar.go
     tasks_from: map_platform
 ```
 
@@ -84,7 +84,7 @@ Runs `go build` for the selected source tree and output name. Uses `GOOS`, `GOAR
       - "netgo"
       - "osusergo"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.go
+    name: lfdt.chaguar.go
     tasks_from: build
 ```
 
@@ -110,6 +110,6 @@ Runs `go install` for the requested package or module path using the mapped targ
       - "netgo"
       - "osusergo"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.go
+    name: lfdt.chaguar.go
     tasks_from: install
 ```

@@ -5,25 +5,25 @@
 #
 
 - name: Build Fabric CA server binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.binaries
 
 - name: Build Fabric CA client binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_client.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_client.binaries
 
 - name: Build Chaguar Orderer binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.binaries
 
 - name: Build Chaguar Committer binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.binaries
 
 - name: Build fxconfig binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.fxconfig.binaries
 
 - name: Build fxadmin binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.fxadmin.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.fxadmin.binaries
 
 - name: Build Loadgen binaries
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.binaries
 
 - name: Install Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.binaries
+  ansible.builtin.import_playbook: lfdt.chaguar.semaphore_ui.binaries

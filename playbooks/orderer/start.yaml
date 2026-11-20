@@ -9,5 +9,5 @@
   tasks:
     - name: Start Chaguar Orderer components
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.orderer
+        name: lfdt.chaguar.orderer
         tasks_from: start

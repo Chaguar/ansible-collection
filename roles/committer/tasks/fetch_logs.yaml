@@ -6,18 +6,18 @@
 
 - name: Fetch the logs from the Chaguar Committer on Kubernetes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/fetch_logs
   when: committer_use_k8s or committer_use_openshift
 
 - name: Fetch the logs from the Chaguar Committer container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/fetch_logs
   when: committer_use_container
 
 - name: Fetch the logs from the Chaguar Committer binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/fetch_logs
   when: committer_use_bin

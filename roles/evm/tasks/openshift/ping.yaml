@@ -8,7 +8,7 @@
   vars:
     openshift_route_host: "{{ evm_openshift_route }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/ping
   when: evm_openshift_route is defined
 
@@ -16,11 +16,11 @@
   vars:
     evm_ping_base_url: "http://{{ evm_openshift_route }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: rpc_check
   when: evm_openshift_route is defined
 
 - name: Check that the EVM Kubernetes services are reachable
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: k8s/ping

@@ -1,6 +1,6 @@
 # LFDT Chaguar Ansible Playbooks
 
-This directory contains the reusable playbooks that the `hyperledger.chaguar` collection provides. They compose the collection roles into standard Chaguar lifecycle operations and are the building blocks for any Ansible project that deploys a Chaguar network.
+This directory contains the reusable playbooks that the `lfdt.chaguar` collection provides. They compose the collection roles into standard Chaguar lifecycle operations and are the building blocks for any Ansible project that deploys a Chaguar network.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -18,7 +18,7 @@ This directory contains the reusable playbooks that the `hyperledger.chaguar` co
 Each playbook can be run by its fully-qualified collection name:
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.start
+ansible-playbook lfdt.chaguar.orderer.start
 ```
 
 The top-level playbooks prepare shared host resources around the component-specific lifecycle. The normal setup flow runs prerequisites first, logs in to registries when private images are used, creates container networks for container-mode inventories, and then runs the namespaced playbooks for artifacts, configuration, services, and cleanup.
@@ -37,7 +37,7 @@ flowchart LR
 [`install_prerequisites.yaml`](./install_prerequisites.yaml) prepares the machines that will run Chaguar services. It first selects one representative inventory host per physical machine, then installs the shared operating-system and runtime prerequisites used by the rest of the collection: container engine support, tmux, OpenSSL, Git, Go, rsync, and chrony.
 
 ```shell
-ansible-playbook hyperledger.chaguar.install_prerequisites --extra-vars '{"target_hosts": "all"}'
+ansible-playbook lfdt.chaguar.install_prerequisites --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`log_in_container_registry.yaml`](./log_in_container_registry.yaml) authenticates the deployment against a private container registry. It logs the container engine in once per physical machine, then creates Kubernetes image pull secrets once per selected Kubernetes namespace when Kubernetes hosts are present.
 
 ```shell
-ansible-playbook hyperledger.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "all"}'
+ansible-playbook lfdt.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -65,7 +65,7 @@ Properties:
 [`create_container_networks.yaml`](./create_container_networks.yaml) creates the container networks declared by the selected inventory hosts. It deduplicates work by building one execution target per `(ansible_host, container_network)` pair, so each required network is created once on each machine that needs it.
 
 ```shell
-ansible-playbook hyperledger.chaguar.create_container_networks --extra-vars '{"target_hosts": "all"}'
+ansible-playbook lfdt.chaguar.create_container_networks --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -79,7 +79,7 @@ Properties:
 [`remove_container_networks.yaml`](./remove_container_networks.yaml) removes the container networks that were created for the selected inventory hosts. It uses the same `(ansible_host, container_network)` deduplication as the create playbook, which makes cleanup operate once per machine and network.
 
 ```shell
-ansible-playbook hyperledger.chaguar.remove_container_networks --extra-vars '{"target_hosts": "all"}'
+ansible-playbook lfdt.chaguar.remove_container_networks --extra-vars '{"target_hosts": "all"}'
 ```
 
 Properties:
@@ -93,7 +93,7 @@ Properties:
 [`generate_target_hosts.yaml`](./generate_target_hosts.yaml) regenerates the Makefile helper targets for the selected inventory. It reads `groups['all']` and writes `target_hosts.mk` under `project_dir`, giving the top-level `Makefile` one target per inventory host that maps to `TARGET_HOSTS`.
 
 ```shell
-ansible-playbook hyperledger.chaguar.generate_target_hosts
+ansible-playbook lfdt.chaguar.generate_target_hosts
 ```
 
 Properties:
@@ -107,7 +107,7 @@ Properties:
 [`openshift/config_hosts.yaml`](./openshift/config_hosts.yaml) configures local hosts entries for OpenShift Route hosts declared in the current inventory. It maps each route host to the control node's default IPv4 address, which is useful for local OpenShift deployments when route DNS resolves to `127.0.0.1` but containerized clients need a non-loopback address.
 
 ```shell
-ansible-playbook hyperledger.chaguar.openshift.config_hosts --ask-become-pass
+ansible-playbook lfdt.chaguar.openshift.config_hosts --ask-become-pass
 ```
 
 Properties:

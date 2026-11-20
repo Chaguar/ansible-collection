@@ -6,7 +6,7 @@
 
 - name: Stop Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: "{{ orderer_deployment_mode }}/stop"
   when:
     - orderer_deployment_mode in ['bin', 'container']

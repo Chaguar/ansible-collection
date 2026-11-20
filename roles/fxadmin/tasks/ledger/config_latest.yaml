@@ -22,14 +22,14 @@
 
 - name: Fetch the latest Chaguar channel configuration block with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/ledger/config_latest
   when:
     - fxadmin_use_bin
 
 - name: Fetch the latest Chaguar channel configuration block with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/ledger/config_latest
   when:
     - not fxadmin_use_bin

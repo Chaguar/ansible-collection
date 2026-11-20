@@ -6,5 +6,5 @@
 
 - name: Stop the Semaphore UI binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.semaphore_ui
+    name: lfdt.chaguar.semaphore_ui
     tasks_from: bin/stop

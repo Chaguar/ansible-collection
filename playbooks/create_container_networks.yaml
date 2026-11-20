@@ -54,7 +54,7 @@
   tasks:
     - name: Create the container networks
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: network/create
       when:
         - container_network is defined

@@ -43,7 +43,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.committer
+            name: lfdt.chaguar.committer
             tasks_from: bin/install
           when:
             - bin_hosts | length > 0
@@ -63,7 +63,7 @@
                 | list
               }}
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.committer
+            name: lfdt.chaguar.committer
             tasks_from: bin/build
           when:
             - bin_hosts | length > 0
@@ -89,5 +89,5 @@
           block:
             - name: "{{ bin_operation | capitalize }} Chaguar Committer binaries on the remote nodes"
               ansible.builtin.include_role:
-                name: hyperledger.chaguar.committer
+                name: lfdt.chaguar.committer
                 tasks_from: "bin/{{ bin_operation }}"

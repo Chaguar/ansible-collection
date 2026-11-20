@@ -16,5 +16,5 @@
       --outputBlock {{ configtxgen_artifacts_dir }}/{{ configtxgen_genesis_block_file }}
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start

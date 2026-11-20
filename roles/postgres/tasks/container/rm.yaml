@@ -8,5 +8,5 @@
   vars:
     container_name: "{{ postgres_container_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: rm

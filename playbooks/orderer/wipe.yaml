@@ -9,5 +9,5 @@
   tasks:
     - name: Wipe Chaguar Orderer artifacts
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.orderer
+        name: lfdt.chaguar.orderer
         tasks_from: wipe

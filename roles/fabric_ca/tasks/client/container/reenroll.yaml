@@ -6,7 +6,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 - name: Set volumes for Fabric-CA client
@@ -57,5 +57,5 @@
     container_run_as_host_user: true
     container_run_detach_mode: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

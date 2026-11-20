@@ -11,7 +11,7 @@
     # an identity able to sign channel configuration updates is declared.
     - name: Wipe the fxadmin binary and configuration
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: wipe
       when:
         - organization is defined

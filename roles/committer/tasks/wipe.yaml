@@ -6,21 +6,21 @@
 
 - name: Teardown the Chaguar Committer components
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: teardown
 
 - name: Remove Chaguar Committer binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/rm
   when: committer_use_bin
 
 - name: Remove Chaguar Committer configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/rm
 
 - name: Remove Chaguar Committer crypto material
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/rm
