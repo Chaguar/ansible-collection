@@ -23,6 +23,6 @@
 
 - name: Delete Chaguar Orderer K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/crypto/rm
   when: orderer_use_k8s or orderer_use_openshift

@@ -5,7 +5,7 @@
 #
 
 name: Bug report
-description: Report a bug for `hyperledger.chaguar` Ansible collection
+description: Report a bug for `lfdt.chaguar` Ansible collection
 title: "[BUG] Title"
 labels: ["bug"]
 body:
@@ -27,8 +27,8 @@ body:
       description: |
         **Tip**: `ansible --version`
 
-        **Tip**: `ansible-galaxy collection list | grep "hyperledger.chaguar"`
-      placeholder: ansible [core 2.20.0], hyperledger.chaguar 0.5.11
+        **Tip**: `ansible-galaxy collection list | grep "lfdt.chaguar"`
+      placeholder: ansible [core 2.20.0], lfdt.chaguar 0.5.11
     validations:
       required: true
   - type: input

@@ -23,6 +23,6 @@
 
 - name: Remove Chaguar Loadgen Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: k8s/crypto/rm
   when: loadgen_use_k8s or loadgen_use_openshift

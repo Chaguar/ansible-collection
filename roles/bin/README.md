@@ -1,4 +1,4 @@
-# hyperledger.chaguar.bin
+# lfdt.chaguar.bin
 
 > Provides shared helpers for building, installing, transferring, starting, stopping, and collecting logs for Chaguar binaries. The role supports both control-node and managed-host execution paths and groups hosts by platform before invoking the Go helpers.
 
@@ -26,7 +26,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.bin
+ansible-doc -t role lfdt.chaguar.bin
 ```
 
 ## Tasks
@@ -66,7 +66,7 @@ Clones the source repository, groups target hosts by platform, and builds one bi
     bin_hosts:
       - "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: go/build
 ```
 
@@ -97,7 +97,7 @@ Groups target hosts by platform and invokes the go install entry point once per 
     bin_hosts:
       - "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: go/install
 ```
 
@@ -114,7 +114,7 @@ Builds the `bin_platforms` fact by grouping target hosts that share the same ope
     bin_hosts:
       - "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: map_platform_to_host
 ```
 
@@ -142,7 +142,7 @@ Finds inventory hosts running long-lived services as binaries on the same physic
       fabric_ca_server_use_bin: fabric_ca_port
       loadgen_use_bin: loadgen_rpc_port
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: get_bin_services
 ```
 
@@ -174,7 +174,7 @@ Ensures the target binary directory exists on the managed host and copies the se
     # Sets the directory that is prefixed to `bin_command` when constructing the executable path.
     bin_remote_dir: "{{ remote_node_dir }}/bin"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: transfer
 ```
 
@@ -226,7 +226,7 @@ Builds the runtime command, optionally redirects logs, and starts the binary eit
     # Sets the maximum wait time in seconds for `bin_wait_port` to become reachable.
     bin_wait_timeout: 60
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start
 ```
 
@@ -244,7 +244,7 @@ Stops the tmux session associated with the binary when tmux-based execution is e
     # Controls whether the binary is started in a tmux session instead of through a direct shell invocation.
     bin_run_with_tmux: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: stop
 ```
 
@@ -262,7 +262,7 @@ Deletes the binary file from the managed host at `bin_remote_dir`/`bin_name`.
     # Sets the output binary name.
     bin_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: rm
 ```
 
@@ -290,6 +290,6 @@ Copies the binary log file from the managed host to the control node without fai
     # Sets the destination file name used for the fetched log output.
     bin_fetched_logs_file: logs.txt
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: fetch_logs
 ```

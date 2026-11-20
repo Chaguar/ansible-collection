@@ -27,7 +27,7 @@ A single logical host, `semaphore`, represents the Semaphore UI deployment:
 Run the lifecycle playbooks directly against this inventory, for example:
 
 ```shell
-ansible-playbook -i examples/inventory/local/semaphore-ui.yaml hyperledger.chaguar.semaphore_ui.start
+ansible-playbook -i examples/inventory/local/semaphore-ui.yaml lfdt.chaguar.semaphore_ui.start
 ```
 
 See the [playbooks/semaphore_ui README](../../../../playbooks/semaphore_ui/README.md) for the full lifecycle (binaries, generate_crypto, configs, start, stop, teardown, wipe) and how to access the deployed instance.

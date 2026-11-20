@@ -20,7 +20,7 @@ flowchart LR
 [`build_crypto_material.yaml`](./build_crypto_material.yaml) is the control-node path for inventories that use centrally generated `cryptogen` material. It inspects the selected inventory, groups orderer and peer-style identities by organization, renders the `cryptogen` input, prepares the `cryptogen` binary if needed, runs generation, and stores the resulting MSP/TLS material in the configured artifacts directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.artifacts.build_crypto_material
+ansible-playbook lfdt.chaguar.artifacts.build_crypto_material
 ```
 
 Properties:
@@ -33,7 +33,7 @@ Properties:
 [`build_genesis_block.yaml`](./build_genesis_block.yaml) creates the channel bootstrap material shared by the network. It derives orderer organizations and endpoints from `chaguar_orderers`, renders Armageddon and configtxgen configuration, prepares `configtxgen` when needed, and writes the genesis block artifacts consumed later by configuration, orderer, and committer setup.
 
 ```shell
-ansible-playbook hyperledger.chaguar.artifacts.build_genesis_block
+ansible-playbook lfdt.chaguar.artifacts.build_genesis_block
 ```
 
 Properties:

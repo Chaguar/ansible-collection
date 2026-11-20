@@ -43,7 +43,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares the load generator executable for binary-mode deployments. It handles control-node install/build decisions, then ensures targeted load generator hosts have the binary by transfer, local build, or install.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.binaries --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.binaries --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -57,7 +57,7 @@ Properties:
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares the identity and TLS material used by load generators when they submit traffic and fetch transaction/block status from Chaguar services. It also fetches generated material back to the configured artifacts location.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.generate_crypto --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.generate_crypto --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -69,7 +69,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders and transfers load generator configuration from the selected topology. It discovers orderer routers and committer endpoints, then writes the connection, identity, namespace, and rate-related settings needed before startup.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.configs --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.configs --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -82,7 +82,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts targeted load generator services using the rendered configuration and the runtime mode declared in the inventory. The started process submits transactions to orderer routers and observes commit status through committer endpoints.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.start --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.start --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -95,7 +95,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops targeted load generator processes, containers, or Kubernetes workloads without deleting generated files or runtime output.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.stop --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.stop --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -108,7 +108,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) stops load generators and removes runtime state according to the selected runtime mode. Use it when a fresh load generator run should not reuse previous runtime data.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.teardown --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.teardown --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -121,7 +121,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes load generator artifacts from targeted hosts, including generated configuration, crypto, and binary files managed by the role.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.wipe --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.wipe --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -134,7 +134,7 @@ Properties:
 [`limit_rate.yaml`](./limit_rate.yaml) changes the transaction submission rate on targeted running load generators. It is useful for ramping traffic up or down without regenerating the whole load generator configuration.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.limit_rate --extra-vars '{"target_hosts": "load_generators", "loadgen_limit_rate": "5000"}'
+ansible-playbook lfdt.chaguar.loadgen.limit_rate --extra-vars '{"target_hosts": "load_generators", "loadgen_limit_rate": "5000"}'
 ```
 
 Properties:
@@ -147,7 +147,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks targeted load generator endpoints, including the service endpoints exposed by the selected runtime mode.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.ping --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.ping --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -160,7 +160,7 @@ Properties:
 [`get_metrics.yaml`](./get_metrics.yaml) queries load generator metrics endpoints and returns the collected metrics through Ansible output.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.get_metrics --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.get_metrics --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -173,7 +173,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches load generator certificates and keys from targeted hosts into the configured artifacts directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.fetch_crypto --extra-vars '{"target_hosts": "load_generators"}'
+ansible-playbook lfdt.chaguar.loadgen.fetch_crypto --extra-vars '{"target_hosts": "load_generators"}'
 ```
 
 Properties:
@@ -186,7 +186,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches load generator logs from targeted hosts into the configured output directory for run analysis and troubleshooting.
 
 ```shell
-ansible-playbook hyperledger.chaguar.loadgen.fetch_logs --extra-vars '{"target_hosts": "load-generator"}'
+ansible-playbook lfdt.chaguar.loadgen.fetch_logs --extra-vars '{"target_hosts": "load-generator"}'
 ```
 
 Properties:

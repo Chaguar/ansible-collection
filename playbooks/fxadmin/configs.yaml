@@ -22,7 +22,7 @@
         fxadmin_use_tls: "{{ hostvars[groups['chaguar_orderers'] | first].orderer_use_tls | default(false) }}"
         fxadmin_use_mtls: "{{ hostvars[groups['chaguar_orderers'] | first].orderer_use_mtls | default(false) }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: config/transfer
       when:
         - organization is defined

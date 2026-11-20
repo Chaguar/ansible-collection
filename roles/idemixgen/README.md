@@ -1,4 +1,4 @@
-# hyperledger.chaguar.idemixgen
+# lfdt.chaguar.idemixgen
 
 > Generates Idemix CA key material and signer configuration artifacts with the `idemixgen` CLI in binary or container mode.
 
@@ -25,7 +25,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.idemixgen
+ansible-doc -t role lfdt.chaguar.idemixgen
 ```
 
 ## Tasks
@@ -44,7 +44,7 @@ Select whether Idemix CA key generation runs in a container or through the local
     # Sets the host directory where the generated artifacts are written.
     idemixgen_output_dir: "{{ config_build_dir }}/idemixgen-artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: ca-keygen
 ```
 
@@ -76,7 +76,7 @@ Select whether Idemix signer configuration generation runs in a container or thr
     # Sets the shared build root used by `idemixgen_output_dir`. Required when using `idemixgen_output_dir`.
     config_build_dir: "/opt/lfdt/chaguar/build"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: signerconfig
 ```
 
@@ -102,7 +102,7 @@ Builds the idemixgen CLI from source on the control node so binary-mode CA key g
     # Defines the source package path built into the idemixgen binary.
     idemixgen_source_code_package: tools/idemixgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: bin/build
 ```
 
@@ -130,7 +130,7 @@ Installs the idemixgen CLI from the configured repository and commit before bina
     # Defines the source package path built into the idemixgen binary.
     idemixgen_source_code_package: tools/idemixgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: bin/install
 ```
 
@@ -156,7 +156,7 @@ Runs `idemixgen ca-keygen` through the locally installed binary. The task remove
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: bin/ca-keygen
 ```
 
@@ -190,7 +190,7 @@ Runs `idemixgen signerconfig` through the locally installed binary. The task rem
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: bin/signerconfig
 ```
 
@@ -226,7 +226,7 @@ Runs `idemixgen ca-keygen` in the configured container image. The task removes a
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: container/ca-keygen
 ```
 
@@ -270,6 +270,6 @@ Runs `idemixgen signerconfig` in the configured container image. The task remove
     # Enables Aries-based Idemix material generation.
     idemixgen_use_aries: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.idemixgen
+    name: lfdt.chaguar.idemixgen
     tasks_from: container/signerconfig
 ```

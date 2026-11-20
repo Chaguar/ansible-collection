@@ -46,7 +46,7 @@
   when:
     - openssl_root_ca_cert_path is none
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_self_signed_cert
 
 - name: Generate a certificate signed by the configured root CA
@@ -58,7 +58,7 @@
         openssl_csr_path: "{{ openssl_ca_signed_csr_path }}"
         openssl_ext_file_path: "{{ openssl_ca_signed_ext_path }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.openssl
+        name: lfdt.chaguar.openssl
         tasks_from: generate_csr
     - name: Generate a certificate signed by the configured root CA
       vars:
@@ -67,7 +67,7 @@
         openssl_csr_path: "{{ openssl_ca_signed_csr_path }}"
         openssl_ext_file_path: "{{ openssl_ca_signed_ext_path }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.openssl
+        name: lfdt.chaguar.openssl
         tasks_from: generate_cert
     - name: Publish the configured root CA certificate
       ansible.builtin.copy:

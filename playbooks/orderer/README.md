@@ -41,7 +41,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares the orderer executable for inventories that run Chaguar orderer components as binaries. It decides whether the control node should install or build the binary, then makes sure each targeted binary-mode router, batcher, consenter, or assembler has the executable by transfer, local build, or install.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.binaries --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.binaries --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -55,7 +55,7 @@ Properties:
 [`generate_crypto.yaml`](./generate_crypto.yaml) creates the TLS/MSP material needed by targeted orderer components and fetches the resulting certificates and keys back to the configured artifacts location. Use it for inventories where orderer identities are generated or enrolled on the component hosts rather than supplied by the central `cryptogen` artifact flow.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.generate_crypto --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.generate_crypto --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -67,7 +67,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) transfers the generated orderer configuration to each targeted component host. The role uses `orderer_component_type` to place the router, batcher, consensus, or assembler configuration expected by that host.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.configs --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.configs --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -80,7 +80,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts the selected orderer components using the runtime mode declared in the inventory. Each host dispatches to the router, batcher, consensus, or assembler start task based on `orderer_component_type`.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.start --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.start --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -94,7 +94,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops the selected orderer processes, containers, or Kubernetes workloads without deleting generated configuration, crypto, or runtime data. Use it when you expect to restart the same deployment.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.stop --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.stop --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -107,7 +107,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) stops targeted orderer components and removes their runtime data according to the selected runtime mode. Use it for a stronger cleanup than `stop.yaml` when the current service state should not be preserved.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.teardown --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.teardown --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -120,7 +120,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes generated orderer files from targeted hosts, including configuration, fetched/generated crypto, and binary artifacts managed by the orderer role.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.wipe --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.wipe --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -133,7 +133,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks that targeted orderer endpoints are reachable after startup. It is a quick smoke test for router, batcher, consensus, and assembler service availability.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.ping --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.ping --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -146,7 +146,7 @@ Properties:
 [`get_metrics.yaml`](./get_metrics.yaml) queries orderer metrics endpoints on targeted hosts and returns the collected metrics through Ansible output.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.get_metrics --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.get_metrics --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -159,7 +159,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches orderer certificates and keys from targeted hosts into the configured artifacts directory. It is useful when crypto was generated remotely and later playbooks or troubleshooting need a control-node copy.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_orderers"}'
+ansible-playbook lfdt.chaguar.orderer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
 Properties:
@@ -172,7 +172,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches orderer logs from targeted hosts into the configured output directory so component failures can be inspected from the control node.
 
 ```shell
-ansible-playbook hyperledger.chaguar.orderer.fetch_logs --extra-vars '{"target_hosts": "orderer-router-1"}'
+ansible-playbook lfdt.chaguar.orderer.fetch_logs --extra-vars '{"target_hosts": "orderer-router-1"}'
 ```
 
 Properties:

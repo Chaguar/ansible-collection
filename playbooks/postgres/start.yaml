@@ -9,7 +9,7 @@
   tasks:
     - name: Start PostgreSQL database
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres
+        name: lfdt.chaguar.postgres
         tasks_from: start
       when:
         - postgres_port is defined

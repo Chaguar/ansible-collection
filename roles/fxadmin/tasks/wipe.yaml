@@ -6,7 +6,7 @@
 
 - name: Remove the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/rm
   when:
     - fxadmin_use_bin

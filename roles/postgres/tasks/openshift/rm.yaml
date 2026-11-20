@@ -6,5 +6,5 @@
 
 - name: Remove Postgres DB workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/rm

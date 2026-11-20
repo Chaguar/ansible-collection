@@ -1,4 +1,4 @@
-# hyperledger.chaguar.tmux
+# lfdt.chaguar.tmux
 
 > Manages detached `tmux` sessions for long-running Chaguar processes and their log-producing commands.
 
@@ -20,7 +20,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.tmux
+ansible-doc -t role lfdt.chaguar.tmux
 ```
 
 ## Tasks
@@ -34,7 +34,7 @@ Install the `tmux` package on the target host by delegating to the package role.
 ```yaml
 - name: Install tmux on the target host
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.tmux
+    name: lfdt.chaguar.tmux
     tasks_from: install
 ```
 
@@ -54,7 +54,7 @@ Start a detached tmux session when `tmux_session_name` does not already exist. T
     # Sets the working directory used before running `tmux_cmd_to_run` in the detached session.
     tmux_chdir: "/opt/chaguar/orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.tmux
+    name: lfdt.chaguar.tmux
     tasks_from: start
 ```
 
@@ -70,6 +70,6 @@ Stop an existing detached tmux session on the target host when `tmux_session_nam
     # Sets the detached tmux session name used to look up, create, or stop the session.
     tmux_session_name: "fx-orderer-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.tmux
+    name: lfdt.chaguar.tmux
     tasks_from: stop
 ```

@@ -8,5 +8,5 @@
   vars:
     bin_name: "{{ fxadmin_bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: transfer

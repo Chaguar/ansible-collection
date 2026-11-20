@@ -13,8 +13,8 @@
 # part. Only the orderer organizations' admins count toward the Orderer group's
 # Admins policy, so endorsements from other organizations are extra signatures.
 #
-# Prerequisites: `hyperledger.chaguar.fxadmin.binaries` and
-# `hyperledger.chaguar.fxadmin.configs` (both wired into `make setup`).
+# Prerequisites: `lfdt.chaguar.fxadmin.binaries` and
+# `lfdt.chaguar.fxadmin.configs` (both wired into `make setup`).
 #
 # target_hosts selects the admin hosts that take part in the reconfiguration;
 # assembler_host names the orderer Assembler whose port changes. Like fxconfig,
@@ -113,7 +113,7 @@
         fxadmin_output: "{{ fxadmin_remote_config_dir }}/config.pb"
         fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/config.pb"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: ledger/config_latest
       when:
         - hostvars['localhost'].fxadmin_hosts[0] == inventory_hostname
@@ -129,7 +129,7 @@
         fxadmin_config_block: "{{ fxadmin_latest_block }}"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/current_config.json"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: decode
 
     # Both places that record the assembler's address are patched in the same
@@ -158,7 +158,7 @@
               if .PartyID == $args.party_id then .AssemblerConfig.port = $args.port else . end
             )
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: patch_config_value
 
     - name: Compute the Chaguar ConfigUpdate
@@ -168,7 +168,7 @@
         fxadmin_modified_config_json: "{{ fxadmin_artifacts_dir }}/modified_config.json"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/config_update.pb"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: compute_update
 
 - name: Endorse the ConfigUpdate as each organization's admin
@@ -187,7 +187,7 @@
         # the merge sees one endorsement per identity.
         fxadmin_output: "{{ fxadmin_remote_config_dir }}/{{ organization.user.name }}@{{ organization.domain }}-endorsement.pb"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: tx/endorse
       when:
         - organization is defined
@@ -204,7 +204,7 @@
         fxadmin_endorsements_dir: "{{ fxadmin_artifacts_dir }}/endorsements"
         fxadmin_output: "{{ fxadmin_artifacts_dir }}/merged.pb"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxadmin
+        name: lfdt.chaguar.fxadmin
         tasks_from: tx/merge
 
 - name: Prepare, submit and follow the Chaguar ConfigUpdate on the leader
@@ -222,7 +222,7 @@
             fxadmin_output: "{{ fxadmin_remote_config_dir }}/config_tx.pb"
             fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/config_tx.pb"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.fxadmin
+            name: lfdt.chaguar.fxadmin
             tasks_from: tx/prepare
 
         - name: Submit the transaction
@@ -230,7 +230,7 @@
             fxadmin_config_tx: "{{ fxadmin_remote_config_dir }}/config_tx.pb"
             fxadmin_latest_block: "{{ fxadmin_remote_config_dir }}/config.pb"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.fxadmin
+            name: lfdt.chaguar.fxadmin
             tasks_from: tx/submit
 
         - name: Follow the ledger until the new configuration commits
@@ -239,5 +239,5 @@
             fxadmin_output: "{{ fxadmin_remote_config_dir }}/next_config.pb"
             fxadmin_output_fetch_dest: "{{ fxadmin_artifacts_dir }}/next_config.pb"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.fxadmin
+            name: lfdt.chaguar.fxadmin
             tasks_from: follow

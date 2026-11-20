@@ -9,7 +9,7 @@
   tasks:
     - name: Set the group "machines"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.utils
+        name: lfdt.chaguar.utils
         tasks_from: select_one_host_per_machine
 
 - name: Install prerequisites
@@ -17,40 +17,40 @@
   tasks:
     - name: Install the container engine
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: install
     - name: Discover binary services on this machine
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.bin
+        name: lfdt.chaguar.bin
         tasks_from: get_bin_services
     - name: Install tmux
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.tmux
+        name: lfdt.chaguar.tmux
         tasks_from: install
       when: bin_service_hosts | length > 0
     - name: Install openssl
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.openssl
+        name: lfdt.chaguar.openssl
         tasks_from: install
     - name: Install git
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.git
+        name: lfdt.chaguar.git
         tasks_from: install
     - name: Install go
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.go
+        name: lfdt.chaguar.go
         tasks_from: install_go
       when: bin_service_hosts | length > 0
     - name: Install rsync
       vars:
         package_name: rsync
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.package
+        name: lfdt.chaguar.package
         tasks_from: install
     - name: Install chrony
       vars:
         package_name: chrony
         package_service_name: chronyd
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.package
+        name: lfdt.chaguar.package
         tasks_from: install

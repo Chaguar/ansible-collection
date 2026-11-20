@@ -9,5 +9,5 @@
     go_package: "{{ fabric_ca_server_bin_package }}@{{ fabric_ca_git_commit }}"
     go_cgo_enabled: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: go/install

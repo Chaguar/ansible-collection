@@ -12,7 +12,7 @@
     # =========================
     - name: Wipe the Chaguar Block Explorer server and UI
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.block_explorer
+        name: lfdt.chaguar.block_explorer
         tasks_from: wipe
       when:
         - block_explorer_port is defined

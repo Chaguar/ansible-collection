@@ -24,19 +24,19 @@
   block:
     - name: Find the container client to use
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: get_container_client
       when:
         - container_client == ''
     - name: Discover Docker socket
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: docker/get_socket
       when:
         - container_client == 'docker'
     - name: Discover Podman socket
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.container
+        name: lfdt.chaguar.container
         tasks_from: podman/get_socket
       when:
         - container_client == 'podman'

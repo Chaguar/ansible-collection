@@ -18,5 +18,5 @@
     bin_wait_until_running: true
     bin_wait_port: "{{ orderer_rpc_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start

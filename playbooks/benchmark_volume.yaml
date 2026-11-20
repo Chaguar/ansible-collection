@@ -9,7 +9,7 @@
   tasks:
     - name: Set the group "machines"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.utils
+        name: lfdt.chaguar.utils
         tasks_from: select_one_host_per_machine
 
 - name: Benchmark volume performance
@@ -17,5 +17,5 @@
   tasks:
     - name: Run SSD benchmark
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.utils
+        name: lfdt.chaguar.utils
         tasks_from: benchmark_volume

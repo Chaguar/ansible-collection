@@ -14,5 +14,5 @@
     grafana_dashboard_file: "yugabyte-dashboard.json"
     grafana_dashboard_path: "{{ yugabyte_grafana_dashboard_path }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/copy_dashboard

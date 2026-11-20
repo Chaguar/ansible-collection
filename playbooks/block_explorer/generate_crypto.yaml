@@ -12,13 +12,13 @@
     # =========================
     - name: Setup the Chaguar Block Explorer server crypto material
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.block_explorer
+        name: lfdt.chaguar.block_explorer
         tasks_from: crypto/setup
       when:
         - block_explorer_port is defined
     - name: Fetch the Chaguar Block Explorer server certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.block_explorer
+        name: lfdt.chaguar.block_explorer
         tasks_from: crypto/fetch
       when:
         - block_explorer_port is defined

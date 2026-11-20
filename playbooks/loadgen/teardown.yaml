@@ -9,5 +9,5 @@
   tasks:
     - name: Teardown Chaguar Loadgen
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loadgen
+        name: lfdt.chaguar.loadgen
         tasks_from: teardown

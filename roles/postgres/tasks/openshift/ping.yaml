@@ -6,5 +6,5 @@
 
 - name: Check that the PostgreSQL Kubernetes services are reachable
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres
+    name: lfdt.chaguar.postgres
     tasks_from: k8s/ping

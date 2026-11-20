@@ -1,4 +1,4 @@
-# hyperledger.chaguar.postgres_exporter
+# lfdt.chaguar.postgres_exporter
 
 > Deploys and manages the Prometheus Postgres Exporter in container or Kubernetes mode to collect PostgreSQL metrics.
 
@@ -46,7 +46,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.postgres_exporter
+ansible-doc -t role lfdt.chaguar.postgres_exporter
 ```
 
 ## Tasks
@@ -67,7 +67,7 @@ Dispatches to the container or Kubernetes startup path for Postgres Exporter. In
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: start
 ```
 
@@ -87,7 +87,7 @@ Stops a container-based Postgres Exporter deployment without removing generated 
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: stop
 ```
 
@@ -107,7 +107,7 @@ Removes the active Postgres Exporter runtime resources for the enabled backend. 
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: teardown
 ```
 
@@ -120,7 +120,7 @@ Removes runtime resources, TLS artifacts, and generated configuration for Postgr
 ```yaml
 - name: Remove all Postgres Exporter artifacts
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: wipe
 ```
 
@@ -142,7 +142,7 @@ Collects logs from the Postgres Exporter container or Kubernetes pod for the act
     # Sets the Postgres Exporter container name.
     postgres_exporter_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: fetch_logs
 ```
 
@@ -162,7 +162,7 @@ Checks whether the Postgres Exporter metrics port is reachable on the current ho
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: ping
 ```
 
@@ -202,7 +202,7 @@ Builds the exporter PostgreSQL datasource from the monitored host facts, renders
     # Enables Postgres Exporter TLS assets and HTTPS listener configuration when set to `true`.
     postgres_exporter_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: container/start
 ```
 
@@ -218,7 +218,7 @@ Stops the Postgres Exporter container while leaving generated configuration and 
     # Sets the Postgres Exporter container name.
     postgres_exporter_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: container/stop
 ```
 
@@ -234,7 +234,7 @@ Removes the Postgres Exporter container and clears the runtime instance name use
     # Sets the Postgres Exporter container name.
     postgres_exporter_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: container/rm
 ```
 
@@ -250,7 +250,7 @@ Fetches logs from the Postgres Exporter container using the configured container
     # Sets the Postgres Exporter container name.
     postgres_exporter_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: container/fetch_logs
 ```
 
@@ -288,7 +288,7 @@ Generates the Postgres Exporter configuration files and copies the PostgreSQL CA
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: config/transfer
 ```
 
@@ -310,7 +310,7 @@ Removes generated Postgres Exporter configuration files from the remote host. Fo
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: config/rm
 ```
 
@@ -323,7 +323,7 @@ Sets the packaged Postgres Exporter dashboard path and delegates dashboard copy 
 ```yaml
 - name: Transfer the packaged Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -343,7 +343,7 @@ Generates the Postgres Exporter TLS files when `postgres_exporter_use_tls` is tr
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: crypto/setup
 ```
 
@@ -365,7 +365,7 @@ Fetches the generated Postgres Exporter TLS CA certificate and server certificat
     # Enables Postgres Exporter TLS assets and HTTPS listener configuration when set to `true`.
     postgres_exporter_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: crypto/fetch
 ```
 
@@ -389,7 +389,7 @@ Removes generated Postgres Exporter TLS files from the remote host. For Kubernet
     # Selects the OpenShift deployment branch.
     postgres_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: crypto/rm
 ```
 
@@ -418,7 +418,7 @@ Delegates self-signed certificate generation to the OpenSSL role using Postgres 
     # Specifies the OpenShift Route host.
     postgres_exporter_openshift_route: "postgres-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -496,7 +496,7 @@ Applies the Service, optional NodePort and LoadBalancer Services, and Deployment
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/start
 ```
 
@@ -516,7 +516,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the metrics port externally. When undefined or `false`, the metrics port is not included in the LoadBalancer Service.
     postgres_exporter_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/ping
 ```
 
@@ -538,7 +538,7 @@ Removes the Postgres Exporter Deployment and Services from Kubernetes.
     # Set to `true` to create a LoadBalancer Service entry that exposes the metrics port externally. When undefined or `false`, the metrics port is not included in the LoadBalancer Service.
     postgres_exporter_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/rm
 ```
 
@@ -554,7 +554,7 @@ Delegates Postgres Exporter pod log collection to the shared Kubernetes role.
     # Sets the Kubernetes resource base name used for ConfigMaps, Secrets, Services, and Deployments.
     postgres_exporter_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/fetch_logs
 ```
 
@@ -586,7 +586,7 @@ Ensures the Kubernetes namespace exists and applies the ConfigMap rendered from 
     # Enables Postgres Exporter TLS assets and HTTPS listener configuration when set to `true`.
     postgres_exporter_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/config/transfer
 ```
 
@@ -604,7 +604,7 @@ Deletes the Postgres Exporter ConfigMap from Kubernetes.
     # Sets the Kubernetes resource base name used for ConfigMaps, Secrets, Services, and Deployments.
     postgres_exporter_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/config/rm
 ```
 
@@ -638,7 +638,7 @@ Builds the exporter PostgreSQL datasource for Kubernetes from the monitored host
     # Enables Postgres Exporter TLS assets and HTTPS listener configuration when set to `true`.
     postgres_exporter_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -656,7 +656,7 @@ Deletes the Postgres Exporter Secret from Kubernetes.
     # Sets the Kubernetes resource base name used for ConfigMaps, Secrets, Services, and Deployments.
     postgres_exporter_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: k8s/crypto/rm
 ```
 
@@ -676,7 +676,7 @@ Builds the `postgres_exporter_prometheus_scrape_services` fact for the Postgres 
       - "postgres-exporter-a"
       - "postgres-exporter-b"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -698,7 +698,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     postgres_exporter_openshift_route: "postgres-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: openshift/start
 ```
 
@@ -716,7 +716,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     postgres_exporter_openshift_route: "postgres-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: openshift/ping
 ```
 
@@ -734,6 +734,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     postgres_exporter_openshift_route: "postgres-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.postgres_exporter
+    name: lfdt.chaguar.postgres_exporter
     tasks_from: openshift/rm
 ```

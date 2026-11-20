@@ -12,7 +12,7 @@
     # =========================
     - name: Stop Jaeger
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.jaeger
+        name: lfdt.chaguar.jaeger
         tasks_from: stop
       when:
         - jaeger_collector_port is defined
@@ -21,7 +21,7 @@
     # =========================
     - name: Stop ElasticSearch
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.elasticsearch
+        name: lfdt.chaguar.elasticsearch
         tasks_from: stop
       when:
         - elasticsearch_http_port is defined
@@ -30,7 +30,7 @@
     # =========================
     - name: Stop Grafana
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.grafana
+        name: lfdt.chaguar.grafana
         tasks_from: stop
       when:
         - grafana_web_port is defined
@@ -39,7 +39,7 @@
     # =========================
     - name: Stop Alloy
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.alloy
+        name: lfdt.chaguar.alloy
         tasks_from: stop
       when:
         - alloy_port is defined
@@ -48,7 +48,7 @@
     # =========================
     - name: Stop Loki
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loki
+        name: lfdt.chaguar.loki
         tasks_from: stop
       when:
         - loki_port is defined
@@ -57,7 +57,7 @@
     # =========================
     - name: Stop Prometheus
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.prometheus
+        name: lfdt.chaguar.prometheus
         tasks_from: stop
       when:
         - prometheus_port is defined
@@ -66,7 +66,7 @@
     # =========================
     - name: Stop Postgres Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.postgres_exporter
+        name: lfdt.chaguar.postgres_exporter
         tasks_from: stop
       when:
         - postgres_exporter_port is defined
@@ -75,7 +75,7 @@
     # =========================
     - name: Stop Node Exporter nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.node_exporter
+        name: lfdt.chaguar.node_exporter
         tasks_from: stop
       when:
         - node_exporter_port is defined
@@ -84,7 +84,7 @@
     # =========================
     - name: Stop cAdvisor nodes
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cadvisor
+        name: lfdt.chaguar.cadvisor
         tasks_from: stop
       when:
         - cadvisor_port is defined

@@ -6,21 +6,21 @@
 
 - name: Teardown Chaguar Loadgen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: teardown
 
 - name: Remove Chaguar Loadgen binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: bin/rm
   when: loadgen_use_bin
 
 - name: Remove Chaguar Loadgen crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: crypto/rm
 
 - name: Remove Chaguar Loadgen configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loadgen
+    name: lfdt.chaguar.loadgen
     tasks_from: config/rm

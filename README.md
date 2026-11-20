@@ -1,6 +1,6 @@
 # LFDT Chaguar Ansible Collection
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://chaguar.github.io/ansible-collection/) ![Tests](https://github.com/Chaguar/ansible-collection/actions/workflows/test.yaml/badge.svg) ![Lint](https://github.com/Chaguar/ansible-collection/actions/workflows/lint.yaml/badge.svg) ![Publish](https://github.com/Chaguar/ansible-collection/actions/workflows/publish.yaml/badge.svg) [![Galaxy Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fhyperledger%2Fchaguar%2F&query=%24.download_count&label=Galaxy%20Downloads&logo=ansible&color=blue)](https://galaxy.ansible.com/ui/repo/published/hyperledger/chaguar/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://chaguar.github.io/ansible-collection/) ![Tests](https://github.com/Chaguar/ansible-collection/actions/workflows/test.yaml/badge.svg) ![Lint](https://github.com/Chaguar/ansible-collection/actions/workflows/lint.yaml/badge.svg) ![Publish](https://github.com/Chaguar/ansible-collection/actions/workflows/publish.yaml/badge.svg) [![Galaxy Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Flfdt%2Fchaguar%2F&query=%24.download_count&label=Galaxy%20Downloads&logo=ansible&color=blue)](https://galaxy.ansible.com/ui/repo/published/lfdt/chaguar/)
 
 <p align="center">
   <img src="./examples/images/chaguar-ansible-collection-logo.png" alt="LFDT Chaguar Ansible Collection" width="240">
@@ -8,7 +8,7 @@
 
 LFDT Chaguar is an open source permissioned ledger built for performance at scale. It builds on the core principles of Hyperledger Fabric (_sovereign_, _horizontally scalable smart contract execution_ and a _modular_, _agile_ architecture) and is tailored for digital asset use cases, making it well-suited to meet the governance and compliance needs of regulated digital assets.
 
-This repository contains the `hyperledger.chaguar` Ansible collection, which can be used to deploy an LFDT Chaguar network locally, on Kubernetes, or across multiple nodes.
+This repository contains the `lfdt.chaguar` Ansible collection, which can be used to deploy an LFDT Chaguar network locally, on Kubernetes, or across multiple nodes.
 
 > [!TIP]
 > New to Chaguar? Start with the [**Tutorial**](./docs/tutorial/index.md) — a twelve-lesson learning path that takes you from the core concepts to a running network, and on to writing your own inventory. The rest of this README is reference material.
@@ -41,32 +41,32 @@ This repository contains the `hyperledger.chaguar` Ansible collection, which can
 
 ### Option 1: Install from Ansible Galaxy
 
-To install the latest published version of the `hyperledger.chaguar` collection from [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/hyperledger/chaguar/), run:
+To install the latest published version of the `lfdt.chaguar` collection from [Ansible Galaxy](https://galaxy.ansible.com/ui/repo/published/lfdt/chaguar/), run:
 
 ```shell
-ansible-galaxy collection install hyperledger.chaguar
+ansible-galaxy collection install lfdt.chaguar
 ```
 
 Then install the collection's dependencies:
 
 ```shell
-ansible-galaxy collection install -r ~/.ansible/collections/ansible_collections/hyperledger/chaguar/requirements.yml
+ansible-galaxy collection install -r ~/.ansible/collections/ansible_collections/lfdt/chaguar/requirements.yml
 ```
 
 ### Option 2: Clone under `ANSIBLE_COLLECTIONS_PATHS` (for development)
 
-To install the `hyperledger.chaguar` collection on your control node, run:
+To install the `lfdt.chaguar` collection on your control node, run:
 
 > [!NOTE]
 > This is the recommended way if you plan to develop and change the scripts, since it allows to test directly the modified scripts avoiding to reinstall the collection at every change.
 
 ```shell
-git clone https://github.com/Chaguar/ansible-collection.git ~/.ansible/collections/ansible_collections/hyperledger/chaguar
-cd ~/.ansible/collections/ansible_collections/hyperledger/chaguar
+git clone https://github.com/Chaguar/ansible-collection.git ~/.ansible/collections/ansible_collections/lfdt/chaguar
+cd ~/.ansible/collections/ansible_collections/lfdt/chaguar
 make install-deps
 ```
 
-The sample inventories default `project_dir` to `~/.ansible/collections/ansible_collections/hyperledger/chaguar`. If your checkout lives elsewhere (for example, an older clone under `ansible_collections/hyperledger/fabricx`), move it to that path or export `PROJECT_DIR` with the path of your checkout.
+The sample inventories default `project_dir` to `~/.ansible/collections/ansible_collections/lfdt/chaguar`. If your checkout lives elsewhere (for example, an older clone under `ansible_collections/hyperledger/chaguar` or `ansible_collections/hyperledger/fabricx`), move it to that path or export `PROJECT_DIR` with the path of your checkout.
 
 > [!WARNING]
 > Do not run `make install` with this setup — the collection is already live from the cloned directory. Running it would overwrite your checkout with a built artifact. Use `make install-deps` to install dependencies only. The Makefile will also guard against this and abort if it detects the risk.
@@ -95,12 +95,12 @@ The collection is organized around three concepts:
 | Playbooks   | Reusable lifecycle workflows that call the roles in the expected order.                                                         |
 | Inventories | The deployment model: which components exist, where they run, which ports they use, and which security/runtime mode is enabled. |
 
-For example, the playbook [playbooks/orderer/start.yaml](./playbooks/orderer/start.yaml) shows how to use the `hyperledger.chaguar.orderer` role to start a Chaguar Orderer node:
+For example, the playbook [playbooks/orderer/start.yaml](./playbooks/orderer/start.yaml) shows how to use the `lfdt.chaguar.orderer` role to start a Chaguar Orderer node:
 
 ```yaml
 - name: Start Chaguar Orderer components
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: start
 ```
 
@@ -243,7 +243,7 @@ The most frequently used commands are:
 
 | Command                    | Usage                                                                        |
 | -------------------------- | ---------------------------------------------------------------------------- |
-| `install`                  | Build and install the `hyperledger.chaguar` collection locally.              |
+| `install`                  | Build and install the `lfdt.chaguar` collection locally.                     |
 | `install-deps`             | Wrapper for `install-venv` + `install-python-deps` + `install-ansible-deps`. |
 | `install-venv`             | Install a `venv` environment.                                                |
 | `install-python-deps`      | Install Python dependencies on the control node.                             |

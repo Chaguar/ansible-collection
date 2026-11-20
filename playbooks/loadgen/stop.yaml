@@ -9,5 +9,5 @@
   tasks:
     - name: Stop Chaguar Loadgen
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loadgen
+        name: lfdt.chaguar.loadgen
         tasks_from: stop

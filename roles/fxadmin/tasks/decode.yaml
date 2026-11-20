@@ -16,14 +16,14 @@
 
 - name: Decode the Chaguar channel configuration block with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/decode
   when:
     - fxadmin_use_bin
 
 - name: Decode the Chaguar channel configuration block with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/decode
   when:
     - not fxadmin_use_bin

@@ -78,7 +78,7 @@ State is persisted: the gateway's block, transaction, and log index and the embe
 
 ## Deploying It
 
-The EVM gateway is already wired into every lifecycle playbook — `40-start.yaml` imports `hyperledger.chaguar.evm.start`, which simply skips when the inventory has no `chaguar_evm` hosts. So switching inventories is all it takes:
+The EVM gateway is already wired into every lifecycle playbook — `40-start.yaml` imports `lfdt.chaguar.evm.start`, which simply skips when the inventory has no `chaguar_evm` hosts. So switching inventories is all it takes:
 
 ```shell
 make teardown                                            # tear down what you have
@@ -227,7 +227,7 @@ It lives in its own dedicated inventory, [`local/semaphore-ui.yaml`](../../examp
 
 ```shell
 .venv/bin/ansible-playbook -i examples/inventory/local/semaphore-ui.yaml \
-  hyperledger.chaguar.semaphore_ui.start
+  lfdt.chaguar.semaphore_ui.start
 ```
 
 Because it is in its own inventory, the `Makefile` lifecycle verbs also drive it — but only when the loaded inventory defines a `semaphore_ui` group, which no network inventory does. See the [`semaphore_ui` playbooks](../../playbooks/semaphore_ui/README.md) for the full lifecycle.

@@ -1,4 +1,4 @@
-# hyperledger.chaguar.orderer
+# lfdt.chaguar.orderer
 
 > Manages Chaguar Orderer consenter, batcher, assembler, and router components across binary, container, and Kubernetes deployments.
 
@@ -63,7 +63,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.orderer
+ansible-doc -t role lfdt.chaguar.orderer
 ```
 
 ## Tasks
@@ -88,7 +88,7 @@ Dispatches `consensus`, `batcher`, `assembler`, or `router` startup to the selec
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: start
 ```
 
@@ -112,7 +112,7 @@ Dispatches component shutdown to the active binary, container, or Kubernetes lif
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: stop
 ```
 
@@ -136,7 +136,7 @@ Dispatches component teardown to the selected deployment backend. Removes runtim
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: teardown
 ```
 
@@ -152,7 +152,7 @@ Runs lifecycle teardown, removes generated orderer configuration and MSP/TLS mat
     # Selects the binary deployment branch.
     orderer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: wipe
 ```
 
@@ -174,7 +174,7 @@ Delegates log collection to the Kubernetes pod selector, container name, or bina
     # Selects the binary deployment branch.
     orderer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: fetch_logs
 ```
 
@@ -194,7 +194,7 @@ Checks the configured orderer gRPC listener for binary and container deployments
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: ping
 ```
 
@@ -210,7 +210,7 @@ Compute the address used to reach an orderer operations metrics endpoint from ou
     # Inventory host whose orderer metrics endpoint should be resolved.
     orderer_host: "orderer-router-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: effective_address
 ```
 
@@ -223,7 +223,7 @@ Fetches Prometheus metrics from the configured orderer operations endpoint. Dele
 ```yaml
 - name: Retrieve orderer Prometheus metrics
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: get_metrics
 ```
 
@@ -247,7 +247,7 @@ Builds the orderer binary through the shared bin role using the configured Git r
     # Go package path that builds the orderer binary.
     orderer_source_code_package: cmd/arma
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/build
 ```
 
@@ -273,7 +273,7 @@ Installs the configured released orderer binary through the shared bin role. Use
     # Git ref or release tag used by the bin build and install branches.
     orderer_git_commit: v1.0.8
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/install
 ```
 
@@ -289,7 +289,7 @@ Copies the built or downloaded orderer binary through the shared bin role. Prepa
     # Binary name used by the bin branches.
     orderer_bin_name: arma
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/transfer
 ```
 
@@ -305,7 +305,7 @@ Deletes the installed orderer binary through the shared bin role. Does not remov
     # Binary name used by the bin branches.
     orderer_bin_name: arma
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/rm
 ```
 
@@ -335,7 +335,7 @@ Ensures the binary-mode data directory exists and starts `orderer_bin_name` with
     # gRPC port exposed by the orderer.
     orderer_rpc_port: 7050
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/start
 ```
 
@@ -348,7 +348,7 @@ Stops the orderer binary process through the shared bin role. Leaves the binary,
 ```yaml
 - name: Stop the orderer binary process
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/stop
 ```
 
@@ -361,7 +361,7 @@ Collects logs for the binary-mode orderer process through the shared bin role. U
 ```yaml
 - name: Fetch logs for the orderer binary process
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/fetch_logs
 ```
 
@@ -374,7 +374,7 @@ Stops the binary-mode orderer process and removes its persisted data directory. 
 ```yaml
 - name: Remove the orderer binary runtime state
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/teardown
 ```
 
@@ -428,7 +428,7 @@ Ensures the host data directory exists and starts the orderer container with the
     # Enables client mutual TLS for the orderer operations endpoint.
     orderer_operations_use_mtls: "{{ orderer_use_mtls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: container/start
 ```
 
@@ -444,7 +444,7 @@ Stops the named orderer container through the shared container role. Leaves the 
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: container/stop
 ```
 
@@ -460,7 +460,7 @@ Deletes the named orderer container through the shared container role. Does not 
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: container/rm
 ```
 
@@ -476,7 +476,7 @@ Collects logs for the configured orderer container. Covers consenter, batcher, a
     # Container name used by the container lifecycle branch.
     orderer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: container/fetch_logs
 ```
 
@@ -489,7 +489,7 @@ Deletes the orderer container and removes its persisted data directory. Keeps ge
 ```yaml
 - name: Remove the orderer container runtime state
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: container/teardown
 ```
 
@@ -513,7 +513,7 @@ Deletes the orderer data directory for binary and container deployments. In Kube
     # Kubernetes namespace used for orderer resources.
     k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: data/rm
 ```
 
@@ -681,7 +681,7 @@ Renders the component-specific orderer config for `consensus`, `batcher`, `assem
     # Channel size for assembler batch request messages.
     orderer_assembler_batch_requests_channel_size: 1000
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/transfer
 ```
 
@@ -711,7 +711,7 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
       - name: "Org2"
         domain: "org2.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/mtls/transfer
 ```
 
@@ -738,7 +738,7 @@ Copies trusted client and organization TLS CA certificates into the orderer mTLS
       - name: "Org1"
         domain: "org1.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/mtls/operations/transfer
 ```
 
@@ -760,7 +760,7 @@ Deletes the orderer configuration directory, including rendered config, genesis 
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/rm
 ```
 
@@ -773,7 +773,7 @@ Publishes the bundled Chaguar Orderer Grafana dashboard through the grafana role
 ```yaml
 - name: Copy the orderer Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -800,7 +800,7 @@ Provisions orderer MSP and TLS material through cryptogen or Fabric CA based on 
     # Selects the OpenShift deployment branch.
     orderer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/setup
 ```
 
@@ -831,7 +831,7 @@ Copies cryptogen-generated MSP and TLS artifacts for the orderer identity into t
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -872,7 +872,7 @@ Copies the Fabric CA TLS certificate when needed and enrolls both MSP and TLS id
     # Enables TLS for the orderer operations endpoint.
     orderer_operations_use_tls: "{{ orderer_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -903,7 +903,7 @@ Fetches the orderer sign certificate, TLS server certificate, and TLS CA certifi
     # Remote directory where orderer configuration is written.
     orderer_remote_config_dir: "{{ remote_config_dir }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/fetch
 ```
 
@@ -934,7 +934,7 @@ Deletes the orderer MSP and TLS directories from the config path, and the users 
         name: "orderer-router-1"
         secret: "orderer-router-1PWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/rm
 ```
 
@@ -1046,7 +1046,7 @@ Creates the orderer Kubernetes Service, StatefulSet, and optional NodePort and L
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/start
 ```
 
@@ -1072,7 +1072,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Operations endpoint port exposed by the orderer. This endpoint serves operational APIs and Prometheus metrics.
     orderer_operations_port: 7060
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/ping
 ```
 
@@ -1098,7 +1098,7 @@ Deletes the orderer StatefulSet and Services from the configured namespace. Leav
     # Set to `true` to create a LoadBalancer Service entry that exposes the operations/metrics port externally. When undefined or `false`, the operations/metrics port is not included in the LoadBalancer Service.
     orderer_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/rm
 ```
 
@@ -1111,7 +1111,7 @@ Deletes the Kubernetes workload and removes persisted orderer data. Keeps genera
 ```yaml
 - name: Remove the orderer Kubernetes workload and data
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/teardown
 ```
 
@@ -1127,7 +1127,7 @@ Collects logs from pods selected by the orderer Kubernetes app label. Works for 
     # Base name used for the orderer Kubernetes objects, including the optional NodePort Service.
     orderer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/fetch_logs
 ```
 
@@ -1185,7 +1185,7 @@ Slurps the generated genesis block and renders the orderer ConfigMap. Includes t
     # Kubernetes namespace used for orderer resources.
     k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/config/transfer
 ```
 
@@ -1203,7 +1203,7 @@ Deletes the ConfigMap that holds orderer configuration, genesis material, and op
     # Kubernetes namespace used for orderer resources.
     k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/config/rm
 ```
 
@@ -1240,7 +1240,7 @@ Resolves orderer MSP and TLS file locations and renders the Kubernetes Secret. T
     # Kubernetes namespace used for orderer resources.
     k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1258,7 +1258,7 @@ Deletes the Secret that stores orderer MSP and TLS material. Does not remove the
     # Kubernetes namespace used for orderer resources.
     k8s_namespace: "chaguar-orderer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: k8s/crypto/rm
 ```
 
@@ -1280,7 +1280,7 @@ Groups orderer hosts by component type and exposes Prometheus scrape service def
     # Control-node directory containing fetched crypto artifacts.
     fetched_artifacts_dir: "/tmp/chaguar/artifacts/fetched"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -1317,7 +1317,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: openshift/start
 ```
 
@@ -1339,7 +1339,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: openshift/ping
 ```
 
@@ -1359,7 +1359,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host for the operations/metrics endpoint.
     orderer_openshift_metrics_route: "orderer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: openshift/rm
 ```
 
@@ -1372,6 +1372,6 @@ Removes OpenShift and Kubernetes resources, then deletes orderer data artifacts.
 ```yaml
 - name: Teardown the OpenShift deployment
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: openshift/teardown
 ```

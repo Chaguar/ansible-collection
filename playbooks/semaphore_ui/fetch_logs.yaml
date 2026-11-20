@@ -9,7 +9,7 @@
   tasks:
     - name: Fetch the Semaphore UI logs
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.semaphore_ui
+        name: lfdt.chaguar.semaphore_ui
         tasks_from: fetch_logs
       when:
         - semaphore_ui_port is defined

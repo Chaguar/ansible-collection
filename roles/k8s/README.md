@@ -1,4 +1,4 @@
-# hyperledger.chaguar.k8s
+# lfdt.chaguar.k8s
 
 > Provides Kubernetes helper tasks for namespaces, image pull secrets, and pod log retrieval.
 
@@ -23,7 +23,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.k8s
+ansible-doc -t role lfdt.chaguar.k8s
 ```
 
 ## Tasks
@@ -42,7 +42,7 @@ Creates or updates the named Kubernetes namespace resource in the target cluster
     # Controls whether the namespace creation task applies the namespace resource. When `false`, the namespace creation task is skipped.
     k8s_create_namespace: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: namespace/create
 ```
 
@@ -66,7 +66,7 @@ Creates or updates a `kubernetes.io/dockerconfigjson` Secret named by `k8s_image
     # Specifies the registry password or token stored in the generated image pull secret. Store this value in an Ansible Vault.
     k8s_container_registry_password: "my_private_cr_password"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: registry/create_pull_secret
 ```
 
@@ -100,7 +100,7 @@ Collects pod logs from the target namespace for pods matched by `k8s_pod_label_s
     # Specifies the filename used for the fetched log artifact on the control node.
     k8s_fetched_logs_file: logs.txt
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: fetch_logs
 ```
 
@@ -113,7 +113,7 @@ Discovers unique `k8s_namespace` values from inventory host variables. Sets `k8s
 ```yaml
 - name: Build Kubernetes namespace targets
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: get_namespaces
 ```
 
@@ -148,7 +148,7 @@ Creates or updates a ServiceAccount, ClusterRole, and ClusterRoleBinding for Kub
       - "list"
       - "watch"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: rbac/apply
 ```
 
@@ -166,6 +166,6 @@ Deletes the ClusterRoleBinding, ClusterRole, and ServiceAccount previously creat
     # Base name used for RBAC resources (ServiceAccount, ClusterRole, ClusterRoleBinding).
     k8s_rbac_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.k8s
+    name: lfdt.chaguar.k8s
     tasks_from: rbac/rm
 ```

@@ -6,15 +6,15 @@
 
 - name: Teardown Grafana
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: teardown
 
 - name: Remove Grafana crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: crypto/rm
 
 - name: Remove Grafana configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: config/rm

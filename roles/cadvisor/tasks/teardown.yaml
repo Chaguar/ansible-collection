@@ -6,6 +6,6 @@
 
 - name: Remove cAdvisor container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.cadvisor
+    name: lfdt.chaguar.cadvisor
     tasks_from: container/rm
   when: cadvisor_use_container

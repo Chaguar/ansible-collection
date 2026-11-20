@@ -16,7 +16,7 @@
   vars:
     committer_host: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: effective_address
 
 - name: Get Chaguar Committer metrics

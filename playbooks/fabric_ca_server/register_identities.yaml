@@ -13,13 +13,13 @@
         fabric_ca_host: "{{ inventory_hostname }}"
         fabric_ca_msp_dir: "{{ fabric_ca_server_remote_config_dir }}/{{ fabric_ca_admin.name }}/msp"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fabric_ca
+        name: lfdt.chaguar.fabric_ca
         tasks_from: client/identity_list
       when:
         - fabric_ca_admin is defined
     - name: Gather Fabric CA identities
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fabric_ca
+        name: lfdt.chaguar.fabric_ca
         tasks_from: client/gather_identities
     - name: Register missing identities on Fabric CA
       vars:
@@ -28,7 +28,7 @@
         fabric_ca_msp_dir: "{{ fabric_ca_server_remote_config_dir }}/{{ fabric_ca_admin.name }}/msp"
         fabric_ca_use_prelisted_identities: true
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fabric_ca
+        name: lfdt.chaguar.fabric_ca
         tasks_from: client/register
       loop: >-
         {{

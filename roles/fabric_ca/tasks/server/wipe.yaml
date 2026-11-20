@@ -6,21 +6,21 @@
 
 - name: Teardown Fabric CA server
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/teardown
 
 - name: Remove Fabric CA binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/bin/rm
   when: fabric_ca_server_use_bin
 
 - name: Remove Fabric CA Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/crypto/rm
 
 - name: Remove Fabric CA config files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/config/rm

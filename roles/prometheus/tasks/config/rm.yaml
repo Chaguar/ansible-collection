@@ -11,6 +11,6 @@
 
 - name: Delete Prometheus k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: k8s/config/rm
   when: prometheus_use_k8s or prometheus_use_openshift

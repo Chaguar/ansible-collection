@@ -1,4 +1,4 @@
-# hyperledger.chaguar.fxconfig
+# lfdt.chaguar.fxconfig
 
 > Generates and transfers fxconfig configuration material, manages namespace transaction artifacts, and submits Chaguar namespace lifecycle changes.
 
@@ -48,7 +48,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.fxconfig
+ansible-doc -t role lfdt.chaguar.fxconfig
 ```
 
 ## Tasks
@@ -73,7 +73,7 @@ Builds the fxconfig Go binary from the configured Chaguar source package by dele
     # Defines the Go package path containing the fxconfig source code.
     fxconfig_source_code_package: tools/fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/build
 ```
 
@@ -99,7 +99,7 @@ Copies a namespace transaction JSON file to the managed host, endorses it with t
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/endorse
 ```
 
@@ -125,7 +125,7 @@ Installs the fxconfig Go package from the configured Chaguar source package by d
     # Defines the Go package path containing the fxconfig source code.
     fxconfig_source_code_package: tools/fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/install
 ```
 
@@ -153,7 +153,7 @@ Collects endorsed namespace transaction JSON files from the artifact directory a
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/merge
 ```
 
@@ -183,7 +183,7 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/namespace/create
 ```
 
@@ -209,7 +209,7 @@ Lists namespaces from the configured Chaguar network by invoking the local fxcon
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/namespace/list
 ```
 
@@ -241,7 +241,7 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/namespace/update
 ```
 
@@ -257,7 +257,7 @@ Removes the fxconfig binary from the managed host by delegating cleanup to the s
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/rm
 ```
 
@@ -281,7 +281,7 @@ Transfers a merged namespace transaction JSON artifact to the managed host and s
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/submit
 ```
 
@@ -297,7 +297,7 @@ Transfers the previously built fxconfig binary to the managed host by delegating
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/transfer
 ```
 
@@ -319,7 +319,7 @@ Copies the client certificate and key consumed by fxconfig for mTLS connections 
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: config/mtls/transfer
 ```
 
@@ -343,7 +343,7 @@ Copies fetched Orderer Router and Committer Query-Service CA certificates into t
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: config/tls/transfer
 ```
 
@@ -402,7 +402,7 @@ Creates the remote fxconfig configuration directory, renders the fxconfig file, 
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: config/transfer
 ```
 
@@ -440,7 +440,7 @@ Copies a namespace transaction JSON file to the managed host, mounts the rendere
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/endorse
 ```
 
@@ -480,7 +480,7 @@ Collects endorsed namespace transaction JSON files from the artifact directory, 
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/merge
 ```
 
@@ -520,7 +520,7 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/namespace/create
 ```
 
@@ -558,7 +558,7 @@ Lists namespaces from the configured Chaguar network by mounting the rendered co
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/namespace/list
 ```
 
@@ -600,7 +600,7 @@ Creates a namespace update transaction JSON artifact for the configured namespac
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/namespace/update
 ```
 
@@ -636,7 +636,7 @@ Transfers a merged namespace transaction JSON artifact to the managed host, moun
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/submit
 ```
 
@@ -652,7 +652,7 @@ Dispatches namespace transaction endorsement to either the host binary or a tran
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: endorse
 ```
 
@@ -677,7 +677,7 @@ Selects the namespace endorser and stores it in `fxconfig_endorser_user`: `organ
         - id: "payments"
           policy: "threshold"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: get_endorser
 ```
 
@@ -695,7 +695,7 @@ Dispatches endorsed namespace transaction merging to either the host binary or a
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: merge
 ```
 
@@ -711,7 +711,7 @@ Dispatches namespace transaction creation to either the host binary or a transie
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/create
 ```
 
@@ -731,7 +731,7 @@ Builds a namespace-to-host mapping from inventory organization data before creat
       - "committer-sidecar"
       - "committer-query-service"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/group
 ```
 
@@ -762,7 +762,7 @@ Lists existing Chaguar namespaces via `namespace/list`, then compares each decla
         - id: "payments"
           policy: "threshold"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/inspect
 ```
 
@@ -778,7 +778,7 @@ Dispatches namespace listing to either the host binary or a transient container 
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/list
 ```
 
@@ -801,7 +801,7 @@ Merges the given namespace fingerprints into the namespace state file, preservin
     # Defines the namespace state file name, stored under `fxconfig_artifacts_dir`.
     fxconfig_state_file: fxconfig-state.yaml
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/record_state
 ```
 
@@ -824,7 +824,7 @@ Submits a merged namespace transaction via `submit`, then immediately records th
     # Defines the namespace identifier used when creating namespace transaction artifacts. Accepts either a string or an integer value.
     fxconfig_namespace_id: payments
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/submit
 ```
 
@@ -840,7 +840,7 @@ Dispatches namespace transaction update to either the host binary or a transient
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: namespace/update
 ```
 
@@ -856,7 +856,7 @@ Dispatches merged namespace transaction submission to either the host binary or 
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: submit
 ```
 
@@ -872,6 +872,6 @@ Removes the fxconfig binary from the managed host when the binary workflow is en
     # Selects the host-binary workflow instead of the container workflow.
     fxconfig_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: wipe
 ```

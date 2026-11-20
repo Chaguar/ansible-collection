@@ -6,6 +6,6 @@
 
 - name: Stop Node Exporter container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/stop
   when: node_exporter_use_container

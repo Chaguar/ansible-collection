@@ -5,40 +5,40 @@
 #
 
 - name: Wipe Loadgen
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.wipe
 
 - name: Wipe Monitoring
-  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.monitoring.wipe
 
 - name: Wipe fxconfig
-  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.fxconfig.wipe
 
 - name: Wipe fxadmin
-  ansible.builtin.import_playbook: hyperledger.chaguar.fxadmin.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.fxadmin.wipe
 
 - name: Wipe Chaguar Block Explorer
-  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.block_explorer.wipe
 
 - name: Wipe Chaguar EVM
-  ansible.builtin.import_playbook: hyperledger.chaguar.evm.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.evm.wipe
 
 - name: Wipe Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.wipe
 
 - name: Wipe Chaguar Orderer
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.wipe
 
 - name: Wipe Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.wipe
 
 - name: Wipe PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.postgres.wipe
 
 - name: Wipe YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.yugabyte.wipe
 
 - name: Remove container networks
-  ansible.builtin.import_playbook: hyperledger.chaguar.remove_container_networks
+  ansible.builtin.import_playbook: lfdt.chaguar.remove_container_networks
 
 - name: Wipe Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.wipe
+  ansible.builtin.import_playbook: lfdt.chaguar.semaphore_ui.wipe

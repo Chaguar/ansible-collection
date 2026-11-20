@@ -8,5 +8,5 @@
   vars:
     bin_name: "{{ semaphore_ui_bin_name }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: fetch_logs

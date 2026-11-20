@@ -38,7 +38,7 @@ flowchart LR
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares TLS material for observability components that require it. It runs the relevant crypto setup/fetch tasks for monitoring hosts that define component-specific variables, such as Prometheus, Grafana, Loki, Alloy, exporters, Elasticsearch, or Jaeger.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.generate_crypto --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.generate_crypto --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) assembles the monitoring configuration for the selected topology. It transfers exporter configuration, discovers scrape targets from Chaguar and database hosts, renders Prometheus configuration, transfers Grafana dashboards, configures Loki and Alloy log collection when present, and configures optional Elasticsearch or Jaeger services when present.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.configs --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.configs --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -64,7 +64,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts the monitoring stack described by the inventory. It conditionally starts node exporter, PostgreSQL exporter, Prometheus, Loki, Alloy, Grafana, Elasticsearch, and Jaeger only on hosts that declare the matching variables.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.start --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.start --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -77,7 +77,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops the monitoring components running on targeted hosts while leaving generated configuration and collected artifacts in place for later restart or inspection.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.stop --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.stop --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -90,7 +90,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) tears down monitoring runtimes and their service data according to each role's implementation. Use it when you want to remove running observability services rather than just stop them.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.teardown --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.teardown --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -103,7 +103,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes generated monitoring artifacts from targeted hosts, including configuration and role-managed files that should not survive a full cleanup.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.wipe --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.wipe --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -116,7 +116,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks the reachable endpoints for monitoring services declared by targeted hosts. It is useful after startup to confirm dashboards, scrape services, and optional backends are responding.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.ping --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.ping --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -129,7 +129,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches monitoring TLS material from targeted hosts into the configured artifacts location for inspection or reuse.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.fetch_crypto --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.fetch_crypto --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:
@@ -142,7 +142,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) collects logs from the monitoring services declared on targeted hosts, which is useful when Prometheus targets, Grafana dashboards, Loki, Alloy, or optional tracing/logging backends do not come up cleanly.
 
 ```shell
-ansible-playbook hyperledger.chaguar.monitoring.fetch_logs --extra-vars '{"target_hosts": "monitoring"}'
+ansible-playbook lfdt.chaguar.monitoring.fetch_logs --extra-vars '{"target_hosts": "monitoring"}'
 ```
 
 Properties:

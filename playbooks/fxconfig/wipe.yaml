@@ -9,7 +9,7 @@
   tasks:
     - name: Wipe fxconfig
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxconfig
+        name: lfdt.chaguar.fxconfig
         tasks_from: wipe
       when:
         - organization is defined

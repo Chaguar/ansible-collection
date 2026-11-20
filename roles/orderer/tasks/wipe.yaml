@@ -6,21 +6,21 @@
 
 - name: Teardown Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: teardown
 
 - name: Remove Chaguar Orderer binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: bin/rm
   when: orderer_use_bin
 
 - name: Remove Chaguar Orderer crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: crypto/rm
 
 - name: Remove Chaguar Orderer configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: config/rm

@@ -19,7 +19,7 @@
 # - 1000GB SSD disk (to get high-speed IOPS);
 #
 # To run this inventory:
-# 1. install the `hyperledger.chaguar` Ansible collection on your control node;
+# 1. install the `lfdt.chaguar` Ansible collection on your control node;
 # 2. target this inventory within `ansible.cfg`;
 # 3. set the "Ansible Connection" and "Machines to use" sections to allow a successful connection from the control node to the remote nodes
 #    (this requires proper setup of SSH connection between the control node and the remote nodes);

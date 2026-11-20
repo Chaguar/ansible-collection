@@ -6,6 +6,6 @@
 
 - name: Teardown Chaguar Orderer nodes
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.orderer
+    name: lfdt.chaguar.orderer
     tasks_from: "{{ orderer_deployment_mode }}/teardown"
   when: orderer_component_type is defined

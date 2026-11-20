@@ -6,7 +6,7 @@
 
 - name: Find all registered identities on Fabric CA
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/container/identity_list
   when: not fabric_ca_use_prelisted_identities
 
@@ -37,7 +37,7 @@
 
 - name: Resolve effective Fabric CA connection port
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/effective_address
 
 # If you want the attributes to appear in the certificate, make sure to set them with the ":ecert" suffix.
@@ -71,6 +71,6 @@
     container_run_as_host_user: true
     container_run_detach_mode: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start
   when: not fabric_ca_identity_exists

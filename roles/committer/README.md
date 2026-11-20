@@ -1,4 +1,4 @@
-# hyperledger.chaguar.committer
+# lfdt.chaguar.committer
 
 > Runs Chaguar Committer components across host-binary, container, and Kubernetes deployments. The role renders component configuration, manages TLS/mTLS artifacts, and starts or removes validators, verifiers, coordinators, sidecars, and query-services.
 
@@ -76,7 +76,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.committer
+ansible-doc -t role lfdt.chaguar.committer
 ```
 
 ## Tasks
@@ -97,7 +97,7 @@ Validate that the Chaguar Committer RPC port is reachable. Uses `committer_rpc_p
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: ping
 ```
 
@@ -123,7 +123,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Metrics port exposed by the selected committer component.
     committer_metrics_port: 9443
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/ping
 ```
 
@@ -145,7 +145,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     committer_openshift_metrics_route: "committer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: openshift/ping
 ```
 
@@ -169,7 +169,7 @@ Stop the selected component in bin or container mode. Kubernetes teardown is han
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: stop
 ```
 
@@ -193,7 +193,7 @@ Remove the selected component according to its deployment mode. Sidecar teardown
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: teardown
 ```
 
@@ -209,7 +209,7 @@ Tear down the selected component and remove binary, config, and crypto assets. I
     # Enable host-binary deployment mode.
     committer_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: wipe
 ```
 
@@ -231,7 +231,7 @@ Fetch logs from the selected deployment mode. Dispatches to binary, container, o
     # Enable container deployment mode.
     committer_use_container: "{{ (not committer_use_bin) and (not committer_use_k8s) and (not committer_use_openshift) }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: fetch_logs
 ```
 
@@ -247,7 +247,7 @@ Compute the address used to reach a committer metrics endpoint from outside its 
     # Inventory host whose committer metrics endpoint should be resolved.
     committer_host: "committer-validator-1"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: effective_address
 ```
 
@@ -271,7 +271,7 @@ Query the component metrics endpoint and print the response body. Delegates addr
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: get_metrics
 ```
 
@@ -293,7 +293,7 @@ Dispatch database initialization to the entry point matching `committer_deployme
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: init_db
 ```
 
@@ -317,7 +317,7 @@ Dispatch startup to the selected committer component. `committer_component_type`
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: start
 ```
 
@@ -347,7 +347,7 @@ Transfer cryptogen artifacts or enroll with Fabric CA for the selected component
     # Selects the OpenShift deployment branch.
     committer_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/setup
 ```
 
@@ -369,7 +369,7 @@ Fetch the committer TLS CA certificate and server certificate to the control nod
     # Enable TLS material for the selected component.
     committer_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/fetch
 ```
 
@@ -395,7 +395,7 @@ Install the committer binary through the shared `bin` role Go installer entry po
     # Go package path used as the build or install target.
     committer_source_code_package: cmd/committer
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/install
 ```
 
@@ -419,7 +419,7 @@ Build the committer binary through the shared `bin` role Go build entry point. P
     # Go package path used as the build or install target.
     committer_source_code_package: cmd/committer
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/build
 ```
 
@@ -432,7 +432,7 @@ Stop the running committer binary process through the shared `bin` role. Applies
 ```yaml
 - name: Stop a committer binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/stop
 ```
 
@@ -448,7 +448,7 @@ Remove the installed committer binary from the target host. Uses `committer_bin_
     # Binary name managed by the committer role.
     committer_bin_name: committer
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/rm
 ```
 
@@ -461,7 +461,7 @@ Collect logs generated by the committer binary through the shared `bin` role. Ap
 ```yaml
 - name: Fetch committer binary logs
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/fetch_logs
 ```
 
@@ -477,7 +477,7 @@ Copy the built committer binary to the target host. Uses `committer_bin_name` fo
     # Binary name managed by the committer role.
     committer_bin_name: committer
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/transfer
 ```
 
@@ -513,7 +513,7 @@ Run `committer init-db` as a one-shot, auto-removing container against the curre
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/init_db
 ```
 
@@ -559,7 +559,7 @@ Run the container for the selected committer component, with its generated confi
     # Remote data directory used by delegated sidecar tasks.
     remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/start
 ```
 
@@ -575,7 +575,7 @@ Stop the committer container through the shared `container` role. Uses `committe
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/stop
 ```
 
@@ -591,7 +591,7 @@ Remove the committer container through the shared `container` role. Uses `commit
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/rm
 ```
 
@@ -607,7 +607,7 @@ Collect logs from the committer container through the shared `container` role. U
     # Container name used by the committer container helper.
     committer_container_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: container/fetch_logs
 ```
 
@@ -623,7 +623,7 @@ Dispatch configuration generation to the selected committer component. Renders t
     # Committer component handled by the entry point.
     committer_component_type: "coordinator"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/transfer
 ```
 
@@ -645,7 +645,7 @@ Remove the component config directory and the Kubernetes ConfigMap when enabled.
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/rm
 ```
 
@@ -658,7 +658,7 @@ Publish the committer Grafana dashboard through the shared Grafana helper flow. 
 ```yaml
 - name: Transfer the committer Grafana dashboard
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -676,7 +676,7 @@ Dispatch database configuration generation to the selected backend. Selects Post
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/db/transfer
 ```
 
@@ -698,7 +698,7 @@ Generate the PostgreSQL connection settings consumed by the committer component.
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/db/postgres/transfer
 ```
 
@@ -718,7 +718,7 @@ Generate the Yugabyte connection settings consumed by the committer component. C
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/db/yugabyte/transfer
 ```
 
@@ -748,7 +748,7 @@ Copy mTLS certificates for the committer service-to-service connections. Builds 
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/mtls/transfer
 ```
 
@@ -775,7 +775,7 @@ Copy monitoring mTLS certificates for Prometheus scraping. Builds monitoring tru
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: config/mtls/monitoring/transfer
 ```
 
@@ -811,7 +811,7 @@ Remove local TLS assets, user assets when `organization.user` is defined, and th
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/rm
 ```
 
@@ -849,7 +849,7 @@ Copy cryptogen-generated TLS assets for the selected committer component. Sideca
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/cryptogen/transfer
 ```
 
@@ -893,7 +893,7 @@ Enroll the selected committer component against its Fabric CA and write the resu
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: crypto/fabric_ca/enroll
 ```
 
@@ -919,7 +919,7 @@ Remove the sidecar data directory and sidecar PVC when Kubernetes mode is enable
     # Remote data directory used by delegated sidecar tasks.
     remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: data/rm
 ```
 
@@ -937,7 +937,7 @@ Delete the committer Kubernetes ConfigMap. Uses `committer_k8s_resource_name` an
     # Kubernetes namespace that contains the committer resources.
     k8s_namespace: "chaguar-committer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/config/rm
 ```
 
@@ -955,7 +955,7 @@ Delete the committer Kubernetes Secret. Uses `committer_k8s_resource_name` and `
     # Kubernetes namespace that contains the committer resources.
     k8s_namespace: "chaguar-committer"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/crypto/rm
 ```
 
@@ -997,7 +997,7 @@ Create the committer Kubernetes Secret from the generated TLS materials. Include
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -1013,7 +1013,7 @@ Collect logs from committer pods through the shared Kubernetes helper role. Uses
     # Base Kubernetes resource name for committer objects. Used by the service, workload, secret, and optional NodePort resources.
     committer_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/fetch_logs
 ```
 
@@ -1035,7 +1035,7 @@ Construct the Prometheus scrape service definitions for all deployed committer c
     # Control-node directory that stores fetched artifacts.
     fetched_artifacts_dir: "/tmp/chaguar/artifacts"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -1061,7 +1061,7 @@ Run `committer init-db` against the current host's own rendered config (normally
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/init_db
 ```
 
@@ -1091,7 +1091,7 @@ Run the binary for the selected committer component with its generated configura
     # Remote data directory used by delegated sidecar tasks.
     remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: bin/start
 ```
 
@@ -1202,7 +1202,7 @@ Render validator configuration, DB settings, mTLS assets, and optional Kubernete
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: validator/config/transfer
 ```
 
@@ -1293,7 +1293,7 @@ Render verifier configuration, mTLS assets, and optional Kubernetes ConfigMap. I
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: verifier/config/transfer
 ```
 
@@ -1392,7 +1392,7 @@ Render coordinator configuration, validator and verifier CA bundles, and optiona
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: coordinator/config/transfer
 ```
 
@@ -1533,7 +1533,7 @@ Render sidecar configuration, upstream TLS bundles, and optional Kubernetes Conf
     # Remote data directory used by delegated sidecar tasks.
     remote_data_dir: "/var/lib/chaguar/committer/sidecar"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: sidecar/config/transfer
 ```
 
@@ -1648,7 +1648,7 @@ Render query-service configuration, DB settings, mTLS assets, and optional Kuber
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: query_service/config/transfer
 ```
 
@@ -1712,7 +1712,7 @@ Run `committer init-db` as a Job against the validator ConfigMap and Secret. Job
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/init_db
 ```
 
@@ -1847,7 +1847,7 @@ Creates the committer Service, and optional NodePort and LoadBalancer Services, 
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/start
 ```
 
@@ -1879,7 +1879,7 @@ Deletes the committer Deployment or StatefulSet and Services from the configured
       - "committer-validator-1"
       - "committer-validator-2"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/rm
 ```
 
@@ -1944,7 +1944,7 @@ Ensure the namespace exists and create the validator Kubernetes ConfigMap. Publi
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: validator/k8s/config/transfer
 ```
 
@@ -2005,7 +2005,7 @@ Ensure the namespace exists and create the verifier Kubernetes ConfigMap. Publis
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: verifier/k8s/config/transfer
 ```
 
@@ -2074,7 +2074,7 @@ Ensure the namespace exists and create the coordinator Kubernetes ConfigMap. Pub
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: coordinator/k8s/config/transfer
 ```
 
@@ -2139,7 +2139,7 @@ Ensure the namespace exists and create the sidecar Kubernetes ConfigMap. Publish
     # Remote config directory used by delegated crypto tasks.
     remote_config_dir: "/opt/chaguar/committer/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: sidecar/k8s/config/transfer
 ```
 
@@ -2204,7 +2204,7 @@ Ensure the namespace exists and create the query-service Kubernetes ConfigMap. P
     # Yugabyte cluster identifier used by validator or query-service configuration.
     yugabyte_cluster_ref_id: "yb-committer-ledger"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: query_service/k8s/config/transfer
 ```
 
@@ -2217,7 +2217,7 @@ Reuses the Kubernetes database-init Job flow; no Route is needed since a Job exp
 ```yaml
 - name: Initialize the committer database on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: openshift/init_db
 ```
 
@@ -2257,7 +2257,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
         - name: "committer-sidecar"
           secret: "committer-sidecarPWD"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: openshift/start
 ```
 
@@ -2277,6 +2277,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     committer_openshift_metrics_route: "committer-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: openshift/rm
 ```

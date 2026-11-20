@@ -5,34 +5,34 @@
 #
 
 - name: Teardown Loadgen
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.teardown
 
 - name: Teardown Monitoring
-  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.monitoring.teardown
 
 - name: Teardown Chaguar Block Explorer
-  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.block_explorer.teardown
 
 - name: Teardown Chaguar EVM
-  ansible.builtin.import_playbook: hyperledger.chaguar.evm.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.evm.teardown
 
 - name: Teardown Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.teardown
 
 - name: Teardown Chaguar Orderers
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.teardown
 
 - name: Teardown Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.teardown
 
 - name: Teardown PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.postgres.teardown
 
 - name: Teardown YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.yugabyte.teardown
 
 - name: Remove container networks
-  ansible.builtin.import_playbook: hyperledger.chaguar.remove_container_networks
+  ansible.builtin.import_playbook: lfdt.chaguar.remove_container_networks
 
 - name: Teardown Semaphore UI
-  ansible.builtin.import_playbook: hyperledger.chaguar.semaphore_ui.teardown
+  ansible.builtin.import_playbook: lfdt.chaguar.semaphore_ui.teardown

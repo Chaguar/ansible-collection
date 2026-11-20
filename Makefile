@@ -91,7 +91,7 @@ help:
 # Guard against running install from within the Galaxy install destination (e.g. a worktree).
 .PHONY: check-install-path
 check-install-path:
-	@DEST=$$(echo "$${ANSIBLE_COLLECTIONS_PATH:-$(HOME)/.ansible/collections}" | cut -d: -f1)/ansible_collections/hyperledger/chaguar; \
+	@DEST=$$(echo "$${ANSIBLE_COLLECTIONS_PATH:-$(HOME)/.ansible/collections}" | cut -d: -f1)/ansible_collections/lfdt/chaguar; \
 	REALPATH_DEST=$$(realpath "$$DEST" 2>/dev/null); \
 	REALPATH_PROJ=$$(realpath $(PROJECT_DIR)); \
 	if [ -n "$$REALPATH_DEST" ]; then \
@@ -102,10 +102,10 @@ check-install-path:
 	  esac; \
 	fi
 
-# Install the hyperledger.chaguar Ansible collection locally
+# Install the lfdt.chaguar Ansible collection locally
 .PHONY: install
 install: check-install-path install-deps
-	@printf "$(COLOR_CYAN)🚩 Building and installing hyperledger.chaguar collection...$(COLOR_RESET)\n"
+	@printf "$(COLOR_CYAN)🚩 Building and installing lfdt.chaguar collection...$(COLOR_RESET)\n"
 	$(ANSIBLE_GALAXY) collection build -f
 	$(ANSIBLE_GALAXY) collection install $$(ls -1 | grep chaguar) -f
 	@rm -f $$(ls -1 | grep chaguar)
@@ -136,7 +136,7 @@ install-ansible-deps:
 .PHONY: install-remote-node-deps
 install-remote-node-deps:
 	@printf "$(COLOR_CYAN)🚩 Installing prerequisites on remote hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.install_prerequisites --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.install_prerequisites --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Check the linting correctness (e.g. make lint)
 .PHONY: lint
@@ -204,19 +204,19 @@ check-argument-specs:
 .PHONY: login-cr
 login-cr:
 	@printf "$(COLOR_CYAN)🚩 Logging into container registry [$(COLOR_GREEN)$(CONTAINER_REGISTRY)$(COLOR_CYAN)] for hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "container_registry": "$(CONTAINER_REGISTRY)", "container_registry_username": "$(CONTAINER_REGISTRY_USERNAME)", "container_registry_password": "$(CONTAINER_REGISTRY_PASSWORD)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.log_in_container_registry --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "container_registry": "$(CONTAINER_REGISTRY)", "container_registry_username": "$(CONTAINER_REGISTRY_USERNAME)", "container_registry_password": "$(CONTAINER_REGISTRY_PASSWORD)"}'
 
 # Login to managed OpenShift using personal token.
 .PHONY: login-oc
 login-oc:
 	@printf "$(COLOR_CYAN)🚩 Logging in to OpenShift cluster...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.openshift.login
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.openshift.login
 
 # Configure local hosts entries for OpenShift routes (e.g. CRC apps-crc.testing).
 .PHONY: oc-config-hosts
 oc-config-hosts:
 	@printf "$(COLOR_CYAN)🚩 Configuring local hosts entries for OpenShift routes...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.openshift.config_hosts --ask-become-pass
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.openshift.config_hosts --ask-become-pass
 
 # Build all the artifacts, the binaries and configuration files (e.g. make setup).
 .PHONY: setup
@@ -324,7 +324,7 @@ hard-wipe:
 .PHONY: targets
 targets:
 	@printf "$(COLOR_CYAN)🚩 Generating Makefile targets for all inventory hosts...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "hyperledger.chaguar.generate_target_hosts"
+	$(ANSIBLE_PLAYBOOK) "lfdt.chaguar.generate_target_hosts"
 
 # Run a generic command on the targeted hosts (e.g. make run-command COMMAND="echo 'hello-world'")
 .PHONY: run-command
@@ -372,16 +372,16 @@ fetch-crypto:
 .PHONY: limit-rate
 limit-rate:
 	@printf "$(COLOR_CYAN)🚩 Setting TPS rate limit to $(COLOR_GREEN)$(LIMIT)$(COLOR_CYAN)...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.loadgen.limit_rate --extra-vars '{"loadgen_limit_rate": "$(LIMIT)"}';
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.loadgen.limit_rate --extra-vars '{"loadgen_limit_rate": "$(LIMIT)"}';
 
 # Benchmark the volume performance on targeted hosts and verify they meet the 1 GB/s sequential write threshold (e.g. make benchmark-volume TARGET_HOSTS=all).
 .PHONY: benchmark-volume
 benchmark-volume:
 	@printf "$(COLOR_CYAN)🚩 Benchmarking volume performance on hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.benchmark_volume --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.benchmark_volume --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Change an orderer Assembler's port at the network-config level only; afterwards set `orderer_rpc_port` of <assembler_host> to NEW_PORT in the inventory and run `make <assembler_host> configs restart` to apply it (e.g. make reconfigure-assembler-port ASSEMBLER_HOST=orderer-assembler-1 NEW_PORT=7065). TARGET_HOSTS selects the admin hosts that take part (default: all).
 .PHONY: reconfigure-assembler-port
 reconfigure-assembler-port:
 	@printf "$(COLOR_CYAN)🚩 Reconfiguring the port of Assembler [$(COLOR_GREEN)$(ASSEMBLER_HOST)$(COLOR_CYAN)] to $(COLOR_GREEN)$(NEW_PORT)$(COLOR_CYAN)...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) hyperledger.chaguar.fxadmin.reconfigure_assembler_port --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "assembler_host": "$(ASSEMBLER_HOST)", "new_assembler_port": "$(NEW_PORT)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.fxadmin.reconfigure_assembler_port --extra-vars '{"target_hosts": "$(TARGET_HOSTS)", "assembler_host": "$(ASSEMBLER_HOST)", "new_assembler_port": "$(NEW_PORT)"}'

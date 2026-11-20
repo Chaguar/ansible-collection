@@ -38,7 +38,7 @@ flowchart LR
 [`generate_crypto.yaml`](./generate_crypto.yaml) enrolls the peer identity backing the embedded endorser, each declared user identity, and (when `evm_use_tls` is `true`) a shared client TLS key pair.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.generate_crypto --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.generate_crypto --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders the EVM gateway configuration. The committer sidecar is discovered automatically from `chaguar_committers`, preferring hosts that share `organization.domain` with the EVM host, and falling back to the whole group; the sidecar is the entry whose `committer_component_type` is `sidecar`. Orderer routers are discovered from every host in `chaguar_orderers` whose `orderer_component_type` is `router`, across all organizations.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.configs --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.configs --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -63,7 +63,7 @@ Properties:
 [`start.yaml`](./start.yaml) starts the EVM gateway and its embedded endorser.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.start --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.start --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -76,7 +76,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops the EVM gateway, leaving generated files and persisted state in place.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.stop --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.stop --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -88,7 +88,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) removes the EVM gateway runtime resources while leaving configuration, crypto material, and persisted state intact.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.teardown --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.teardown --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -100,7 +100,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes the EVM gateway artifacts from targeted hosts, including generated configuration, crypto material, and persisted state.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.wipe --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.wipe --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -112,7 +112,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks the EVM gateway's JSON-RPC endpoint declared by targeted hosts.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.ping --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.ping --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -125,7 +125,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches EVM peer and user sign certificates, and (when `evm_use_tls` is `true`) the client TLS CA certificate, into the configured artifacts directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.fetch_crypto --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.fetch_crypto --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:
@@ -137,7 +137,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches EVM gateway logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.evm.fetch_logs --extra-vars '{"target_hosts": "chaguar_evm"}'
+ansible-playbook lfdt.chaguar.evm.fetch_logs --extra-vars '{"target_hosts": "chaguar_evm"}'
 ```
 
 Properties:

@@ -6,14 +6,14 @@
 
 - name: Generate the Loki TLS crypto material with OpenSSL
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loki
+    name: lfdt.chaguar.loki
     tasks_from: crypto/openssl/generate_cert
   when:
     - loki_use_tls
 
 - name: Apply Loki K8s crypto Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.loki
+    name: lfdt.chaguar.loki
     tasks_from: k8s/crypto/transfer
   when:
     - loki_use_k8s or loki_use_openshift

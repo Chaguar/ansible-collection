@@ -6,7 +6,7 @@
 
 - name: Start Yugabyte tablet workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.yugabyte
+    name: lfdt.chaguar.yugabyte
     tasks_from: k8s/tablet/start
 
 - name: Apply Yugabyte tablet webserver OpenShift Route
@@ -20,7 +20,7 @@
       app.kubernetes.io/name: "{{ yugabyte_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ yugabyte_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: yugabyte_openshift_tablet_webserver_route is defined
 
@@ -35,7 +35,7 @@
       app.kubernetes.io/name: "{{ yugabyte_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ yugabyte_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: yugabyte_openshift_tablet_pgsql_web_route is defined
 
@@ -50,6 +50,6 @@
       app.kubernetes.io/name: "{{ yugabyte_k8s_resource_name }}"
       app.kubernetes.io/part-of: "{{ yugabyte_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: yugabyte_openshift_tablet_cql_web_route is defined

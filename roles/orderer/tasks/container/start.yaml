@@ -41,5 +41,5 @@
     container_wait_port: "{{ orderer_rpc_port }}"
     container_run_as_host_user: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

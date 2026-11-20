@@ -6,7 +6,7 @@
 
 - name: Start Chaguar Committer components
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: "{{ committer_deployment_mode }}/start"
   when:
     - committer_component_type is defined

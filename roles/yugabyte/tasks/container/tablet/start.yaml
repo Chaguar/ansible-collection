@@ -79,7 +79,7 @@
     container_wait_port: "{{ yugabyte_tablet_pgsql_bind_port }}"
     container_run_as_host_user: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start
 
 - name: Initialize DB in yb-tservers
@@ -92,6 +92,6 @@
       -U yugabyte
       -f /var/ybinit/{{ yugabyte_init_script_file }}
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: exec
   when: inventory_hostname == yugabyte_tablet_hosts[0]

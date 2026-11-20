@@ -9,7 +9,7 @@
     utils_ports_to_ping:
       - "{{ postgres_exporter_k8s_node_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - postgres_exporter_k8s_node_port is defined
@@ -19,7 +19,7 @@
     utils_ports_to_ping:
       - "{{ postgres_exporter_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.utils
+    name: lfdt.chaguar.utils
     tasks_from: ping
   when:
     - postgres_exporter_k8s_loadbalancer_expose_metrics_port

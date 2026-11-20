@@ -11,6 +11,6 @@
 
 - name: Remove Jaeger Kubernetes config resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: k8s/config/rm
   when: jaeger_use_k8s or jaeger_use_openshift

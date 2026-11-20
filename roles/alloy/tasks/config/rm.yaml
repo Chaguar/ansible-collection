@@ -11,6 +11,6 @@
 
 - name: Delete Alloy k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.alloy
+    name: lfdt.chaguar.alloy
     tasks_from: k8s/config/rm
   when: alloy_use_k8s or alloy_use_openshift

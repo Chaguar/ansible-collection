@@ -142,7 +142,7 @@ Namespaces are created **after** the network is running, by submitting configura
 
 ## Where Ansible Fits
 
-The `hyperledger.chaguar` collection is organised around three concepts. Keep them straight and the rest of the repository becomes navigable.
+The `lfdt.chaguar` collection is organised around three concepts. Keep them straight and the rest of the repository becomes navigable.
 
 | Concept         | What it is                                                                                                             | Where it lives                                              |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |

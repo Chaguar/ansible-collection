@@ -41,7 +41,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares committer executables for binary-mode deployments. It handles control-node install/build work, then ensures targeted validator, verifier, coordinator, sidecar, and query-service hosts receive or build the binary they need.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.binaries --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.binaries --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -55,7 +55,7 @@ Properties:
 [`generate_crypto.yaml`](./generate_crypto.yaml) prepares TLS/MSP material for committer services according to each host's `committer_component_type`.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.generate_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.generate_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -67,7 +67,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders committer service configuration from the selected inventory. It discovers validators, verifiers, the coordinator, and orderer assemblers so the sidecar/coordinator path can connect to the right services.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.configs --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.configs --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -80,13 +80,13 @@ Properties:
 [`start.yaml`](./start.yaml) starts validators, verifiers, the coordinator, sidecar, and query service according to each host's `committer_component_type`. Before any component starts, it runs `committer init-db` once on a single validator reference host to initialize the state database schema.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.start --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.start --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
 
 - Target hosts: `chaguar_committers` by default.
-- Nuance: run this after `hyperledger.chaguar.postgres.start` (or `yugabyte.start`).
+- Nuance: run this after `lfdt.chaguar.postgres.start` (or `yugabyte.start`).
 - Nuance: the reference validator host is deterministically the alphabetically-first name in `committer_validators`.
 
 ## stop.yaml
@@ -94,7 +94,7 @@ Properties:
 [`stop.yaml`](./stop.yaml) stops committer services, leaving generated files and runtime data in place so the same committer deployment can be started again.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.stop --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.stop --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -106,7 +106,7 @@ Properties:
 [`teardown.yaml`](./teardown.yaml) tears down committer service runtime state. Use it when you want to remove the running deployment state rather than simply pause services.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.teardown --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.teardown --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -118,7 +118,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes committer artifacts from targeted hosts, including generated configuration, crypto, and role-managed files that should not remain after a full cleanup.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.wipe --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.wipe --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -130,7 +130,7 @@ Properties:
 [`ping.yaml`](./ping.yaml) checks committer endpoints declared by targeted hosts. It is the quickest post-start validation for sidecar/query access.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.ping --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.ping --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -142,7 +142,7 @@ Properties:
 [`get_metrics.yaml`](./get_metrics.yaml) queries committer metrics endpoints on targeted hosts and returns the collected metrics through Ansible output.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.get_metrics --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.get_metrics --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -155,7 +155,7 @@ Properties:
 [`fetch_crypto.yaml`](./fetch_crypto.yaml) fetches committer and Yugabyte DB crypto material into the configured artifacts directory for inspection, reuse, or debugging.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
+ansible-playbook lfdt.chaguar.committer.fetch_crypto --extra-vars '{"target_hosts": "chaguar_committers"}'
 ```
 
 Properties:
@@ -168,7 +168,7 @@ Properties:
 [`fetch_logs.yaml`](./fetch_logs.yaml) fetches committer service and Yugabyte DB logs from targeted hosts into the configured output directory.
 
 ```shell
-ansible-playbook hyperledger.chaguar.committer.fetch_logs --extra-vars '{"target_hosts": "committer-validator"}'
+ansible-playbook lfdt.chaguar.committer.fetch_logs --extra-vars '{"target_hosts": "committer-validator"}'
 ```
 
 Properties:

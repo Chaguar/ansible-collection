@@ -9,5 +9,5 @@
   tasks:
     - name: Transfer the Chaguar Orderer configuration files
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.orderer
+        name: lfdt.chaguar.orderer
         tasks_from: config/transfer

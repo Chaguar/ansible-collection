@@ -40,5 +40,5 @@
 
 - name: Delete Alloy configuration (ConfigMap)
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.alloy
+    name: lfdt.chaguar.alloy
     tasks_from: k8s/config/rm

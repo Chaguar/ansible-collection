@@ -6,18 +6,18 @@
 
 - name: Remove Grafana container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: container/rm
   when: grafana_use_container
 
 - name: Remove Grafana Kubernetes workload
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: k8s/rm
   when: grafana_use_k8s
 
 - name: Teardown Grafana on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.grafana
+    name: lfdt.chaguar.grafana
     tasks_from: openshift/rm
   when: grafana_use_openshift

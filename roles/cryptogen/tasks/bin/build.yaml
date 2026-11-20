@@ -17,5 +17,5 @@
     # Go vars
     go_source_code_package: "{{ cryptogen_source_code_package }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: go/build

@@ -12,12 +12,12 @@
     container_volume_gid: "0"
     container_volume_type: directory
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: volume/create
 
 - name: Set container client socket
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client_socket
 
 - name: Set Alloy mandatory volumes
@@ -36,7 +36,7 @@
 
 - name: Get Alloy binary logs
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.alloy
+    name: lfdt.chaguar.alloy
     tasks_from: get_bin_logs
 
 - name: Ensure binary log directories exist before mounting
@@ -93,7 +93,7 @@
       - label=disable
     container_wait_port: "{{ alloy_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start
   when:
     - alloy_use_container

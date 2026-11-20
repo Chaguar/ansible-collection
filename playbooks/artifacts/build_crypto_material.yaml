@@ -121,13 +121,13 @@
 
     - name: Generate crypto-config.yaml
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cryptogen
+        name: lfdt.chaguar.cryptogen
         tasks_from: config/build
       when:
         - cryptogen_orgs_by_domain is defined
     - name: Install cryptogen as binary for Chaguar
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cryptogen
+        name: lfdt.chaguar.cryptogen
         tasks_from: bin/install
       when:
         - cryptogen_orgs_by_domain is defined
@@ -135,13 +135,13 @@
         - cryptogen_use_bin
     - name: Generate the crypto material with cryptogen
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cryptogen
+        name: lfdt.chaguar.cryptogen
         tasks_from: start
       when:
         - cryptogen_orgs_by_domain is defined
     - name: Fetch the orgs certificates generated with cryptogen
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.cryptogen
+        name: lfdt.chaguar.cryptogen
         tasks_from: fetch
       when:
         - cryptogen_orgs_by_domain is defined

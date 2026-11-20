@@ -1,4 +1,4 @@
-# hyperledger.chaguar.fxadmin
+# lfdt.chaguar.fxadmin
 
 > Fetches and decodes the Chaguar channel configuration, patches it, and drives the fxadmin endorse/merge/prepare/submit flow for live network reconfigurations.
 
@@ -49,7 +49,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.fxadmin
+ansible-doc -t role lfdt.chaguar.fxadmin
 ```
 
 ## Tasks
@@ -74,7 +74,7 @@ Builds the fxadmin Go binary from the configured Chaguar source package by deleg
     # Defines the Go package path containing the fxadmin source code.
     fxadmin_source_code_package: tools/fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/build
 ```
 
@@ -104,7 +104,7 @@ Runs `fxadmin compute-update` with the control-node fxadmin binary to compute th
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
     fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/compute_update
 ```
 
@@ -126,7 +126,7 @@ Runs `fxadmin decode` with the control-node fxadmin binary to convert a protobuf
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
     fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/decode
 ```
 
@@ -154,7 +154,7 @@ Runs `fxadmin follow` on the host with the rendered admin configuration to confi
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/follow
 ```
 
@@ -180,7 +180,7 @@ Installs the fxadmin Go package from the configured Chaguar source package by de
     # Defines the Go package path containing the fxadmin source code.
     fxadmin_source_code_package: tools/fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/install
 ```
 
@@ -204,7 +204,7 @@ Runs `fxadmin ledger config latest` on the host with the rendered admin configur
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/ledger/config_latest
 ```
 
@@ -220,7 +220,7 @@ Removes the fxadmin binary from the managed host by delegating cleanup to the sh
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/rm
 ```
 
@@ -236,7 +236,7 @@ Transfers the previously built fxadmin binary to the managed host by delegating 
     # Defines the fxadmin binary name.
     fxadmin_bin_name: fxadmin
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/transfer
 ```
 
@@ -260,7 +260,7 @@ Endorses the staged ConfigUpdate with the fxadmin binary and rendered admin conf
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/endorse
 ```
 
@@ -280,7 +280,7 @@ Merges the staged endorsements into a single ConfigUpdateEnvelope with the contr
     # Defines the output artifact path written by the current fxadmin command, local to the host the task runs on.
     fxadmin_output: "/tmp/chaguar/config-build/fxadmin-artifacts/config_update.pb"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/merge
 ```
 
@@ -304,7 +304,7 @@ Runs `fxadmin tx prepare` on the host to turn the merged, endorsed ConfigUpdate 
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/prepare
 ```
 
@@ -330,7 +330,7 @@ Runs `fxadmin tx submit` on the host with the rendered admin configuration to br
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/submit
 ```
 
@@ -348,7 +348,7 @@ Dispatches ConfigUpdate computation to either the host binary or a transient con
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: compute_update
 ```
 
@@ -370,7 +370,7 @@ Copies the client certificate and key consumed by fxadmin for mTLS connections i
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: config/mtls/transfer
 ```
 
@@ -410,7 +410,7 @@ Creates the remote fxadmin configuration directory, renders the admin configurat
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: config/transfer
 ```
 
@@ -448,7 +448,7 @@ Mounts the current and modified configuration JSON files and the reference block
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/compute_update
 ```
 
@@ -478,7 +478,7 @@ Stages the configuration block into the output directory, then runs `fxadmin dec
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/decode
 ```
 
@@ -518,7 +518,7 @@ Mounts the rendered admin configuration and the latest block into a transient fx
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/follow
 ```
 
@@ -554,7 +554,7 @@ Mounts the rendered admin configuration and the staged reference block into a tr
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/ledger/config_latest
 ```
 
@@ -590,7 +590,7 @@ Mounts the staged ConfigUpdate and the rendered admin configuration into a trans
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/endorse
 ```
 
@@ -620,7 +620,7 @@ Mounts the staged endorsements directory into a transient fxadmin container and 
     # Defines the registry endpoint used by the fxadmin container image.
     fxadmin_registry_endpoint: "{{ lookup('env', 'FXADMIN_REGISTRY_ENDPOINT') or 'docker.io/hyperledger' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/merge
 ```
 
@@ -656,7 +656,7 @@ Mounts the staged endorsed ConfigUpdate and the rendered admin configuration int
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/prepare
 ```
 
@@ -694,7 +694,7 @@ Mounts the transaction, the latest block and the rendered admin configuration in
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/submit
 ```
 
@@ -712,7 +712,7 @@ Dispatches configuration block decoding to either the host binary or a transient
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: decode
 ```
 
@@ -732,7 +732,7 @@ Dispatches ledger following to either the host binary or a transient container b
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: follow
 ```
 
@@ -758,7 +758,7 @@ Dispatches fetching the latest channel configuration block to either the host bi
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: ledger/config_latest
 ```
 
@@ -780,7 +780,7 @@ Applies a caller-supplied jq filter to the decoded current channel configuration
     # Defines the local modified channel configuration JSON file produced by `patch_config_value` and consumed by `compute_update`.
     fxadmin_modified_config_json: "/tmp/chaguar/config-build/fxadmin-artifacts/modified_config.json"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: patch_config_value
 ```
 
@@ -802,7 +802,7 @@ Stages the ConfigUpdate, dispatches its endorsement to either the host binary or
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: tx/endorse
 ```
 
@@ -822,7 +822,7 @@ Dispatches endorsement merging to either the host binary or a transient containe
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: tx/merge
 ```
 
@@ -844,7 +844,7 @@ Stages the merged, endorsed ConfigUpdate, dispatches transaction preparation to 
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: tx/prepare
 ```
 
@@ -860,7 +860,7 @@ Dispatches submission of the prepared transaction to either the host binary or a
     # Selects the host-binary workflow instead of the container workflow.
     fxadmin_use_bin: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: tx/submit
 ```
 
@@ -880,6 +880,6 @@ Removes the fxadmin binary when the host-binary workflow is selected, and the re
     # Provides the base remote configuration directory used by the role.
     remote_config_dir: "/opt/lfdt/chaguar/config"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: wipe
 ```

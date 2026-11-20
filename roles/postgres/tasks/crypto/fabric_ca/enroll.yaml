@@ -35,5 +35,5 @@
       name: "{{ organization.peer.name }}"
       secret: "{{ organization.peer.secret }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: client/enroll

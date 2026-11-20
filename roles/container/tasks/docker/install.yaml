@@ -49,5 +49,5 @@
     container_run_detach_mode: false
     container_autoremove: true
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

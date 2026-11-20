@@ -40,7 +40,7 @@
       vars:
         bin_hosts: "{{ base_bin_hosts | difference(build_bin_hosts) }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxconfig
+        name: lfdt.chaguar.fxconfig
         tasks_from: bin/install
       when:
         - bin_hosts | length > 0
@@ -51,7 +51,7 @@
       vars:
         bin_hosts: "{{ build_bin_hosts }}"
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.fxconfig
+        name: lfdt.chaguar.fxconfig
         tasks_from: bin/build
       when:
         - bin_hosts | length > 0
@@ -68,7 +68,7 @@
             bin_build_on_control_node: true
             bin_dir: "{{ cli_bin_dir }}"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.fxconfig
+            name: lfdt.chaguar.fxconfig
             tasks_from: bin/build
           when:
             - fxconfig_build_bin is defined
@@ -78,7 +78,7 @@
             bin_build_on_control_node: true
             bin_dir: "{{ cli_bin_dir }}"
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.fxconfig
+            name: lfdt.chaguar.fxconfig
             tasks_from: bin/install
           when:
             - fxconfig_build_bin is undefined or not fxconfig_build_bin
@@ -105,5 +105,5 @@
           block:
             - name: "{{ bin_operation | capitalize }} fxconfig binaries on the remote nodes"
               ansible.builtin.include_role:
-                name: hyperledger.chaguar.fxconfig
+                name: lfdt.chaguar.fxconfig
                 tasks_from: "bin/{{ bin_operation }}"

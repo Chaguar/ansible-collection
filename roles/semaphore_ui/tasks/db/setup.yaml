@@ -46,7 +46,7 @@
           --password {{ semaphore_ui_password | quote }}
           --config {{ semaphore_ui_remote_config_dir }}/{{ semaphore_ui_config_file }}
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.bin
+        name: lfdt.chaguar.bin
         tasks_from: start
       when:
         - semaphore_ui_admin_user_check.rc != 0

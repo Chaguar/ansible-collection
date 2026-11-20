@@ -21,7 +21,7 @@
 # =========================
 - name: Transfer the crypto material generated with cryptogen
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: crypto/cryptogen/transfer
   when:
     - organization.fabric_ca_host is undefined
@@ -31,7 +31,7 @@
 # =========================
 - name: Enroll EVM identities with Fabric-CA
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: crypto/fabric_ca/enroll
   when:
     - organization.fabric_ca_host is defined
@@ -41,6 +41,6 @@
 # =========================
 - name: Transfer EVM Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: k8s/crypto/transfer
   when: evm_use_k8s or evm_use_openshift

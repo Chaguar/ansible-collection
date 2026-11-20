@@ -24,7 +24,7 @@ flowchart LR
 [`binaries.yaml`](./binaries.yaml) prepares the `fxconfig` CLI used for configuration transactions. It handles control-node install/build decisions first, then ensures remote hosts that declare `fxconfig_use_bin: true` have the binary available by transfer, local build, or install.
 
 ```shell
-ansible-playbook hyperledger.chaguar.fxconfig.binaries
+ansible-playbook lfdt.chaguar.fxconfig.binaries
 ```
 
 Properties:
@@ -38,7 +38,7 @@ Properties:
 [`configs.yaml`](./configs.yaml) renders and transfers `fxconfig` configuration for hosts that declare namespace and user data. It selects the endorser identity, discovers the orderer router, committer query service, and committer sidecar endpoints, and writes the local configuration that later namespace operations use.
 
 ```shell
-ansible-playbook hyperledger.chaguar.fxconfig.configs
+ansible-playbook lfdt.chaguar.fxconfig.configs
 ```
 
 Properties:
@@ -51,7 +51,7 @@ Properties:
 [`create_namespaces.yaml`](./create_namespaces.yaml) first lists the namespaces already committed to the Chaguar network together with their current on-chain version, then compares each declared namespace's policy against a fingerprint recorded from the last run to decide whether it needs to be created, updated, or left alone. It groups inventory definitions, creates or updates unsigned transactions on the control node, asks the relevant organizations to endorse them, merges the endorsements, submits the finalized transactions, and records the applied fingerprint.
 
 ```shell
-ansible-playbook hyperledger.chaguar.fxconfig.create_namespaces
+ansible-playbook lfdt.chaguar.fxconfig.create_namespaces
 ```
 
 Properties:
@@ -69,7 +69,7 @@ Properties:
 [`wipe.yaml`](./wipe.yaml) removes generated `fxconfig` files from targeted hosts so namespace/configuration artifacts can be rebuilt cleanly during another setup or debug cycle.
 
 ```shell
-ansible-playbook hyperledger.chaguar.fxconfig.wipe
+ansible-playbook lfdt.chaguar.fxconfig.wipe
 ```
 
 Properties:

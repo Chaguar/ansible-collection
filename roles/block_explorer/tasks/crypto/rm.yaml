@@ -11,6 +11,6 @@
 
 - name: Delete Block Explorer Kubernetes Secret
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.block_explorer
+    name: lfdt.chaguar.block_explorer
     tasks_from: k8s/crypto/rm
   when: block_explorer_use_k8s or block_explorer_use_openshift

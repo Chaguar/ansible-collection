@@ -6,7 +6,7 @@
 
 - name: Delete EVM Kubernetes ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.evm
+    name: lfdt.chaguar.evm
     tasks_from: k8s/config/rm
   when: evm_use_k8s or evm_use_openshift
 

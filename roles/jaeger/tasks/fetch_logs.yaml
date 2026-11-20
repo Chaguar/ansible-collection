@@ -6,12 +6,12 @@
 
 - name: Fetch the logs from the Jaeger container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: container/fetch_logs
   when: jaeger_use_container
 
 - name: Fetch Jaeger pod logs
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.jaeger
+    name: lfdt.chaguar.jaeger
     tasks_from: k8s/fetch_logs
   when: jaeger_use_k8s or jaeger_use_openshift

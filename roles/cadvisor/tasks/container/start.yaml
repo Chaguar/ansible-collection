@@ -6,17 +6,17 @@
 
 - name: Find the container client to use
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client
 
 - name: Set container client socket
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: get_container_client_socket
 
 - name: Find the containerd socket used by Docker
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: docker/get_containerd_socket
   when:
     - container_client == 'docker'
@@ -147,5 +147,5 @@
     container_security_opts:
       - label=disable
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

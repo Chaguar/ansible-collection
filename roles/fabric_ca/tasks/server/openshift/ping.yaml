@@ -9,7 +9,7 @@
     openshift_route_host: "{{ fabric_ca_server_openshift_route }}"
     openshift_route_use_tls: "{{ fabric_ca_use_tls }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/ping
   when: fabric_ca_server_openshift_route is defined
 
@@ -18,11 +18,11 @@
     openshift_route_host: "{{ fabric_ca_server_openshift_operations_route }}"
     openshift_route_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/ping
   when: fabric_ca_server_openshift_operations_route is defined
 
 - name: Check that the Fabric CA Kubernetes services are reachable
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/ping

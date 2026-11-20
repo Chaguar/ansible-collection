@@ -6,15 +6,15 @@
 
 - name: Teardown Prometheus
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: teardown
 
 - name: Remove Prometheus crypto files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: crypto/rm
 
 - name: Remove Prometheus configuration files
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.prometheus
+    name: lfdt.chaguar.prometheus
     tasks_from: config/rm

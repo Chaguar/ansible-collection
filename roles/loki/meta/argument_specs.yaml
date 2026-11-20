@@ -255,7 +255,7 @@ argument_specs:
   container/start:
     short_description: Start Loki container
     description:
-      - "Creates the Loki data directory and starts the Loki container via hyperledger.chaguar.container."
+      - "Creates the Loki data directory and starts the Loki container via lfdt.chaguar.container."
     options:
       loki_container_name: *loki_container_name
       loki_registry_endpoint: *loki_registry_endpoint
@@ -274,7 +274,7 @@ argument_specs:
   container/stop:
     short_description: Stop Loki container
     description:
-      - "Stops the Loki container via hyperledger.chaguar.container."
+      - "Stops the Loki container via lfdt.chaguar.container."
     options:
       loki_container_name: *loki_container_name
       loki_use_container: *loki_use_container
@@ -284,7 +284,7 @@ argument_specs:
   container/rm:
     short_description: Remove Loki container
     description:
-      - "Removes the Loki container via hyperledger.chaguar.container."
+      - "Removes the Loki container via lfdt.chaguar.container."
     options:
       loki_container_name: *loki_container_name
       loki_use_container: *loki_use_container

@@ -9,7 +9,7 @@
   tasks:
     - name: Transfer the Chaguar Block Explorer server config files
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.block_explorer
+        name: lfdt.chaguar.block_explorer
         tasks_from: config/transfer
       when:
         - block_explorer_port is defined

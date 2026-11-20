@@ -28,5 +28,5 @@
     container_run_as_host_user: true
     container_wait_port: "{{ block_explorer_ui_port }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

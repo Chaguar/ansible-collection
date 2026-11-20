@@ -16,14 +16,14 @@
 
 - name: Compute the Chaguar ConfigUpdate with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/compute_update
   when:
     - fxadmin_use_bin
 
 - name: Compute the Chaguar ConfigUpdate with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/compute_update
   when:
     - not fxadmin_use_bin

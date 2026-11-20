@@ -6,7 +6,7 @@
 
 - name: Start Node Exporter workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/start
 
 - name: Apply Node Exporter metrics OpenShift Route
@@ -21,6 +21,6 @@
       app.kubernetes.io/component: "node-exporter"
       app.kubernetes.io/part-of: "{{ node_exporter_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: node_exporter_openshift_route is defined

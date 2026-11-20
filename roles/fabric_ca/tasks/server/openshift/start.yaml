@@ -6,7 +6,7 @@
 
 - name: Start Fabric CA server workload using generic k8s flow
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fabric_ca
+    name: lfdt.chaguar.fabric_ca
     tasks_from: server/k8s/start
 
 - name: Apply Fabric Ca api OpenShift Route
@@ -21,7 +21,7 @@
       app.kubernetes.io/component: "fabric-ca"
       app.kubernetes.io/part-of: "{{ fabric_ca_server_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: fabric_ca_server_openshift_route is defined
 
@@ -37,6 +37,6 @@
       app.kubernetes.io/component: "fabric-ca"
       app.kubernetes.io/part-of: "{{ fabric_ca_server_k8s_part_of }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openshift
+    name: lfdt.chaguar.openshift
     tasks_from: route/apply
   when: fabric_ca_server_openshift_operations_route is defined

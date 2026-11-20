@@ -53,5 +53,5 @@
     container_wait_port: "{{ committer_rpc_port }}"
     container_wait_timeout: 120
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.container
+    name: lfdt.chaguar.container
     tasks_from: start

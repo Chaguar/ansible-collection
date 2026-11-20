@@ -6,14 +6,14 @@
 
 - name: Endorse transaction with fxconfig binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: bin/endorse
   when:
     - fxconfig_use_bin
 
 - name: Endorse transaction with fxconfig container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxconfig
+    name: lfdt.chaguar.fxconfig
     tasks_from: container/endorse
   when:
     - not fxconfig_use_bin

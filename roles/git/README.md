@@ -1,4 +1,4 @@
-# hyperledger.chaguar.git
+# lfdt.chaguar.git
 
 > Performs `git` operations on a node.
 
@@ -20,7 +20,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.git
+ansible-doc -t role lfdt.chaguar.git
 ```
 
 ## Tasks
@@ -34,7 +34,7 @@ Installs the Git package on the managed node. This entry point delegates package
 ```yaml
 - name: Install git on the target host
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.git
+    name: lfdt.chaguar.git
     tasks_from: install
 ```
 
@@ -64,7 +64,7 @@ Clones a Git repository at the requested revision into a derived destination dir
     # Effective repository URI passed to `ansible.builtin.git`. Defaults to `git_ssh_uri` when `git_use_ssh` is true, otherwise `git_https_uri`.
     git_uri: "{{ git_ssh_uri if git_use_ssh else git_https_uri }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.git
+    name: lfdt.chaguar.git
     tasks_from: clone
 ```
 
@@ -82,6 +82,6 @@ Derives `git_repo_name` as `<basename(git_repo`>@<git_commit>). The resulting fa
     # Git branch, tag, or commit to check out. The value is appended to the derived checkout directory name and passed to `ansible.builtin.git` as the revision.
     git_commit: main
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.git
+    name: lfdt.chaguar.git
     tasks_from: get_repo_name
 ```

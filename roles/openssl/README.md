@@ -1,4 +1,4 @@
-# hyperledger.chaguar.openssl
+# lfdt.chaguar.openssl
 
 > Generates keys, CSRs, self-signed certificates, and CA-signed certificates with the `openssl` CLI.
 
@@ -24,7 +24,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.openssl
+ansible-doc -t role lfdt.chaguar.openssl
 ```
 
 ## Tasks
@@ -38,7 +38,7 @@ Install the `openssl` package on the target host by delegating to the package ro
 ```yaml
 - name: Install the OpenSSL CLI
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: install
 ```
 
@@ -60,7 +60,7 @@ Generate a private key and the matching public key on the target host. The priva
     # Optional key-generation option passed with `-pkeyopt`.
     openssl_key_opt: "rsa_keygen_bits:4096"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_keypair
 ```
 
@@ -80,7 +80,7 @@ Fingerprint the inputs behind one OpenSSL-generated artifact (a rendered config,
     # Path to the file that tracks a fingerprint of the inputs behind each generated artifact, keyed by output path, used to detect changes since the last run.
     openssl_state_file: "{{ openssl_remote_config_dir }}/openssl-state.yaml"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: inspect
 ```
 
@@ -169,7 +169,7 @@ Generate a private key and a self-signed X.509 certificate, regenerating them on
     # Final SAN list assembled from DNS and IP SAN entries.
     openssl_san_entries: "{{ openssl_san_dns_entries + openssl_san_ip_entries }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_self_signed_cert
 ```
 
@@ -199,7 +199,7 @@ Generate a private key and an X.509 certificate, regenerating them only when the
     # Path to the intermediate extension file applied while signing against `openssl_root_ca_cert_path`.
     openssl_ca_signed_ext_path: "{{ openssl_remote_config_dir }}/{{ openssl_config_file }}.ext"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_signed_cert
 ```
 
@@ -288,7 +288,7 @@ Generate a private key and certificate signing request using a rendered OpenSSL 
     # Final SAN list assembled from DNS and IP SAN entries.
     openssl_san_entries: "{{ openssl_san_dns_entries + openssl_san_ip_entries }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_csr
 ```
 
@@ -322,6 +322,6 @@ Generate a certificate from an existing CSR using the provided CA certificate an
     # Optional extension file path passed to `openssl x509 -extfile`.
     openssl_ext_file_path: "/var/lfdt/chaguar/openssl/server.ext"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.openssl
+    name: lfdt.chaguar.openssl
     tasks_from: generate_cert
 ```

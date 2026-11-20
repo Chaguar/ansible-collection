@@ -20,5 +20,5 @@
       --input={{ cryptogen_output_dir }}
     bin_collect_logs: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.bin
+    name: lfdt.chaguar.bin
     tasks_from: start

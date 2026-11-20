@@ -1,4 +1,4 @@
-# hyperledger.chaguar.node_exporter
+# lfdt.chaguar.node_exporter
 
 > Runs Prometheus Node Exporter in container or Kubernetes mode to collect machine state metrics such as RAM, disk, CPU, and network usage.
 
@@ -47,7 +47,7 @@ See [`defaults/main.yaml`](defaults/main.yaml) for the generated role defaults a
 You can view the role documentation in your terminal running:
 
 ```shell
-ansible-doc -t role hyperledger.chaguar.node_exporter
+ansible-doc -t role lfdt.chaguar.node_exporter
 ```
 
 ## Tasks
@@ -68,7 +68,7 @@ Starts Node Exporter using the backend selected for the host. In container mode,
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: start
 ```
 
@@ -88,7 +88,7 @@ Stops the container-backed Node Exporter workload for the host. Kubernetes deplo
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: stop
 ```
 
@@ -108,7 +108,7 @@ Removes Node Exporter runtime resources for the enabled backend. Container mode 
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: teardown
 ```
 
@@ -121,7 +121,7 @@ Removes runtime resources, generated TLS material, and transferred configuration
 ```yaml
 - name: Remove Node Exporter data and runtime resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: wipe
 ```
 
@@ -141,7 +141,7 @@ Collects logs from the active Node Exporter backend for this host. Container mod
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: fetch_logs
 ```
 
@@ -161,7 +161,7 @@ Verifies that the Node Exporter metrics port is reachable on the current host. K
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: ping
 ```
 
@@ -174,7 +174,7 @@ Adds one inventory host per unique `ansible_host` with a defined `node_exporter_
 ```yaml
 - name: Build the Node Exporter host group
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: get_host_set
 ```
 
@@ -206,7 +206,7 @@ Creates the Node Exporter configuration directory and renders the web configurat
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: config/transfer
 ```
 
@@ -228,7 +228,7 @@ Removes transferred Node Exporter configuration files from the remote host. Kube
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: config/rm
 ```
 
@@ -241,7 +241,7 @@ Copies the bundled Node Exporter dashboard into Grafana by delegating to the Gra
 ```yaml
 - name: Transfer the Grafana dashboard for Node Exporter
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: config/transfer_grafana_dashboard
 ```
 
@@ -261,7 +261,7 @@ Generates TLS material for Node Exporter when TLS is enabled. Container mode wri
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: crypto/setup
 ```
 
@@ -283,7 +283,7 @@ Fetches the generated Node Exporter CA certificate and server certificate from t
     # Enables the TLS web configuration and certificate paths when true.
     node_exporter_use_tls: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: crypto/fetch
 ```
 
@@ -307,7 +307,7 @@ Removes generated TLS material for Node Exporter. Kubernetes mode also removes t
     # Selects the OpenShift deployment branch.
     node_exporter_use_openshift: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: crypto/rm
 ```
 
@@ -336,7 +336,7 @@ Delegates to the OpenSSL role to generate a self-signed certificate and private 
     # Specifies the OpenShift Route host.
     node_exporter_openshift_route: "node-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: crypto/openssl/generate_cert
 ```
 
@@ -374,7 +374,7 @@ Starts the Node Exporter container with the configured image, port, mounts, and 
     # Sets the bind-mount propagation flags for the host root filesystem volume (`/:/host:<flags>`). On Linux the default is `rslave,ro`, required for Docker bind-mount propagation. On macOS, Docker Desktop with VirtioFS does not support `rslave`, so `ro` is used instead.
     node_exporter_root_fs_flags: "{{ 'ro' if ansible_facts.system == 'Darwin' else 'rslave,ro' }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/start
 ```
 
@@ -398,7 +398,7 @@ Stops the Node Exporter container by delegating to the shared container role. Us
     # Sets the full Node Exporter image reference.
     node_exporter_image: "{{ node_exporter_registry_endpoint }}/{{ node_exporter_image_name }}:{{ node_exporter_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/stop
 ```
 
@@ -422,7 +422,7 @@ Removes the Node Exporter container by delegating to the shared container role. 
     # Sets the full Node Exporter image reference.
     node_exporter_image: "{{ node_exporter_registry_endpoint }}/{{ node_exporter_image_name }}:{{ node_exporter_image_tag }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/rm
 ```
 
@@ -438,7 +438,7 @@ Collects logs from the Node Exporter container by delegating to the shared conta
     # Sets the container name used for the Node Exporter runtime.
     node_exporter_container_name: node-exporter
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/fetch_logs
 ```
 
@@ -512,7 +512,7 @@ Creates the Kubernetes Service, optional NodePort and LoadBalancer Services, and
         memory: "2Gi"
         cpu: "1000m"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/start
 ```
 
@@ -532,7 +532,7 @@ Probes configured Kubernetes NodePort values and LoadBalancer-exposed service po
     # Set to `true` to create a LoadBalancer Service entry that exposes the metrics port externally. When undefined or `false`, the metrics port is not included in the LoadBalancer Service.
     node_exporter_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/ping
 ```
 
@@ -554,7 +554,7 @@ Removes the Kubernetes DaemonSet and Services created for Node Exporter. Targets
     # Set to `true` to create a LoadBalancer Service entry that exposes the metrics port externally. When undefined or `false`, the metrics port is not included in the LoadBalancer Service.
     node_exporter_k8s_loadbalancer_expose_metrics_port: false
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/rm
 ```
 
@@ -570,7 +570,7 @@ Collects logs from Node Exporter pods by delegating to the shared Kubernetes rol
     # Sets the Kubernetes object name used for Node Exporter resources, including the Service, optional NodePort Service, and DaemonSet.
     node_exporter_k8s_resource_name: "{{ inventory_hostname }}"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/fetch_logs
 ```
 
@@ -598,7 +598,7 @@ Ensures the target namespace exists and applies the ConfigMap used by the Node E
     # Sets the Kubernetes namespace used for Node Exporter resources, including the Service, optional NodePort Service, and DaemonSet. Required when `node_exporter_use_k8s` is true.
     k8s_namespace: "monitoring"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/config/transfer
 ```
 
@@ -616,7 +616,7 @@ Deletes the ConfigMap used by the Node Exporter Kubernetes deployment. Keeps the
     # Sets the Kubernetes namespace used for Node Exporter resources, including the Service, optional NodePort Service, and DaemonSet. Required when `node_exporter_use_k8s` is true.
     k8s_namespace: "monitoring"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/config/rm
 ```
 
@@ -646,7 +646,7 @@ Ensures the target namespace exists and applies the Secret that stores Node Expo
     # Sets the Kubernetes namespace used for Node Exporter resources, including the Service, optional NodePort Service, and DaemonSet. Required when `node_exporter_use_k8s` is true.
     k8s_namespace: "monitoring"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/crypto/transfer
 ```
 
@@ -664,7 +664,7 @@ Deletes the Secret that stores Node Exporter TLS material for Kubernetes deploym
     # Sets the Kubernetes namespace used for Node Exporter resources, including the Service, optional NodePort Service, and DaemonSet. Required when `node_exporter_use_k8s` is true.
     k8s_namespace: "monitoring"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/crypto/rm
 ```
 
@@ -685,7 +685,7 @@ Builds the scrape service definitions Prometheus uses to collect metrics from th
     # Sets the local directory used to store fetched TLS artifacts.
     fetched_artifacts_dir: "/tmp/chaguar-artifacts/node-exporter"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: prometheus/get_scrapers
 ```
 
@@ -707,7 +707,7 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     node_exporter_openshift_route: "node-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: openshift/start
 ```
 
@@ -725,7 +725,7 @@ Checks configured OpenShift Routes and reuses the Kubernetes service ping flow.
     # Specifies the OpenShift Route host.
     node_exporter_openshift_route: "node-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: openshift/ping
 ```
 
@@ -743,6 +743,6 @@ Reuses the Kubernetes workload flow and manages OpenShift Routes for configured 
     # Specifies the OpenShift Route host.
     node_exporter_openshift_route: "node-exporter-metrics.apps.example.com"
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: openshift/rm
 ```

@@ -9,7 +9,7 @@
   tasks:
     - name: Fetch the Chaguar Block Explorer server and UI logs
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.block_explorer
+        name: lfdt.chaguar.block_explorer
         tasks_from: fetch_logs
       when:
         - block_explorer_port is defined

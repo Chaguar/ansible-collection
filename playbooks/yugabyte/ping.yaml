@@ -9,7 +9,7 @@
   tasks:
     - name: Check that the YugabyteDB node ports are open
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.yugabyte
+        name: lfdt.chaguar.yugabyte
         tasks_from: ping
       when:
         - yugabyte_component_type is defined

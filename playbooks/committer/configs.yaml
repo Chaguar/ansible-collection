@@ -68,5 +68,5 @@
                 | first
               }}
           ansible.builtin.include_role:
-            name: hyperledger.chaguar.committer
+            name: lfdt.chaguar.committer
             tasks_from: config/transfer

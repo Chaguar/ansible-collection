@@ -5,28 +5,28 @@
 #
 
 - name: Ping PostgreSQL databases
-  ansible.builtin.import_playbook: hyperledger.chaguar.postgres.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.postgres.ping
 
 - name: Ping YugabyteDB clusters
-  ansible.builtin.import_playbook: hyperledger.chaguar.yugabyte.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.yugabyte.ping
 
 - name: Ping Fabric CA servers
-  ansible.builtin.import_playbook: hyperledger.chaguar.fabric_ca_server.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.fabric_ca_server.ping
 
 - name: Ping Chaguar Orderer
-  ansible.builtin.import_playbook: hyperledger.chaguar.orderer.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.orderer.ping
 
 - name: Ping Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.committer.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.committer.ping
 
 - name: Ping Chaguar Block Explorer
-  ansible.builtin.import_playbook: hyperledger.chaguar.block_explorer.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.block_explorer.ping
 
 - name: Ping Chaguar EVM
-  ansible.builtin.import_playbook: hyperledger.chaguar.evm.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.evm.ping
 
 - name: Ping Chaguar Loadgen
-  ansible.builtin.import_playbook: hyperledger.chaguar.loadgen.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.loadgen.ping
 
 - name: Ping Monitoring
-  ansible.builtin.import_playbook: hyperledger.chaguar.monitoring.ping
+  ansible.builtin.import_playbook: lfdt.chaguar.monitoring.ping

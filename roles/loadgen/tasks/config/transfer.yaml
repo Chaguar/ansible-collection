@@ -70,7 +70,7 @@
     # =========================
     - name: Transfer Monitoring mTLS certificates
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loadgen
+        name: lfdt.chaguar.loadgen
         tasks_from: config/mtls/monitoring/transfer
       when:
         - loadgen_monitoring_use_mtls
@@ -79,6 +79,6 @@
     # =========================
     - name: Transfer Chaguar Loadgen Kubernetes ConfigMap
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.loadgen
+        name: lfdt.chaguar.loadgen
         tasks_from: k8s/config/transfer
       when: loadgen_use_k8s or loadgen_use_openshift

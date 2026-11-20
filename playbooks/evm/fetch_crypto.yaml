@@ -9,5 +9,5 @@
   tasks:
     - name: Fetch the certificates from the Chaguar EVM gateway
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.evm
+        name: lfdt.chaguar.evm
         tasks_from: crypto/fetch

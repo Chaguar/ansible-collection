@@ -6,14 +6,14 @@
 
 - name: Submit the Chaguar transaction with the fxadmin binary
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: bin/tx/submit
   when:
     - fxadmin_use_bin
 
 - name: Submit the Chaguar transaction with the fxadmin container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.fxadmin
+    name: lfdt.chaguar.fxadmin
     tasks_from: container/tx/submit
   when:
     - not fxadmin_use_bin

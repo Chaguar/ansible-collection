@@ -5,4 +5,4 @@
 #
 
 - name: Create namespaces on Chaguar Committer
-  ansible.builtin.import_playbook: hyperledger.chaguar.fxconfig.create_namespaces
+  ansible.builtin.import_playbook: lfdt.chaguar.fxconfig.create_namespaces

@@ -6,18 +6,18 @@
 
 - name: Remove Node Exporter container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: container/rm
   when: node_exporter_use_container
 
 - name: Remove Node Exporter Kubernetes resources
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: k8s/rm
   when: node_exporter_use_k8s
 
 - name: Teardown Node Exporter on OpenShift
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.node_exporter
+    name: lfdt.chaguar.node_exporter
     tasks_from: openshift/rm
   when: node_exporter_use_openshift

@@ -6,6 +6,6 @@
 
 - name: Fetch cAdvisor logs from container
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.cadvisor
+    name: lfdt.chaguar.cadvisor
     tasks_from: container/fetch_logs
   when: cadvisor_use_container

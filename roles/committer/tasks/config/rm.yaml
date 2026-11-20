@@ -11,6 +11,6 @@
 
 - name: Remove Chaguar Committer k8s ConfigMap
   ansible.builtin.include_role:
-    name: hyperledger.chaguar.committer
+    name: lfdt.chaguar.committer
     tasks_from: k8s/config/rm
   when: committer_use_k8s or committer_use_openshift

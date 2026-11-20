@@ -16,11 +16,11 @@
           k8s: k8s/rm
           openshift: openshift/rm
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.committer
+        name: lfdt.chaguar.committer
         tasks_from: "{{ committer_teardown_tasks[committer_deployment_mode] }}"
     - name: Remove Chaguar Committer sidecar data
       ansible.builtin.include_role:
-        name: hyperledger.chaguar.committer
+        name: lfdt.chaguar.committer
         tasks_from: data/rm
       when:
         - committer_component_type == 'sidecar'
