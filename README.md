@@ -243,7 +243,7 @@ The most frequently used commands are:
 
 | Command                    | Usage                                                                        |
 | -------------------------- | ---------------------------------------------------------------------------- |
-| `install`                  | Build and install the `lfdt.chaguar` collection locally.              |
+| `install`                  | Build and install the `lfdt.chaguar` collection locally.                     |
 | `install-deps`             | Wrapper for `install-venv` + `install-python-deps` + `install-ansible-deps`. |
 | `install-venv`             | Install a `venv` environment.                                                |
 | `install-python-deps`      | Install Python dependencies on the control node.                             |
