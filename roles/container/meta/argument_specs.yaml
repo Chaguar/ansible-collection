@@ -457,6 +457,7 @@ argument_specs:
       - "Sets C(container_containerd_socket_path) to whichever location exists."
       - "On macOS, checks via a throwaway container since the Docker daemon runs inside a VM."
     options:
+      container_socket: *container_socket
       container_on_mac: *container_on_mac
 
   docker/start:
@@ -465,6 +466,7 @@ argument_specs:
       - "Starts or updates a Docker container with the requested image, command, environment, ports, volumes, network, resource limits, and log settings."
       - "Supports rootless Docker adjustments, optional healthcheck state, retry controls, port readiness checks, and foreground output capture in C(container_output)."
     options:
+      container_socket: *container_socket
       container_name:
         <<: *container_name
         required: true
@@ -511,6 +513,7 @@ argument_specs:
       - "Stops the named Docker container when it exists."
       - "Uses C(container_name) as the lifecycle target."
     options:
+      container_socket: *container_socket
       container_name:
         <<: *container_name
         required: true
@@ -521,6 +524,7 @@ argument_specs:
       - "Removes the named Docker container and its attached anonymous volumes."
       - "Uses C(container_name) as the lifecycle target."
     options:
+      container_socket: *container_socket
       container_name:
         <<: *container_name
         required: true
@@ -531,6 +535,7 @@ argument_specs:
       - "Runs C(container_command) inside an existing Docker container."
       - "Passes C(container_env) when provided and registers the Docker exec result."
     options:
+      container_socket: *container_socket
       container_name:
         <<: *container_name
         required: true
@@ -545,6 +550,7 @@ argument_specs:
       - "Logs the Docker client in to C(container_registry)."
       - "Uses the supplied username and password for image pull access."
     options:
+      container_socket: *container_socket
       container_registry: *container_registry
       container_registry_username: *container_registry_username
       container_registry_password: *container_registry_password
@@ -555,6 +561,7 @@ argument_specs:
       - "Creates the named Docker network with the requested driver, attachable flag, and internal flag."
       - "Provides the network artifact used by bridge-mode containers."
     options:
+      container_socket: *container_socket
       container_network:
         <<: *container_network
         required: true
@@ -568,6 +575,7 @@ argument_specs:
       - "Removes the named Docker network."
       - "Uses C(container_network) as the lifecycle target."
     options:
+      container_socket: *container_socket
       container_network:
         <<: *container_network
         required: true
@@ -578,6 +586,7 @@ argument_specs:
       - "Creates or updates a host path used as a Docker volume."
       - "Applies state, mode, ownership, and recursive permission inputs, using a short-lived helper container for rootless ownership or mode changes when needed."
     options:
+      container_socket: *container_socket
       container_name: *container_name
       container_host_uid: *container_host_uid
       container_host_gid: *container_host_gid
@@ -597,6 +606,7 @@ argument_specs:
       - "Removes the host path used as a Docker volume."
       - "Uses C(container_volume_path) as the lifecycle target."
     options:
+      container_socket: *container_socket
       container_host_uid: *container_host_uid
       container_host_gid: *container_host_gid
       container_host_user: *container_host_user

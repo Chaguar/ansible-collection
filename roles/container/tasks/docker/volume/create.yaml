@@ -4,6 +4,15 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Ansible's Docker modules default to /var/run/docker.sock, which does not exist
+# for e.g. Colima or rootless Docker, so use the endpoint of the current Docker context.
+- name: Resolve the Docker endpoint from the current Docker context
+  ansible.builtin.include_role:
+    name: lfdt.chaguar.container
+    tasks_from: docker/get_socket
+  when:
+    - container_socket | default('') | length == 0
+
 - name: Ensure Docker volume exists
   ansible.builtin.file:
     path: "{{ container_volume_path }}"
@@ -31,6 +40,7 @@
 # of `podman-unshare`, but using alpine as base image.
 - name: Set Docker volume "uid" and "gid" on Linux for rootless user
   community.docker.docker_container:
+    docker_host: "{{ container_socket | default(omit, true) }}"
     name: "docker-unshare-chown-{{ container_name | default(999999 | random) }}"
     image: docker.io/library/alpine:3.18
     command:
@@ -63,6 +73,7 @@
 
 - name: Set Docker volume permissions on Linux for rootless user
   community.docker.docker_container:
+    docker_host: "{{ container_socket | default(omit, true) }}"
     name: "docker-unshare-chmod-{{ container_name | default(999999 | random) }}"
     image: docker.io/library/alpine:3.18
     command:

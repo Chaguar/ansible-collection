@@ -4,7 +4,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Ansible's Docker modules default to /var/run/docker.sock, which does not exist
+# for e.g. Colima or rootless Docker, so use the endpoint of the current Docker context.
+- name: Resolve the Docker endpoint from the current Docker context
+  ansible.builtin.include_role:
+    name: lfdt.chaguar.container
+    tasks_from: docker/get_socket
+  when:
+    - container_socket | default('') | length == 0
+
 - name: Remove Docker network {{ container_network }}
   community.docker.docker_network:
+    docker_host: "{{ container_socket | default(omit, true) }}"
     name: "{{ container_network }}"
     state: absent
