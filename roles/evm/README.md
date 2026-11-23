@@ -345,6 +345,9 @@ Render the EVM gateway configuration with the resolved orderer and committer sid
     actual_host: "myvpc.cloud.ibm.com"
     # Specifies the OpenShift Route host for the JSON-RPC port.
     evm_openshift_route: "chaguar-evm.apps.example.com"
+    # Extra host names the gateway accepts in the JSON-RPC Host header, on top of `ansible_host`, `actual_host` and the OpenShift Route.
+    evm_additional_vhosts:
+      - localhost
     # Network protocol the gateway speaks to the committer and orderers, `fabric-x` or `fabric`.
     evm_protocol: fabric-x
     # Log level specification passed to `logging.spec`.
