@@ -5,7 +5,7 @@
 #
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ committer_k8s_resource_name }}
   labels:
@@ -13,6 +13,12 @@ metadata:
     app.kubernetes.io/component: {{ committer_component_type }}
     app.kubernetes.io/part-of: {{ committer_k8s_part_of }}
 spec:
+  # A StatefulSet (not a Deployment) because the coordinator is a strict
+  # singleton: its in-memory dependency graph cannot be shared. A StatefulSet
+  # deletes the old pod before creating its replacement on rollouts and does
+  # not replace a pod on an unreachable node until it is confirmed gone,
+  # whereas a Deployment may briefly run two coordinators in both cases.
+  serviceName: {{ committer_k8s_resource_name }}
   replicas: 1
   selector:
     matchLabels:

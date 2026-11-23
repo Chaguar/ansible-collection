@@ -43,9 +43,6 @@
       committer_k8s_loadbalancer_expose_metrics_port
 
 - name: Apply Chaguar Committer Deployment
-  vars:
-    committer_validator_ref_host: "{{ committer_validators | first }}"
-    committer_verifier_ref_host: "{{ committer_verifiers | first }}"
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"
@@ -54,15 +51,18 @@
     wait: true
     wait_timeout: "{{ committer_k8s_wait_timeout }}"
   when:
-    - committer_component_type != 'sidecar'
+    - committer_component_type not in ['sidecar', 'coordinator']
 
-- name: Apply Chaguar Committer sidecar StatefulSet
+- name: Apply Chaguar Committer StatefulSet
+  vars:
+    committer_validator_ref_host: "{{ committer_validators | first }}"
+    committer_verifier_ref_host: "{{ committer_verifiers | first }}"
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"
     template:
-      path: k8s/statefulset-sidecar.yaml.j2
+      path: "k8s/statefulset-{{ committer_component_type }}.yaml.j2"
     wait: true
     wait_timeout: "{{ committer_k8s_wait_timeout }}"
   when:
-    - committer_component_type == 'sidecar'
+    - committer_component_type in ['sidecar', 'coordinator']
