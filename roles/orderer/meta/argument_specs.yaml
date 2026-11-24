@@ -84,7 +84,7 @@ argument_specs:
       orderer_image_tag: &orderer_image_tag
         type: str
         required: false
-        default: "1.0.8"
+        default: "1.0.10"
         description:
           - "Image tag used for the orderer container."
       orderer_image: &orderer_image
@@ -110,7 +110,7 @@ argument_specs:
       orderer_git_commit: &orderer_git_commit
         type: str
         required: false
-        default: v1.0.8
+        default: v1.0.10
         description:
           - "Git ref or release tag used by the bin build and install branches."
       orderer_source_code_package: &orderer_source_code_package
@@ -475,6 +475,21 @@ argument_specs:
         description:
           - "Organization dictionaries whose TLS CA certificates are trusted by the operations endpoint."
           - "Example: C([{'name': 'Org1', 'domain': 'org1.example.com'}])."
+      orderer_operations_profile_enabled: &orderer_operations_profile_enabled
+        type: bool
+        default: false
+        description:
+          - "Serves the Go pprof profiling endpoints under C(/debug/pprof/) on the orderer operations server."
+      orderer_operations_profile_block_profile_rate: &orderer_operations_profile_block_profile_rate
+        type: int
+        default: 0
+        description:
+          - "Samples one goroutine blocking event per this many nanoseconds spent blocked; C(0) disables the block profile."
+      orderer_operations_profile_mutex_profile_fraction: &orderer_operations_profile_mutex_profile_fraction
+        type: int
+        default: 0
+        description:
+          - "Samples one in this many mutex contention events; C(0) disables the mutex profile."
       orderer_metrics_provider: &orderer_metrics_provider
         type: str
         choices:
@@ -905,6 +920,9 @@ argument_specs:
       orderer_operations_use_mtls: *orderer_operations_use_mtls
       orderer_operations_mtls_clients: *orderer_operations_mtls_clients
       orderer_operations_mtls_orgs: *orderer_operations_mtls_orgs
+      orderer_operations_profile_enabled: *orderer_operations_profile_enabled
+      orderer_operations_profile_block_profile_rate: *orderer_operations_profile_block_profile_rate
+      orderer_operations_profile_mutex_profile_fraction: *orderer_operations_profile_mutex_profile_fraction
       orderer_metrics_provider: *orderer_metrics_provider
       orderer_metrics_log_interval: *orderer_metrics_log_interval
       orderer_mtls_clients: *orderer_mtls_clients

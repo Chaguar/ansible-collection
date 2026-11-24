@@ -12,7 +12,7 @@ orderer_registry_endpoint: "{{ lookup('env', 'ORDERER_REGISTRY_ENDPOINT') or 'do
 # Image name used for the orderer container.
 orderer_image_name: fabric-x-orderer
 # Image tag used for the orderer container.
-orderer_image_tag: 1.0.8
+orderer_image_tag: 1.0.10
 # Full image reference used by the container and Kubernetes branches.
 orderer_image: "{{ orderer_registry_endpoint }}/{{ orderer_image_name }}:{{ orderer_image_tag }}"
 # Container name used by the container lifecycle branch.
@@ -22,7 +22,7 @@ orderer_git_hub_url: github.com
 # Repository path for the orderer source code.
 orderer_git_repo: hyperledger/fabric-x-orderer
 # Git ref or release tag used by the bin build and install branches.
-orderer_git_commit: v1.0.8
+orderer_git_commit: v1.0.10
 # Go package path that builds the orderer binary.
 orderer_source_code_package: cmd/arma
 # Go package path used by the install branch.
@@ -65,6 +65,12 @@ orderer_data_dir: '{{ orderer_remote_data_dir if orderer_use_bin else orderer_co
 orderer_operations_use_tls: '{{ orderer_use_tls }}'
 # Enables client mutual TLS for the orderer operations endpoint.
 orderer_operations_use_mtls: '{{ orderer_use_mtls }}'
+# Serves the Go pprof profiling endpoints under C(/debug/pprof/) on the orderer operations server.
+orderer_operations_profile_enabled: false
+# Samples one goroutine blocking event per this many nanoseconds spent blocked; C(0) disables the block profile.
+orderer_operations_profile_block_profile_rate: 0
+# Samples one in this many mutex contention events; C(0) disables the mutex profile.
+orderer_operations_profile_mutex_profile_fraction: 0
 # Selects the binary deployment branch.
 orderer_use_bin: false
 # Selects the Kubernetes deployment branch.
