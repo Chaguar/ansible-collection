@@ -9,7 +9,7 @@
     committer_k8s_workload_kinds:
       validator: Deployment
       verifier: Deployment
-      coordinator: Deployment
+      coordinator: StatefulSet
       sidecar: StatefulSet
       query-service: Deployment
   kubernetes.core.k8s:

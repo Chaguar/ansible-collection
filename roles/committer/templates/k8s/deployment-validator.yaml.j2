@@ -14,6 +14,10 @@ metadata:
     app.kubernetes.io/part-of: {{ committer_k8s_part_of }}
 spec:
   replicas: 1
+  # Stop the old pod before starting its replacement, so that two instances
+  # never serve the same pre-configured endpoint at the same time.
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ committer_k8s_resource_name }}
