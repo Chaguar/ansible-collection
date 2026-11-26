@@ -15,6 +15,7 @@
     fxconfig_threshold_namespace_policy: ""
     fxconfig_volumes:
       - "{{ fxconfig_output | dirname }}:/tmp:z"
+      - "{{ fxconfig_remote_config_dir }}:{{ fxconfig_container_config_dir }}:z,ro"
 
 # Threshold policies require the path to a certificate
 # Since with containers the path must be mounted,
@@ -47,6 +48,7 @@
       - >-
         {{ fxconfig_bin_name }} namespace
         update {{ fxconfig_namespace_id }}
+        --config={{ fxconfig_container_config_dir }}/{{ fxconfig_config_file }}
         --policy="$FXCONFIG_POLICY"
         --version={{ fxconfig_namespace_version }}
         --output=/tmp/{{ fxconfig_output | basename }}

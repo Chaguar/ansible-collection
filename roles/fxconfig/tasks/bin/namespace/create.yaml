@@ -18,6 +18,7 @@
     bin_command: >-
       {{ fxconfig_bin_name }} namespace
       create {{ fxconfig_namespace_id }}
+      --config={{ fxconfig_remote_config_dir }}/{{ fxconfig_config_file }}
       --policy="{{ fxconfig_namespace_policy }}"
       --output={{ fxconfig_output }}
     bin_run_with_tmux: false

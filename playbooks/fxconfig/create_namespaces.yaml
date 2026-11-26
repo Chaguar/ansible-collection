@@ -16,81 +16,121 @@
         - organization.namespaces is defined
         - organization.user is defined or organization.users is defined
 
-- name: Create and update Chaguar namespaces transactions on the control node
-  hosts: localhost
+# The transaction ID binds the identity that creates the transaction, and only
+# that identity may submit it (Chaguar/chaguar#326). So each namespace
+# transaction is created on the host that will later submit it, with that
+# host's fxconfig configuration, and then fetched to the control node so that
+# the endorsers can pick it up.
+- name: Create and update Chaguar namespace transactions on the submitting host
+  hosts: "{{ target_hosts | default('all') }}"
   vars:
     fxconfig_artifacts_dir: "{{ config_build_dir }}/fxconfig-artifacts"
-    targeted_hosts: "{{ query('ansible.builtin.inventory_hostnames', target_hosts | default('all')) }}"
-    fxconfig_namespaces_to_create: >-
-      {{
-        targeted_hosts
-        | map('extract', hostvars)
-        | selectattr('fxconfig_namespaces_to_create', 'defined')
-        | map(attribute='fxconfig_namespaces_to_create')
-        | flatten
-        | unique
-        | list
-      }}
-    fxconfig_namespaces_to_update: >-
-      {{
-        targeted_hosts
-        | map('extract', hostvars)
-        | selectattr('fxconfig_namespaces_to_update', 'defined')
-        | map(attribute='fxconfig_namespaces_to_update')
-        | map('dict2items')
-        | flatten
-        | items2dict
-      }}
+    # Same value as the fxconfig role default, which is not visible outside the role.
+    fxconfig_submitter_tx_dir: "{{ fxconfig_remote_config_dir | default(remote_config_dir ~ '/fxconfig') }}"
     fxconfig_namespaces_to_apply: >-
       {{
-        fxconfig_namespaces_to_create
-        + (
-          fxconfig_namespaces_to_update.keys()
+        (fxconfig_namespaces_to_create)
+        + (fxconfig_namespaces_to_update.keys()
           | list
         )
       }}
   tasks:
-    - name: Group hosts per namespace
-      vars:
-        fxconfig_hosts: "{{ targeted_hosts | default(groups['all']) }}"
-      ansible.builtin.include_role:
-        name: lfdt.chaguar.fxconfig
-        tasks_from: namespace/group
+    - name: Create and update the Chaguar namespace transactions
       when:
+        - organization is defined
+        - organization.namespaces is defined
         - fxconfig_namespaces_to_apply | length > 0
-    - name: Create Chaguar namespaces with fxconfig on the control node
-      vars:
-        bin_remote_dir: "{{ cli_bin_dir }}"
-        fxconfig_namespace_id: "{{ current_namespace_with_hosts.namespace.id }}"
-        fxconfig_namespace_policy: "{{ current_namespace_with_hosts.namespace.policy }}"
-        fxconfig_output: "{{ fxconfig_artifacts_dir }}/{{ fxconfig_namespace_id }}/ns.json"
-      ansible.builtin.include_role:
-        name: lfdt.chaguar.fxconfig
-        tasks_from: namespace/create
-      loop: "{{ fxconfig_hosts_per_namespaces.values() }}"
-      loop_control:
-        loop_var: current_namespace_with_hosts
-        label: "{{ fxconfig_namespace_id }}"
-      when:
-        - fxconfig_hosts_per_namespaces is defined
-        - (fxconfig_namespace_id | string) in fxconfig_namespaces_to_create
-    - name: Update Chaguar namespaces with fxconfig on the control node
-      vars:
-        bin_remote_dir: "{{ cli_bin_dir }}"
-        fxconfig_namespace_id: "{{ current_namespace_with_hosts.namespace.id }}"
-        fxconfig_namespace_policy: "{{ current_namespace_with_hosts.namespace.policy }}"
-        fxconfig_namespace_version: "{{ fxconfig_namespaces_to_update[fxconfig_namespace_id | string] }}"
-        fxconfig_output: "{{ fxconfig_artifacts_dir }}/{{ fxconfig_namespace_id }}/ns.json"
-      ansible.builtin.include_role:
-        name: lfdt.chaguar.fxconfig
-        tasks_from: namespace/update
-      loop: "{{ fxconfig_hosts_per_namespaces.values() }}"
-      loop_control:
-        loop_var: current_namespace_with_hosts
-        label: "{{ fxconfig_namespace_id }}"
-      when:
-        - fxconfig_hosts_per_namespaces is defined
-        - (fxconfig_namespace_id | string) in fxconfig_namespaces_to_update
+      block:
+        - name: Group hosts per namespace
+          ansible.builtin.include_role:
+            name: lfdt.chaguar.fxconfig
+            tasks_from: namespace/group
+          when:
+            - fxconfig_hosts_per_namespaces is undefined
+        # The group task resolves a threshold policy to a certificate path on the
+        # control node, so the certificate is copied to the submitting host first.
+        - name: Ensure the namespace transaction directories exist on the submitting host
+          ansible.builtin.file:
+            path: "{{ fxconfig_submitter_tx_dir }}/{{ fxconfig_namespace.id }}"
+            state: directory
+            mode: "0o755"
+          loop: "{{ organization.namespaces }}"
+          loop_control:
+            loop_var: fxconfig_namespace
+            label: "{{ fxconfig_namespace.id }}"
+          when:
+            - fxconfig_hosts_per_namespaces[fxconfig_namespace.id].hosts[0] == inventory_hostname # the submitting host
+            - (fxconfig_namespace.id | string) in fxconfig_namespaces_to_apply
+        - name: Transfer the threshold policy certificates to the submitting host
+          vars:
+            fxconfig_resolved_policy: "{{ fxconfig_hosts_per_namespaces[fxconfig_namespace.id].namespace.policy }}"
+          ansible.builtin.copy:
+            src: "{{ fxconfig_resolved_policy | split(':') | last }}"
+            dest: "{{ fxconfig_submitter_tx_dir }}/{{ fxconfig_namespace.id }}/policy-cert.pem"
+            mode: "0o644"
+          loop: "{{ organization.namespaces }}"
+          loop_control:
+            loop_var: fxconfig_namespace
+            label: "{{ fxconfig_namespace.id }}"
+          when:
+            - fxconfig_hosts_per_namespaces[fxconfig_namespace.id].hosts[0] == inventory_hostname # the submitting host
+            - (fxconfig_namespace.id | string) in fxconfig_namespaces_to_apply
+            - (fxconfig_resolved_policy | split(':') | first) == 'threshold'
+        - name: Create Chaguar namespaces with fxconfig
+          vars:
+            fxconfig_namespace_id: "{{ fxconfig_namespace.id | string }}"
+            fxconfig_resolved_policy: "{{ fxconfig_hosts_per_namespaces[fxconfig_namespace.id].namespace.policy }}"
+            fxconfig_namespace_policy: >-
+              {{
+                ('threshold:' ~ fxconfig_submitter_tx_dir ~ '/' ~ fxconfig_namespace_id ~ '/policy-cert.pem')
+                if (fxconfig_resolved_policy | split(':') | first) == 'threshold'
+                else fxconfig_resolved_policy
+              }}
+            fxconfig_output: "{{ fxconfig_submitter_tx_dir }}/{{ fxconfig_namespace_id }}/ns.json"
+          ansible.builtin.include_role:
+            name: lfdt.chaguar.fxconfig
+            tasks_from: namespace/create
+          loop: "{{ organization.namespaces }}"
+          loop_control:
+            loop_var: fxconfig_namespace
+            label: "{{ fxconfig_namespace.id }}"
+          when:
+            - fxconfig_hosts_per_namespaces[fxconfig_namespace.id].hosts[0] == inventory_hostname # the submitting host
+            - (fxconfig_namespace.id | string) in fxconfig_namespaces_to_create
+        - name: Update Chaguar namespaces with fxconfig
+          vars:
+            fxconfig_namespace_id: "{{ fxconfig_namespace.id | string }}"
+            fxconfig_resolved_policy: "{{ fxconfig_hosts_per_namespaces[fxconfig_namespace.id].namespace.policy }}"
+            fxconfig_namespace_policy: >-
+              {{
+                ('threshold:' ~ fxconfig_submitter_tx_dir ~ '/' ~ fxconfig_namespace_id ~ '/policy-cert.pem')
+                if (fxconfig_resolved_policy | split(':') | first) == 'threshold'
+                else fxconfig_resolved_policy
+              }}
+            fxconfig_namespace_version: "{{ fxconfig_namespaces_to_update[fxconfig_namespace_id] }}"
+            fxconfig_output: "{{ fxconfig_submitter_tx_dir }}/{{ fxconfig_namespace_id }}/ns.json"
+          ansible.builtin.include_role:
+            name: lfdt.chaguar.fxconfig
+            tasks_from: namespace/update
+          loop: "{{ organization.namespaces }}"
+          loop_control:
+            loop_var: fxconfig_namespace
+            label: "{{ fxconfig_namespace.id }}"
+          when:
+            - fxconfig_hosts_per_namespaces[fxconfig_namespace.id].hosts[0] == inventory_hostname # the submitting host
+            - (fxconfig_namespace.id | string) in fxconfig_namespaces_to_update
+        - name: Fetch the Chaguar namespace transactions to the control node
+          ansible.builtin.fetch:
+            src: "{{ fxconfig_submitter_tx_dir }}/{{ fxconfig_namespace.id }}/ns.json"
+            dest: "{{ fxconfig_artifacts_dir }}/{{ fxconfig_namespace.id }}/ns.json"
+            flat: true
+          loop: "{{ organization.namespaces }}"
+          loop_control:
+            loop_var: fxconfig_namespace
+            label: "{{ fxconfig_namespace.id }}"
+          when:
+            - fxconfig_hosts_per_namespaces[fxconfig_namespace.id].hosts[0] == inventory_hostname # the submitting host
+            - (fxconfig_namespace.id | string) in fxconfig_namespaces_to_apply
 
 - name: Endorse Chaguar namespace transactions
   hosts: "{{ target_hosts | default('all') }}"
