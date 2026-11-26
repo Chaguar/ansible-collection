@@ -9,3 +9,6 @@
 # ===========================================================
 
 {% include './sections/v3_req.yaml.j2' +%}
+# Points to the signing CA key, so Fabric CA clients can tell intermediate CA certificates from root CA certificates.
+# OpenSSL 3 added it by default, OpenSSL 4 does not. Kept out of v3_req because CSRs have no issuer to point to.
+authorityKeyIdentifier = keyid:always
