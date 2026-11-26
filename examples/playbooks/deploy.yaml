@@ -1,0 +1,32 @@
+#
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Deploy a complete Chaguar network in one run: binaries, crypto material,
+# genesis block, configs, start, and namespaces. Equivalent to
+# `make setup start init`. Running everything in one invocation shares
+# gathered facts between the steps, so no fact cache is needed.
+#
+#   ansible-playbook <path>/examples/playbooks/deploy.yaml -i inventory.yaml
+#
+# Remove the network again with 60-teardown.yaml.
+
+- name: Build binaries
+  ansible.builtin.import_playbook: 10-binaries.yaml
+
+- name: Generate crypto material
+  ansible.builtin.import_playbook: 20-generate-crypto.yaml
+
+- name: Build genesis block
+  ansible.builtin.import_playbook: 21-build-genesis-block.yaml
+
+- name: Transfer configs
+  ansible.builtin.import_playbook: 30-configs.yaml
+
+- name: Start the network
+  ansible.builtin.import_playbook: 40-start.yaml
+
+- name: Create namespaces
+  ansible.builtin.import_playbook: 41-init.yaml

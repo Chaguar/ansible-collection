@@ -208,6 +208,14 @@ make init
 make teardown
 ```
 
+Without a clone of this repository, run the same lifecycle from the installed collection. [`deploy.yaml`](./playbooks/deploy.yaml) imports `10-binaries` through `41-init` in one run, which is equivalent to `make setup start init`:
+
+```shell
+PB=~/.ansible/collections/ansible_collections/lfdt/chaguar/examples/playbooks
+ansible-playbook $PB/deploy.yaml -i inventory.yaml
+ansible-playbook $PB/60-teardown.yaml -i inventory.yaml
+```
+
 `binaries`, `generate-crypto`, `configs`, `start`, `stop`, `teardown`, and `wipe` likewise drive Semaphore UI (see the [`semaphore_ui` playbooks](../playbooks/semaphore_ui/README.md)) when the loaded inventory defines a `semaphore_ui` group — no network inventory does, so this only takes effect against its own dedicated inventory ([`examples/inventory/local/semaphore-ui.yaml`](./inventory/local/semaphore-ui.yaml)).
 
 For the complete playbook workflow and group contract, see the [playbooks documentation](../playbooks/README.md).

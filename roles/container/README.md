@@ -321,6 +321,8 @@ Checks for a containerd socket at the standard location (`/run/containerd/contai
 ```yaml
 - name: Resolve Docker's containerd socket
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Marks whether the target host is macOS.
     container_on_mac: "{{ ansible_facts.os_family == 'Darwin' }}"
   ansible.builtin.include_role:
@@ -337,6 +339,8 @@ Starts or updates a Docker container with the requested image, command, environm
 ```yaml
 - name: Start a container with Docker
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
     # Selects the container image to start.
@@ -430,6 +434,8 @@ Stops the named Docker container when it exists. Uses `container_name` as the li
 ```yaml
 - name: Stop a container with Docker
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
@@ -446,6 +452,8 @@ Removes the named Docker container and its attached anonymous volumes. Uses `con
 ```yaml
 - name: Remove a container with Docker
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
   ansible.builtin.include_role:
@@ -462,6 +470,8 @@ Runs `container_command` inside an existing Docker container. Passes `container_
 ```yaml
 - name: Execute a command in a Docker container
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
     # Supplies the command passed to the container runtime.
@@ -484,6 +494,8 @@ Logs the Docker client in to `container_registry`. Uses the supplied username an
 ```yaml
 - name: Log in to a registry with Docker
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container registry for login operations.
     container_registry: "ghcr.io"
     # Provides the registry username.
@@ -504,6 +516,8 @@ Creates the named Docker network with the requested driver, attachable flag, and
 ```yaml
 - name: Create a Docker network
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the bridge network attached to the container when bridge mode is selected.
     container_network: "chaguar-net"
     # Selects the network driver used when creating a container network.
@@ -526,6 +540,8 @@ Removes the named Docker network. Uses `container_network` as the lifecycle targ
 ```yaml
 - name: Remove a Docker network
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the bridge network attached to the container when bridge mode is selected.
     container_network: "chaguar-net"
   ansible.builtin.include_role:
@@ -542,6 +558,8 @@ Creates or updates a host path used as a Docker volume. Applies state, mode, own
 ```yaml
 - name: Create a Docker volume
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Names the container managed by the role.
     container_name: "chaguar-orderer-assembler-1"
     # Provides the host uid used to build `container_host_user`.
@@ -580,6 +598,8 @@ Removes the host path used as a Docker volume. Uses `container_volume_path` as t
 ```yaml
 - name: Remove a Docker volume
   vars:
+    # Optional Docker-compatible API endpoint for the selected container client. When omitted, the role discovers the local Docker or Podman socket.
+    container_socket: "unix:///run/user/1000/podman/podman.sock"
     # Provides the host uid used to build `container_host_user`.
     container_host_uid: "{{ ansible_facts.user_uid }}"
     # Provides the host gid used to build `container_host_user`.
