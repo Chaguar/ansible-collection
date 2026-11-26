@@ -306,6 +306,12 @@ argument_specs:
         description:
           - Specifies the OpenShift Route host for the JSON-RPC port.
           - "Example: C(chaguar-evm.apps.example.com)."
+      evm_additional_vhosts: &evm_additional_vhosts
+        type: list
+        elements: str
+        default: ["localhost"]
+        description:
+          - Extra host names the gateway accepts in the JSON-RPC Host header, on top of C(ansible_host), C(actual_host) and the OpenShift Route.
 
   start:
     short_description: Start the Chaguar EVM gateway
@@ -461,6 +467,7 @@ argument_specs:
       evm_ns_version: *evm_ns_version
       actual_host: *actual_host
       evm_openshift_route: *evm_openshift_route
+      evm_additional_vhosts: *evm_additional_vhosts
       evm_protocol: *evm_protocol
       evm_log_level: *evm_log_level
       evm_log_format: *evm_log_format

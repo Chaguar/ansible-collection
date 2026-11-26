@@ -30,9 +30,7 @@
     # not know, so it must accept every name it is reached by.
     - name: Initialize EVM gateway vhosts
       ansible.builtin.set_fact:
-        evm_vhosts:
-          - "{{ ansible_host }}"
-          - "{{ actual_host }}"
+        evm_vhosts: "{{ [ansible_host, actual_host] + evm_additional_vhosts }}"
 
     - name: Append EVM OpenShift route to gateway vhosts
       ansible.builtin.set_fact:

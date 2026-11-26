@@ -67,3 +67,6 @@ evm_k8s_fs_group: 10001
 # Set to C(true) to create a LoadBalancer Service entry that exposes the JSON-RPC port externally.
 # When undefined or C(false), the JSON-RPC port is not included in the LoadBalancer Service.
 evm_k8s_loadbalancer_expose_port: false
+# Extra host names the gateway accepts in the JSON-RPC Host header, on top of C(ansible_host), C(actual_host) and the OpenShift Route.
+evm_additional_vhosts:
+  - localhost
