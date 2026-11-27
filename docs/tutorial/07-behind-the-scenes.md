@@ -39,12 +39,12 @@ flowchart TD
 
 Each layer has exactly one job:
 
-| Layer                 | Job                                                                         | Yours to edit?                                |
-| --------------------- | --------------------------------------------------------------------------- | --------------------------------------------- |
-| `Makefile`            | Turn a short verb into an `ansible-playbook` invocation with `target_hosts` | No — it is the repository's interface         |
-| `playbooks/*.yaml`    | Chain the component playbooks into network-wide steps                       | No — part of the collection                   |
-| `playbooks/<family>/` | Order the roles for one component family. The collection's public API       | No — part of the collection                   |
-| `roles/`              | Do the work for one component                                               | No, unless you are contributing               |
+| Layer                 | Job                                                                         | Yours to edit?                        |
+| --------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
+| `Makefile`            | Turn a short verb into an `ansible-playbook` invocation with `target_hosts` | No — it is the repository's interface |
+| `playbooks/*.yaml`    | Chain the component playbooks into network-wide steps                       | No — part of the collection           |
+| `playbooks/<family>/` | Order the roles for one component family. The collection's public API       | No — part of the collection           |
+| `roles/`              | Do the work for one component                                               | No, unless you are contributing       |
 
 The important consequence: **layer 2 is the seam**. If you build your own Ansible project on this collection, you can call the lifecycle playbooks as they are, or replace them with your own orchestration importing the component playbooks, and keep layers 3 and 4 as-is.
 
@@ -159,8 +159,8 @@ These are the collection's public API. Each namespace covers one component famil
 
 There are also a handful of top-level playbooks that operate on shared host resources rather than a component family:
 
-| Playbook                                        | Purpose                                                 |
-| ----------------------------------------------- | ------------------------------------------------------- |
+| Playbook                                 | Purpose                                                 |
+| ---------------------------------------- | ------------------------------------------------------- |
 | `lfdt.chaguar.install_prerequisites`     | Install OS packages and runtimes on the target machines |
 | `lfdt.chaguar.log_in_container_registry` | Authenticate against a private registry                 |
 | `lfdt.chaguar.create_container_networks` | Create the container networks the inventory declares    |
