@@ -311,6 +311,7 @@ argument_specs:
       - "Creates a namespace transaction JSON artifact for the configured namespace and endorsement policy with the local fxconfig binary."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
+      fxconfig_config_file: *fxconfig_config_file
       fxconfig_log_format: *fxconfig_log_format
       fxconfig_log_level: *fxconfig_log_level
       fxconfig_namespace_id: *fxconfig_namespace_id
@@ -337,6 +338,7 @@ argument_specs:
       - "Creates a namespace update transaction JSON artifact for the configured namespace, endorsement policy, and current version with the local fxconfig binary."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
+      fxconfig_config_file: *fxconfig_config_file
       fxconfig_log_format: *fxconfig_log_format
       fxconfig_log_level: *fxconfig_log_level
       fxconfig_namespace_id: *fxconfig_namespace_id
@@ -463,6 +465,8 @@ argument_specs:
       - "For threshold policies, mounts the referenced signing certificate into the container and rewrites the policy path for container execution."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
+      fxconfig_config_file: *fxconfig_config_file
+      fxconfig_container_config_dir: *fxconfig_container_config_dir
       fxconfig_container_name: *fxconfig_container_name
       fxconfig_image: *fxconfig_image
       fxconfig_image_name: *fxconfig_image_name
@@ -501,6 +505,8 @@ argument_specs:
       - "For threshold policies, mounts the referenced signing certificate into the container and rewrites the policy path for container execution."
     options:
       fxconfig_bin_name: *fxconfig_bin_name
+      fxconfig_config_file: *fxconfig_config_file
+      fxconfig_container_config_dir: *fxconfig_container_config_dir
       fxconfig_container_name: *fxconfig_container_name
       fxconfig_image: *fxconfig_image
       fxconfig_image_name: *fxconfig_image_name

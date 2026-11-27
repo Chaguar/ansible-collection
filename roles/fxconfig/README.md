@@ -168,6 +168,8 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
   vars:
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
+    # Defines the fxconfig configuration filename.
+    fxconfig_config_file: fxconfig.yaml
     # Defines the fxconfig log format.
     fxconfig_log_format: "%{color}%{time:2006-01-02 15:04:05.000 MST} [%{module}] %{shortfunc} -> %{level:.4s} %{id:03x}%{color:reset} %{message}"
     # Defines the fxconfig log level.
@@ -224,6 +226,8 @@ Creates a namespace update transaction JSON artifact for the configured namespac
   vars:
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
+    # Defines the fxconfig configuration filename.
+    fxconfig_config_file: fxconfig.yaml
     # Defines the fxconfig log format.
     fxconfig_log_format: "%{color}%{time:2006-01-02 15:04:05.000 MST} [%{module}] %{shortfunc} -> %{level:.4s} %{id:03x}%{color:reset} %{message}"
     # Defines the fxconfig log level.
@@ -495,6 +499,10 @@ Creates a namespace transaction JSON artifact for the configured namespace and e
   vars:
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
+    # Defines the fxconfig configuration filename.
+    fxconfig_config_file: fxconfig.yaml
+    # Defines the configuration directory mounted inside the fxconfig container.
+    fxconfig_container_config_dir: /config
     # Defines the base container name used by fxconfig workflows. Includes `inventory_hostname` by default so container names never collide when this role runs across multiple hosts in parallel against the same local container storage.
     fxconfig_container_name: "fxconfig-{{ inventory_hostname }}"
     # Defines the fxconfig container image.
@@ -573,6 +581,10 @@ Creates a namespace update transaction JSON artifact for the configured namespac
   vars:
     # Defines the fxconfig binary name.
     fxconfig_bin_name: fxconfig
+    # Defines the fxconfig configuration filename.
+    fxconfig_config_file: fxconfig.yaml
+    # Defines the configuration directory mounted inside the fxconfig container.
+    fxconfig_container_config_dir: /config
     # Defines the base container name used by fxconfig workflows. Includes `inventory_hostname` by default so container names never collide when this role runs across multiple hosts in parallel against the same local container storage.
     fxconfig_container_name: "fxconfig-{{ inventory_hostname }}"
     # Defines the fxconfig container image.

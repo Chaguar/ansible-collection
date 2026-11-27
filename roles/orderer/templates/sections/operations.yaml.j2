@@ -34,3 +34,12 @@ Operations:
 {% endif %}
 {% endif %}
 {% endif %}
+  # Profile configures the Go pprof profiling endpoints under /debug/pprof/ on the operations server.
+  # When TLS is enabled they require a client certificate, like /metrics.
+  Profile:
+    # Enabled serves the profiling endpoints.
+    Enabled: {{ orderer_operations_profile_enabled | bool | lower }}
+    # BlockProfileRate samples one goroutine blocking event per this many nanoseconds spent blocked; 0 disables it.
+    BlockProfileRate: {{ orderer_operations_profile_block_profile_rate | int }}
+    # MutexProfileFraction samples one in this many mutex contention events; 0 disables it.
+    MutexProfileFraction: {{ orderer_operations_profile_mutex_profile_fraction | int }}

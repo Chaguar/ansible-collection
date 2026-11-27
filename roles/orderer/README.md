@@ -243,7 +243,7 @@ Builds the orderer binary through the shared bin role using the configured Git r
     # Repository path for the orderer source code.
     orderer_git_repo: hyperledger/fabric-x-orderer
     # Git ref or release tag used by the bin build and install branches.
-    orderer_git_commit: v1.0.8
+    orderer_git_commit: v1.0.10
     # Go package path that builds the orderer binary.
     orderer_source_code_package: cmd/arma
   ansible.builtin.include_role:
@@ -271,7 +271,7 @@ Installs the configured released orderer binary through the shared bin role. Use
     # Go package path that builds the orderer binary.
     orderer_source_code_package: cmd/arma
     # Git ref or release tag used by the bin build and install branches.
-    orderer_git_commit: v1.0.8
+    orderer_git_commit: v1.0.10
   ansible.builtin.include_role:
     name: lfdt.chaguar.orderer
     tasks_from: bin/install
@@ -398,7 +398,7 @@ Ensures the host data directory exists and starts the orderer container with the
     # Image name used for the orderer container.
     orderer_image_name: fabric-x-orderer
     # Image tag used for the orderer container.
-    orderer_image_tag: 1.0.8
+    orderer_image_tag: 1.0.10
     # Shared base directory for generated configuration.
     remote_config_dir: "/var/lfdt/chaguar/config/orderer/assembler-1"
     # Shared base directory for persisted runtime data.
@@ -631,6 +631,12 @@ Renders the component-specific orderer config for `consensus`, `batcher`, `assem
     orderer_operations_mtls_orgs:
       - name: "Org1"
         domain: "org1.example.com"
+    # Serves the Go pprof profiling endpoints under `/debug/pprof/` on the orderer operations server.
+    orderer_operations_profile_enabled: false
+    # Samples one goroutine blocking event per this many nanoseconds spent blocked; `0` disables the block profile.
+    orderer_operations_profile_block_profile_rate: 0
+    # Samples one in this many mutex contention events; `0` disables the mutex profile.
+    orderer_operations_profile_mutex_profile_fraction: 0
     # Metrics provider written to the orderer `Metrics.Provider` setting.
     orderer_metrics_provider: "prometheus"
     # Metrics logging interval written to `Metrics.MetricsLogInterval`; `0s` disables periodic logging.
@@ -983,7 +989,7 @@ Creates the orderer Kubernetes Service, StatefulSet, and optional NodePort and L
     # Image name used for the orderer container.
     orderer_image_name: fabric-x-orderer
     # Image tag used for the orderer container.
-    orderer_image_tag: 1.0.8
+    orderer_image_tag: 1.0.10
     # Container path where orderer configuration is mounted.
     orderer_container_config_dir: /config
     # Container path where orderer data is mounted.

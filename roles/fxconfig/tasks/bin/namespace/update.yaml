@@ -18,6 +18,7 @@
     bin_command: >-
       {{ fxconfig_bin_name }} namespace
       update {{ fxconfig_namespace_id }}
+      --config={{ fxconfig_remote_config_dir }}/{{ fxconfig_config_file }}
       --policy="{{ fxconfig_namespace_policy }}"
       --version={{ fxconfig_namespace_version }}
       --output={{ fxconfig_output }}
