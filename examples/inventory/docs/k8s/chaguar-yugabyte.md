@@ -35,7 +35,7 @@ This inventory deploys these logical services as Kubernetes workloads and servic
 ```mermaid
 flowchart TD
   all --> network
-  network --> fabric_cas
+  all --> fabric_cas
   network --> chaguar
   all --> load_generators
   all --> monitoring

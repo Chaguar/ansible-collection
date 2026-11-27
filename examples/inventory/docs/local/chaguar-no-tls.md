@@ -34,7 +34,7 @@ This inventory deploys the same service layout as the default local sample:
 ```mermaid
 flowchart TD
   all --> network
-  network --> fabric_cas
+  all --> fabric_cas
   network --> chaguar
   all --> load_generators
   all --> monitoring

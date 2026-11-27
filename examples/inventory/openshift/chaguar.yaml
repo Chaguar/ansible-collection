@@ -42,93 +42,93 @@ all:
         domain: org1.example.com
   children:
     # =========================
+    # Hyperledger Fabric CAs (OpenShift)
+    # =========================
+    fabric_cas:
+      children:
+        # =========================
+        # Hyperledger Fabric CA DBs (OpenShift)
+        # =========================
+        fabric_ca_dbs:
+          vars:
+            postgres_user: postgres
+            postgres_password: example
+            postgres_use_openshift: true
+            postgres_use_tls: true
+          hosts:
+            fca-orderer-org1-db:
+              postgres_db: ordererOrg1DB
+              postgres_port: 9120
+            fca-orderer-org2-db:
+              postgres_db: ordererOrg2DB
+              postgres_port: 9130
+            fca-orderer-org3-db:
+              postgres_db: ordererOrg3DB
+              postgres_port: 9140
+            fca-orderer-org4-db:
+              postgres_db: ordererOrg4DB
+              postgres_port: 9150
+            fca-org1-db:
+              postgres_db: Org1DB
+              postgres_port: 9170
+        # =========================
+        # Hyperledger Fabric CA Servers (OpenShift)
+        # =========================
+        fabric_ca_servers:
+          vars:
+            fabric_ca_server_use_openshift: true
+            fabric_ca_use_tls: true
+            fabric_ca_name: "{{ inventory_hostname }}"
+            fabric_ca_admin:
+              name: admin
+              secret: adminPWD
+              attrs:
+                hf.Registrar.Roles: "*"
+                hf.Registrar.Attributes: "*"
+                hf.GenCRL: "true"
+                hf.Revoker: "true"
+          hosts:
+            fca-orderer-org1:
+              fabric_ca_port: 9019
+              fabric_ca_operations_port: 9020
+              fabric_ca_server_openshift_route: "fca-orderer-org1.{{ openshift_apps_domain }}"
+              fabric_ca_server_openshift_operations_route: "fca-orderer-org1-operations.{{ openshift_apps_domain }}"
+              organization: *OrdererOrg1
+              postgres_db_host: fca-orderer-org1-db
+            fca-orderer-org2:
+              fabric_ca_port: 9029
+              fabric_ca_operations_port: 9030
+              fabric_ca_server_openshift_route: "fca-orderer-org2.{{ openshift_apps_domain }}"
+              fabric_ca_server_openshift_operations_route: "fca-orderer-org2-operations.{{ openshift_apps_domain }}"
+              organization: *OrdererOrg2
+              postgres_db_host: fca-orderer-org2-db
+            fca-orderer-org3:
+              fabric_ca_port: 9039
+              fabric_ca_operations_port: 9040
+              fabric_ca_server_openshift_route: "fca-orderer-org3.{{ openshift_apps_domain }}"
+              fabric_ca_server_openshift_operations_route: "fca-orderer-org3-operations.{{ openshift_apps_domain }}"
+              organization: *OrdererOrg3
+              postgres_db_host: fca-orderer-org3-db
+            fca-orderer-org4:
+              fabric_ca_port: 9049
+              fabric_ca_operations_port: 9050
+              fabric_ca_server_openshift_route: "fca-orderer-org4.{{ openshift_apps_domain }}"
+              fabric_ca_server_openshift_operations_route: "fca-orderer-org4-operations.{{ openshift_apps_domain }}"
+              organization: *OrdererOrg4
+              postgres_db_host: fca-orderer-org4-db
+            fca-org1:
+              fabric_ca_port: 9069
+              fabric_ca_operations_port: 9070
+              fabric_ca_server_openshift_route: "fca-org1.{{ openshift_apps_domain }}"
+              fabric_ca_server_openshift_operations_route: "fca-org1-operations.{{ openshift_apps_domain }}"
+              organization: *Org1
+              postgres_db_host: fca-org1-db
+
+    # =========================
     # Network (Chaguar)
     # =========================
     network:
       children:
-        # =========================
-        # Hyperledger Fabric CAs (OpenShift)
-        # =========================
-        fabric_cas:
-          children:
-            # =========================
-            # Hyperledger Fabric CA DBs (OpenShift)
-            # =========================
-            fabric_ca_dbs:
-              vars:
-                postgres_user: postgres
-                postgres_password: example
-                postgres_use_openshift: true
-                postgres_use_tls: true
-              hosts:
-                fca-orderer-org1-db:
-                  postgres_db: ordererOrg1DB
-                  postgres_port: 9120
-                fca-orderer-org2-db:
-                  postgres_db: ordererOrg2DB
-                  postgres_port: 9130
-                fca-orderer-org3-db:
-                  postgres_db: ordererOrg3DB
-                  postgres_port: 9140
-                fca-orderer-org4-db:
-                  postgres_db: ordererOrg4DB
-                  postgres_port: 9150
-                fca-org1-db:
-                  postgres_db: Org1DB
-                  postgres_port: 9170
-            # =========================
-            # Hyperledger Fabric CA Servers (OpenShift)
-            # =========================
-            fabric_ca_servers:
-              vars:
-                fabric_ca_server_use_openshift: true
-                fabric_ca_use_tls: true
-                fabric_ca_name: "{{ inventory_hostname }}"
-                fabric_ca_admin:
-                  name: admin
-                  secret: adminPWD
-                  attrs:
-                    hf.Registrar.Roles: "*"
-                    hf.Registrar.Attributes: "*"
-                    hf.GenCRL: "true"
-                    hf.Revoker: "true"
-              hosts:
-                fca-orderer-org1:
-                  fabric_ca_port: 9019
-                  fabric_ca_operations_port: 9020
-                  fabric_ca_server_openshift_route: "fca-orderer-org1.{{ openshift_apps_domain }}"
-                  fabric_ca_server_openshift_operations_route: "fca-orderer-org1-operations.{{ openshift_apps_domain }}"
-                  organization: *OrdererOrg1
-                  postgres_db_host: fca-orderer-org1-db
-                fca-orderer-org2:
-                  fabric_ca_port: 9029
-                  fabric_ca_operations_port: 9030
-                  fabric_ca_server_openshift_route: "fca-orderer-org2.{{ openshift_apps_domain }}"
-                  fabric_ca_server_openshift_operations_route: "fca-orderer-org2-operations.{{ openshift_apps_domain }}"
-                  organization: *OrdererOrg2
-                  postgres_db_host: fca-orderer-org2-db
-                fca-orderer-org3:
-                  fabric_ca_port: 9039
-                  fabric_ca_operations_port: 9040
-                  fabric_ca_server_openshift_route: "fca-orderer-org3.{{ openshift_apps_domain }}"
-                  fabric_ca_server_openshift_operations_route: "fca-orderer-org3-operations.{{ openshift_apps_domain }}"
-                  organization: *OrdererOrg3
-                  postgres_db_host: fca-orderer-org3-db
-                fca-orderer-org4:
-                  fabric_ca_port: 9049
-                  fabric_ca_operations_port: 9050
-                  fabric_ca_server_openshift_route: "fca-orderer-org4.{{ openshift_apps_domain }}"
-                  fabric_ca_server_openshift_operations_route: "fca-orderer-org4-operations.{{ openshift_apps_domain }}"
-                  organization: *OrdererOrg4
-                  postgres_db_host: fca-orderer-org4-db
-                fca-org1:
-                  fabric_ca_port: 9069
-                  fabric_ca_operations_port: 9070
-                  fabric_ca_server_openshift_route: "fca-org1.{{ openshift_apps_domain }}"
-                  fabric_ca_server_openshift_operations_route: "fca-org1-operations.{{ openshift_apps_domain }}"
-                  organization: *Org1
-                  postgres_db_host: fca-org1-db
-
         # =========================
         # LFDT Chaguar
         # =========================
