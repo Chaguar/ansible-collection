@@ -43,6 +43,24 @@
       orderer_k8s_loadbalancer_expose_metrics_port
 
 - name: Apply Chaguar Orderer StatefulSet
+  vars:
+    # Deduplicated names of the mTLS clients and organization domains whose CA
+    # certificates are mounted under mtls/<name>/ca.crt.
+    orderer_k8s_mtls_ca_names: >-
+      {{
+        (
+          (
+            (orderer_mtls_clients | default([]))
+            + (orderer_mtls_orgs | default([]) | map(attribute='domain') | list)
+            if orderer_use_mtls else []
+          )
+          + (
+            (orderer_operations_mtls_clients | default([]))
+            + (orderer_operations_mtls_orgs | default([]) | map(attribute='domain') | list)
+            if orderer_operations_use_mtls else []
+          )
+        ) | unique
+      }}
   kubernetes.core.k8s:
     state: present
     namespace: "{{ k8s_namespace | default('default') }}"

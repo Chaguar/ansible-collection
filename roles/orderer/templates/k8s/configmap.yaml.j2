@@ -16,38 +16,11 @@ data:
   # Main orderer node configuration passed via --config at startup.
   node-config.yaml: |
     {{ lookup('file', orderer_remote_config_dir + '/' + orderer_config_file) | indent(4) }}
-{% if orderer_use_mtls and orderer_mtls_clients is defined %}
-{% for current_mtls_client in orderer_mtls_clients %}
-  # mTLS CA cert for client {{ current_mtls_client }}.
-  mtls-client-{{ current_mtls_client }}-ca.crt: |
-    {{ lookup('file', orderer_remote_config_dir + '/mtls/' + current_mtls_client + '/ca.crt') | indent(4) }}
+{% for orderer_k8s_mtls_ca_name in orderer_k8s_mtls_ca_names %}
+  # mTLS CA cert trusted for client or organization {{ orderer_k8s_mtls_ca_name }}.
+  mtls-{{ orderer_k8s_mtls_ca_name }}-ca.crt: |
+    {{ lookup('file', orderer_remote_config_dir + '/mtls/' + orderer_k8s_mtls_ca_name + '/ca.crt') | indent(4) }}
 {% endfor %}
-{% endif %}
-{% if orderer_use_mtls and orderer_mtls_orgs is defined %}
-{% for current_mtls_org in orderer_mtls_orgs %}
-  # mTLS CA cert for org {{ current_mtls_org.domain }}.
-  mtls-org-{{ current_mtls_org.domain }}-ca.crt: |
-    {{ lookup('file', orderer_remote_config_dir + '/mtls/' + current_mtls_org.domain + '/ca.crt') | indent(4) }}
-{% endfor %}
-{% endif %}
-{% if orderer_operations_use_mtls and orderer_operations_mtls_clients is defined %}
-{% for current_operations_mtls_client in orderer_operations_mtls_clients %}
-{% if current_operations_mtls_client not in (orderer_mtls_clients | default([])) %}
-  # Operations mTLS CA cert for client {{ current_operations_mtls_client }}.
-  mtls-client-{{ current_operations_mtls_client }}-ca.crt: |
-    {{ lookup('file', orderer_remote_config_dir + '/mtls/' + current_operations_mtls_client + '/ca.crt') | indent(4) }}
-{% endif %}
-{% endfor %}
-{% endif %}
-{% if orderer_operations_use_mtls and orderer_operations_mtls_orgs is defined %}
-{% for current_operations_mtls_org in orderer_operations_mtls_orgs %}
-{% if current_operations_mtls_org.domain not in ((orderer_mtls_orgs | default([])) | map(attribute='domain') | list) %}
-  # Operations mTLS CA cert for org {{ current_operations_mtls_org.domain }}.
-  mtls-org-{{ current_operations_mtls_org.domain }}-ca.crt: |
-    {{ lookup('file', orderer_remote_config_dir + '/mtls/' + current_operations_mtls_org.domain + '/ca.crt') | indent(4) }}
-{% endif %}
-{% endfor %}
-{% endif %}
 binaryData:
   # Genesis block used to bootstrap the orderer channel configuration.
   genesis.block: {{ orderer_k8s_genesis_block_b64 }}
