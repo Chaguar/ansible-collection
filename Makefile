@@ -230,19 +230,19 @@ artifacts: generate-crypto genesis-block
 .PHONY: generate-crypto
 generate-crypto:
 	@printf "$(COLOR_CYAN)🚩 Generating crypto material for hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/20-generate-crypto.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.generate_crypto --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Build the genesis block for the network (e.g. make genesis-block).
 .PHONY: genesis-block
 genesis-block:
 	@printf "$(COLOR_CYAN)🚩 Building genesis block for hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/21-build-genesis-block.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.build_genesis_block --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Build the targeted binaries on the controller node (e.g. make binaries).
 .PHONY: binaries
 binaries:
 	@printf "$(COLOR_CYAN)🚩 Building/installing binaries for hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/10-binaries.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.binaries --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Clean all the artifacts (configs and bins) built on the controller node (e.g. make clean).
 .PHONY: clean
@@ -266,31 +266,31 @@ clean-mkdocs:
 .PHONY: configs
 configs:
 	@printf "$(COLOR_CYAN)🚩 Creating and shipping configs to remote nodes [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/30-configs.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.configs --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Start the targeted hosts (e.g. make chaguar start).
 .PHONY: start
 start:
 	@printf "$(COLOR_CYAN)🚩 Starting hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/40-start.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.start --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Initialize the deployment nodes (e.g. make init).
 .PHONY: init
 init:
 	@printf "$(COLOR_CYAN)🚩 Initializing [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/41-init.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.init --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Stop the targeted hosts (e.g. make chaguar stop).
 .PHONY: stop
 stop:
 	@printf "$(COLOR_CYAN)🚩 Stopping hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/50-stop.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.stop --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Teardown the targeted hosts (e.g. make chaguar teardown).
 .PHONY: teardown
 teardown:
 	@printf "$(COLOR_CYAN)🚩 Tearing down hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/60-teardown.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.teardown --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Update the targeted hosts (e.g. make chaguar update).
 .PHONY: update
@@ -308,7 +308,7 @@ hard-restart: teardown start
 .PHONY: wipe
 wipe:
 	@printf "$(COLOR_CYAN)🚩 Wiping configs and binaries from remote hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/100-wipe.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.wipe --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}'
 
 # Wipe the deploy folder from the remote hosts (e.g. make chaguar hard-wipe).
 .PHONY: hard-wipe
@@ -336,7 +336,7 @@ run-command:
 .PHONY: ping
 ping:
 	@printf "$(COLOR_CYAN)🚩 Checking component ports on hosts [$(COLOR_GREEN)$(TARGET_HOSTS)$(COLOR_CYAN)]...$(COLOR_RESET)\n"
-	$(ANSIBLE_PLAYBOOK) "$(PLAYBOOK_PATH)/70-ping.yaml" --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}';
+	$(ANSIBLE_PLAYBOOK) lfdt.chaguar.ping --extra-vars '{"target_hosts": "$(TARGET_HOSTS)"}';
 
 # Print a decrypted variable (or every variable if VAULT_VAR_NAME is unset) for the targeted hosts (e.g. make vault-view TARGET_HOSTS=grafana VAULT_VAR_NAME=grafana_password).
 .PHONY: vault-view

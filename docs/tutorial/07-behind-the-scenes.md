@@ -10,7 +10,7 @@
 - [What You Will Learn](#what-you-will-learn)
 - [The Four Layers](#the-four-layers)
 - [Layer 1: The Makefile](#layer-1-the-makefile)
-- [Layer 2: The Example Playbooks](#layer-2-the-example-playbooks)
+- [Layer 2: The Lifecycle Playbooks](#layer-2-the-lifecycle-playbooks)
 - [Layer 3: The Collection Playbooks](#layer-3-the-collection-playbooks)
 - [Layer 4: The Roles](#layer-4-the-roles)
 - [`argument_specs.yaml` Is the Source of Truth](#argument_specsyaml-is-the-source-of-truth)
@@ -22,7 +22,7 @@
 ## What You Will Learn
 
 - The four layers between your `make` command and a running container.
-- Why the example playbooks are numbered, and what the numbers mean.
+- Which playbooks run the lifecycle, and how they chain the component playbooks.
 - How to call any collection playbook directly by its fully-qualified name.
 - Where a role's real documentation lives, and why you must never edit its README.
 - How to trace a value from the inventory to the generated config file.
@@ -31,7 +31,7 @@
 
 ```mermaid
 flowchart TD
-  MK["<b>Makefile</b><br/>make start"] --> EX["<b>Example playbook</b><br/>examples/playbooks/40-start.yaml"]
+  MK["<b>Makefile</b><br/>make start"] --> EX["<b>Lifecycle playbook</b><br/>lfdt.chaguar.start"]
   EX --> CP["<b>Collection playbooks</b><br/>lfdt.chaguar.orderer.start"]
   CP --> RL["<b>Roles</b><br/>lfdt.chaguar.orderer, tasks_from: container/start"]
   RL --> RUN[Running container]
@@ -39,21 +39,21 @@ flowchart TD
 
 Each layer has exactly one job:
 
-| Layer                 | Job                                                                         | Yours to edit?                                |
-| --------------------- | --------------------------------------------------------------------------- | --------------------------------------------- |
-| `Makefile`            | Turn a short verb into an `ansible-playbook` invocation with `target_hosts` | No — it is the repository's interface         |
-| `examples/playbooks/` | Order the collection playbooks for the _sample_ topologies                  | Yes — this is example code, copy and adapt it |
-| `playbooks/`          | Order the roles for one component family. The collection's public API       | No — part of the collection                   |
-| `roles/`              | Do the work for one component                                               | No, unless you are contributing               |
+| Layer                 | Job                                                                         | Yours to edit?                        |
+| --------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
+| `Makefile`            | Turn a short verb into an `ansible-playbook` invocation with `target_hosts` | No — it is the repository's interface |
+| `playbooks/*.yaml`    | Chain the component playbooks into network-wide steps                       | No — part of the collection           |
+| `playbooks/<family>/` | Order the roles for one component family. The collection's public API       | No — part of the collection           |
+| `roles/`              | Do the work for one component                                               | No, unless you are contributing       |
 
-The important consequence: **layer 2 is the seam**. If you build your own Ansible project on this collection, you replace `examples/playbooks/` with your own orchestration and keep layers 3 and 4 as-is.
+The important consequence: **layer 2 is the seam**. If you build your own Ansible project on this collection, you can call the lifecycle playbooks as they are, or replace them with your own orchestration importing the component playbooks, and keep layers 3 and 4 as-is.
 
 ## Layer 1: The Makefile
 
 Every lifecycle target does the same two things: print a status line, then run one playbook with `target_hosts` as an extra variable. Look at the `start` target in the [`Makefile`](../../Makefile) and you will find it expands to this:
 
 ```shell
-.venv/bin/ansible-playbook examples/playbooks/40-start.yaml \
+.venv/bin/ansible-playbook lfdt.chaguar.start \
   --extra-vars '{"target_hosts": "all"}'
 ```
 
@@ -71,21 +71,20 @@ Every piece of that command comes from a make variable, and all of them are over
 > [!TIP]
 > The `Makefile` also honours a `.env` file at the repository root, via `-include $(PROJECT_DIR)/.env`. That is the tidiest place to keep your own `LOCAL_ANSIBLE_HOST`, `OUT_DIR`, or `ANSIBLE_INVENTORY` without exporting them in every shell.
 
-## Layer 2: The Example Playbooks
+## Layer 2: The Lifecycle Playbooks
 
-Look at the directory listing of [`examples/playbooks/`](../../examples/playbooks/) and the design becomes obvious:
+Look at the top level of [`playbooks/`](../../playbooks/) and the lifecycle files stand out from the component folders:
 
 ```text
-10-binaries.yaml            20-generate-crypto.yaml     21-build-genesis-block.yaml
-30-configs.yaml             40-start.yaml               41-init.yaml
-50-stop.yaml                60-teardown.yaml            70-ping.yaml
-93-get-metrics.yaml         95-fetch-crypto.yaml        96-fetch-logs.yaml
-100-wipe.yaml               110-hard-wipe.yaml          999-run-command.yaml
+binaries.yaml    generate_crypto.yaml    build_genesis_block.yaml
+configs.yaml     start.yaml              init.yaml
+stop.yaml        teardown.yaml           wipe.yaml
+deploy.yaml      ping.yaml
 ```
 
-The numbers are the **lifecycle order**. Setup in the tens, run in the forties, stop in the fifties and sixties, inspection in the seventies and nineties, destruction in the hundreds. Read them in numeric order and you have read the entire deployment story.
+Read them in that order and you have read the entire deployment story: `deploy.yaml` chains `binaries` through `init` in one run, `ping` checks the running network, and `stop`, `teardown`, and `wipe` undo it. The other helpers (`get-metrics`, `fetch-logs`, `hard-wipe`, ...) are still numbered sample playbooks in [`examples/playbooks/`](../../examples/playbooks/), which the `Makefile` runs through `PLAYBOOK_PATH`.
 
-Each file is nothing but a list of imports. Here is `40-start.yaml`, complete:
+Each lifecycle file is nothing but a list of imports. Here is `start.yaml`, complete:
 
 ```yaml
 - name: Start PostgreSQL databases
@@ -111,7 +110,7 @@ First, **the order is the dependency graph** — databases before the committer 
 
 Second, **every family is always imported**, whether or not your inventory has hosts for it. The default local inventory has no YugabyteDB hosts and no EVM gateway, so `lfdt.chaguar.yugabyte.start` and `lfdt.chaguar.evm.start` run against an empty host list and skip. That is why you see plays reporting `skipping: no hosts matched` and why nothing breaks when you switch to an inventory that _does_ have those hosts. Understanding that also explains something you saw in [lesson 3](./03-run-your-first-network.md): the run output covers more component families than your inventory actually deploys.
 
-The other lifecycle files are worth skimming for the same reason. `20-generate-crypto.yaml` in particular explains why `make setup` starts containers:
+The other lifecycle files are worth skimming for the same reason. `generate_crypto.yaml` in particular explains why `make setup` starts containers:
 
 ```yaml
 - lfdt.chaguar.create_container_networks
@@ -126,7 +125,7 @@ The other lifecycle files are worth skimming for the same reason. `20-generate-c
 # ... and so on for every family
 ```
 
-A Fabric CA has to be running before it can issue anything, so the CA lifecycle is embedded inside the crypto-generation phase. Note also that `50-stop.yaml` and `60-teardown.yaml` list the families in **reverse** order — load generator first, databases last — for the same dependency reason.
+A Fabric CA has to be running before it can issue anything, so the CA lifecycle is embedded inside the crypto-generation phase. Note also that `stop.yaml` and `teardown.yaml` list the families in **reverse** order — load generator first, databases last — for the same dependency reason.
 
 ## Layer 3: The Collection Playbooks
 
@@ -160,8 +159,8 @@ These are the collection's public API. Each namespace covers one component famil
 
 There are also a handful of top-level playbooks that operate on shared host resources rather than a component family:
 
-| Playbook                                        | Purpose                                                 |
-| ----------------------------------------------- | ------------------------------------------------------- |
+| Playbook                                 | Purpose                                                 |
+| ---------------------------------------- | ------------------------------------------------------- |
 | `lfdt.chaguar.install_prerequisites`     | Install OS packages and runtimes on the target machines |
 | `lfdt.chaguar.log_in_container_registry` | Authenticate against a private registry                 |
 | `lfdt.chaguar.create_container_networks` | Create the container networks the inventory declares    |
@@ -270,7 +269,7 @@ export ANSIBLE_CONFIG=examples/ansible.cfg
 .venv/bin/ansible-playbook lfdt.chaguar.orderer.ping
 ```
 
-This is what building your own Ansible project on this collection looks like: your own playbooks importing `lfdt.chaguar.*`, your own inventory, and no `Makefile` at all. The `Makefile` and `examples/playbooks/` are a convenient sample harness, not the product.
+This is what building your own Ansible project on this collection looks like: your own playbooks importing `lfdt.chaguar.*`, your own inventory, and no `Makefile` at all. The `Makefile` is a convenient sample harness, not the product.
 
 ## Exercise
 
@@ -279,7 +278,7 @@ This is what building your own Ansible project on this collection looks like: yo
 >
 > 1. Restart the ordering service **without using the `Makefile`**. Call the collection playbooks directly, and restrict the operation to `chaguar_orderers`.
 > 2. Find out which variable controls the container image tag used for the committer — without reading any role task file.
-> 3. Then a reading exercise: open [`examples/playbooks/60-teardown.yaml`](../../examples/playbooks/60-teardown.yaml) and explain why `remove_container_networks` is second-to-last rather than first.
+> 3. Then a reading exercise: open [`playbooks/teardown.yaml`](../../playbooks/teardown.yaml) and explain why `remove_container_networks` is second-to-last rather than first.
 
 <details markdown="1">
 <summary>Solution</summary>
@@ -305,9 +304,9 @@ grep -n "committer_image" roles/committer/defaults/main.yaml
 
 The tag is `committer_image_tag`, and `committer_image` is composed from `committer_registry_endpoint`, `committer_image_name`, and `committer_image_tag`. The same pattern holds for every containerised role, which is how you pin or bump a component's version from the inventory. The [committer role documentation](../../roles/committer/README.md) documents all four.
 
-Part 3 — a container network cannot be removed while containers are still attached to it. `60-teardown.yaml` removes the component families first, in reverse dependency order, and only then removes the networks they were using. Putting `remove_container_networks` first would fail on every network that still has a running container.
+Part 3 — a container network cannot be removed while containers are still attached to it. `teardown.yaml` removes the component families first, in reverse dependency order, and only then removes the networks they were using. Putting `remove_container_networks` first would fail on every network that still has a running container.
 
-The same reasoning explains the ordering of the whole file, and it is the mirror image of `40-start.yaml`: start bottom-up, tear down top-down.
+The same reasoning explains the ordering of the whole file, and it is the mirror image of `start.yaml`: start bottom-up, tear down top-down.
 
 </details>
 

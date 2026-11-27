@@ -1,0 +1,9 @@
+#
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Argument specs reuse password option definitions through YAML anchors, which the scanner reports as password assignments
+- paths:
+    - "roles/semaphore_ui/meta/argument_specs.yaml"

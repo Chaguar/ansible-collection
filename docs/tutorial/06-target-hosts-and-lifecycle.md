@@ -39,7 +39,7 @@ make chaguar_orderers start        # the readable form, same result
 Underneath, the `Makefile` is doing this:
 
 ```shell
-ansible-playbook examples/playbooks/40-start.yaml \
+ansible-playbook lfdt.chaguar.start \
   --extra-vars '{"target_hosts": "chaguar_orderers"}'
 ```
 
@@ -124,7 +124,7 @@ make TARGET_HOSTS=committer-sidecar restart
 
 ## The Lifecycle Verbs
 
-Now the verbs. Each maps to a numbered playbook in [`examples/playbooks/`](../../examples/playbooks/), and each accepts targeting.
+Now the verbs. Each maps to a playbook in this collection, most of them top-level lifecycle playbooks in [`playbooks/`](../../playbooks/), and each accepts targeting.
 
 | Verb              | What it does                                                         |
 | ----------------- | -------------------------------------------------------------------- |
