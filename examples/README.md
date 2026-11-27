@@ -197,7 +197,7 @@ export ANSIBLE_INVENTORY=examples/inventory/k8s/chaguar.yaml
 
 ## Playbooks
 
-The example playbooks in [`playbooks/`](./playbooks/) are wrappers around the [collection playbooks](../playbooks/README.md). They work with the group names used by the sample inventories.
+The lifecycle playbooks are part of the collection, in the top level of [`playbooks/`](../playbooks/README.md#network-lifecycle-playbooks). The numbered playbooks in [`examples/playbooks/`](./playbooks/) are sample helpers (metrics, logs, vault, hard wipe, run command). They work with the group names used by the sample inventories.
 
 Run the usual lifecycle through the repository `Makefile`:
 
@@ -208,12 +208,11 @@ make init
 make teardown
 ```
 
-Without a clone of this repository, run the same lifecycle from the installed collection. [`deploy.yaml`](./playbooks/deploy.yaml) imports `10-binaries` through `41-init` in one run, which is equivalent to `make setup start init`:
+Without a clone of this repository, run the same lifecycle from the installed collection. `lfdt.chaguar.deploy` imports `binaries` through `init` in one run, which is equivalent to `make setup start init`:
 
 ```shell
-PB=~/.ansible/collections/ansible_collections/lfdt/chaguar/examples/playbooks
-ansible-playbook $PB/deploy.yaml -i inventory.yaml
-ansible-playbook $PB/60-teardown.yaml -i inventory.yaml
+ansible-playbook lfdt.chaguar.deploy -i inventory.yaml
+ansible-playbook lfdt.chaguar.teardown -i inventory.yaml
 ```
 
 `binaries`, `generate-crypto`, `configs`, `start`, `stop`, `teardown`, and `wipe` likewise drive Semaphore UI (see the [`semaphore_ui` playbooks](../playbooks/semaphore_ui/README.md)) when the loaded inventory defines a `semaphore_ui` group — no network inventory does, so this only takes effect against its own dedicated inventory ([`examples/inventory/local/semaphore-ui.yaml`](./inventory/local/semaphore-ui.yaml)).

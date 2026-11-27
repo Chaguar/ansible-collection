@@ -92,7 +92,7 @@ Work down this list:
 | Was a config actually rendered?                       | `ls out/local-deployment/<hostname>/config/`             |
 | Does the config reference a host that does not exist? | look for a `postgres_db_host` or `sidecar_host` typo     |
 | Is its database up?                                   | `make ping` on the database host                         |
-| Did it start before its dependency?                   | check the order in `40-start.yaml`                       |
+| Did it start before its dependency?                   | check the order in `start.yaml`                          |
 
 An empty or missing config directory means `make configs` never ran for that host — usually because the host was added after the last `setup`, or because it is not in a group any playbook targets.
 

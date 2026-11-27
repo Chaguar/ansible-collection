@@ -9,24 +9,24 @@
 # `make setup start init`. Running everything in one invocation shares
 # gathered facts between the steps, so no fact cache is needed.
 #
-#   ansible-playbook <path>/examples/playbooks/deploy.yaml -i inventory.yaml
+#   ansible-playbook lfdt.chaguar.deploy -i inventory.yaml
 #
-# Remove the network again with 60-teardown.yaml.
+# Remove the network again with lfdt.chaguar.teardown.
 
 - name: Build binaries
-  ansible.builtin.import_playbook: 10-binaries.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.binaries
 
 - name: Generate crypto material
-  ansible.builtin.import_playbook: 20-generate-crypto.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.generate_crypto
 
 - name: Build genesis block
-  ansible.builtin.import_playbook: 21-build-genesis-block.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.build_genesis_block
 
 - name: Transfer configs
-  ansible.builtin.import_playbook: 30-configs.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.configs
 
 - name: Start the network
-  ansible.builtin.import_playbook: 40-start.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.start
 
 - name: Create namespaces
-  ansible.builtin.import_playbook: 41-init.yaml
+  ansible.builtin.import_playbook: lfdt.chaguar.init
