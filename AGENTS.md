@@ -32,18 +32,7 @@ Namespace/name: `lfdt.chaguar`. Authoritative version and deps: [`galaxy.yml`](g
 4. **Task names** — every `ansible.builtin.*` task must have a `name:` field.
 5. **Code order** — first `name:` field, then `vars:` (if needed), FQDN name of task and finally `when:` (if needed). For blocks: `name:`, then `when:`, then `block:`.
 6. **Templates** — Jinja2 templates go in `roles/<role>/templates/` with `.j2` extension.
-
----
-
-## Working in isolation
-
-Use git worktrees under `.worktrees/` only for multi-agent jobs (i.e. with subagents). For single-agent work, edit the main checkout directly.
-
-```shell
-git worktree add .worktrees/<3-4-word-slug> -b worktree/<3-4-word-slug>
-```
-
-Do **not** remove the worktree when done — leave cleanup to the user.
+7. Commit with signoff since the DCO is enabled: `git commit -s -m "..."`.
 
 ---
 

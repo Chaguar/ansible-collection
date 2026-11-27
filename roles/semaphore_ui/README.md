@@ -349,36 +349,36 @@ Generates and persists the server secrets on first run, then renders `config.jso
         path: examples/inventory/distributed/chaguar.yaml
     # Name of the empty Semaphore UI environment seeded on `config/transfer` and attached to every seeded task template.
     semaphore_ui_environment_name: Default
-    # Task templates seeded for the numbered example playbooks under `examples/playbooks/`. Each item needs `name` and `playbook`, and an optional `inventory` name. Omitted entirely from the seed if not set — there is no fallback to any other `semaphore_ui_inventories` entry. Not discovered automatically; kept in sync by hand with `examples/playbooks`. Add, rename, or remove an entry here when a numbered playbook is added, renamed, or removed there. An optional `limit` sets this template's default Ansible `--limit`, rendered as-is. Set to `["all:!semaphore_ui"]` on the `teardown`/`wipe`/`hard-wipe` entries by default, so they never tear Semaphore UI down along with a Chaguar network sharing its inventory. An operator can still override it per run through the Limit field. An optional `survey_vars` list adds extra Semaphore UI survey variables to this template only, on top of `target_hosts` and any project-wide `semaphore_ui_extra_survey_vars`. Each item follows Semaphore UI's own survey variable schema, same as `semaphore_ui_extra_survey_vars`.
+    # Task templates seeded for the lifecycle playbooks under `playbooks/` and the numbered example playbooks under `examples/playbooks/`. Each item needs `name` and `playbook`, and an optional `inventory` name. Omitted entirely from the seed if not set — there is no fallback to any other `semaphore_ui_inventories` entry. Not discovered automatically; kept in sync by hand with `playbooks` and `examples/playbooks`. Add, rename, or remove an entry here when a lifecycle or numbered playbook is added, renamed, or removed there. An optional `limit` sets this template's default Ansible `--limit`, rendered as-is. Set to `["all:!semaphore_ui"]` on the `teardown`/`wipe`/`hard-wipe` entries by default, so they never tear Semaphore UI down along with a Chaguar network sharing its inventory. An operator can still override it per run through the Limit field. An optional `survey_vars` list adds extra Semaphore UI survey variables to this template only, on top of `target_hosts` and any project-wide `semaphore_ui_extra_survey_vars`. Each item follows Semaphore UI's own survey variable schema, same as `semaphore_ui_extra_survey_vars`.
     semaphore_ui_job_templates:
       - name: 010 - Chaguar - Binaries
-        playbook: examples/playbooks/10-binaries.yaml
+        playbook: playbooks/binaries.yaml
         inventory: Chaguar - local
       - name: 020 - Chaguar - Generate Crypto
-        playbook: examples/playbooks/20-generate-crypto.yaml
+        playbook: playbooks/generate_crypto.yaml
         inventory: Chaguar - local
       - name: 021 - Chaguar - Build Genesis Block
-        playbook: examples/playbooks/21-build-genesis-block.yaml
+        playbook: playbooks/build_genesis_block.yaml
         inventory: Chaguar - local
       - name: 030 - Chaguar - Configs
-        playbook: examples/playbooks/30-configs.yaml
+        playbook: playbooks/configs.yaml
         inventory: Chaguar - local
       - name: 040 - Chaguar - Start
-        playbook: examples/playbooks/40-start.yaml
+        playbook: playbooks/start.yaml
         inventory: Chaguar - local
       - name: 041 - Chaguar - Init
-        playbook: examples/playbooks/41-init.yaml
+        playbook: playbooks/init.yaml
         inventory: Chaguar - local
       - name: 050 - Chaguar - Stop
-        playbook: examples/playbooks/50-stop.yaml
+        playbook: playbooks/stop.yaml
         inventory: Chaguar - local
       - name: 060 - Chaguar - Teardown
-        playbook: examples/playbooks/60-teardown.yaml
+        playbook: playbooks/teardown.yaml
         inventory: Chaguar - local
         limit: 
           - "all:!semaphore_ui"
       - name: 070 - Chaguar - Ping
-        playbook: examples/playbooks/70-ping.yaml
+        playbook: playbooks/ping.yaml
         inventory: Chaguar - local
       - name: 093 - Chaguar - Get Metrics
         playbook: examples/playbooks/93-get-metrics.yaml
@@ -390,7 +390,7 @@ Generates and persists the server secrets on first run, then renders `config.jso
         playbook: examples/playbooks/96-fetch-logs.yaml
         inventory: Chaguar - local
       - name: 100 - Chaguar - Wipe
-        playbook: examples/playbooks/100-wipe.yaml
+        playbook: playbooks/wipe.yaml
         inventory: Chaguar - local
         limit: 
           - "all:!semaphore_ui"

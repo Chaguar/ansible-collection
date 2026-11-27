@@ -66,9 +66,9 @@ playbooks require extra variables beyond what their inventory already sets.
     }
   ],
 {#
-One task template per numbered example playbook we choose to expose. Not discovered
-automatically; kept in sync by hand with semaphore_ui_job_templates, mirroring
-examples/playbooks.
+One task template per lifecycle or numbered example playbook we choose to expose. Not
+discovered automatically; kept in sync by hand with semaphore_ui_job_templates,
+mirroring playbooks and examples/playbooks.
 skip_galaxy_install is mandatory here: Semaphore UI otherwise runs
 "ansible-galaxy" against this repository's own requirements.yml before every task,
 adding unnecessary network calls and non-determinism to every run.

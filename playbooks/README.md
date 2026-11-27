@@ -11,6 +11,7 @@ This directory contains the reusable playbooks that the `lfdt.chaguar` collectio
 - [remove\_container\_networks.yaml](#remove_container_networksyaml)
 - [generate\_target\_hosts.yaml](#generate_target_hostsyaml)
 - [openshift/config\_hosts.yaml](#openshiftconfig_hostsyaml)
+- [Network Lifecycle Playbooks](#network-lifecycle-playbooks)
 - [Namespaced Playbooks](#namespaced-playbooks)
 
 ## Playbook Usage
@@ -116,6 +117,35 @@ Properties:
 - Nuance: supported on Linux and macOS; the playbook fails before editing `/etc/hosts` on other operating systems.
 - Nuance: `/etc/hosts` does not support wildcards, so this playbook enumerates route hostnames from inventory and writes them in one managed block.
 - Nuance: rerun the playbook when the control node's default-route IPv4 address changes or after the local OpenShift runtime rewrites `/etc/hosts`.
+
+## Network Lifecycle Playbooks
+
+The top-level lifecycle playbooks chain the namespaced playbooks of every component family, in dependency order, into one network-wide step. Families with no hosts in the inventory are skipped, so the same playbooks work for every sample inventory.
+
+| Playbook                                                 | What it does                                                                                                         |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`binaries.yaml`](./binaries.yaml)                       | Builds or installs the binaries of every component on the control node.                                              |
+| [`generate_crypto.yaml`](./generate_crypto.yaml)         | Creates container networks, generates the crypto material, and brings up the Fabric CAs when the inventory has them. |
+| [`build_genesis_block.yaml`](./build_genesis_block.yaml) | Builds the genesis block. Runs only when the inventory has a `network` group.                                        |
+| [`configs.yaml`](./configs.yaml)                         | Renders and transfers the configuration of every component.                                                          |
+| [`start.yaml`](./start.yaml)                             | Starts every component, databases first.                                                                             |
+| [`init.yaml`](./init.yaml)                               | Creates the namespaces on the committer.                                                                             |
+| [`deploy.yaml`](./deploy.yaml)                           | Runs `binaries` to `init` in one invocation, which shares gathered facts between the steps.                          |
+| [`stop.yaml`](./stop.yaml)                               | Stops every component in reverse dependency order, keeping data and configuration.                                   |
+| [`teardown.yaml`](./teardown.yaml)                       | Stops every component and deletes its runtime data, then removes the container networks.                             |
+| [`wipe.yaml`](./wipe.yaml)                               | Removes generated configuration and binaries from the hosts, then removes the container networks.                    |
+| [`ping.yaml`](./ping.yaml)                               | Checks that the declared ports of every component are open.                                                          |
+
+```shell
+ansible-playbook lfdt.chaguar.deploy -i inventory.yaml
+ansible-playbook lfdt.chaguar.teardown -i inventory.yaml
+```
+
+Properties:
+
+- Target hosts: each imported playbook keeps its own default group, and `target_hosts` narrows the component playbooks that honor it. The crypto material and genesis block builders in `generate_crypto` and `build_genesis_block` run on `localhost` and always use the inventory-wide groups.
+- Nuance: `make setup start init` runs the same steps one by one, while `deploy` is a single invocation.
+- Nuance: `binaries`, `generate_crypto`, `configs`, `start`, `stop`, `teardown`, and `wipe` also drive Semaphore UI, but only when the inventory defines a `semaphore_ui` group.
 
 ## Namespaced Playbooks
 

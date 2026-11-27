@@ -78,7 +78,7 @@ State is persisted: the gateway's block, transaction, and log index and the embe
 
 ## Deploying It
 
-The EVM gateway is already wired into every lifecycle playbook — `40-start.yaml` imports `lfdt.chaguar.evm.start`, which simply skips when the inventory has no `chaguar_evm` hosts. So switching inventories is all it takes:
+The EVM gateway is already wired into every lifecycle playbook — `lfdt.chaguar.start` imports `lfdt.chaguar.evm.start`, which simply skips when the inventory has no `chaguar_evm` hosts. So switching inventories is all it takes:
 
 ```shell
 make teardown                                            # tear down what you have
