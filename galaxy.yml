@@ -6,7 +6,7 @@
 
 namespace: lfdt
 name: chaguar
-version: "0.12.2"
+version: "0.12.3"
 repository: https://github.com/Chaguar/ansible-collection.git
 readme: README.md
 authors:
