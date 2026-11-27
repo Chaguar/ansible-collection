@@ -159,17 +159,17 @@ argument_specs:
           - Run the container runtime.
       evm_registry_endpoint: &evm_registry_endpoint
         type: str
-        default: "{{ lookup('env', 'EVM_REGISTRY_ENDPOINT') or 'ghcr.io/hyperledger' }}"
+        default: "{{ lookup('env', 'EVM_REGISTRY_ENDPOINT') or 'ghcr.io/chaguar' }}"
         description:
           - Image registry endpoint.
       evm_image_name: &evm_image_name
         type: str
-        default: fabric-x-evm
+        default: evm
         description:
           - Image name used by the EVM container.
       evm_image_tag: &evm_image_tag
         type: str
-        default: "0.2.3"
+        default: "0.2.5"
         description:
           - Image tag used by the EVM container.
       evm_image: &evm_image

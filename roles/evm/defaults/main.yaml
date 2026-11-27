@@ -14,11 +14,11 @@ evm_use_openshift: false
 # Run the container runtime.
 evm_use_container: '{{ (not evm_use_k8s) and (not evm_use_openshift) }}'
 # Image registry endpoint.
-evm_registry_endpoint: "{{ lookup('env', 'EVM_REGISTRY_ENDPOINT') or 'ghcr.io/hyperledger' }}"
+evm_registry_endpoint: "{{ lookup('env', 'EVM_REGISTRY_ENDPOINT') or 'ghcr.io/chaguar' }}"
 # Image name used by the EVM container.
-evm_image_name: fabric-x-evm
+evm_image_name: evm
 # Image tag used by the EVM container.
-evm_image_tag: 0.2.3
+evm_image_tag: 0.2.5
 # EVM container image.
 evm_image: "{{ evm_registry_endpoint }}/{{ evm_image_name }}:{{ evm_image_tag }}"
 # Container name used by the runtime.
