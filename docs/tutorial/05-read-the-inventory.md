@@ -95,7 +95,7 @@ graph TD
     all --> network
     all --> load_generators
     all --> monitoring
-    network --> fabric_cas
+    all --> fabric_cas
     network --> chaguar
     fabric_cas --> fabric_ca_servers
     fabric_cas --> fabric_ca_dbs
@@ -128,6 +128,8 @@ These group names are **a public contract**, not a stylistic choice. The collect
 > If you rename these groups, the roles still work but the provided playbooks and the `Makefile` shortcuts no longer know which hosts to operate on. Keep the names unless you are also replacing the playbook layer.
 
 Notice that `chaguar_orderer_1` through `_4` exist for a reason: an orderer group is the unit that an organisation owns, so the organisation identity is set once at the group level and inherited by the four services inside it.
+
+`fabric_cas` sits under `all`, **not** under `network`. The CAs hold the identities of every organisation, so `make network teardown` must not delete their data.
 
 ## Layer 3: Group Variables Are Policy
 

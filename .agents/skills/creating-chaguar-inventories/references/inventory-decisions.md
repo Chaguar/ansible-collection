@@ -35,8 +35,8 @@ plan before adapting it.
 Retain the selected sample's hierarchy. The normal contract is:
 
 ```text
+fabric_cas                           # Fabric CA inventories only; outside network
 network
-├── fabric_cas                       # Fabric CA inventories only
 ├── chaguar
 │   ├── chaguar_orderers
 │   │   └── chaguar_orderer_<n>

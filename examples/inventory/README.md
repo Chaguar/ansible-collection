@@ -77,6 +77,8 @@ The most important groups are:
 | `load_generators`    | Load generator instances.                                                      |
 | `monitoring`         | Monitoring components such as exporters, Prometheus, Grafana, Loki, and Alloy. |
 
+`fabric_cas` sits outside `network`, so `make network teardown` keeps the Fabric CA data.
+
 ```mermaid
 graph TD
     all --> network
@@ -89,7 +91,7 @@ graph TD
     grafana --> prometheus
     grafana --> loki
     alloy --> loki
-    network --> fabric_cas
+    all --> fabric_cas
     network --> chaguar
     chaguar --> chaguar_orderers
     chaguar --> chaguar_committers

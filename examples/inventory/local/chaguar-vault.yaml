@@ -48,95 +48,95 @@ all:
               3237
   children:
     # =========================
+    # Hyperledger Fabric CAs
+    # =========================
+    fabric_cas:
+      children:
+        # =========================
+        # Hyperledger Fabric CA DBs
+        # =========================
+        fabric_ca_dbs:
+          vars:
+            postgres_user: postgres
+            # decrypted value: example
+            postgres_password: !vault |
+                      $ANSIBLE_VAULT;1.1;AES256
+                      65306339633063636432396230373633303436373637326635323635633964636538313864653737
+                      6536643566333464353336343766646430336431633464660a316534396634353763633138313063
+                      32303764396666353534663138333638653165323563656332303633653837646233346137633031
+                      6264626665313430390a323566333832643038386366626335396462316266316165326262653835
+                      6133
+            postgres_use_tls: true
+          hosts:
+            fca-orderer-org1-db:
+              postgres_db: ordererOrg1DB
+              postgres_port: 9120
+            fca-orderer-org2-db:
+              postgres_db: ordererOrg2DB
+              postgres_port: 9130
+            fca-orderer-org3-db:
+              postgres_db: ordererOrg3DB
+              postgres_port: 9140
+            fca-orderer-org4-db:
+              postgres_db: ordererOrg4DB
+              postgres_port: 9150
+            fca-org1-db:
+              postgres_db: Org1DB
+              postgres_port: 9170
+        # =========================
+        # Hyperledger Fabric CA Servers
+        # =========================
+        fabric_ca_servers:
+          vars:
+            fabric_ca_use_tls: true
+            fabric_ca_name: "{{ inventory_hostname }}"
+            fabric_ca_admin:
+              name: admin
+              # decrypted value: adminPWD
+              secret: !vault |
+                        $ANSIBLE_VAULT;1.1;AES256
+                        35653331623763623938613437613131653432363734303766396239353036633935376131626638
+                        3335393330313631323262646137623561646331303435330a633430653964333361643939393964
+                        61623563643630353662333436396538383533316532306263323166386436656238353130373636
+                        6366626333376665330a393739363666393961663633353863666331343366333338333336626433
+                        3266
+              attrs:
+                hf.Registrar.Roles: "*"
+                hf.Registrar.Attributes: "*"
+                hf.GenCRL: "true"
+                hf.Revoker: "true"
+          hosts:
+            fca-orderer-org1:
+              fabric_ca_port: 9019
+              fabric_ca_operations_port: 9020
+              organization: *OrdererOrg1
+              postgres_db_host: fca-orderer-org1-db
+            fca-orderer-org2:
+              fabric_ca_port: 9029
+              fabric_ca_operations_port: 9030
+              organization: *OrdererOrg2
+              postgres_db_host: fca-orderer-org2-db
+            fca-orderer-org3:
+              fabric_ca_port: 9039
+              fabric_ca_operations_port: 9040
+              organization: *OrdererOrg3
+              postgres_db_host: fca-orderer-org3-db
+            fca-orderer-org4:
+              fabric_ca_port: 9049
+              fabric_ca_operations_port: 9050
+              organization: *OrdererOrg4
+              postgres_db_host: fca-orderer-org4-db
+            fca-org1:
+              fabric_ca_port: 9069
+              fabric_ca_operations_port: 9070
+              organization: *Org1
+              postgres_db_host: fca-org1-db
+
+    # =========================
     # Network (Chaguar)
     # =========================
     network:
       children:
-        # =========================
-        # Hyperledger Fabric CAs
-        # =========================
-        fabric_cas:
-          children:
-            # =========================
-            # Hyperledger Fabric CA DBs
-            # =========================
-            fabric_ca_dbs:
-              vars:
-                postgres_user: postgres
-                # decrypted value: example
-                postgres_password: !vault |
-                          $ANSIBLE_VAULT;1.1;AES256
-                          65306339633063636432396230373633303436373637326635323635633964636538313864653737
-                          6536643566333464353336343766646430336431633464660a316534396634353763633138313063
-                          32303764396666353534663138333638653165323563656332303633653837646233346137633031
-                          6264626665313430390a323566333832643038386366626335396462316266316165326262653835
-                          6133
-                postgres_use_tls: true
-              hosts:
-                fca-orderer-org1-db:
-                  postgres_db: ordererOrg1DB
-                  postgres_port: 9120
-                fca-orderer-org2-db:
-                  postgres_db: ordererOrg2DB
-                  postgres_port: 9130
-                fca-orderer-org3-db:
-                  postgres_db: ordererOrg3DB
-                  postgres_port: 9140
-                fca-orderer-org4-db:
-                  postgres_db: ordererOrg4DB
-                  postgres_port: 9150
-                fca-org1-db:
-                  postgres_db: Org1DB
-                  postgres_port: 9170
-            # =========================
-            # Hyperledger Fabric CA Servers
-            # =========================
-            fabric_ca_servers:
-              vars:
-                fabric_ca_use_tls: true
-                fabric_ca_name: "{{ inventory_hostname }}"
-                fabric_ca_admin:
-                  name: admin
-                  # decrypted value: adminPWD
-                  secret: !vault |
-                            $ANSIBLE_VAULT;1.1;AES256
-                            35653331623763623938613437613131653432363734303766396239353036633935376131626638
-                            3335393330313631323262646137623561646331303435330a633430653964333361643939393964
-                            61623563643630353662333436396538383533316532306263323166386436656238353130373636
-                            6366626333376665330a393739363666393961663633353863666331343366333338333336626433
-                            3266
-                  attrs:
-                    hf.Registrar.Roles: "*"
-                    hf.Registrar.Attributes: "*"
-                    hf.GenCRL: "true"
-                    hf.Revoker: "true"
-              hosts:
-                fca-orderer-org1:
-                  fabric_ca_port: 9019
-                  fabric_ca_operations_port: 9020
-                  organization: *OrdererOrg1
-                  postgres_db_host: fca-orderer-org1-db
-                fca-orderer-org2:
-                  fabric_ca_port: 9029
-                  fabric_ca_operations_port: 9030
-                  organization: *OrdererOrg2
-                  postgres_db_host: fca-orderer-org2-db
-                fca-orderer-org3:
-                  fabric_ca_port: 9039
-                  fabric_ca_operations_port: 9040
-                  organization: *OrdererOrg3
-                  postgres_db_host: fca-orderer-org3-db
-                fca-orderer-org4:
-                  fabric_ca_port: 9049
-                  fabric_ca_operations_port: 9050
-                  organization: *OrdererOrg4
-                  postgres_db_host: fca-orderer-org4-db
-                fca-org1:
-                  fabric_ca_port: 9069
-                  fabric_ca_operations_port: 9070
-                  organization: *Org1
-                  postgres_db_host: fca-org1-db
-
         # =========================
         # LFDT Chaguar
         # =========================

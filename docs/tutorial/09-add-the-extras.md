@@ -217,7 +217,7 @@ grafana:
 Deploy Grafana without Prometheus and you get a Grafana with a broken data source, not an error at deploy time. The same is true for `alloy` and `loki_host`.
 
 > [!TIP]
-> Monitoring is the cheapest group to drop when you are iterating and want a faster `make start`. `make network start` brings up the Chaguar network without monitoring, the load generator, or anything else outside the `network` group.
+> Monitoring is the cheapest group to drop when you are iterating and want a faster `make start`. `make network start` brings up the Chaguar network without the Fabric CAs, monitoring, the load generator, or anything else outside the `network` group.
 
 ## Semaphore UI
 
